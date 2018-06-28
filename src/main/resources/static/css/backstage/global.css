@@ -1,0 +1,88 @@
+/* CSS Document */
+
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Micsoft Yahei;
+	border: 0px;
+	outline: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+	background-color: #ededed;
+}
+
+img {
+	border: 0;
+}
+
+a:focus {
+	outline: none;
+}
+
+.container {
+	overflow: hidden;
+}
+
+.tabTitle {
+	background-color: #fff;
+	padding-left: 20px;
+	font-weight: bold;
+	width: 99%;
+	font-size: 16px;
+	color: #000000;
+	text-indent: 2pt;
+	height: 40px;
+	line-height: 40px;
+}
+
+.tabTitle span {
+	display: inline;
+	color: #ff6600;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.info {
+	margin: 5px 15px 15px 15px;
+	background-color: #fff;
+	overflow: hidden;
+}
+
+
+/*搜索区条件样式*/
+
+.serach {
+	padding-left: 15px;
+	width: 99%;
+	height: 40px;
+	line-height: 40px;
+	background-color: #fff;
+	
+}
+
+
+/*面板*/
+
+.pannel {
+	background-color: #fff;
+	
+}
+.pannelTitle{
+	border: 1px solid #7ab1de;
+	margin:0px 15px;
+	width: 96%;
+	
+	line-height: 35px;
+	background-color: #d2e7f7;
+	display:block;
+	font-size: 12px;
+	padding-left: 15px;
+	color: #264663;
+}
+
+.pannelTitle  a{text-decoration: underline; color: #006eff; margin-left: 10px;}

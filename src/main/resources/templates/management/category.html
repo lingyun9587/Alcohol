@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品分类</title>
+		<link rel="stylesheet" type="text/css" href="css/global.css" />
+		<link rel="stylesheet" type="text/css" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="css/form.css" />
+
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="images/xjt.png"/></span>请选择您要上架的商品分类</h1>
+			<div class="info">
+				<div class="section" style="width:30%; height:485px;">
+				   <h1 class="sectionTitle">一级分类</h1>
+				   <ul class="categoryOne"></ul>
+			   </div>
+				<div class="section" style="width:30%; height:485px;">
+					<h1 class="sectionTitle">二级分类</h1>
+					<ul class="categoryTwo"></ul>
+				</div>
+	
+				<div class="section" style="width:30%; height:485px;">
+					<h1 class="sectionTitle">三级分类</h1>
+					<ul class="categoryThree"></ul>
+				</div>
+			</div>
+			<div class="info">
+				您当前选择的是：<span class="msg"></span>
+			</div>
+			<div class="serach">
+				<input type="button" value="我已阅读以下规则，现在发布宝贝" class="button save  tiao" id="save" />
+			</div>
+		</div>
+		
+		
+
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/global.js"></script>
+		<script type="text/javascript" src="js/management/category.js"></script>
+	</body>
+
+</html>

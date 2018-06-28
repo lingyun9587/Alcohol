@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>表单</title>
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/add.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/layout.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/upload.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>类型管理</h1>
+			<div class="info">
+				<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="formSheet">
+					<dl>
+						<dt><span>类型名：</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="userName" name="userName" style="width:360px;" placeholder="请输入类型名" />
+								<input type="button" value="新增" class="button save" id="save" />
+							</div>
+							<span id="userNameText" class="txtInfo">建议输入类型名字，长度不宜超过四个字</span>
+						</dd>
+					</dl>
+				</form>
+			</div>
+			<div class="info">
+				<table id="dg" cellpadding="0" cellspacing="0" border="0" class="selectTable">
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>类型名称</th>						
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="5">
+								<img src="/images/backstage/loading.gif" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								1
+							</td>
+							<td>新闻</td>
+							<td>
+								<a href="javascript:;" id="delete" class="button del">删除</a>
+						    </td>
+						</tr>
+					</tbody>
+				</table>
+				<div class='pageStyle'></div>
+			</div>
+
+		</div>
+		</div>
+		<!--对话框蒙板开始-->
+		<div class="mbStyle">&nbsp;</div>
+		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="/js/backstage/global.js"></script>
+		<script type="text/javascript" src="/js/backstage/index.js"></script>
+		<script type="text/javascript" src="/js/backstage/popup.js"></script>
+		<script type="text/javascript">
+			//上传弹窗
+			$(function() {
+				$("#save").click(function() {
+					showWebAlert('新增成功！');
+				});
+				$(".del").click(function() {
+					var id= $(this).attr("id");
+					deleteShowAlert('删除提示', '确定要删除吗？', '确定', '取消', id,'删除后该类型下面的信息将全部删除');
+				});
+			});
+			function result(bz, choose) {
+				if(choose) {			
+                    $("#"+bz).parent().parent().remove();
+		    		showWebAlert('删除成功！');
+				} 
+				
+			}
+			//表单验证   注意：文本提示的信息应在开始的时候全部写在placeholder中
+			function checkForm() {
+				var name = checkUserName();
+				return name;
+			}
+			//验证类型   
+	/*		function checkUserName() {
+				var username = $("#userName");
+				var usernameText=$("#userNameText");
+				if(username.val() == "") {
+					username.addClass("err");
+					usernameText.text("类型名输入不能超过四个字符")
+					usernameText.addClass("red");
+					return false;
+				} else {
+					username.removeClass("err");
+					return true;
+				}
+			}*/
+
+		</script>
+
+	</body>
+
+</html>

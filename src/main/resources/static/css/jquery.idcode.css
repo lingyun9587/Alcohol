@@ -1,0 +1,22 @@
+@charset "utf-8";
+/*随机验证码 */
+
+#ehong-code-input{
+	width:42px;
+	letter-spacing:2px;
+	margin:0px 8px 0px 0px;
+}
+.ehong-idcode-val{
+	position:relative;
+	padding:1px 4px 1px 4px;
+	top:0px;
+	*top:-3px;
+	letter-spacing:4px;
+	display:inline;
+	cursor:pointer;
+	font-size:26px;
+	font-family:"Courier New", Courier, monospace;
+	text-decoration:none;
+	font-weight:bold;
+}
+

@@ -1,0 +1,57 @@
+/* CSS Document */
+
+/*表单新增*/
+
+
+.formSheet dl {
+	display: block;
+	overflow: hidden;
+	width: 100%;
+	border-bottom: 1px solid #E5E5E5;
+	padding: 5px 0px;
+}
+
+.formSheet dl dt {
+	width: 120px;
+	height: 100%;
+	float: left;
+}
+
+.formSheet dl dt span {
+	
+	display: block;
+	margin-top: 14px;
+	margin-left: 35px;
+	margin-right: 5px;
+}
+
+.formSheet dl dd {
+	
+	float: left;
+	
+}
+
+.formSheet dl dd input,
+.formSheet dl dd button,
+.formSheet dl dd select,
+.formSheet dl dd textarea {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.formSheet dl dd span {
+	font-size: 12px;
+	padding: 0px 5px 5px 5px;
+	width: 89%;
+	display: block;
+}
+
+.err {
+	border: 1px solid #ff0000;
+}
+.txtInfo{
+	color: #aaa;
+}
+.red{
+	color: #ff0000;
+}

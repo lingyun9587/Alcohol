@@ -1,0 +1,52 @@
+{
+  "message":"",
+  "status":"1",
+  "result":{
+    "totalMoney":0,
+    "productList":[
+      {
+        "productId":"10001",
+        "productName":"锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款",
+        "productPrice":20,
+        "productQuentity":2,
+        "productImage":"/images/temp/M-003.jpg",
+        "parts":[
+          {
+            "partsId":"a001",
+            "partsName":"深棕色",
+            "partsType":"s"
+          }
+        ]
+      },
+      {
+        "productId":"10002",
+        "productName":"霜天月明 原创传统日常汉服男绣花交领衣裳cp春装单品",
+        "productPrice":38,
+        "productQuentity":1,
+        "productImage":"/images/temp/M-002.jpg",
+        "parts":[
+          {
+            "partsId":"a001",
+            "partsName":"浅蓝色",
+            "partsType":"xl"
+          }
+        ]
+      },
+      {
+        "productId":"10002",
+        "productName":"陇上乐 原创传统日常汉服男绣花单大氅大袖衫cp情侣春秋",
+        "productPrice":58,
+        "productQuentity":1,
+        "productImage":"/images/temp/M-001.jpg",
+        "parts":[
+          {
+            "partsId":"a001",
+            "partsName":"蓝色",
+            "partsType":"xxl"
+          }
+        ]
+      }
+
+    ]
+  }
+}

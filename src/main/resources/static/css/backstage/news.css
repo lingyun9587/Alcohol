@@ -1,0 +1,55 @@
+/* CSS Document */
+/*资讯*/
+
+.news_nav{
+	margin-top: 5px; 
+	margin-left: 10px;
+	clear:both;
+	overflow:hidden;
+	
+}
+.news{
+	float: left; 
+	margin: 10px; 
+	cursor: pointer;
+	display: block;  
+	width: 200px;
+	height: 210px;
+	color:#606060;
+	border-radius: 2px; 
+	border:1px solid #CCCCCC; 
+	padding:10px; 
+	position: relative;
+	
+}
+.news h3{
+	font-size: 16px;
+	height: 30px;
+	line-height: 30px;
+}
+.news:hover{
+	background: #f9f9f9;
+
+}
+.news img{
+	width: 200px;
+	height: 120px;
+	
+}
+.news span.tit{display: block;font-size: 14px;}
+
+.operation{
+	margin-top: 5px;
+	display: block;
+	float: right;
+	font-size: 12px;
+	color: #316AC5;
+	
+}
+
+.select_tit:hover,.edit_tit:hover{
+	text-decoration: underline;
+}
+/*结束*/
+
+

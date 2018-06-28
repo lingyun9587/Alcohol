@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>表单</title>
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/add.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/layout.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/upload.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>新增系统公告</h1>
+			<div class="mbStyle">&nbsp;</div>
+			<div class="info">
+				<form action="#" method="post"  onsubmit="return checkForm()" class="formSheet">
+					<dl>
+						<dt><span>标题：</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="userName" name="userName" style="width:360px;" maxlength="20" placeholder="请输入标题" />
+							</div>
+						
+						</dd>
+					</dl>
+					<dl>
+						<dt><span>类型：</span></dt>
+						<dd>
+							<div class="fbox">
+								
+								<select class="selectStyle" style="width:210px;">
+									<option>全部</option>
+									<option>新闻</option>
+									<option>娱乐</option>								
+								</select>
+							</div>
+						
+						</dd>
+					</dl>
+					<dl>
+						<dt><span>网址:</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="url" class="dateStyle" style="width:360px;" />
+							</div>
+							
+						</dd>
+					</dl>
+					<dl>
+						<dt><span>文章内容</span></dt>
+						<dd>
+							<div class="fbox">
+								<textarea class="areaStyle" style="width:440px;height: 500px;"></textarea>
+							</div>
+							<span class="txtInfo">网站描述，一般显示在搜索引擎搜索结果中的描述文字，用于介绍网站，吸引浏览者点击。</span>
+						</dd>
+					</dl>
+					<dl>
+						<dt>&nbsp;</dt>
+						<dd>
+							<input type="button" value="保存" id="save" class="button save" />
+						</dd>
+					</dl>
+
+				</form>
+			</div>
+		</div>
+
+	
+
+		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="/js/backstage/global.js"></script>
+		<script type="text/javascript" src="/js/backstage/popup.js"></script>
+		<script type="text/javascript" src="/js/backstage/upload.js"></script>
+		<script type="text/javascript">
+			$(function(){
+		       $("#save").click(function(){
+		       	   showWebAlert('保存成功！');
+		       });
+			});
+		</script>
+
+	</body>
+
+</html>

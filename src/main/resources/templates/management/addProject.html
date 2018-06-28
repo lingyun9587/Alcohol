@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品上架</title>
+		<link rel="stylesheet" type="text/css" href="css/global.css">
+		<link rel="stylesheet" type="text/css" href="css/form.css" />
+		<link rel="stylesheet" type="text/css" href="css/add.css" />
+		<link rel="stylesheet" type="text/css" href="css/layout.css" />
+		<link rel="stylesheet" type="text/css" href="css/popup.css" />
+		<link rel="stylesheet" type="text/css" href="css/table.css" />
+		<link rel="stylesheet" type="text/css" href="css/upload.css" />
+	</head>
+	<style type="text/css">
+		.hide{display:none}
+		.labelBtn2{background:#96aecd;padding:5px 15px;color:#fff;}
+		.labelBtn2:hover{background:#a0b7d4;}
+	</style>
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="images/xjt.png"/>
+
+			</span>填写商品基本信息</h1>
+				
+			<div class="info">
+				
+				<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="formSheet">
+					<dl>
+						<dt><span>类目</span></dt>
+						<dd>
+							<span class="leimu"></span>
+							<input type="hidden" name="category01" class="category01" value="">
+							<input type="hidden" name="category02" class="category02" value="">
+							<input type="hidden" name="category03" class="category03" value="">
+							<input type="button" value="编辑商品类目" class="button return" />
+						</dd>
+					</dl>
+					<dl>
+						<dt><span>商品名称</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="productName" name="productName" style="width:360px;" placeholder="请输入商品名" />
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt><span>商品卖点</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="productName" name="productName" style="width:360px;" placeholder="请输入商品卖点" />
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt><span>商品属性</span></dt>
+						
+						<dd class="shuxing">
+							
+							<dl>
+								<dt><span>品牌</span></dt>
+								<dd>
+									<div class="fbox">
+										<select class="textStyle" style="width:210px;">
+											<option>北京</option>
+											<option>北京</option>
+											<option>北京</option>
+											<option>北京</option>
+										</select>
+									</div>
+									
+								</dd>
+							</dl>
+							<dl>
+								<dt><span>品牌</span></dt>
+								<dd>
+									<div class="fbox">
+										<select class="textStyle" style="width:210px;">
+											<option>北京</option>
+											<option>北京</option>
+											<option>北京</option>
+											<option>北京</option>
+										</select>
+									</div>
+									
+								</dd>
+							</dl>
+							<dl>
+								<dt><span>品牌</span></dt>
+								<dd>
+									<div class="fbox">
+										<select class="textStyle" style="width:210px;">
+											<option>北京</option>
+											<option>北京</option>
+											<option>北京</option>
+											<option>北京</option>
+										</select>
+									</div>
+									
+								</dd>
+							</dl>
+						</dd>
+					</dl>
+					
+					<dl>
+						<dt><span>商品图片</span></dt>
+						<dd>
+							<dl>
+						    <dd>
+						     
+						    <input type="file" name="attach" id="pic1" class="hide"/>
+     						<input type="file" name="attach" id="pic2" class="hide"/>
+     						<input type="file" name="attach" id="pic3" class="hide"/>
+     						<label for="pic1" class="labelBtn2">上传图片</label>
+						    <label for="pic2" class="labelBtn2" style="display:none">上传图片</label>
+     						<label for="pic3" class="labelBtn2" style="display:none">上传图片</label>
+						    </dd>
+						   </dl>
+						   <dl>
+						    <dt style="text-align:right;"></dt>
+						    <dd class="">
+						     <img src="#" width="80" height="80" class="tupian1" />
+						     <img src="#" width="80" height="80" class="tupian2"/>
+						     <img src="#" width="80" height="80" class="tupian3"/>
+						    </dd>
+						   </dl>
+							
+						</dd>
+					</dl>
+
+					<dl>
+						<dt><span>商品规格</span></dt>
+						<dd class="guige">
+							<dl>
+								<dt><span>颜色分类</span></dt>
+								<dd>
+									<div class="fbox">
+										<input type="checkbox" value="红色" name="color" class="radioStyle" /> 红色&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="checkbox" value="黄色" name="color" class="radioStyle" /> 黄色&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="checkbox" value="蓝色" name="color" class="radioStyle" /> 蓝色
+									</div>
+								</dd>
+							</dl>
+							<dl>
+								<dt><span>尺寸</span></dt>
+								<dd>
+									<div class="fbox">
+										<input type="checkbox" value="S" name="size" class="radioStyle" /> S&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="checkbox" value="M" name="size" class="radioStyle" /> M&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="checkbox" value="L" name="size" class="radioStyle" /> L
+									</div>
+								</dd>
+							</dl>
+							<table class="selectTable">
+								<thead class="biaoge">
+									<tr>
+										<td>颜色</td>
+										<td>尺寸</td>
+										<td>价格(元)</td>
+										<td>数量(件)</td>
+										<td>图片</td>
+									</tr>
+									
+								</thead>
+							</table>						
+							
+
+						</dd>
+					</dl>
+
+					<dl>
+						<dt>&nbsp;</dt>
+						<dd>
+							<input type="submit" value="保存" class="button save" />
+						</dd>
+					</dl>
+
+				</form>
+			</div>
+		</div>
+
+		<!--上传弹出框开始    "mb_"后面的值与里面的div名称必须保持一致-->
+		<div id="mb_upfile">&nbsp;</div>
+		<div class="popup" id="upfile">
+			<h1>上传文件<span class="closeX" onclick="closeMask('upfile')">X</span></h1>
+			<div class="pInfo">
+				<form action="#">
+					<div class='uploadfile' id="uploadfile"></div>
+				</form>
+			</div>
+			<div class="pfooter">
+				<input type="button" class="button" value="上传" id="upload" onclick="uploadFile()" />
+
+			</div>
+		</div>
+		<!--蒙板结束-->
+
+		<script type="text/javascript" src='js/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="js/global.js"></script>
+		<script type="text/javascript" src="js/popup.js"></script>
+		<script type="text/javascript" src="js/upload.js"></script>
+		<script type="text/javascript" src="js/management/addProject.js"></script>
+		<script type="text/javascript">
+			//上传弹窗
+			$(function() {
+				$("#upload").click(function() {
+					//参数false代表文件不是图片
+					up_load(true);
+					//弹框
+					mask(420, 270, true, "upfile");
+				});
+
+			});
+			//表单验证   注意：文本提示的信息应在开始的时候全部写在placeholder中
+			function checkForm() {
+				var name = checkUserName();
+				return name;
+			}
+			//验证姓名   
+			function checkUserName() {
+				var username = $("#userName");
+				var usernameText=$("#userNameText");
+				if(username.val() == "") {
+					username.addClass("err");
+					usernameText.text("姓名输入不能超过四个字符")
+					usernameText.addClass("red");
+					return false;
+				} else {
+					username.removeClass("err");
+					return true;
+				}
+			}
+		</script>
+
+	</body>
+
+</html>

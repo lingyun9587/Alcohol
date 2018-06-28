@@ -1,0 +1,265 @@
+/* CSS Document */
+
+
+/*文本框*/
+
+.textStyle {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #CCCCCC;
+	padding: 2px 8px;
+	line-height: 30px;
+	color: #606060;
+	border-radius: 2px;
+	font-size: 16px;
+}
+
+.pwdStyle {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #CCCCCC;
+	padding: 2px 8px;
+	line-height: 30px;
+	color: #606060;
+	border-radius: 2px;
+	font-size: 16px;
+}
+
+
+/*下拉框*/
+
+.selectStyle {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #CCCCCC;
+	padding: 2px 8px;
+	line-height: 30px;
+	color: #606060;
+	border-radius: 2px;
+	font-size: 16px;
+}
+
+
+/*日期*/
+
+.dateStyle {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #CCCCCC;
+	padding: 2px 8px;
+	line-height: 30px;
+	color: #606060;
+	border-radius: 2px;
+	font-size: 16px;
+}
+
+
+/*上传*/
+
+.fileStyle {
+	display: block;
+	width: 82px;
+	height: 30px;
+	line-height: 30px;
+	background: url(../images/upload1.png);
+	background-repeat: no-repeat;
+	float: left;
+	margin-top: 10px;
+	margin-right: 3px;
+	overflow: hidden;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.file {
+	cursor: pointer;
+	font-size: 20px;
+	left: 0px;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+
+/*搜索框*/
+
+.searchStyle {
+	width: 100%;
+	height: 30px;
+	border: 1px solid #CCCCCC;
+	padding: 2px 8px;
+	line-height: 30px;
+	color: #606060;
+	border-radius: 2px;
+	font-size: 16px;
+}
+
+
+/*单选*/
+
+.radioStyle {
+	border: 1px solid #CCCCCC;
+	width: 17px;
+	height: 17px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.checkedStyle {
+	border: 1px solid #CCCCCC;
+	width: 17px;
+	height: 17px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+
+/*复选框*/
+
+.areaStyle {
+	width: 100%;
+	height: 80px;
+	border: 1px solid #CCCCCC;
+	padding: 2px 8px;
+	line-height: 24px;
+	color: #606060;
+	border-radius: 2px;
+}
+
+
+/*不带图标按钮*/
+
+.button {
+	cursor: pointer;
+	background-color: #2277da;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	font-size: 12px;
+	border: 0px;
+	border-radius: 3px;
+	padding: 0px 20px 0px 20px;
+	display: inline-block;
+}
+.button:hover{
+	background-color: #006ba2;
+}
+.button_Disable {
+	cursor: not-allowed;
+	background-color: #e8e8e8;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #d5d5d5;
+	text-align: center;
+	color: #a2a2a2;
+	font-size: 12px;
+	border: 0px;
+	border-radius: 3px;
+	padding: 0px 20px 0px 20px;
+}
+
+
+
+
+
+.btn {
+	cursor: pointer;
+	background-color: #fff;
+	height: 25px;
+	line-height: 25px;
+	border: 1px solid #d3d3d3;
+	text-align: center;
+	color: #454a51;
+	font-size: 12px;
+	padding: 0px 10px 0px 10px;
+}
+.btn_active {
+	cursor: pointer;
+	background-color: #d8ebff;
+	height: 25px;
+	line-height: 25px;
+	border: 1px solid #71a9e0;
+	text-align: center;
+	color: #2277da;
+	font-size: 12px;
+	padding: 0px 10px 0px 10px;
+}
+
+/*带图标按钮*/
+
+.save {
+	background-image: url(/images/backstage/save.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.add {
+	background-image: url(/images/backstage/jh.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.search {
+	background-image: url(/images/backstage/search.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.delete {
+	background-image: url(/images/backstage/del.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.upload {
+	background-image: url(/images/backstage/upload_ico.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.print {
+	background-image: url(/images/backstage/print.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.return {
+	background-image: url(/images/backstage/return.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.excel_out {
+	background-image: url(/images/backstage/dc.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.excel_in {
+	background-image: url(/images/backstage/dr.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.edit {
+	background-image: url(/images/backstage/bj.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}
+
+.login {
+	background-image: url(/images/backstage/login.png);
+	background-repeat: no-repeat;
+	background-position: 10px 9px;
+	padding: 0px 15px 0px 30px;
+}

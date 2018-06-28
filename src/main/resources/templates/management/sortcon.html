@@ -1,0 +1,172 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>属性维护</title>
+
+		<link rel="stylesheet" type="text/css" href="css/global.css">
+		<link rel="stylesheet" type="text/css" href="css/table.css">
+		<link rel="stylesheet" type="text/css" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="css/form.css" />
+		<link rel="stylesheet" type="text/css" href="css/add.css" />
+		<link rel="stylesheet" type="text/css" href="css/popup.css" />
+	
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="images/xjt.png"/></span>商品属性</h1>
+			<div class="serach">
+				
+				一级分类：<select class="textStyle" style="width:80px;">
+						<option>衣服</option>
+						<option>鲜花</option>
+					</select>
+					二级分类：<select class="textStyle" style="width:80px;">
+						<option>衣服</option>
+						<option>鲜花</option>
+					</select>
+					三级分类：<select class="textStyle" style="width:80px;">
+						<option>衣服</option>
+						<option>鲜花</option>
+					</select>
+				属性名：<input type="text" class="textStyle" style="width:120px;"/>
+				<input type="button" value="搜索" class="button search" />
+				<input type="button" value="新增" class="button add"  id="dianji" />
+				
+				
+			</div>
+
+			<!--搜索区结束-->
+			<div class="info">
+				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<th>编号</th>
+							<th>属性名</th>
+							<th>属性选项</th>
+							<th>所属商品分类</th>
+                            						<th>操作</th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>001</th>
+							<th>材料</th>
+							<th>棉质，塑料</th>
+							<th>上衣</th>
+                            						<th>删除</th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>002</th>
+							<th>品牌</th>
+							<th>棉质，塑料</th>
+							<th>上衣</th>
+                            						<th>删除</th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>003</th>
+							<th>大小</th>
+							<th>棉质，塑料</th>
+							<th>上衣</th>
+                            						<th>删除</th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>004</th>
+							<th>材料</th>
+							<th>棉质，塑料</th>
+							<th>裤子</th>
+                            						<th>删除</th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>005</th>
+							<th>品牌</th>
+							<th>棉质，塑料</th>
+							<th>裤子</th>
+                            						<th>删除</th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>006</th>
+							<th>大小</th>
+							<th>棉质，塑料</th>
+							<th>裤子</th>
+                            						<th>删除</th>
+						</tr>
+
+
+					</thead>
+					<!-- <tbody>
+						<tr>
+							<td colspan="11"><img src='images/loading.gif' /></td>
+						</tr>
+					</tbody>-->
+				</table>
+				
+				<!--弹出框开始    "mb_"后面的值与里面的div名称必须保持一致-->
+				
+		<div id="mb_stuInfo">&nbsp;</div>
+		<div class="popup" id="stuInfo">
+			<h1>新增属性<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+			<div class="pInfo">
+				<from action="" method="post">
+					<br/>
+					<div class="sort">
+					<p>属性名：<input type="text" class="textStyle" style="width:80px;"/>
+						<input type="button" value="" class="button add addsort" id="dianji" /></p>
+					
+					<p>属性选项：<span class="sortcon"><input type="text" class="textStyle" name="sProblem" style="width:80px;" /></span>
+					<input type="button" value="" class="button add addsortcon" id="dianji" /></p></div>
+					
+				</from>
+			</div>
+			<div class="pfooter">
+				<input type="button" value="保存" class="button save" />
+				<input type="button" value="返回" class="button" />
+
+			</div>
+		</div>
+			
+			</div>
+
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/table.js"></script>
+		<script type="text/javascript" src="js/global.js"></script>
+		<script type="text/javascript" src="js/popup.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript">
+		
+				
+				
+			$(function(){
+				$("#dianji").click(function(){
+					mask(560, 340, true, "stuInfo");
+				});
+				
+				$(".sort").on("click",".addsort",function(){
+					var sortcon = '<p>属性名：<input type="text" class="textStyle" style="width:80px;"/>'
+						+'<input type="button" value="" class="button add addsort" id="dianji" /></p>'
+						+'<p>属性选项：<span class="sortcon"><input type="text" class="textStyle" name="sProblem" style="width:80px;" /></span>'
+						+'<input type="button" value="" class="button add addsortcon" id="dianji" /></p>';
+					$(".sort").append(sortcon);
+					$(this).hide();
+				});
+				
+				$(".sort").on("click",".addsortcon",function(){
+					var sortcon = '<input type="text" class="textStyle" name="sProblem" style="width:80px;" onchange="addsortcon()">';
+					$(this).prev().append(sortcon);
+				});
+			});
+
+		</script>
+
+	</body>
+
+</html>

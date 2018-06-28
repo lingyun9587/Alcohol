@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="/css/iconfont.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/swiper.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/checkout.css">
+    <link rel="stylesheet" href="/css/modal.css">
+    <title>U袋网</title>
+</head>
+<body id="bodys">
+<!-- 顶部tab -->
+<div class="tab-header">
+    <div class="inner">
+        <div class="pull-left">
+            <div class="pull-left">嗨，欢迎来到<span class="cr">U袋网</span></div>
+            <a href="agent_level.html">网店代销</a>
+            <a href="temp_article/udai_article4.html">帮助中心</a>
+        </div>
+        <div class="pull-right">
+            <a href="login.html"><span class="cr">登录</span></a>
+            <a href="login.html?p=register">注册</a>
+            <a href="udai_welcome.html">我的U袋</a>
+            <a href="udai_order.html">我的订单</a>
+            <a href="udai_integral.html">积分平台</a>
+        </div>
+    </div>
+</div>
+<!-- 顶部标题 -->
+<div class="bgf5 clearfix">
+    <div class="top-user">
+        <div class="inner">
+            <a class="logo" href="index.html"><img src="/images/icons/logo.jpg" alt="U袋网" class="cover"></a>
+            <div class="title">购物车</div>
+        </div>
+    </div>
+</div>
+<div class="content clearfix bgf5" id="showshopping">
+    <section class="user-center inner clearfix">
+        <div class="user-content__box clearfix bgf">
+            <div class="title">购物车</div>
+            <form action="udai_shopcart_pay.html" class="shopcart-form__box">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th width="150">
+
+                        </th>
+                        <th width="300">商品信息</th>
+                        <th width="150">单价</th>
+                        <th width="200">数量</th>
+                        <th width="200">现价</th>
+                        <th width="80">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item in productList">
+                        <th scope="row cart-tab-1">
+                            <div class="cart-item-check">
+                                <a href="javascript:void 0" class="item-check-btn" v-bind:class="{'check':item.checked}"
+                                   @click="selectedProduct(item)">
+                                    <svg class="icon icon-ok">
+                                        <use xlink:href="#icon-ok"></use>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="img"><img alt="" class="cover"></div><!-- v-bind:src="item.productImage"-->
+                            </label>
+                        </th>
+                        <td>
+                            <div class="name ep3">{{item.productName}}</div>
+                            <div class="type c9">颜色分类：<span v-for="part in item.parts" v-text="part.partsName"></span>
+                                尺码：<span v-for="part in item.parts" v-text="part.partsType"></span></div>
+                        </td>
+                        <td>{{item.price | money('元')}}</td>
+                        <td>
+                            <div class="cart-num__box quantity">
+                                <!--<input type="button" class="sub" value="-" @click="changeMoney(item,-1)">-->
+                                <a href="javascript:void 0" class="sub" @click="changeMoney(item,-1)">-</a>
+
+                                <!--	<input type="text" class="val" value="1" readonly v-model="item.productQuentity">-->
+                                <input type="text" value="1" disabled v-model="item.orderamount">
+                                <a href="javascript:void 0" class="sub" @click="changeMoney(item,1)">+</a>
+                            </div>
+                        </td>
+                        <td>{{item.price*item.orderamount | money('元')}}</td>
+                        <td><a href="javascript:void 0" @click="delConfrim(item)">删除</a></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div class="user-form-group tags-box shopcart-submit pull-right">
+                    <button type="submit" class="btn">提交订单</button>
+                </div>
+                <div class="checkbox shopcart-total">
+                    <!-- 全选-->
+                    <div class="item-all-check">
+                        <a href="javascript:void 0" v-bind:class="{'check':checkAllFlag}" @click="checkAll(true)">
+                    <span class="item-check-btn" v-bind:class="{'check':checkAllFlag}" @click="checkAll(true)">
+                      <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
+                    </span>
+                            <span>全选</span>
+                        </a>
+                    </div>
+                    <!--取消全选-->
+                    <div class="item-all-del">
+                        <a href="javascript:void 0" class="item-del-btn" @click="checkAll(false)">
+                            <span style="margin-left: 20px">取消全选</span>
+                        </a>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void 0">删除</a>
+                    <div class="pull-right">
+                        已选商品 <span>{{totalMum}}</span> 件
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;合计（不含运费）
+                        <b class="cr"><span class="fz24">{{totalMoney  |  money('元')}}</span></b>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <!--删除的提示框-->
+    <div class="md-modal modal-msg md-modal-transition " id="showModal" v-bind:class="{'md-show':delFlag}">
+        <div class="md-modal-inner">
+            <div class="md-top">
+                <button class="md-close" @click="delFlag=false">关闭</button>
+            </div>
+            <div class="md-content">
+                <div class="confirm-tips">
+                    <p id="cusLanInfo">你确认删除此订单信息吗?</p>
+                </div>
+                <div class="btn-wrap col-2">
+                    <button class="btn btn--m" id="btnModalConfirm" @click="delProduct()">Yes</button>
+                    <button class="btn btn--m btn--red" id="btnModalCancel" @click="delFlag=false">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="md-overlay" v-if="delFlag"></div>
+    <!--删除的提示框结束-->
+
+</div>
+<!-- 右侧菜单 -->
+<div class="right-nav">
+    <ul class="r-with-gotop">
+        <li class="r-toolbar-item">
+            <a href="udai_welcome.html" class="r-item-hd">
+                <i class="iconfont icon-user" data-badge="0"></i>
+                <div class="r-tip__box"><span class="r-tip-text">用户中心</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="udai_shopcart.html" class="r-item-hd">
+                <i class="iconfont icon-cart"></i>
+                <div class="r-tip__box"><span class="r-tip-text">购物车</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="udai_collection.html" class="r-item-hd">
+                <i class="iconfont icon-aixin"></i>
+                <div class="r-tip__box"><span class="r-tip-text">我的收藏</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="" class="r-item-hd">
+                <i class="iconfont icon-liaotian"></i>
+                <div class="r-tip__box"><span class="r-tip-text">联系客服</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="issues.html" class="r-item-hd">
+                <i class="iconfont icon-liuyan"></i>
+                <div class="r-tip__box"><span class="r-tip-text">留言反馈</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item to-top">
+            <i class="iconfont icon-top"></i>
+            <div class="r-tip__box"><span class="r-tip-text">返回顶部</span></div>
+        </li>
+    </ul>
+    <!--<script>
+        $(document).ready(function(){ $('.to-top').toTop({position:false}) });
+    </script>-->
+</div>
+<!-- 底部信息 -->
+<div class="footer">
+    <div class="footer-tags">
+        <div class="tags-box inner">
+            <div class="tag-div">
+                <img src="/images/icons/footer_1.gif" alt="厂家直供">
+            </div>
+            <div class="tag-div">
+                <img src="/images/icons/footer_2.gif" alt="一件代发">
+            </div>
+            <div class="tag-div">
+                <img src="/images/icons/footer_3.gif" alt="美工活动支持">
+            </div>
+            <div class="tag-div">
+                <img src="/images/icons/footer_4.gif" alt="信誉认证">
+            </div>
+        </div>
+    </div>
+    <div class="footer-links inner">
+        <dl>
+            <dt>U袋网</dt>
+            <a href="temp_article/udai_article10.html">
+                <dd>企业简介</dd>
+            </a>
+            <a href="temp_article/udai_article11.html">
+                <dd>加入U袋</dd>
+            </a>
+            <a href="temp_article/udai_article12.html">
+                <dd>隐私说明</dd>
+            </a>
+        </dl>
+        <dl>
+            <dt>服务中心</dt>
+            <a href="temp_article/udai_article1.html">
+                <dd>售后服务</dd>
+            </a>
+            <a href="temp_article/udai_article2.html">
+                <dd>配送服务</dd>
+            </a>
+            <a href="temp_article/udai_article3.html">
+                <dd>用户协议</dd>
+            </a>
+            <a href="temp_article/udai_article4.html">
+                <dd>常见问题</dd>
+            </a>
+        </dl>
+        <dl>
+            <dt>新手上路</dt>
+            <a href="temp_article/udai_article5.html">
+                <dd>如何成为代理商</dd>
+            </a>
+            <a href="temp_article/udai_article6.html">
+                <dd>代销商上架教程</dd>
+            </a>
+            <a href="temp_article/udai_article7.html">
+                <dd>分销商常见问题</dd>
+            </a>
+            <a href="temp_article/udai_article8.html">
+                <dd>付款账户</dd>
+            </a>
+        </dl>
+    </div>
+    <div class="copy-box clearfix">
+        <ul class="copy-links">
+            <a href="agent_level.html">
+                <li>网店代销</li>
+            </a>
+            <a href="class_room.html">
+                <li>U袋学堂</li>
+            </a>
+            <a href="udai_about.html">
+                <li>联系我们</li>
+            </a>
+            <a href="temp_article/udai_article10.html">
+                <li>企业简介</li>
+            </a>
+            <a href="temp_article/udai_article5.html">
+                <li>新手上路</li>
+            </a>
+        </ul>
+        <!-- 版权 -->
+        <p class="copyright">
+            © 2005-2017 U袋网 版权所有，并保留所有权利<br>
+            ICP备案证书号：闽ICP备16015525号-2&nbsp;&nbsp;&nbsp;&nbsp;福建省宁德市福鼎市南下村小区（锦昌阁）1栋1梯602室&nbsp;&nbsp;&nbsp;&nbsp;Tel:
+            18650406668&nbsp;&nbsp;&nbsp;&nbsp;E-mail: 18650406668@qq.com
+        </p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+<script src="/js/lib/vue-resource.js"></script>
+
+<script src="/js/udai_shopcart.js"></script>
+</body>
+</html>

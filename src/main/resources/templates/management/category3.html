@@ -1,0 +1,135 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>三级分类管理</title>
+
+		<link rel="stylesheet" type="text/css" href="css/global.css">
+		<link rel="stylesheet" type="text/css" href="css/table.css">
+		<link rel="stylesheet" type="text/css" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="css/form.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="images/xjt.png"/></span>三级分类</h1>
+			<div class="serach">
+				
+				一级分类：<select class="textStyle" style="width:80px;">
+						<option>衣服</option>
+						<option>鲜花</option>
+					</select>
+					二级分类：<select class="textStyle" style="width:80px;">
+						<option>男装</option>
+						<option>女装</option>
+					</select>
+				三级分类名：<input type="text" class="textStyle" style="width:120px;"/>
+				<input type="button" value="搜索" class="button search" />
+				<input type="button" value="新增" class="button add"  id="dianji" />
+				
+				
+			</div>
+
+			<!--搜索区结束-->
+			<div class="info">
+				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<th>编号</th>
+							<th>分类名</th>
+                            						<th>操作</th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>001</th>
+							<th>栀子花</th>
+                            						<th>删除 <span  class="aaa">修改</span><span  style="display:none;"><input type="text" class="textStyle" style="width:60px;"><a>提交</a></span></th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>002</th>
+							<th>月季</th>
+                            						<th>删除 <span  class="aaa">修改</span><span  style="display:none;"><input type="text" class="textStyle" style="width:60px;"><a>提交</a></span></th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>003</th>
+							<th>康乃馨</th>
+                            						<th>删除 <span  class="aaa">修改</span><span  style="display:none;"><input type="text" class="textStyle" style="width:60px;"><a>提交</a></span></th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>004</th>
+							<th>茉莉花</th>
+                            						<th>删除 <span  class="aaa">修改</span><span  style="display:none;"><input type="text" class="textStyle" style="width:60px;"><a>提交</a></span></th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>005</th>
+							<th>曼陀罗</th>
+                            						<th>删除 <span  class="aaa">修改</span><span  style="display:none;"><input type="text" class="textStyle" style="width:60px;"><a>提交</a></span></th>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>006</th>
+							<th>桂花</th>
+                            						<th>删除 <span  class="aaa">修改</span><span  style="display:none;"><input type="text" class="textStyle" style="width:60px;"><a>提交</a></span></th>
+						</tr>
+
+
+					</thead>
+					<!-- <tbody>
+						<tr>
+							<td colspan="11"><img src='images/loading.gif' /></td>
+						</tr>
+					</tbody>-->
+				</table>
+				<div style="display:none" id="xianshi">
+				  <from action="" method="post">
+					<br/>
+					<div class="sort">
+					<p style="position:relative; ">三级分类：<span class="sortcon"><input type="text" class="textStyle" name="sProblem" style="width:80px;" /></span>
+					<input type="button" value="" class="button add addsortcon" id="dianji" style="position:absolute; bottom:0; height:35px" /></p></div>
+					<div>
+						<input type="submit" value="提交"  class="button ">
+						<input type="submit" value="返回"  class="button ">
+					</div>
+					
+				</from>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/table.js"></script>
+		<script type="text/javascript">
+			$("#dianji").click(function(){
+			$("#xianshi").show();
+				}); 
+				
+			$(function(){
+				$(".sort").on("click",".addsort",function(){
+					var sortcon =
+						'<p style="position:relative; ">属性选项：<span class="sortcon"><input type="text" class="textStyle" name="sProblem" style="width:80px;" /></span>'
+						+'<input type="button" value="" class="button add addsortcon" id="dianji" style="position:absolute; bottom:0; height:35px"/></p>';
+					$(".sort").append(sortcon);
+					$(this).hide();
+				});
+				
+				$(".sort").on("click",".addsortcon",function(){
+					var sortcon = '<input type="text" class="textStyle" name="sProblem" style="width:80px;" onchange="addsortcon()">';
+					$(this).prev().append(sortcon);
+				});
+				$(".aaa").on("click",function(){
+					$(this).next().show();
+				});
+			});
+
+		</script>
+
+	</body>
+
+</html>
