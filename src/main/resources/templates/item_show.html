@@ -252,7 +252,8 @@
 							</div>
 						</div>
 						<div class="item-action clearfix bgf5">
-							<a href="javascript:;" rel="nofollow" data-addfastbuy="true" title="点击此按钮，到下一步确认购买信息。" role="button" class="item-action__buy">立即购买</a>
+							<a href="javascript:;" rel="nofollow" data-addfastbuy="true" title="点击此按钮，到下一步确认购买信息。"
+							   role="button" class="item-action__buy">立即购买</a>
 							<a href="javascript:;" rel="nofollow" data-addfastbuy="true" role="button" class="item-action__basket">
 								<i class="iconfont icon-shopcart"></i> 加入购物车
 							</a>
@@ -1445,7 +1446,79 @@
 						.removeClass('in').removeClass('active');
 					});
 				});
-			</script>
+				$(function () {
+					$(".item-action__basket").click(function () {
+						alert("加入购物车");
+                    })
+
+
+					//加入购物车
+                    function addCart(){
+                        var skuId = 1; //SKU
+                        var quantity = 1;
+                        $.ajax({
+                            url : '',
+                            type : "post",
+                            dataType : 'json',
+                            data : {
+                                skuId : skuId,
+                                quantity : quantity
+                            },
+                            success : function(result){
+                                if(result == "success"){
+                                    alert("添加购物车成功");
+                                }
+                            },
+                            error : function(){
+                                alert("系统错误");
+                            }
+                        });
+                    }
+                    /* 对cookie进行校验 */
+                    function validCookie(){
+                        var result = "yes";
+                        $.ajax({
+                            url : 'http://localhost:8280/ecps-protal/cart/validCookie.do',
+                            type : "post",
+                            dataType : 'text',
+                            async : false,
+                            success : function(resultText){
+                                result = resultText;
+                            },
+                            error : function(){
+
+                                alert("系统错误");
+                            }
+                        });
+                        return result;
+                    }
+
+                	/* 查询库存是否充足 */
+                    function validStock(skuId, quantity){
+                        var result = "yes";
+                        $.ajax({
+                            url : 'http://localhost:8280/ecps-protal/cart/validStock.do',
+                            type : "post",
+                            dataType : 'text',
+                            async : false,
+                            data : {
+                                skuId : skuId,
+                                quantity : quantity
+                            },
+                            success : function(resultText){
+                                result = resultText;
+                            },
+                            error : function(){
+
+                                alert("系统错误");
+                            }
+                        });
+                        return result;
+
+                    }
+
+                })
+</script>
 		</section>
 	</div>
 	<!-- 右侧菜单 -->
