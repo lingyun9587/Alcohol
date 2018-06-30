@@ -285,6 +285,28 @@ public class CommonController {
     public String udai_collection() { return "/udai_collection"; }
 
     /**
+     * 我的购物车
+     * @return
+     */
+    @GetMapping("/udai_shopcart.html")
+    public String udai_shopcart() { return "/udai_shopcart"; }
+
+    /**
+     * 结算
+     * @return
+     */
+    @GetMapping("/udai_shopcart_pay.html")
+    public String udai_shopcart_pay() { return "/udai_shopcart_pay"; }
+
+
+    /**
+     * 联系客服
+     * @return
+     */
+    @GetMapping("/issues.html")
+    public String issues() { return "/issues"; }
+
+    /**
      * 退款/退货
      * @return
      */

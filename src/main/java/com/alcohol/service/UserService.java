@@ -1,4 +1,5 @@
-package com.alcohol.service.impl;
+package com.alcohol.service;
 
 public class UserService {
+
 }
