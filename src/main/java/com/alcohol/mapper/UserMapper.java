@@ -1,4 +1,5 @@
 package com.alcohol.mapper;
 
-public interface UserMapper {
+public class UserMapper {
+
 }
