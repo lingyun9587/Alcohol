@@ -14,7 +14,7 @@ public class Useraccount {
     private String phone;//手机号
     private Long  userId;//用户表id
     private String email;//邮箱
-    private char password;//密码
+    private String password;//密码
     private Date createTime;//创建时间
     private Date lastTime;//修改时间
 

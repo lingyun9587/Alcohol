@@ -1,4 +1,7 @@
-package com.alcohol.service.impl;
+package com.alcohol.service;
 
-public class UserService {
+import com.alcohol.pojo.Useraccount;
+
+public interface UserService {
+    public boolean ZhuCe(Useraccount useraccount);//注册
 }

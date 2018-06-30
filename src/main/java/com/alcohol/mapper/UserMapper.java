@@ -1,5 +1,8 @@
 package com.alcohol.mapper;
 
-public class UserMapper {
+import com.alcohol.pojo.Useraccount;
+
+public interface UserMapper {
+ public boolean ZhuCe(Useraccount useraccount);//注册
 
 }
