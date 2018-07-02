@@ -1,5 +1,7 @@
 package com.alcohol.service;
 
-public class UserService {
+import com.alcohol.pojo.Useraccount;
 
+public interface UserService {
+    public boolean ZhuCe(Useraccount useraccount);
 }

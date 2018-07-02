@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    @Resource
+  /*  @Resource*/
     private UserMapper userMapper;
     public boolean ZhuCe(Useraccount useraccount) {
         return userMapper.ZhuCe(useraccount);
