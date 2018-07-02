@@ -1,6 +1,7 @@
 package com.alcohol.service;
 
 import com.alcohol.dto.UserAccountExecution;
+import com.alcohol.pojo.Useraccount;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,4 +20,11 @@ public interface UserAccountService {
      * @return
      */
     public UserAccountExecution login(String username, String password, HttpServletRequest request);
+
+    /**
+     * 用户修改密码
+     * @param useraccount
+     * @return
+     */
+    public int updatePwd(Useraccount useraccount);
 }
