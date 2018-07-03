@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品列表</title>
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/tab.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+
+		<style>
+			tbody tr td img{
+				float: left;
+				vertical-align: middle;
+				margin-right: 10px;
+			}
+			tbody tr td div{
+				line-height: 20px;
+				text-align: left;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>商品管理</h1>
+		<div class="serach">
+				<input type="text" class="textStyle" placeholder="请输入搜索内容" style="width: 180px;height: 24px;line-height: 24px;"/>
+				<input type="button" value="搜索" class="button search" />
+				<input type="button" value="上架" class="button add" />
+				<input type="button" value="下架" class="button" />
+				<input type="button" value="删除" class="button delete" />
+			</div>
+			<!--搜索区结束-->
+			<div class="info">
+				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+					<thead>
+						<tr>
+							<th width="5%"><input type='checkbox' name='CheckBox'/></th>
+							<th width="35">宝贝</th>
+							<th width="10%">库存</th>
+							<th width="10%">销量</th>
+							<th width="10%">浏览量</th>
+							<th width="10%">发布时间</th>
+							<th width="10%">价格</th>
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td cols pan="11"><img src='/images/backstage/loading.gif' /></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class='pageStyle'></div>
+			</div>
+		</div>
+	</div>
+		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="/js/backstage/global.js"></script>
+		<script type="text/javascript" src="/js/backstage/table.js"></script>
+		<script type="text/javascript" src="/js/backstage/tab.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					url: "/data/backstage/data.json",
+					type: "get",
+					dataType: "text",
+					async: true,
+					success: function(data) {
+						data = $.parseJSON(data);
+						var tbody = $('<tbody></tbody>');
+						$(data.newsList).each(function(index) {
+							var tr = $('<tr></tr>');
+							tr.append("<td><input type='checkbox' name='CheckBox'/></td>");
+							tr.append("<td>" + "<img src='/images/backstage/cat.png' height='78' width='78'/>" + "<div><a>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</a></div></td>");
+							tr.append("<td>" + this.nl + "</td>");
+							tr.append("<td>" + 10 + "</td>");
+							tr.append("<td>" + 10000 + "</td>");
+							tr.append("<td>2018-1-08</td>");
+							tr.append("<td>20-100</td>");
+							tr.append("<td width='6%' height='100%'><a href='javascript:void(0);'>编辑宝贝</a></td>");
+							tbody.append(tr);
+						});
+						$('#tableData tbody').replaceWith(tbody);
+						showPage(1, 10, 46);
+					},
+					error: function() {
+						alert("出现异常！");
+					}
+				});
+
+
+				$("[name='CheckBox']").eq(0).click(function(){
+					var flag=$("[name='CheckBox']").prop("checked");
+					alert(flag);
+					if(flag){
+						$("[name='CheckBox']").prop("checked","true");
+					}else{
+						$("[name='CheckBox']").prop("checked","false");
+					}
+				});
+			});
+			/*function update(id) {
+				alert(id)
+			}*/
+		</script>
+	</body>
+
+</html>

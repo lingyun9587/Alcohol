@@ -83,17 +83,16 @@ $(function() {
 
 /*弹出框开始*/
 function showAlert() {
-
-	$(".iframe").css("z-index", "300");
-	$(".left").css("z-index", "260");
+	$(".iframe").css("z-index", 300);
+	$(".left").css("z-index", 260);
 	
 
 }
 
 function hideAlert() {
 
-	$(".iframe").css("z-index", "240");
-	$(".left").css("z-index", "260");
+	$(".iframe").css("z-index", 240);
+	$(".left").css("z-index", 260);
 
 
 }

@@ -48,7 +48,7 @@
 	height: 45px;
 	line-height: 45px;
 	margin-right: 50px;
-	background-image: url(../images/tx.png);
+	background-image: url(../images/backstage/tx.png);
 	background-position: 0px 12px;
 	background-repeat: no-repeat;
 	text-indent: 22pt;
@@ -57,8 +57,8 @@
 }
 
 .loginUser {
-	
-	background-image: url(../images/xsj.png);
+
+	background-image: url(../images/backstage/xsj.png);
 	width: 140px;
 	display: block;
 	background-position: 125px 20px;
@@ -139,7 +139,7 @@
 }
 
 .nav ul li ul {
-	list-style: square inside url('image/0000.jpg');
+	list-style: square inside url('/images/backstage/0000.jpg');
 }
 
 .nav_ul {
@@ -155,7 +155,7 @@
 
 .nav_ul li div {
 	padding-left: 15px;
-	background-image: url(../images/dsj.png);
+	background-image: url(../images/backstage/dsj.png);
 	background-position: 160px center;
 	background-repeat: no-repeat;
 }
@@ -207,7 +207,7 @@
 	height: 40px;
 	background-color: #4d4d4d;
 	overflow: hidden;
-	background-image: url(../images/hideLeft.png);
+	background-image: url(../images/backstage/hideLeft.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	cursor: pointer;
@@ -222,7 +222,7 @@
 	margin-right: 30px;
 	background-color: #4d4d4d;
 	overflow: hidden;
-	background-image: url(../images/showLeft.png);
+	background-image: url(../images/backstage/showLeft.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	cursor: pointer;

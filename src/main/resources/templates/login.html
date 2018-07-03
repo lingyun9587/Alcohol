@@ -272,7 +272,6 @@
                 // 以下确定按钮仅供参考
                 $.idcode.setCode();
                 $("#register_submit").click(function () {
-                        alert("陈赓"+$("#register_phone").val());
                     $.ajax({
                         url:"/registerUser",
                         type:"post",
@@ -283,7 +282,7 @@
                         success:function(data){
                             alert(data.msg);
                             if(data.success){
-                                $('.login').show();
+                                location.href = "/udai_setting.html";
                             }
                         },error:function () {
                             alert("链接服务器失败！");

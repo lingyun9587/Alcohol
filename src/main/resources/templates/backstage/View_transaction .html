@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>交易记录</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>交易记录</h1>
+			
+
+			
+			<div class="serach">
+				<input type="text" class="textStyle" placeholder="请输入订单号" style="width: 180px;height: 24px;line-height: 24px;"/>
+				<input type="button" value="搜索" class="button search" />
+				<!--<input type="button" value="新增" class="button add" />
+				<input type="button" value="删除" class="button_Disable delete" />-->
+			</div>
+
+			<!--搜索区结束-->
+			
+			<div class="info">
+				<table id="dg" cellpadding="0" cellspacing="0" border="0" class="selectTable">
+					
+				</table>
+				<div class='pageStyle'>
+					
+				</div>
+			</div>
+
+		</div>
+
+		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+		<script src="/js/backstage/pagetion.js"></script>
+
+		<script type="text/javascript">
+			var pagesize = 10; //页显示多少条记录
+			$(function() {
+				tableInit(1, pagesize); //初始默认第一页
+				
+			});
+			
+			//页索引 pageindex
+			function tableInit(pageindex, pagesize) {
+				//绑定表格数据
+				$("#dg").grid({
+					id: "dg",
+					url: "/data/backstage/data1.json",
+					data: {
+						"pageindex": pageindex,
+						"pagesize": pagesize
+					},
+					columns: [
+						{
+							field: 'ID',
+							title: '订单号',
+							width: 100,
+							align: 'center'
+						},{
+							field: 'ID',
+							title: '内容交易',
+							width: 100,
+							align: 'center'
+						},
+						{
+							field: 'name',
+							title: ' 商品 ',
+							width: 350,
+							align: 'center'
+						},
+						{
+							field: 'descrtion',
+							title: '交易状态',
+							width: 150,
+							align: 'center'
+						},
+						{
+							field: 'Price',
+							title: '创建时间',
+							width: 100,
+							align: 'left'
+						}
+					],
+					pagination: true //是否分页
+
+				});
+
+			}
+			// 每页点击页码与输入页码跳转页面
+			function show(pageindex) {
+				tableInit(pageindex, pagesize);
+			}
+			//根据operations扩展的自定义方法
+			function delete1(id) {
+				//alert(id)
+			}
+
+			function update1(id) {
+				//alert(id)
+			}
+			$(function() {
+				//绑定行单击事件开始
+				$("#dg").on("click", "tr", function() {
+					//单击从表格上取id值
+					var _trId = $(this).children("td:eq(1)").html();
+
+				});
+				//绑定行单击事件结束
+
+				/*绑定行双击事件开始*/
+				$("#dg").on("dblclick", "tr", function() {
+					var _trId = $(this).children("td:eq(1)").html();
+
+				});
+				/*绑定行双击事件结束*/
+
+			})
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/login.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/add.css" />
+	</head>
+
+	<body>
+		<div>
+			<div class="loginContent">
+				<div class="titleText">
+					<h1>DecentUI框架</h1></div>
+				<div class="user">
+					<form class="formSheet" action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
+						<dl>
+							<dd>
+								<div>
+									<input type="text" class="textStyle" id="userName" name="userName" style="width:380px; height: 40px;" placeholder="请输入账号" />
+								</div>
+							</dd>
+						</dl>
+						<dl>
+							<dd>
+								<div>
+									<input type="password" class="pwdStyle" style="width:380px;height: 40px;" placeholder="请输入密码" />
+								</div>
+							</dd>
+						</dl>
+						<div><span class="red">&nbsp;</span></div>
+						<div>
+							<div class="loglogin"><input class="checkedStyle" type="checkbox" name="login" /></div>
+							<div class="loginTxt">
+								<a href="#">十天内免登录</a>
+							</div>
+							<div class="loginTxt">
+								<a href="#">忘记密码?</a>
+							</div>
+						</div>
+						<div class="btnLogin">
+							<input type="submit" value="登录" class="button" />
+
+						</div>
+
+					</form>
+				</div>
+
+			</div>
+		</div>
+		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="/js/backstage/global.js"></script>
+		<script type="text/javascript">
+			//表单验证   注意：文本提示的信息应在开始的时候全部写在placeholder中
+			function checkForm() {
+				var name = checkUserName();
+				return name;
+			}
+			//验证姓名   
+			function checkUserName() {
+				var username = $("#userName");
+				var tsInfo = $(".red");
+				if(username.val() == "") {
+					username.addClass("err");
+					tsInfo.css("display", "block");
+					tsInfo.text("用户名输入有误，请重新输入")
+					return false;
+				} else {
+					username.removeClass("err");
+					return true;
+				}
+			}
+		</script>
+
+	</body>
+
+</html>

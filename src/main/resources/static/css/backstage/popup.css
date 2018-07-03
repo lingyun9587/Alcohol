@@ -42,8 +42,8 @@
 .pfooter {
 	border-top: 1px solid #e5e5e5;
 	margin:10px auto;
-	
-    text-align: center;
+
+	text-align: center;
 	height: 25px;
 }
 
@@ -259,7 +259,7 @@
 	z-index: 2000;
 	top: 10px;
 	border-radius: 5px;
-	background-image: url(../images/jg.png);
+	background-image: url(../images/backstage/jg.png);
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
 }

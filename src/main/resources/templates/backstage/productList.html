@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>分类列表</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+
+		<style type="text/css">
+
+		</style>
+
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>分类列表</h1>
+			<div class="serach">
+				<input type="button" value="新增" class="button add" onclick="add()"/>
+			</div>
+			<!--搜索区结束-->
+
+			<div class="info">
+				<table id="dg" cellpadding="0" cellspacing="0" border="0" class="selectTable">
+					<thead>
+						<tr>
+							<th width="5%"><input type="checkbox" /></th>
+							<th width="10%">评论人</th>
+							<th width="35%">评论</th>
+							<th width="10%">评论时间</th>
+							<th width="20">宝贝信息</th>
+							<th width="10">评价</th>
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td>微***风</td>
+							<td>卖家不是人，是神仙。一下就到天上了卖家不是人，是神仙。一下就到天上了卖家不是人，是神仙。一下就到天上了</td>
+							<td>2018-05-25</td>
+							<td>御泥坊面膜 补水 美白</td>
+							<td>中评</td>
+							<td>
+								<a href="#" onclick="hf(this)">回复</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class='pageStyle'>
+
+				</div>
+			</div>
+
+			<div id="mb_stuInfo">&nbsp;</div>
+			<div class="popup" id="stuInfo">
+				<h1>新增商品分类9<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+				<div class="pInfo">
+					<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="addForm">
+						<dl>
+							<dt><span>评论</span></dt>
+							<dd>
+								<div class="fbox">
+									<textarea cols="50" rows="8" wrap="hard" style="border: 1px solid #CCCCCC;">机不可失，时不再来，人生得一知机足以，至此，吾生无憾矣！</textarea>
+								</div>
+							</dd>
+						</dl>
+						<dl>
+							<dt><span>回复评论</span></dt>
+							<dd>
+								<div class="fbox">
+									<textarea cols="50" rows="8" wrap="hard" style="border: 1px solid #CCCCCC;"></textarea>
+								</div>
+							</dd>
+						</dl>
+					</form>
+
+				</div>
+				<div class="pfooter">
+					<input type="button" value="回复" class="button save" />
+					<input type="button" value="取消" class="button delete" />
+				</div>
+			</div>
+			<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+			<script src="/js/backstage/pagetion.js">
+			</script>
+			<script type="text/javascript" src="/js/backstage/table.js"></script>
+			<script type="text/javascript" src="/js/backstage/popup.js"></script>
+			<script type="text/javascript" src="/js/backstage/jquery-1.8.3.min.js"></script>
+
+			<script type="text/javascript">
+                var pagesize = 10; //页显示多少条记录
+                $(function() {
+                    showPage(1, 10, 46);//分页
+                    //tableInit(1, pagesize); //初始默认第一页
+                });
+                //页索引 pageindex
+                function tableInit(pageindex, pagesize) {
+                    //绑定表格数据
+                    $("#dg").grid({
+                        id: "dg",
+                        url: "/data/backstage/data1.json",
+                        data: {
+                            "pageindex": pageindex,
+                            "pagesize": pagesize
+                        },
+                        columns: [{
+                            field: 'ID',
+                            title: '编号',
+                            width: 100,
+                            align: 'center'
+                        },
+                            {
+                                field: 'name',
+                                title: '用户名',
+                                width: 100,
+                                align: 'left'
+                            },
+                            {
+                                field: 'descrtion',
+                                title: '类型',
+                                width: 150,
+                                align: 'center'
+                            },
+                            {
+                                field: 'Price',
+                                title: '评论对象',
+                                width: 200,
+                                align: 'left'
+                            },
+                            {
+                                field: 'Price',
+                                title: '评论时间',
+                                width: 100,
+                                align: 'left'
+                            },
+                            {
+                                field: 'Price',
+                                title: '操作',
+                                width: 100,
+                                align: 'left'
+                            }
+                        ],
+                        pagination: true //是否分页
+
+                    });
+
+                }
+                // 每页点击页码与输入页码跳转页面
+                function show(pageindex) {
+                    tableInit(pageindex, pagesize);
+                }
+                //根据operations扩展的自定义方法
+                function delete1(id) {
+                    //alert(id)
+                }
+
+                function update1(id) {
+                    //alert(id)
+                }
+                $(function() {
+                    //绑定行单击事件开始
+                    $("#dg").on("click", "tr", function() {
+                        //单击从表格上取id值
+                        var _trId = $(this).children("td:eq(1)").html();
+
+                    });
+                    //绑定行单击事件结束
+
+                    /*绑定行双击事件开始*/
+                    $("#dg").on("dblclick", "tr", function() {
+                        var _trId = $(this).children("td:eq(1)").html();
+
+                    });
+
+
+                    /*绑定行双击事件结束*/
+                })
+
+                //点击新增
+                function add() {
+                    mask(560, 418, true, "stuInfo");
+                }
+			</script>
+	</body>
+</html>

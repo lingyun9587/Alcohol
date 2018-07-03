@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>评价管理</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+    <link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+    <link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+
+</head>
+
+<body>
+<div class="container">
+    <h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>评价管理</h1>
+
+    <div class="serach">
+        <input type="button" value="搜索" class="button search" />
+        <input type="button" value="删除评论" class="button_Disable delete" />
+    </div>
+
+    <!--搜索区结束-->
+    <div class="info">
+        <table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+            <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>编号</th>
+                <th>用户名</th>
+                <th>类型</th>
+                <th>评论对象</th>
+                <th>评论时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="11"><img src='/images/backstage/loading.gif' /></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class='pageStyle'></div>
+    </div>
+
+</div>
+
+<script src="js/backstage/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/backstage/table.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $.ajax({
+            url: "/data/backstage/data.json",
+            type: "get",
+            dataType: "text",
+            async: true,
+            success: function(data) {
+                data = $.parseJSON(data);
+                var tbody = $('<tbody></tbody>');
+                $(data.newsList).each(function(index) {
+                    var tr = $('<tr></tr>');
+                    tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                    tr.append("<td>" + this.bh + "</td>");
+                    tr.append("<td>" + this.xm + "</td>");
+                    tr.append("<td>" + this.bm + "</td>");
+                    tr.append("<td>" + this.nl + "</td>");
+                    tr.append("<td>" + this.nl + "</td>");
+                    tr.append("<td><span onclick=update("+this.bh+");>删除</span><span onclick=update("+this.bh+");>更新</span></td>");
+                    tbody.append(tr);
+
+                });
+                $('#tableData tbody').replaceWith(tbody);
+                showPage(1, 10, 46);
+            },
+            error: function() {
+                alert("出现异常！");
+            }
+
+        });
+
+    });
+    function update(id){
+        alert(id)
+    }
+</script>
+
+</body>
+
+</html>

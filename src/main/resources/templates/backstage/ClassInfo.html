@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>表格1复选行</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/layout.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/ztree.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		
+	</head>
+		<script src="/js/backstage/jquery-2.1.0.min.js"></script>
+		<script src="/js/backstage/bootstrap-treeview.js"></script>
+		
+	<body>
+	<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>左中右结构布局</h1>
+			<div class="info">
+				<div class="section" style="width:20%; height:485px; margin-right: 15px;">
+					<h1 class="sectionTitle">学生基本信息</h1>
+					<ul id="treeDemo" class="ztree">
+						<div class="row">
+        <div class="col-sm-4">
+          <h2>Tree</h2>
+          <div id="treeview-expandible" class=""></div>
+        </div>
+      </div>
+					</ul>
+				</div>
+
+				<div class="section" style="width:75%; height:485px;">
+					<table id="dg" cellpadding="0" cellspacing="0" border="0" class="selectTable">
+						<thead>
+							<tr>
+								<th>编号</th>
+								<th>名称</th>
+								<th>描述</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="3">暂无信息！</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="/js/backstage/global.js"></script>
+		<script type="text/javascript" src="/js/backstage/jquery.ztree.core.min.js"></script>
+		<script type="text/javascript" src="/js/backstage/ztree.js"></script>
+		<script src="/js/backstage/jquery-2.1.0.min.js"></script>
+		<script src="/js/backstage/bootstrap-treeview.js"></script>
+		<script type="text/javascript">
+
+	  	$(function() {
+
+        var defaultData = [
+          {
+            text: 'Parent 1',
+            href: '#parent1',
+            tags: ['4'],
+            nodes: [
+              {
+                text: 'Child 1',
+                href: '#child1',
+                tags: ['2'],
+                nodes: [
+                  {
+                    text: 'Grandchild 1',
+                    href: '#grandchild1',
+                    tags: ['0']
+                  },
+                  {
+                    text: 'Grandchild 2',
+                    href: '#grandchild2',
+                    tags: ['0']
+                  }
+                ]
+              },
+              {
+                text: 'Child 2',
+                href: '#child2',
+                tags: ['0']
+              }
+            ]
+          }
+        ];
+
+        var alternateData = [
+          {
+            text: 'Parent 1',
+            tags: ['2'],
+            nodes: [
+              {
+                text: 'Child 1',
+                tags: ['3'],
+                nodes: [
+                  {
+                    text: 'Grandchild 1',
+                    tags: ['6']
+                  },
+                  {
+                    text: 'Grandchild 2',
+                    tags: ['3']
+                  }
+                ]
+              },
+              {
+                text: 'Child 2',
+                tags: ['3']
+              }
+            ]
+          },
+          {
+            text: 'Parent 2',
+            tags: ['7']
+          },
+          {
+            text: 'Parent 3',
+            icon: 'glyphicon glyphicon-earphone',
+            href: '#demo',
+            tags: ['11']
+          },
+          {
+            text: 'Parent 4',
+            icon: 'glyphicon glyphicon-cloud-download',
+            href: '/demo.html',
+            tags: ['19'],
+            selected: true
+          },
+          {
+            text: 'Parent 5',
+            icon: 'glyphicon glyphicon-certificate',
+            color: 'pink',
+            backColor: 'red',
+            href: 'http://www.tesco.com',
+            tags: ['available','0']
+          }
+        ];
+        var initSelectableTree = function() {
+          return $('#treeview-selectable').treeview({
+            data: defaultData,
+            multiSelect: $('#chk-select-multi').is(':checked'),
+            onNodeSelected: function(event, node) {
+              $('#selectable-output').prepend('<p>' + node.text + ' was selected</p>');
+            },
+            onNodeUnselected: function (event, node) {
+              $('#selectable-output').prepend('<p>' + node.text + ' was unselected</p>');
+            }
+          });
+        };
+        var $selectableTree = initSelectableTree();
+
+       
+        var $expandibleTree = $('#treeview-expandible').treeview({
+          data: defaultData,
+          onNodeCollapsed: function(event, node) {
+            $('#expandible-output').prepend('<p>' + node.text + ' was collapsed</p>');
+          },
+          onNodeExpanded: function (event, node) {
+            $('#expandible-output').prepend('<p>' + node.text + ' was expanded</p>');
+          }
+        });
+
+        var findExpandibleNodess = function() {
+          return $expandibleTree.treeview('search', [ $('#input-expand-node').val(), { ignoreCase: false, exactMatch: false } ]);
+        };
+        var findDisabledNodes = function() {
+          return $disabledTree.treeview('search', [ $('#input-disable-node').val(), { ignoreCase: false, exactMatch: false } ]);
+        };
+        
+  		});
+	  	</script>
+</html>
