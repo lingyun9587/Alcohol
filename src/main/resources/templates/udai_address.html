@@ -140,7 +140,7 @@
             <div class="user-content__box clearfix bgf">
                 <div class="title">账户信息-收货地址</div>
                 <form action="" class="user-addr__form form-horizontal" role="form">
-                    <p class="fz18 cr">新增收货地址<span class="c6" style="margin-left: 20px">必填项</span></p>
+                    <p class="fz18 cr" name="biao">新增收货地址<span class="c6" style="margin-left: 20px">必填项</span></p>
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">收货人姓名：</label>
                         <div class="col-sm-6">
@@ -220,19 +220,252 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-6">
                             <div class="checkbox">
-                                <label><input type="checkbox"><i></i> 设为默认收货地址</label>
+                                <label><input type="checkbox" name="moren"><i></i> 设为默认收货地址</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-6">
-                            <button type="submit" class="but">保存</button>
+                            <!--隐藏域保存修改收货地址的路径-->
+                            <button type="hidden" id="addressId" value=""></button>
+                            <button type="button" class="but" id = "bc" onclick="tjadd()">保存</button>
+                            <button type="button" class="but" id = "xg" onclick="upadd()">修改</button>
                         </div>
                     </div>
                     <script src="js/jquery.citys.js"></script>
                     <script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
                     <script>
-                        $(document).ready(function () {
+                        //页面加载
+                        $(function () {
+                            $("#xg").hide();
+                            listadd();
+                        });
+                        //点击修改上边获取
+                        function xuigaiAdd(addressId){
+                            $("[name=biao]").html("修改收货地址<span class='c6' style='margin-left: 20px'>必填项</span>");
+                            $("#bc").hide();
+                            $("#xg").show();
+                            $.ajax({
+                                url:"/updaAdd",
+                                type:"post",
+                                data:{
+                                    addressId:addressId
+                                },
+                                dataType:"json",
+                                success:function(data){
+                                    if(data.defaults==1){
+                                        $("[name=moren]").attr('checked', true);
+                                    }else if(data.defaults==0){
+                                        $("[name=moren]").attr('checked', false);
+                                    }
+                                    $("#addressId").val(data.addressId);
+                                    $("#name").val(data.consignee);
+                                    $("#aa").html(data.province+"/"+data.city+"/"+data.area+"/"+data.street);
+                                    $("#details").val(data.comaddress);
+                                    $("#mobile").val(data.phone);
+
+                                },
+                                error:function(){
+                                 alert("网络错误!");
+                                }
+                            });
+                        }
+                        //修改收货地址
+                        function upadd(){
+                            var addressId=$("#addressId").val();//获取收货地址Id
+                            var province="";//省
+                            var city="";//市
+                            var area="";//区
+                            var street="";//街道
+                            var consignee=$("#name").val();//收货人姓名
+                            var details=$("#details").val();//详细收货地址
+                            var phone=$("#mobile").val();//手机号
+                            var str=$("#aa").text();//完整选择的收货地址
+                            var arr=new Array();
+                            arr=str.split('/');//注split可以用字符或字符串分割
+                            for(var i=0;i<arr.length;i++)//循环绑定值
+                            {
+                                province=arr[0];
+                                city=arr[1];
+                                area=arr[2];
+                                street=arr[3];
+                            }
+                            var defaults=0;
+                            if($("[name=moren]").is(":checked")){
+                                moren();
+                                defaults=1;
+                            }
+                            $.ajax({
+                                url:"/updateAdd",
+                                data:{
+                                    addressId:addressId,
+                                    province:province,
+                                    city:city,
+                                    area:area,
+                                    street:street,
+                                    consignee:consignee,
+                                    phone:phone,
+                                    comaddress:details,
+                                    defaults:defaults
+                                },
+                                type:"post",
+                                dataType:"json",
+                                success:function(result){
+                                    if(result.mes=="yes"){
+                                        $("#xg").hide();
+                                        $("#bc").show();
+                                        $("[name=biao]").html("新增收货地址<span class='c6' style='margin-left: 20px'>必填项</span>");
+                                        c();
+                                        listadd();
+                                    }else{
+                                        alert(result.mesage);
+                                    }
+                                },
+                                error:function(){
+                                    alert("网络错误！");
+                                }
+                            });
+                        }
+                        //删除收货地址
+                        function delAdd(addressId){
+                            if (confirm("真要删除")==true){
+                                alert(addressId);
+                                $.ajax({
+                                    url:"/delAdd",
+                                    type:"post",
+                                    data:{
+                                        addressId:addressId
+                                    },
+
+                                    dataType:"json",
+                                    success:function(data){
+                                        alert(data.mesage);
+                                        listadd();
+                                        c();
+                                    },
+                                    error:function(){
+                                        alert("网络错误!");
+                                    }
+                                });
+                            }else{
+                                alert("已取消");
+                            }
+                        }
+                        //清空
+                        function c(){
+                            $("#name").val("");//收货人姓名
+                            $("#details").val("");//详细收货地址
+                            $("#mobile").val("");//手机号
+                            $("#aa").text("");//完整选择的收货地址
+                        }
+                        //加载收货地址
+                        function listadd(){
+                            $.ajax({
+                                url:"/listAdd",
+                                type:"post",
+                                dataType:"json",
+                                success:function (data) {
+                                    var jz="";
+                                    var phone="";
+                                    var moren="";
+                                    $.each(data.listAdd,function(i,e){
+                                        phone = e.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+                                        if (e.defaults==0){
+                                            moren="<div class='tdf1'>"
+                                                +"<a href='' class='default'>设为默认</a>"
+                                                +"</div></div>";
+                                        }else if(e.defaults==1){
+                                            moren="<div class='tdf1'>" +
+                                                "<a href='' class='default active'>默认地址</a>" +
+                                                "</div>";
+                                        }
+                                    jz+="<div class='addr-item'>"
+                                            +"<div class='tdf1'>"+e.consignee+"</div>"
+                                            +"<div class='tdf2 tdt-a_l'>"+e.province+" "+e.city+" "+e.area+" "+e.street+"</div>"
+                                        +"<div class='tdf3 tdt-a_l'>"+e.comaddress+"</div>"
+                                            +"<div class='tdf1'>"+phone+"</div>"
+                                            +"<div class='tdf1 order'>"
+                                            +"<a  href='javascript:void(0)' onclick='xuigaiAdd(addressId="+e.addressId+")'>修改</a><a href='javascript:void(0)' onclick='delAdd(addressId="+e.addressId+")'>删除</a>"
+                                        +"</div>"
+                                        +moren+"</div>";
+                                        $(".addr-list").html(jz);
+                                    })
+                                },
+                                error:function(){
+                                    alert("网络错误!");
+                                }
+                            });
+                        }
+                        //默认收货地址处理
+                        function moren(){
+                            $.ajax({
+                                url:"/upAdd",
+                                type:"post",
+                                dataType:"json",
+                                success:function (data) {
+                                    if(data.mes=="yes"){
+                                        //默认收货地址处理
+                                    }
+                                },
+                                error:function () {
+                                    alert("网络错误!");
+                                }
+                            });
+                        }
+                        //添加收货地址
+                        function tjadd(){
+                            var province="";//省
+                            var city="";//市
+                            var area="";//区
+                            var street="";//街道
+                            var consignee=$("#name").val();//收货人姓名
+                            var details=$("#details").val();//详细收货地址
+                            var phone=$("#mobile").val();//手机号
+                            var str=$("#aa").text();//完整选择的收货地址
+                            var arr=new Array();
+                            arr=str.split('/');//注split可以用字符或字符串分割
+                            for(var i=0;i<arr.length;i++)//循环绑定值
+                            {
+                                province=arr[0];
+                                city=arr[1];
+                                area=arr[2];
+                                street=arr[3];
+                            }
+                            var defaults=0;
+                            if($("[name=moren]").is(":checked")){
+                                moren();
+                                defaults=1;
+                            }
+                            $.ajax({
+                                url:"/insAdd",
+                                data:{
+                                    province:province,
+                                    city:city,
+                                    area:area,
+                                    street:street,
+                                    consignee:consignee,
+                                    details:details,
+                                    phone:phone,
+                                    comaddress:details,
+                                    defaults:defaults
+                                },
+                                type:"post",
+                                dataType:"json",
+                                success:function(result){
+                                    if(result.mes=="yes"){
+                                        c();
+                                        alert(result.mesage);
+                                    }else{
+                                        alert(result.mesage);
+                                    }
+                                },
+                                error:function(){
+                                    alert("网络错误！");
+                                }
+                            });
+                        }
+
+                      /*  $(document).ready(function () {
                             // 添加街道/乡镇
                             function townFormat(info) {
                                 $('.addr-linkage select[name="town"]').hide().empty();
@@ -264,7 +497,7 @@
                                 spareUrl: 'js/data_location/list.json',
                                 dataType: 'json',
                                 valueType: 'name',
-                                province: remote_ip_info['province'],
+                              /!*  province: remote_ip_info['province'],*!/
                                 city: remote_ip_info['city'],
                                 area: remote_ip_info['district'],
                                 onChange: function (data) {
@@ -274,7 +507,7 @@
                                 var info = api.getInfo();
                                 townFormat(info);
                             });
-                        });
+                        });*/
                     </script>
                 </form>
                 <p class="fz18 cr">已保存的有效地址</p>
@@ -291,50 +524,11 @@
                     <div class="tdf1"></div>
                 </div>
                 <div class="addr-list">
-                    <div class="addr-item">
-                        <div class="tdf1">喵喵喵</div>
-                        <div class="tdf2 tdt-a_l">福建省 福州市 晋安区</div>
-                        <div class="tdf3 tdt-a_l">浦下村74号</div>
-                        <!-- <div class="tdf1">350111</div> -->
-                        <div class="tdf1">153****7649</div>
-                        <div class="tdf1 order">
-                            <a href="udai_address_edit.html">修改</a><a href="">删除</a>
-                        </div>
-                        <div class="tdf1">
-                            <a href="" class="default active">默认地址</a>
-                        </div>
-                    </div>
-                    <div class="addr-item">
-                        <div class="tdf1">喵污喵⑤</div>
-                        <div class="tdf2 tdt-a_l">福建省 福州市 仓山区 建新镇</div>
-                        <div class="tdf3 tdt-a_l">建新中心小学</div>
-                        <!-- <div class="tdf1">350104</div> -->
-                        <div class="tdf1">153****7649</div>
-                        <div class="tdf1 order">
-                            <a href="udai_address_edit.html">修改</a><a href="">删除</a>
-                        </div>
-                        <div class="tdf1">
-                            <a href="" class="default">设为默认</a>
-                        </div>
-                    </div>
-                    <div class="addr-item">
-                        <div class="tdf1">taroxd</div>
-                        <div class="tdf2 tdt-a_l">福建省 福州市 鼓楼区 鼓东街道</div>
-                        <div class="tdf3 tdt-a_l">世界金龙大厦20层B北 福州腾讯企点运营中心</div>
-                        <!-- <div class="tdf1">350104</div> -->
-                        <div class="tdf1">153****7649</div>
-                        <div class="tdf1 order">
-                            <a href="udai_address_edit.html">修改</a><a href="">删除</a>
-                        </div>
-                        <div class="tdf1">
-                            <a href="" class="default">设为默认</a>
-                        </div>
-                    </div>
-                    <div class="addr-item">
+                   <!-- <div class="addr-item">
                         <div class="tdf1">VIPArcher</div>
                         <div class="tdf2 tdt-a_l">福建省 福州市 仓山区 建新镇</div>
                         <div class="tdf3 tdt-a_l">详细地址</div>
-                        <!-- <div class="tdf1">350104</div> -->
+                        &lt;!&ndash; <div class="tdf1">350104</div> &ndash;&gt;
                         <div class="tdf1">153****7649</div>
                         <div class="tdf1 order">
                             <a href="udai_address_edit.html">修改</a><a href="">删除</a>
@@ -342,7 +536,7 @@
                         <div class="tdf1">
                             <a href="" class="default">设为默认</a>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
