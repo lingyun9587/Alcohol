@@ -18,7 +18,7 @@
     </settings>
     <!-- 设置实体类别名 -->
     <typeAliases>
-        <package name="com.ageless.pojo"/>
+        <package name="com.alcohol.pojo"/>
     </typeAliases>
 
     <plugins>
