@@ -5,27 +5,27 @@
 <mapper namespace="com.alcohol.mapper.category.CategoryOneMapper">
     <!--查询一级分类-->
     <select id="getCategoryOneInfo" resultType="Categoryone">
-        SELECT categoryone_id,categoryont_name FROM tb_categoryone
+        SELECT categoryoneid,categoryontname FROM tb_categoryone where isdel=0
     </select>
     <!--查询要添加的分类是否存在-->
     <select id="getCategoryone" resultType="Categoryone">
-        SELECT COUNT(1) FROM tb_categoryone WHERE categoryont_name=#{categoryont_name}
+        SELECT COUNT(1) FROM tb_categoryone WHERE categoryontName=#{categoryont_name} where isdel=0
     </select>
+
     <!--添加一级分类-->
     <insert id="addCategoryOne">
           insert into tb_categoryone values
-          (#{categoryont_name},#{weight})
+          (#{categoryont_name},#{weight},#{isdel})
     </insert>
     
     <!--修改-->
     <update id="updateCategoryone">
-        update tb_categoryone set categoryont_name=#{categoryont_name}
-
+        update tb_categoryone set categoryontName=#{categoryont_name}
     </update>
     
     <!--删除-->
     <delete id="delCategoryone">
-        delete from tb_categoryone where categoryone_id=#{categoryone_id}
+        update tb_categoryone set isdel=#{isdel} where categoryoneId=#{categoryone_id}
     </delete>
     
 </mapper>

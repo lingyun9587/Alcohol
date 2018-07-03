@@ -5,10 +5,20 @@
 <mapper namespace="com.alcohol.mapper.type.TypeNameMapper">
     <!--查询三级分类-->
     <select id="getTypeName" resultType="TypeName">
-SELECT typeName_id,typeName_name FROM tb_typename
-WHERE category_id =(
-	SELECT categorythree_id FROM tb_categorythree WHERE categorythree_id=2
+SELECT typeNameid,typeNamename FROM tb_typename
+WHERE isdel=0 and categoryid =(
+	SELECT categorythreeid FROM tb_categorythree WHERE categorythreeid=2
 )
     </select>
 
+    <insert id="addTypeName">
+        INSERT INTO tb_typename values
+        (#{typeName_name},#{category_id},#{isDel})
+    </insert>
+    <update id="modifyTypeName">
+        update tb_typename set typeNameName=#{typeName_name}
+    </update>
+    <update id="delTypeName">
+         update tb_typename set isdel=#{isDel} where typeNameId=#{typeNameId}
+    </update>
 </mapper>
