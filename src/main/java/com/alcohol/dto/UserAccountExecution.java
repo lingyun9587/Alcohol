@@ -15,7 +15,16 @@ public class UserAccountExecution {
     private Useraccount useraccount;
    //多个对象
     private List<Useraccount> useraccounts;
-     //失败构造器
+
+    public String getStateInfo() {
+        return stateInfo;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    //失败构造器
     public UserAccountExecution(UserAccountEnum userAccountEnum ){
        this.state = userAccountEnum.getState();
        this.stateInfo = userAccountEnum.getStateInfo();

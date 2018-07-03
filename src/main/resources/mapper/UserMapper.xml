@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.UserMapper">
+
+    <insert id="insertInfo">
+        insert into tb_user(
+        user_id,membership_name,real_name,nick_name,frozen,create_time,last_time,integral,status)
+        value(#{userId},#{membershipName},#{realName},#{nickName},#{frozen},#{createTime},#{lastTime},#{integral},#{status})
+    </insert>
+    <select id="existUserName" resultType="Integer">
+        SELECT COUNT(1) FROM tb_useraccount
+         WHERE phone =#{username} or email = #{username} or  user_id = (SELECT user_id FROM tb_user WHERE membership_name = #{username})
+
+    </select>
+
+</mapper>

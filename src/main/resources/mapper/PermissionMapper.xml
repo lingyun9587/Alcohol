@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.PermissionMapper">
+
+   <insert id="insertInfo">
+       insert  into tb_permission(user_id,role_id)
+       values (#{userId},#{roleId})
+   </insert>
+
+
+</mapper>

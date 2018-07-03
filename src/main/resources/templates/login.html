@@ -271,7 +271,26 @@
                 });
                 // 以下确定按钮仅供参考
                 $.idcode.setCode();
-                $('.submit').click(function () {
+                $("#register_submit").click(function () {
+                        alert("陈赓"+$("#register_phone").val());
+                    $.ajax({
+                        url:"/registerUser",
+                        type:"post",
+                        data:{
+                            "username":$("#register_phone").val(),
+                            "password":$("#register_pwd").val()
+                        },
+                        success:function(data){
+                            alert(data.msg);
+                            if(data.success){
+                                $('.login').show();
+                            }
+                        },error:function () {
+                            alert("链接服务器失败！");
+                        }
+                    })
+                })
+                $('#login_submit').click(function () {
                     var form = $(this).parents('form')
                     var phone = form.find('input.phone');
                     var pwd = form.find('input.password');
@@ -287,7 +306,7 @@
                         }
                     }
                     // 验证手机号参考这个
-                    switch (phone.validatemobile()) {
+                  /*  switch (phone.validatemobile()) {
                         case 1:
                             error.html(msgtemp('<strong>手机号码或邮箱为空</strong> 请输入手机号码或邮箱', 'alert-warning'));
                             return;
@@ -318,16 +337,7 @@
                     }
 
                     // 验证码
-                    switch (sms.login_sms()) {
-                        case 1:
-                            error.html(msgtemp('<strong>验证码不能为空</strong> 请输入验证码', 'alert-warning'));
-                            return;
-                            break;
-                        case 2:
-                            error.html(msgtemp('<strong>验证码输入有误</strong> 请输入验证码', 'alert-warning'));
-                            return;
-                            break;
-                    }
+
                     form.ajaxForm(options);
                     // 请求成功执行类似这样的事件
                     // form.fadeOut(150,function() {
@@ -340,35 +350,36 @@
                     var phone = null;//手机号
                     var mailbox = null;//邮箱
 
-                    if (AccountNumber.indexOf("@") != -1) { //邮箱验证
+                /*    if (AccountNumber.indexOf("@") != -1) { //邮箱验证
                         membership = AccountNumber;
                     } else if (AccountNumber.indexOf("t") != -1) { //会员名验证
                         mailbox = AccountNumber;
                     } else if (AccountNumber.length == 11) { //手机号验证
                         phone = AccountNumber;
-                    }
-
+                    }*/
                     $.ajax({
                         url: "/user/loginUser",
                         data: {
-                            membership: membership, phone: phone,
-                            mailbox: mailbox, loginpwd: UserPwd
+                            //membership: membership,
+                            username: $("[name='phone']").val(),
+                          //  mailbox: mailbox,
+                            password: $("[name='password']").val()
                         },
                         type: "post",
                         dataType: "json",
                         success: function (result) {
-                            if (result.mes == "success") {
+                            if (result.success) {
                                 location.href = "/";
-                            } else if (result.mes == "frozen") {
-                                alert("该账号已被冻结！")
-                            } else if (result.mes == "error") {
-                                alert("用户名或密码有误，请重新登录！")
+                            } else{
+                                alert(result.msg);
                             }
                         }, error: function () {
                             alert("链接服务器失败！");
                         }
                     })
                 })
+
+
             });
         </script>
     </div>

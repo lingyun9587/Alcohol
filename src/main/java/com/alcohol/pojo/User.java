@@ -18,7 +18,7 @@ public class User {
     private Date birthday;//出生日期
     private Long frozen;//用户是否冻结
     private Date createTime;//创建时间
-    private Date laseTime;//修改时间
+    private Date lastTime;//修改时间
     private Long integral;//积分
     private Long status;//会员名状态
     private Long paymentPassword;//支付密码

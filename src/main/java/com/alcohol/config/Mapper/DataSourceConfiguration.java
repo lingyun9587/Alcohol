@@ -15,7 +15,7 @@ import java.beans.PropertyVetoException;
  */
 @Configuration
 //配置mybaits mapper的扫描路径
-@MapperScan("com.ageless.mapper")
+@MapperScan("com.alcohol.mapper")
 public class DataSourceConfiguration {
     @Value("${jdbc.driver}")
     private String jdbcDirver;
