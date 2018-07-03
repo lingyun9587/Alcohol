@@ -26,4 +26,34 @@ public class TypeValueServiceImpl implements TypeValueService {
             throw e;
         }
     }
+
+    @Override
+    public int addTypeValue(Typevalue tn) {
+        try {
+            return tm.addTypeValue(tn);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public int modifyTypeValue(Typevalue tn) {
+        try {
+            return tm.modifyTypeValue(tn);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public int delTypeValue(Long typeValueId) {
+        try {
+            return tm.delTypeValue(typeValueId);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

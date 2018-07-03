@@ -26,4 +26,34 @@ public class TypeNameServiceImpl implements TypeNameService {
             throw e;
         }
     }
+
+    @Override
+    public int addTypeName(TypeName tn) {
+        try {
+            return tm.addTypeName(tn);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public int modifyTypeName(TypeName tn) {
+        try {
+            return tm.modifyTypeName(tn);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public int delTypeName(Long typeNameId) {
+        try {
+            return tm.delTypeName(typeNameId);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

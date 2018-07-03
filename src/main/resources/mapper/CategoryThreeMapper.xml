@@ -5,31 +5,31 @@
 <mapper namespace="com.alcohol.mapper.category.CategoryThreeMapper">
     <!--查询三级分类-->
     <select id="getCategoryThreeInfo" resultType="Categorythree">
-        SELECT categorythree_id,categorythree_name FROM tb_categorythree
-WHERE parentId =(
-	SELECT categorytwo_id FROM tb_categorytwo WHERE categorytwo_id=1
+        SELECT categorythreeid,categorythreename FROM tb_categorythree
+WHERE isdel=0 and parentId =(
+	SELECT categorytwoid FROM tb_categorytwo WHERE categorytwoid=1
 )
     </select>
 
     <!--查询要添加的三级分类是否存在-->
     <select id="getCategoryThree" resultType="Categorythree">
-        select count(1) from tb_categorythree where categorythreeName=#{categorythreeName}
+        select count(1) from tb_categorythree where categorythreeName=#{categorythreeName} where isdel=0
     </select>
     <!--新增三级分类-->
     <insert id="addCategoryThree">
         insert into tb_categorythree values
-        (#{categorythree_name},#{parentId},#{weight})
+        (#{categorythree_name},#{parentId},#{weight},#{isdel})
     </insert>
 
     <!--修改-->
     <update id="updateCategorythree">
-        update tb_categorythree set categorythree_name=#{categorythree_name}
+        update tb_categorythree set categorythreeName=#{categorythree_name}
 
     </update>
 
     <!--删除-->
     <delete id="delCategorythree">
-        delete from tb_categorythree where categorythree_id=#{categorythree_id}
+        update tb_categorythree set isdel=#{isdel} where categorythreeId=#{categorythree_id}
     </delete>
 
 </mapper>

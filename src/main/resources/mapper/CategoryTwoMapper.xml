@@ -6,32 +6,32 @@
 
     <!--查询二级分类-->
     <select id="getCategoryTwoInfo" resultType="Categorytwo">
-       SELECT categorytwo_id,categorytwo_name FROM tb_categorytwo
-        WHERE parentId =(
-	        SELECT categoryone_id FROM tb_categoryone
-	      WHERE categoryone_id=1
+       SELECT categorytwoid,categorytwoname FROM tb_categorytwo
+        WHERE isdel=0 and parentId =(
+	        SELECT categoryoneid FROM tb_categoryone
+	      WHERE categoryoneid=1
           )
     </select>
 
     <!--查询要添加的二级分类是否存在-->
     <select id="getCategoryTwo" resultType="Categorytwo">
-        select count(1) from tb_categorytwo where categorytwo_name=#{categorytwo_name}
+        select count(1) from tb_categorytwo where categorytwoName=#{categorytwo_name} where isdel=0
     </select>
     
     <!--新增二级分类-->
     <insert id="addCategoryTwo">
         insert into tb_categorytwo values
-        (#{categorytwo_name},#{parentId},#{weight})
+        (#{categorytwo_name},#{parentId},#{weight},#{isdel})
     </insert>
 
     <!--修改-->
     <update id="updateCategorytwo">
-        update tb_categorytwo set categorytwo_name=#{categorytwo_name}
+        update tb_categorytwo set categorytwoName=#{categorytwo_name}
 
     </update>
 
     <!--删除-->
     <delete id="delCategorytwo">
-        delete from tb_categorytwo where categorytwo_id=#{categorytwo_id}
+        update tb_categorytwo set isdel=#{isdel} where categorytwoId=#{categorytwo_id}
     </delete>
 </mapper>
