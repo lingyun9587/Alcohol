@@ -3,7 +3,9 @@ package com.alcohol.controller;
 import com.alcohol.pojo.Address;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.AddressService;
+import com.alcohol.service.UserAccountService;
 import com.alibaba.fastjson.JSON;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,17 +24,16 @@ public class AddressController {
 
     @Resource
     private AddressService addressService;
+    @Resource
+    private UserAccountService userAccountService;
 
 
     @PostMapping(value = "/insAdd")
     @ResponseBody
     public Object insAdd(HttpSession session, Address address) {
-        Useraccount userc = new Useraccount();
-        userc.setUserId((long) 1);
-        userc.setPassword("123");
-        session.setAttribute("userc", userc);
-        Useraccount user02 = (Useraccount) session.getAttribute("userc");
-        address.setUserId(user02.getUserId());
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        address.setUserId(useraccount.getUserId());
         int er = addressService.insertAddress(address);
         Map<Object, Object> map = new HashMap<Object, Object>();
         if (er != 0) {
@@ -48,12 +49,9 @@ public class AddressController {
     @PostMapping("/upAdd")
     @ResponseBody
     public Object upAdd(HttpSession session, Address address) {
-        Useraccount userc = new Useraccount();
-        userc.setUserId((long) 1);
-        userc.setPassword("123");
-        session.setAttribute("userc", userc);
-        Useraccount user02 = (Useraccount) session.getAttribute("userc");
-        address.setUserId(user02.getUserId());
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        address.setUserId(useraccount.getUserId());
         int er = addressService.upAdd(address);
         Map<Object, Object> map = new HashMap<Object, Object>();
         if (er != 0) {
@@ -67,12 +65,9 @@ public class AddressController {
     @PostMapping("/listAdd")
     @ResponseBody
     public Object listaAdd(HttpSession session) {
-        Useraccount userc = new Useraccount();
-        userc.setUserId((long) 1);
-        userc.setPassword("123");
-        session.setAttribute("userc", userc);
-        Useraccount user02 = (Useraccount) session.getAttribute("userc");
-        List<Address> listAdd = addressService.listAdd(user02.getUserId());
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        List<Address> listAdd = addressService.listAdd(useraccount.getUserId());
         Map<Object, Object> map = new HashMap<Object, Object>();
         map.put("listAdd",listAdd);
         return map;
