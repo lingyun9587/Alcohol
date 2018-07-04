@@ -1,5 +1,6 @@
 package com.alcohol.mapper;
 
+import com.alcohol.exceptions.UserAccountOperationException;
 import com.alcohol.pojo.Role;
 import com.alcohol.pojo.Useraccount;
 
@@ -26,10 +27,18 @@ public interface UseraccountMapper {
   */
     Useraccount   getUserByUserName(String username);
 
-    /**
-     * 修改密码
-     * @return 返回int修改成功
-     */
-    int updatePwd(Useraccount useraccount);
 
+    /**
+     * 根据用户id获取用户
+     * @param userId
+     * @return
+     */
+    Useraccount   getUserById(String username);
+
+    /**
+     * 更改用户信息
+     * @param useraccount
+     * @return
+     */
+    int updateInfo(Useraccount useraccount);
 }

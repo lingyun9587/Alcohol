@@ -18,4 +18,6 @@ public class Useraccount {
     private Date createTime;//创建时间
     private Date lastTime;//修改时间
 
+    private User user; //用详情信息
+
 }

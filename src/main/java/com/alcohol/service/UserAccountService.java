@@ -1,6 +1,7 @@
 package com.alcohol.service;
 
 import com.alcohol.dto.UserAccountExecution;
+import com.alcohol.exceptions.UserAccountOperationException;
 import com.alcohol.pojo.Useraccount;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +23,16 @@ public interface UserAccountService {
     public UserAccountExecution login(String username, String password, HttpServletRequest request);
 
     /**
-     * 用户修改密码
+     * 根据用户id获取用户
+     * @param userId
+     * @return
+     */
+    Useraccount getUserById(String username);
+
+    /**
+     * 修改用户信息
      * @param useraccount
      * @return
      */
-    public int updatePwd(Useraccount useraccount);
+    public UserAccountExecution updateInfo(Useraccount useraccount);
 }
