@@ -43,4 +43,14 @@
     <delete id="delCategorytwo">
         update tb_categorytwo set isdel=#{isdel} where categorytwoId=#{categorytwo_id}
     </delete>
+
+    <!--查询三级上的二级-->
+    <select id="getCategorytwoBythreeId" resultType="Categorytwo">
+        SELECT tb_categorytwo.`categorytwo_id`,tb_categorytwo.`categorytwo_name`
+         FROM tb_categorytwo WHERE tb_categorytwo.`parentId`=(SELECT tb_categorytwo.`parentId`
+        FROM  tb_categorythree
+        INNER JOIN tb_categorytwo ON tb_categorythree.`parentId`=tb_categorytwo.`categorytwo_id`
+        WHERE tb_categorythree.`categorythree_id`=#{id})
+
+    </select>
 </mapper>

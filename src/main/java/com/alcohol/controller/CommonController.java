@@ -124,11 +124,13 @@ public class CommonController {
     @GetMapping("/udai_modifypwd_step3.html")
     public String udai_modifypwd_step3() { return "udai_modifypwd_step3"; }
     /**
-     * 商品
+     * 商品分类
      * @return
      */
     @GetMapping("/item_category.html")
-    public String item_category() { return "item_category"; }
+    public String item_category(Integer categoryId,HttpServletRequest request) {
+        request.getSession().setAttribute("categoryId",categoryId);
+        return "item_category"; }
 
     /**
      * 商品点击
