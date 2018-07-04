@@ -114,4 +114,9 @@ public class UserAccountServiceImpl implements UserAccountService {
         }
         return new UserAccountExecution(UserAccountEnum.SUCCESS);
     }
+
+    @Override
+    public int updatePwd(Useraccount useraccount) {
+        return useraccountMapper.updatePwd(useraccount);
+    }
 }
