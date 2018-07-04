@@ -305,7 +305,7 @@
                         }
                     }
                     // 验证手机号参考这个
-                  /*  switch (phone.validatemobile()) {
+                   switch (phone.validatemobile()) {
                         case 1:
                             error.html(msgtemp('<strong>手机号码或邮箱为空</strong> 请输入手机号码或邮箱', 'alert-warning'));
                             return;
@@ -349,13 +349,13 @@
                     var phone = null;//手机号
                     var mailbox = null;//邮箱
 
-                /*    if (AccountNumber.indexOf("@") != -1) { //邮箱验证
+                 if (AccountNumber.indexOf("@") != -1) { //邮箱验证
                         membership = AccountNumber;
                     } else if (AccountNumber.indexOf("t") != -1) { //会员名验证
                         mailbox = AccountNumber;
                     } else if (AccountNumber.length == 11) { //手机号验证
                         phone = AccountNumber;
-                    }*/
+                    }
                     $.ajax({
                         url: "/user/loginUser",
                         data: {

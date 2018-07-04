@@ -13,4 +13,25 @@ public interface TypeValueMapper {
      * @return
      */
     List<Typevalue> getTypeValue(Map<String, Object> map);
+
+    /**
+     * 新增属性值
+     * @param tn
+     * @return
+     */
+    int addTypeValue(Typevalue tn);
+
+    /**
+     * 修改属性值
+     * @param tn
+     * @return
+     */
+    int modifyTypeValue(Typevalue tn);
+
+    /**
+     * 删除属性值
+     * @param typeValueId
+     * @return
+     */
+    int delTypeValue(Long typeValueId);
 }

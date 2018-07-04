@@ -115,4 +115,32 @@ public class UserAccountServiceImpl implements UserAccountService {
         }
         return new UserAccountExecution(UserAccountEnum.SUCCESS);
     }
+
+    @Override
+    public Useraccount getUserById(String username) {
+        return useraccountMapper.getUserById(username);
+    }
+
+    @Override
+    public UserAccountExecution updateInfo(Useraccount useraccount)throws  UserAccountOperationException {
+        int result = 0;
+        int result1 = 0;
+
+        try{
+            result = useraccountMapper.updateInfo(useraccount);
+            result1 = userMapper.updateInfo(useraccount.getUser());
+            if(result <=0 || result1 <=0){
+                return new UserAccountExecution(UserAccountEnum.NOTFAIL);
+            }else{
+                return new UserAccountExecution(UserAccountEnum.SUCCESS);
+            }
+        }catch (UserAccountOperationException e){
+            throw new UserAccountOperationException(e.toString());
+        }
+    }
+
+    @Override
+    public int updatePwd(Useraccount useraccount) {
+        return useraccountMapper.updatePwd(useraccount);
+    }
 }

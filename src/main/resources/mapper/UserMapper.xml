@@ -12,7 +12,34 @@
     <select id="existUserName" resultType="Integer">
         SELECT COUNT(1) FROM tb_useraccount
          WHERE phone =#{username} or email = #{username} or  user_id = (SELECT user_id FROM tb_user WHERE membership_name = #{username})
-
     </select>
 
+    <select id="userNameSatus" resultType="Integer">
+          SELECT `status` FROM tb_user WHERE user_id=#{userId}
+    </select>
+    <update id="updateInfo">
+        update tb_user
+        <set>
+            <if test="membershipName != null and membershipName != ''">
+                 membership_name =#{memershipName},
+            </if>
+            <if test="realName != null and realName != ''">
+                real_name =#{realName},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex =#{sex},
+            </if>
+            <if test="birthday != null and birthday !=''">
+                birthday=#{birthday},
+            </if>
+            <if test="lastTime != null and lastTime !=''">
+                last_time =#{lastTime},
+            </if>
+            <if test="status!=null and status!=''">
+                `status`=#{status}
+            </if>
+
+        </set>
+        where user_id =#{userId}
+    </update>
 </mapper>

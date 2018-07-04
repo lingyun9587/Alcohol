@@ -192,14 +192,16 @@
                                 var npwd1 = $("#npwd1").val();
                                 var npwd2 = $("#npwd2").val();
                                 if (npwd1 == npwd2 && npwd1 != "") {
-                                    var url = "/udai_modifypwd_step2_npwd?npwd=" + npwd2 + "";
+                                    var url = "/upPwd?npwd=" + npwd2 + "";
                                     $.ajax({
                                         url: url,
                                         type: "post",
                                         dataType: "json",
                                         success: function (result) {
                                             if (result.mes == "no") {
-                                                alert("修改失败")
+                                                alert(result.mesage);
+                                                $("#npwd1").val("");
+                                                $("#npwd2").val("");
                                             } else if (result.mes == "yes") {
                                                 location.href = "/udai_modifypwd_step3.html";
                                             }

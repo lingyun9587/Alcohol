@@ -13,4 +13,26 @@ public interface TypeNameMapper {
      * @return
      */
     List<TypeName> getTypeName(Map<String, Object> map);
+
+    /**
+     * 新增属性
+     * @param tn
+     * @return
+     */
+    int addTypeName(TypeName tn);
+
+    /**
+     * 修改属性
+     * @param tn
+     * @return
+     */
+    int modifyTypeName(TypeName tn);
+
+    /**
+     * 删除属性
+     * @param typeNameId
+     * @return
+     */
+    int delTypeName(Long typeNameId);
+
 }

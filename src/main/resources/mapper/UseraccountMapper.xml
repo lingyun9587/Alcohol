@@ -13,4 +13,51 @@
          FROM tb_useraccount
            WHERE phone = #{username} OR email = #{username} OR user_id = (SELECT user_id FROM tb_user WHERE membership_name = #{username})
     </select>
+
+    <resultMap id="userInfo" type="com.alcohol.pojo.Useraccount">
+        <id column="account_id" property="accountId"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+     <association property="user" javaType="com.alcohol.pojo.User">
+         <id column="user_id" property="userId"/>
+         <result column="membership_name" property="membershipName"/>
+         <result column="real_name" property="realName"/>
+         <result column="nick_name" property="nickName"/>
+         <result column="birthday" property="birthday"/>
+         <result  column="sex" property="sex"/>
+         <result column="status" property="status"/>
+     </association>
+    </resultMap>
+    <select id="getUserById" resultMap="userInfo">
+        SELECT
+        ua.account_id,
+        ua.phone,
+        ua.email,
+        us.membership_name,
+        us.real_name,
+        us.nick_name,
+        us.birthday,
+        us.sex,
+        us.status
+         FROM tb_useraccount  ua
+        INNER JOIN tb_user us ON ua.user_id = us.user_id
+        WHERE ua.phone = #{username} OR ua.email = #{username} OR us.membership_name =  #{username}
+
+    </select>
+
+    <update id="updateInfo" >
+         UPDATE tb_useraccount
+        <set>
+            <if test="phone != null and phone != ''">
+                phone =#{phone},
+            </if>
+            <if test="email != '' and email != ''">
+                email =#{email}
+            </if>
+        </set>
+        where user_id =#{userId}
+    </update>
+    <update id="updatePwd">
+        UPDATE tb_useraccount SET `password`=#{password} WHERE user_id=#{userId}
+    </update>
 </mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.ProductMapper">
+        <select id="getProductbyId" resultMap="resultMap01">
+         SELECT tb_product.product_id,tb_product.`product_name`,tb_product.product_details,tb_product.sales,tb_product.`longegral`,
+        tb_skuname.skuname_id,tb_skuname.`skuname_name`,tb_skuvalue.skuvalue_id,tb_skuvalue.`skuvalue_value`,
+        tb_sku.sku_id,tb_sku.stock,tb_sku.original_price,tb_sku.present_price,
+         tb_image.image_id,tb_image.image_path
+        FROM `tb_sku`
+        INNER JOIN tb_product ON tb_product.`product_id`=tb_sku.`product_id`
+        INNER JOIN `tb_skuvalue` ON tb_sku.`skuvalue_id`=tb_skuvalue.`skuvalue_id`
+        INNER JOIN tb_skuname ON tb_skuvalue.`skuname_id`=tb_skuname.`skuname_id`
+        INNER JOIN tb_image ON tb_image.`product_id`=tb_product.`product_id`
+        WHERE tb_product.product_id=#{productid}
+    </select>
+
+    <resultMap id="resultMap01" type="Product">
+        <id column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_desc" property="productDese"/>
+        <result column="product_details" property="productDetails"/>
+        <result column="sales" property="sales"/>
+        <result column="longegral" property="longegral"/>
+        <collection property="imageList" ofType="Image">
+            <id column="image_id" property="imageId"/>
+            <result column="image_path" property="imagePath"/>
+        </collection>
+        <collection property="skunameList" ofType="skuName">
+            <id column="skuname_id" property="skunameId"/>
+            <result column="skuname_name" property="skunameeValue"/>
+            <collection property="skuValueList" ofType="SkuValue">
+                <id column="skuvalue_id" property="skuvalueId"/>
+                <result column="skuvalue_value" property="skuvalueValue"/>
+            </collection>
+        </collection>
+        <collection property="skuList" ofType="Sku">
+            <id column="sku_id" property="skuId"/>
+            <result column="stock" property="stock"/>
+            <result column="original_price" property="originalPrice"/>
+            <result column="present_price" property="presentPrice"/>
+            <!--<collection property="commentList" ofType="Comment">
+                <id column="comment_id" property="commentId"/>
+                <result column="create_time" property="createTime"/>
+                <result column="content" property="content"/>
+                <result column="review" property="review"/>
+                <result column="reply_conte" property="reply_conte"/>
+                <association property="user" javaType="User">
+                    <id column="user_id" property="userId"/>
+                    <result column="nickName" property="nickName"/>
+                </association>
+            </collection>-->
+        </collection>
+    </resultMap>
+</mapper>
