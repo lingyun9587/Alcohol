@@ -54,7 +54,7 @@ public class ShopCartController {
         sb.append("#");
         String str1= sb.append(num).toString();
         //按照商品id和skuid查询出对应的sku和商品信息
-        Sku sku= productService.getProductBySkuIdAndProductId(productId,skuId);
+        Sku sku= null;//productService.getProductBySkuIdAndProductId(productId,skuId);
          if(user==null){//如果为null，证明没有登录，操作cookie
              Cookie[] c=request.getCookies();//获取cookie的所有数据
             //遍历现有cookie数据
