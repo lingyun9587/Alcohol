@@ -20,7 +20,7 @@ public class CategoryTwoServiceImpl implements CategoryTwoService {
     @Override
     public List<Categorytwo> getCategoryTwoInfo(Map<String, Object> map) {
         try {
-            return cm.getCategoryTwoInfo(map);
+            return cm.getCategoryTwo(map);
         }catch (RuntimeException e){     
             e.printStackTrace();
             throw e;
