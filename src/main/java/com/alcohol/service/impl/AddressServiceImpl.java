@@ -41,4 +41,9 @@ public class AddressServiceImpl implements AddressService {
     public int delAdd(Long addressId) {
         return addressMapper.delAdd(addressId);
     }
+
+    @Override
+    public int upMoAdd(Long addressId) {
+        return addressMapper.upMoAdd(addressId);
+    }
 }
