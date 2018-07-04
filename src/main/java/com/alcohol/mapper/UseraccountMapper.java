@@ -41,4 +41,10 @@ public interface UseraccountMapper {
      * @return
      */
     int updateInfo(Useraccount useraccount);
+
+    /**
+     * 修改密码
+     * @return 返回int修改成功
+     */
+    int updatePwd(Useraccount useraccount);
 }

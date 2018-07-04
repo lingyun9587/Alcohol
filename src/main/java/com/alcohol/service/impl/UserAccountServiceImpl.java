@@ -137,4 +137,9 @@ public class UserAccountServiceImpl implements UserAccountService {
             throw new UserAccountOperationException(e.toString());
         }
     }
+
+    @Override
+    public int updatePwd(Useraccount useraccount) {
+        return useraccountMapper.updatePwd(useraccount);
+    }
 }

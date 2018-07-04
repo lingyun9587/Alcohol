@@ -35,4 +35,10 @@ public interface UserAccountService {
      * @return
      */
     public UserAccountExecution updateInfo(Useraccount useraccount);
+
+    /**
+     * 修改密码
+     * @return 返回int修改成功
+     */
+    int updatePwd(Useraccount useraccount);
 }
