@@ -11,4 +11,5 @@ public class TypeName {
     private Long typeNameId;
     private String typeNameName;//属性名
     private Long categoryId;//商品三级分类
+    private Integer isdel;//是否删除
 }
