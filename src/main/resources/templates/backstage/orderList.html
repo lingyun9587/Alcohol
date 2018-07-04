@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>交易记录</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+		<style>
+			.order-item {
+				transition: all .5s;
+				-o-transition: all .5s;
+				-moz-transition: all .5s;
+				-webkit-transition: all .5s;
+			}
+			.order-item label{
+				font-weight: bold;
+			}
+			
+			.order-item td:first-child {
+				text-align: left;
+			}
+			
+			.order-item:hover {
+				border-radius: 3px;
+				-webkit-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+				-moz-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+				box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+			}
+			
+			.order-item .card {
+				height: 80px;
+				position: relative;
+				font-weight: normal;
+			}
+			
+			.order-item .num {
+				color: #666;
+				line-height: 30px;
+				text-decoration: none;
+				margin-left:-80px;
+			}
+			
+			.order-item .card .img {
+				float: left;
+				margin-right: 10px;
+				width: 80px;
+				height: 80px;
+				border: 1px solid #999;
+			}
+			
+			.order-item .card .name {
+				height: 2.8em;
+				line-height: 1.4em;
+				text-align: left;
+			}
+			
+			.order-item .card .format,
+			.order-item .card .favour {
+				color: #999;
+				font-size: 12px;
+				line-height: 1em;
+				position: absolute;
+				bottom: 16px;
+				left: 90px;
+			}
+			
+			.order-item .card .favour {
+				bottom: 0;
+				color: #b31e22;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>交易记录</h1>
+
+			<div class="serach">
+				<input type="text" class="textStyle" placeholder="请输入订单号" style="width: 180px;height: 24px;line-height: 24px;" />
+				<input type="button" value="搜索" class="button search" />
+
+			</div>
+			<div class="serach">
+				<input type="button" value="全部" class="button search" />
+				<input type="button" value="未付款" class="button search" />
+				<input type="button" value="未发货" class="button search" />
+				<input type="button" value="已发货" class="button search" />
+				<input type="button" value="退款中" class="button search" />
+				<input type="button" value="未评价" class="button search" />
+				<input type="button" value="已发货" class="button search" />
+			</div>
+
+			<!--搜索区结束-->
+			<div class="info">
+				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+					<thead>
+						<tr>
+							<th width="5%">&nbsp;</th>
+							<th width="35%">商品</th>
+							<th width="10%">单价</th>
+							<th width="10%">数量</th>
+							<th width="10%">实付款</th>
+							<th width="10%">交易状态</th>
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="11"><img src='/images/backstage/loading.gif' /></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class='pageStyle'></div>
+			</div>
+
+		</div>
+		<!--弹出框开始    "mb_"后面的值与里面的div名称必须保持一致-->
+		<div id="mb_stuInfo">&nbsp;</div>
+		<div class="popup" id="stuInfo">
+			<h1>交易记录详情<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+			<div class="pInfo">
+				<table cellpadding="0" cellspacing="0" border="0" class="showTable" id="dg">
+					<tr>
+						<td class="tdWidth"><span>*</span>姓名：</td>
+						<td>张三</td>
+
+						<td class="tdWidth">年龄：</td>
+						<td>29岁</td>
+					</tr>
+					<tr>
+						<td class="tdWidth">性别：</td>
+						<td>女</td>
+
+						<td class="tdWidth">爱好：</td>
+						<td>上网</td>
+					</tr>
+					<tr>
+						<td class="tdWidth">拼音码：</td>
+						<td>ZhangSan</td>
+
+						<td class="tdWidth">邮箱：</td>
+						<td>877218421@qq.com</td>
+					</tr>
+					<tr>
+						<td class="tdWidth"><span>*</span>姓名：</td>
+						<td>张三</td>
+						<td class="tdWidth">年龄：</td>
+						<td>29岁</td>
+					</tr>
+					<tr>
+						<td class="tdWidth">性别：</td>
+						<td>女</td>
+
+						<td class="tdWidth">爱好：</td>
+						<td>上网</td>
+					</tr>
+
+				</table>
+			</div>
+
+		</div>
+		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/js/backstage/table.js"></script>
+		<script type="text/javascript" src="/js/backstage/popup.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					url: "/data/backstage/data.json",
+					type: "get",
+					dataType: "text",
+					async: true,
+					success: function(data) {
+						data = $.parseJSON(data);
+						var tbody = $('<tbody></tbody>');
+						$(data.newsList).each(function(index) {
+							var tr = $('<tr class="order-item"></tr>');
+							tr.append("<td width='40'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+							tr.append("<td><label><a class='num'>2017-03-30 订单号: 2669901385864042</a><div class='card'><div class='img'><img src='/images/backstage/cat.png' height='78' width='78' alt='' class='cover'></div>" +
+								"<div class='name ep2'>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>" +
+								"<div class='format'>颜色分类：深棕色  尺码：均码</div>" +
+								"<div class='favour'>使用优惠券：优惠¥2.00</div></div></label></td>");
+							tr.append("<td>200￥</td>");
+							tr.append("<td>5</td>");
+							tr.append("<td>1000￥</td>");
+							tr.append("<td>" + this.xb + "</td>");
+							tr.append("<td><a href='javascript:void(0);' onclick='update(2)' id='open'>详情</a></td>");
+							tbody.append(tr);
+
+						});
+						$('#tableData tbody').replaceWith(tbody);
+						showPage(1, 10, 46);
+					},
+					error: function() {
+						alert("出现异常！");
+					}
+
+				});
+
+			});
+
+			function update(id) {
+				mask(560, 340, true, "stuInfo");
+			}
+		</script>
+
+	</body>
+
+</html>

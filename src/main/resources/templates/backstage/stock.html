@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>列表模板</title>
+    <link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage/add.css" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+
+
+</head>
+
+<body>
+<div class="container">
+    <h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>弹出层演示</h1>
+    <div class="info">
+        <input type="button" value="弹出框" class="button" id="open" />
+    </div>
+</div>
+
+<!--弹出框开始    "mb_"后面的值与里面的div名称必须保持一致-->
+<div id="mb_stuInfo">&nbsp;</div>
+<div class="popup" id="stuInfo">
+    <h1>库存<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+    <div class="pInfo">
+        <form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="addForm">
+            <dl>
+                <dt><span>总库存</span></dt>
+                <dd>
+                    <div class="fbox">
+                        <label>1</label>
+                    </div>
+
+                </dd>
+            </dl>
+            <dl>
+                <dt><span>黑色/M</span></dt>
+                <dd>
+                    <div class="fbox">
+                        <label>0</label>
+                    </div>
+
+                </dd>
+            </dl>
+            <dl>
+                <dt><span>典雅黑/S</span></dt>
+                <dd>
+                    <div class="fbox">
+                        <label>0</label>
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt><span>典雅黑/M</span></dt>
+                <dd>
+                    <div class="fbox">
+                        <label>0</label>
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt><span>黑色/S</span></dt>
+                <dd>
+                    <div class="fbox">
+                        <label>1</label>
+                    </div>
+                </dd>
+            </dl>
+        </form>
+    </div>
+    <div class="pfooter">
+        <input type="button" value="保存" class="button save" />
+        <input type="button" value="查看" class="button search" id="save" />
+
+    </div>
+</div>
+<!--第一个蒙板-->
+
+
+
+<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+<script type="text/javascript" src="/js/backstage/global.js"></script>
+<script type="text/javascript" src="/js/backstage/index.js"></script>
+<script type="text/javascript" src="/js/backstage/popup.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $("#open").click(function() {
+            mask(560, 340, true, "stuInfo");
+
+        });
+        $("#save").click(function() {
+
+            mask(580, 420, true, "stuInfo1");
+        });
+        $("#insert").click(function() {
+
+            mask(800, 520, true, "stuInfo2");
+        });
+
+    });
+</script>
+</body>
+
+</html>

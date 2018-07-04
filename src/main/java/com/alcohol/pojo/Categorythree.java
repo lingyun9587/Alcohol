@@ -11,4 +11,5 @@ public class Categorythree {
     private String categorythreeName;//类别名称
     private  Long parentId;//耳机分类id
     private Long weight;//权重
+    private Integer isdel;//是否删除
 }

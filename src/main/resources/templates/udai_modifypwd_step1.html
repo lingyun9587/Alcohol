@@ -169,10 +169,13 @@
                     </div>
 
                     <div class="user-form-group tags-box">
-                        <button type="button" class="btn ">提交</button>
+                        <button type="button" class="btn " onclick="tijiao()">提交</button>
                     </div>
                     <script src="js/login.js"></script>
                     <script>
+                        $(function () {
+
+                        });
                         $(document).ready(function () {
                             $('.form-controlform-control').on('blur focus', function () {
                                 $(this).addClass('focus');
@@ -184,14 +187,14 @@
 
                             $(".btn").click(function () {
                                 var opwd = $("#opwd").val();
-                                var url = "/udai_modifypwd_step1_opwd?opwd=" + opwd + "";
+                                var url = "/updatePwd?opwd=" + opwd + "";
                                 $.ajax({
                                     url: url,
                                     type: "post",
                                     dataType: "json",
                                     success: function (result) {
                                         if (result.mes == "no") {
-                                            alert("密码输入有误，请重新输入。")
+                                            alert(result.mesage);
                                             $("#opwd").val("");
                                         } else if (result.mes == "yes") {
                                             location.href = "/udai_modifypwd_step2.html";

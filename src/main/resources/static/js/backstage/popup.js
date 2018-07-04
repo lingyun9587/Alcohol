@@ -5,6 +5,7 @@ var saveAlertWidth = $(window).width();
 var saveAlertHeight = $(window).height();
 /*保存*/
 function showWebAlert(title) {
+
 	var confirmHtml = "<div class='saveAlert'></div>";
 	$(".mbStyle").after(confirmHtml);
 	$(".saveAlert").html('');
@@ -24,10 +25,8 @@ function hideWebAlert() {
 /*保存结束*/
 
 /*删除开始*/
-/*describe值可有可无*/
-/*describe用于提示重要信息*/
 var divName;
-function deleteShowAlert(title, info, ok, cancel,divName,describe) {
+function deleteShowAlert(title, info, ok, cancel,divName) {
 	this.divName=divName;
 	
 	$(".mbStyle").fadeIn(300);
@@ -36,7 +35,6 @@ function deleteShowAlert(title, info, ok, cancel,divName,describe) {
 		"<div class='d_title'></div>" +
 		"<div class='d_msg'></div>" +
 		"<div>" +
-		"<div class='d_ms'></div>"+
 		"<div class='d_bt_ok' onclick=clickOK()></div>" +
 		"<div class='d_bt_cancel' onclick=clickCancle()></div>" +
 		"</div>" +
@@ -44,30 +42,19 @@ function deleteShowAlert(title, info, ok, cancel,divName,describe) {
 	$(".mbStyle").after(confirmHtml);
 
 	$(".deleteAlert").fadeIn(1000);
-    
-    if(describe!=undefined&&describe!=null&&describe!=""){
-    	$(".d_ms").html("");
-    	$(".d_ms").append(describe)
-    	$(".d_ms").css({"color":"#999","font-size":"10px","margin-top":"-35px"});
-    	$(".deleteAlert").css("height", "160px");
-    }
 
 	$(".d_title").html("");
 	$(".d_msg").html("");
-	
 	$(".d_bt_ok").html("");
 	$(".d_bt_cancel").html("");
 
 	$(".d_title").append(title);
 	$(".d_msg").append(info);
-	
 	$(".d_bt_ok").append(ok);
 	$(".d_bt_cancel").append(cancel);
-    
+
 	$(".deleteAlert").css("left", saveAlertWidth / 2 - 130);
 	$(".deleteAlert").css("top", saveAlertHeight / 2 - 40);
-	$(".deleteAlert").css("z-index", "99998");
-	
   
 }
 
@@ -78,7 +65,6 @@ function clickOK() {
 	$(".mbStyle").fadeOut(300);
 	$(".deleteAlert").hide();
 	result(divName,true);
-
 }
 
 function clickCancle() {
@@ -87,7 +73,6 @@ function clickCancle() {
 	$(".mbStyle").fadeOut(300);
 	$(".deleteAlert").hide();
     result(divName,false);
-
 }
 
 
@@ -122,7 +107,9 @@ function mask(mwidth, mheight, isTop, idName, isReset) {
 		$("#" + idName).find("form")[0].reset();
 	}
 
-	/*window.parent.showAlert();*/
+    
+/*
+	window.parent.showAlert();*/
 
 	/*isTop为true为顶部居中*/
 	if(mwidth >= 1200) {

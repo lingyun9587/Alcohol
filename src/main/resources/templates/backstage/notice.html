@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>公告</title>
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/tab.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('tab.html')"><img src="/images/backstage/xjt.png"/></span>内容管理</h1>
+			<div class="info">
+				<input type="button" value="新增" class="button" id="open" />
+				<input type="button" value="删除" class="button" />
+			</div>
+
+			<!--搜索区结束-->
+			<div class="info">
+				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+					<thead>
+						<tr>
+							<th width="5%"><input type="checkbox" name="CheckBox" value="pro1" /></th>
+							<th width="10%">标题</th>
+							<th width="20%">链接</th>
+							<th width="45%">公告内容</th>
+							<th width="10%">类型</th>
+							<th width="10%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td cols pan="11"><img src='/images/backstage/loading.gif' /></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class='pageStyle'></div>
+			</div>
+		</div>
+		<div id="mb_stuInfo">&nbsp;</div>
+		<div class="popup" id="stuInfo">
+			<h1>新增公告<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+			<div class="pInfo">
+				<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="addForm">
+					<dl>
+						<dt><span>标题</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="userName" name="userName" style="width:160px;" placeholder="请输入标题" />
+							</div>
+						</dd>
+					</dl>
+
+					<dl>
+						<dt><span>公告详细内容</span></dt>
+						<dd>
+							<div class="fbox">
+								<textarea cols="50" rows="8" wrap="hard" style="border: 1px solid #CCCCCC;"></textarea>
+							</div>
+						</dd>
+					</dl>
+
+					<dl>
+						<dt><span>类型</span></dt>
+						<dd>
+							<div class="fbox">
+								<select>
+									<option>公告</option>
+									<option>资讯</option>
+								</select>
+							</div>
+						</dd>
+					</dl>
+				</form>
+			</div>
+			<div class="pfooter">
+				<input type="button" value="保存" class="button save" />
+				<input type="button" value="取消" class="button delete" />
+
+			</div>
+		</div>
+		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="/js/backstage/global.js"></script>
+		<script type="text/javascript" src="/js/backstage/table.js"></script>
+		<script type="text/javascript" src="/js/backstage/tab.js"></script>
+		<script type="text/javascript" src="/js/backstage/popup.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$("#open").click(function() {
+					mask(560, 350, true, "stuInfo");
+
+				});
+				$.ajax({
+					url: "/data/backstage/data.json",
+					type: "get",
+					dataType: "text",
+					async: true,
+					success: function(data) {
+						data = $.parseJSON(data);
+						var tbody = $('<tbody></tbody>');
+						$(data.newsList).each(function(index) {
+							var tr = $('<tr></tr>');
+							tr.append("<td><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+							tr.append("<td>" + this.bh + "</td>");
+							tr.append("<td>" + this.xm + "</td>");
+							tr.append("<td>" + this.bm + "</td>");
+							tr.append("<td>公告|资讯</td>");
+							tr.append("<td><a href='javascript:void(0);'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:void(0);'>查看</a></td>");
+							tbody.append(tr);
+						});
+						$('#tableData tbody').replaceWith(tbody);
+						showPage(1, 10, 46);
+					},
+					error: function() {
+						alert("出现异常！");
+					}
+
+				});
+
+			});
+
+			function update(id) {
+				alert(id);
+
+			}
+		</script>
+	</body>
+
+</html>

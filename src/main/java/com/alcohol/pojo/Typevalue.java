@@ -12,4 +12,5 @@ public class Typevalue {
     private String typeValueName;//属性值
     private Long typeNameId;//属性id
     private Long weight;//权重
+    private Integer isdel;//是否删除
 }

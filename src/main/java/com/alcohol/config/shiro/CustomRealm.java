@@ -84,10 +84,9 @@ public class CustomRealm extends AuthorizingRealm {
 
 		//加盐 密码和用户名加密后的密码
 		authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(username));
-		
+
 		return authenticationInfo;
 	}
-
 	private String getpasswordByUserName(String username) {
 		//创建用户账号对象
 		Useraccount useraccount = useraccountMapper.getUserByUserName(username);
@@ -102,5 +101,6 @@ public class CustomRealm extends AuthorizingRealm {
 		Md5Hash md5 = new Md5Hash("123123","Mark");
 		System.out.println(md5.toString());
 	}
+
 
 }

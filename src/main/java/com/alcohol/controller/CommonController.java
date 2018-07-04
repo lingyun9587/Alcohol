@@ -1,9 +1,14 @@
 package com.alcohol.controller;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 页面跳转 公共类
@@ -38,7 +43,8 @@ public class CommonController {
      * 个人资料
      * @return
      */
-    @GetMapping("/udai_setting.html")
+    @RequiresRoles(value = { "店家" , "管理员"},logical= Logical.AND)
+    @GetMapping(value="/udai_setting.html")
     public String udai_setting() {
         return "udai_setting";
     }
@@ -46,7 +52,8 @@ public class CommonController {
      * 收货地址
      * @return
      */
-    @GetMapping("/udai_address.html")
+    @RequiresRoles(value = { "用户"},logical= Logical.AND)
+    @GetMapping( value="/udai_address.html")
     public String udai_address() {
         return "udai_address";
     }
@@ -128,14 +135,17 @@ public class CommonController {
      * @return
      */
     @GetMapping("/item_show.html")
-    public String item_show() { return "item_show"; }
+    public String item_show(Integer productId,HttpServletRequest request) {
+        request.getSession().setAttribute("productId",productId);
+        return "item_show"; }
 
     /**
      * 我的订单
      * @return
      */
     @GetMapping("/udai_order.html")
-    public String udai_order() { return "udai_order"; }
+    public String udai_order() {
+        return "udai_order"; }
 
     /**
      * 积分平台

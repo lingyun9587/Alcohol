@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品列表</title>
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/tab.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>商品管理</h1>
+			<!--<div class="serach">
+				<input type="text" class="textStyle" placeholder="请输入搜索内容" style="width: 180px;height: 24px;line-height: 24px;"/>
+				<input type="button" value="搜索" class="button search" />
+				<input type="button" value="上架" class="button add" />
+				<input type="button" value="下架" class="button" />
+				<input type="button" value="删除" class="button delete" />
+			</div>-->
+			<!--搜索区结束-->
+			<div class="info">
+				<textarea id="editor_id" name="content" style="width:700px;height:300px;">
+					&lt;strong&gt;HTML内容&lt;/strong&gt;
+				</textarea>
+			</div>
+		</div>
+		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+		<script type="text/javascript" src="/js/backstage/global.js"></script>
+		<script type="text/javascript" src="/js/backstage/table.js"></script>
+		<script type="text/javascript" src="/js/backstage/tab.js"></script>
+
+		<script charset="utf-8" src="/kindeditor/kindeditor-all-min.js"></script>
+		<script charset="utf-8" src="/kindeditor/kindeditor-all.js"></script>
+
+		<script type="text/javascript">
+			// 关闭过滤模式，保留所有标签
+			KindEditor.options.filterMode = false;
+
+			KindEditor.ready(function(K)) {
+				K.create('#editor_id');
+			}
+		</script>
+	</body>
+
+</html>

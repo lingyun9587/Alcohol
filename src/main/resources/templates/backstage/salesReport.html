@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>销售额报告</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.left {
+				float: left;
+				margin-left: 20px;
+			}
+			
+			.right {
+				float: left;
+				margin-left: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>销售额报告</h1>
+			<!--搜索区结束-->
+			<div class="info">
+
+				<div class="left">
+					<div class="chart-container " style="height:450px; width:400px;">
+						<input type="date" class="dateStyle" style="width:200px; margin-right: 10px;margin-top: 20px;" />
+						<input type="button" value="搜索" class="button search" /><br/>
+						<canvas id="myChart"></canvas>
+					</div>
+				</div>
+
+				<div class="right">
+					<div class="chart-container " style="height:450px; width:400px;">
+						<input type="date" class="dateStyle" style="width:200px;margin-right: 10px;margin-top: 20px;" />
+						<input type="button" value="搜索" class="button search" /><br/>
+						<canvas id="myChart1"></canvas>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="/js/backstage/Chart.js"></script>
+		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/js/backstage/table.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				myChart();
+				myChart1();
+			});
+
+			function myChart() {
+				var ctx = document.getElementById("myChart").getContext('2d');
+				var myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: ["2010", "2011", "2012", "2013", "2014", "2015"],
+						datasets: [{
+							label: '销售额',
+							data: [1200,1900,300, 500, 2500, 300],
+							backgroundColor: [
+								'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)',
+								'rgba(75, 192, 192, 0.2)',
+								'rgba(153, 102, 255, 0.2)',
+								'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+								'rgba(255,99,132,1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1
+						}]
+					},
+					options: {
+						scales: {
+							yAxes: [{
+								ticks: {
+									beginAtZero: true
+								}
+							}]
+						}
+					}
+				});
+			}
+
+			function myChart1() {
+				var ctx1 = document.getElementById("myChart1").getContext('2d');
+				var myChart = new Chart(ctx1, {
+					type: 'bar',
+					data: {
+						labels: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+						datasets: [{
+							label: '销售额',
+							data: [120,190,300, 700,250,300,100,170,400, 200,150,500],
+							backgroundColor: [
+								'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)',
+								'rgba(75, 192, 192, 0.2)',
+								'rgba(153, 102, 255, 0.2)',
+								'rgba(255, 159, 64, 0.2)',
+								'rgba(255, 99, 132, 0.2)',
+								'rgba(54, 162, 235, 0.2)',
+								'rgba(255, 206, 86, 0.2)',
+								'rgba(75, 192, 192, 0.2)',
+								'rgba(153, 102, 255, 0.2)',
+								'rgba(255, 159, 64, 0.2)'
+							],
+							borderColor: [
+								'rgba(255,99,132,1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)',
+								'rgba(255,99,132,1)',
+								'rgba(54, 162, 235, 1)',
+								'rgba(255, 206, 86, 1)',
+								'rgba(75, 192, 192, 1)',
+								'rgba(153, 102, 255, 1)',
+								'rgba(255, 159, 64, 1)'
+							],
+							borderWidth: 1
+						}]
+					},
+					options: {
+						scales: {
+							yAxes: [{
+								ticks: {
+									beginAtZero: true
+								}
+							}]
+						}
+					}
+				});
+			}
+		</script>
+		<!-- 统计图-->
+		<script>
+		</script>
+
+	</body>
+
+</html>

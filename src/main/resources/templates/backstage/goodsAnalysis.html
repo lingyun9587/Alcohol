@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商品分析</title>
+
+		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+		<style>
+			.order-item {
+				transition: all .5s;
+				-o-transition: all .5s;
+				-moz-transition: all .5s;
+				-webkit-transition: all .5s;
+			}
+			
+			.order-item label {
+				font-weight: bold;
+			}
+			
+			.order-item td:first-child {
+				text-align: left;
+			}
+			
+			.order-item:hover {
+				border-radius: 3px;
+				-webkit-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+				-moz-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+				box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+			}
+			
+			.order-item .card {
+				height: 80px;
+				position: relative;
+				font-weight: normal;
+			}
+			
+			
+			.order-item .card .img {
+				float: left;
+				margin-right: 10px;
+				width: 80px;
+				height: 80px;
+				border: 1px solid #999;
+			}
+			
+			.order-item .card .name {
+				height: 2.8em;
+				line-height: 1.4em;
+				text-align: left;
+				margin-top: 15px;
+			}
+			
+			.order-item .card .format {
+				color: #999;
+				font-size: 12px;
+				line-height: 1em;
+				position: absolute;
+				bottom: 16px;
+				left: 90px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>商品分析</h1>
+			<div class="serach">
+				<input type="button" value="商品销量" class="button goodsSales" />
+				<input type="button" value="商品点击率" class="button clickRate" />
+				<input type="button" value="商品购买率" class="button purchaseRate" />
+			</div>
+			<div class="serach">
+				<input type="text" class="textStyle" placeholder="请输入商品名称" style="width: 180px;height: 24px;line-height: 24px;" />
+				<input type="button" value="搜索" class="button search" />
+				<select>
+					<option>从高到低</option>
+					<option>从低到高</option>
+				</select>
+			</div>
+			<!--搜索区结束-->
+			<div class="info">
+				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+					<thead>
+						<tr class="goodsSalesTh">
+							<th width="70%">商品信息</th>
+							<th width="30%">销量</th>
+						</tr>
+						<tr hidden="hidden" class="clickRateTh">
+
+							<th width="70%">商品信息</th>
+							<th width="30%">商品点击率</th>
+						</tr>
+						<tr hidden="hidden" class="purchaseRateTh">
+
+							<th width="70%">商品信息</th>
+							<th width="30%">商品购买率</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="11"><img src='/images/backstage/loading.gif' /></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class='pageStyle'></div>
+			</div>
+
+		</div>
+
+		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/js/backstage/table.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				goodsSales();
+				$('.goodsSales').click(function() {
+					goodsSales();
+					$('.goodsSalesTh').show();
+					$('.clickRateTh').hide();
+					$('.purchaseRateTh').hide();
+				});
+				$('.clickRate').click(function() {
+					clickRate();
+					$('.goodsSalesTh').hide();
+					$('.clickRateTh').show();
+					$('.purchaseRateTh').hide();
+				});
+				$('.purchaseRate').click(function() {
+					purchaseRate();
+					$('.goodsSalesTh').hide();
+					$('.clickRateTh').hide();
+					$('.purchaseRateTh').show();
+				});
+
+			});
+
+			function goodsSales() {
+				$.ajax({
+					url: "/data/backstage/data.json",
+					type: "get",
+					dataType: "text",
+					async: true,
+					success: function(data) {
+						data = $.parseJSON(data);
+						var tbody = $('<tbody></tbody>');
+						$(data.newsList).each(function(index) {
+							var tr = $('<tr class="order-item"></tr>');
+							tr.append("<td><label><div class='card'><div class='img'><img src='/images/backstage/cat.png' height='78' width='78' alt='' class='cover'></div>" +
+								"<div class='name ep2'>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>" +
+								"<div class='format'>颜色分类：深棕色  尺码：均码</div>" +
+								"</div></label></td>");
+							
+							tr.append("<td>55550</td>");
+							tbody.append(tr);
+
+						});
+						$('#tableData tbody').replaceWith(tbody);
+						showPage(1, 10, 46);
+					},
+					error: function() {
+						alert("出现异常！");
+					}
+
+				});
+			}
+
+			function clickRate() {
+				$.ajax({
+					url: "data.json",
+					type: "get",
+					dataType: "text",
+					async: true,
+					success: function(data) {
+						data = $.parseJSON(data);
+						var tbody = $('<tbody></tbody>');
+						$(data.newsList).each(function(index) {
+							var tr = $('<tr class="order-item"></tr>');
+							tr.append("<td><label><div class='card'><div class='img'><img src='/images/backstage/cat.png' height='78' width='78' alt='' class='cover'></div>" +
+								"<div class='name ep2'>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>" +
+								"<div class='format'>颜色分类：深棕色  尺码：均码</div>" +
+								"</div></label></td>");
+							
+							tr.append("<td>55550000</td>");
+							tbody.append(tr);
+
+						});
+						$('#tableData tbody').replaceWith(tbody);
+						showPage(1, 10, 46);
+					},
+					error: function() {
+						alert("出现异常！");
+					}
+
+				});
+			}
+
+			function purchaseRate() {
+				$.ajax({
+					url: "data.json",
+					type: "get",
+					dataType: "text",
+					async: true,
+					success: function(data) {
+						data = $.parseJSON(data);
+						var tbody = $('<tbody></tbody>');
+						$(data.newsList).each(function(index) {
+							var tr = $('<tr class="order-item"></tr>');
+							tr.append("<td><label><div class='card'><div class='img'><img src='/images/backstage/cat.png' height='78' width='78' alt='' class='cover'></div>" +
+								"<div class='name ep2'>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>" +
+								"<div class='format'>颜色分类：深棕色  尺码：均码</div>" +
+								"</div></label></td>");
+							
+							tr.append("<td>55</td>");
+							tbody.append(tr);
+
+						});
+						$('#tableData tbody').replaceWith(tbody);
+						showPage(1, 10, 46);
+					},
+					error: function() {
+						alert("出现异常！");
+					}
+
+				});
+			}
+		</script>
+
+	</body>
+
+</html>
