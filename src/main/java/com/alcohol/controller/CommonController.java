@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 页面跳转 公共类
  */
@@ -140,7 +142,9 @@ public class CommonController {
      * @return
      */
     @GetMapping("/udai_order.html")
-    public String udai_order() { return "udai_order"; }
+    public String udai_order(Integer productId,HttpServletRequest request) {
+        request.getSession().setAttribute("productId",productId);
+        return "udai_order"; }
 
     /**
      * 积分平台

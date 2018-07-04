@@ -18,4 +18,5 @@ public class Address {
     private Long defaults;//是否默认地址,关键字与数据字段名一致,多加个s
     private Long code;//邮编
     private Long isDel;//是否删除
+    private String comaddress;//详细地址
 }
