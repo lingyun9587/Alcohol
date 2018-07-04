@@ -58,6 +58,6 @@
         where user_id =#{userId}
     </update>
     <update id="updatePwd">
-        UPDATE tb_useraccount SET `password`=#{password} WHERE user_id=#{userId}
+        UPDATE tb_useraccount SET `password`=#{password} WHERE user_id=#{userId}//
     </update>
 </mapper>
