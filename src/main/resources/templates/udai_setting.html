@@ -394,9 +394,40 @@
         </p>
     </div>
 </div>
+
 </body>
 <script>
     $(function () {
+        $.ajax({
+            url:"/getUserInfo",
+            type:"post",
+            dataType:"json",
+            success:function (data) {
+
+                //会员名
+                $("#membership").val(data.user.membershipName);
+                //membership用户名
+                $("#membership").val(data.user.nickName);
+                var xradio = document.getElementsByName("sex");
+                //性别
+                for(var i=0;i<xradio.length;i++){
+                    if(xradio[i].value == data.user.sex){
+                        xradio[i].checked = true;
+                        break;
+                    }
+                }
+
+                //user-truename真实姓名
+                $("#user-truename").val(data.user.realName);
+                //phone手机号
+                $("#phone").val(data.phone);
+                //mailbox邮箱
+                $("#mailbox").val(data.email);
+            },
+            error:function () {
+                alert("访问服务器错误");
+            }
+        })
         /**
          * 日期插件
          **/
@@ -427,8 +458,11 @@
         $.ajax({
             url: "/udai_updateUser",
             data: {
-                membership: membership, name: userName,
-                sex: sex, birthday: birthday, truename: usertruename
+                membership: membership,
+                name: userName,
+                sex: sex,
+                birthday: birthday,
+                truename: usertruename
             },
             dataType: "json",
             type: "post",
