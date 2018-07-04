@@ -220,7 +220,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-6">
                             <div class="checkbox">
-                                <label><input type="checkbox" name="moren"><i></i> 设为默认收货地址</label>
+                                <label><input type="checkbox"  name="moren"><i></i> 设为默认收货地址</label>
                             </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@
                         $(function () {
                             $("#xg").hide();
                             listadd();
-                        });
+                        })
                         //点击修改上边获取
                         function xuigaiAdd(addressId){
                             $("[name=biao]").html("修改收货地址<span class='c6' style='margin-left: 20px'>必填项</span>");
@@ -253,17 +253,17 @@
                                 },
                                 dataType:"json",
                                 success:function(data){
+                                    alert(data.defaults);
                                     if(data.defaults==1){
-                                        $("[name=moren]").attr('checked', true);
+                                        $("[name='moren']").prop("checked",true);
                                     }else if(data.defaults==0){
-                                        $("[name=moren]").attr('checked', false);
+                                        $("[name='moren']").prop("checked",false);
                                     }
                                     $("#addressId").val(data.addressId);
                                     $("#name").val(data.consignee);
                                     $("#aa").html(data.province+"/"+data.city+"/"+data.area+"/"+data.street);
                                     $("#details").val(data.comaddress);
                                     $("#mobile").val(data.phone);
-
                                 },
                                 error:function(){
                                  alert("网络错误!");
@@ -478,9 +478,9 @@
                                     dataType:"json",
                                     success:function(result){
                                         if(result.mes=="yes"){
+                                           /* $("[name=moren]").attr('checked', false);*/
                                             c();
                                             listadd();
-                                            $("[name=moren]").attr('checked', false);
                                             alert(result.mesage);
                                         }else{
                                             alert(result.mesage);
