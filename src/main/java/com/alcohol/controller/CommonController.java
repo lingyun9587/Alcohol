@@ -135,15 +135,16 @@ public class CommonController {
      * @return
      */
     @GetMapping("/item_show.html")
-    public String item_show() { return "item_show"; }
+    public String item_show(Integer productId,HttpServletRequest request) {
+        request.getSession().setAttribute("productId",productId);
+        return "item_show"; }
 
     /**
      * 我的订单
      * @return
      */
     @GetMapping("/udai_order.html")
-    public String udai_order(Integer productId,HttpServletRequest request) {
-        request.getSession().setAttribute("productId",productId);
+    public String udai_order() {
         return "udai_order"; }
 
     /**

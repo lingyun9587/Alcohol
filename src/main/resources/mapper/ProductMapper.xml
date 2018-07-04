@@ -13,7 +13,7 @@
         INNER JOIN `tb_skuvalue` ON tb_sku.`skuvalue_id`=tb_skuvalue.`skuvalue_id`
         INNER JOIN tb_skuname ON tb_skuvalue.`skuname_id`=tb_skuname.`skuname_id`
         INNER JOIN tb_image ON tb_image.`product_id`=tb_product.`product_id`
-        WHERE tb_product.product_id=#{productid} AND tb_image.`image_type`=0
+        WHERE tb_product.product_id=#{productid}
     </select>
 
     <resultMap id="resultMap01" type="Product">

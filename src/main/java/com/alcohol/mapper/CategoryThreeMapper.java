@@ -15,7 +15,7 @@ public interface CategoryThreeMapper {
      * @param map
      * @return
      */
-    List<Categorythree> getCategoryThreeInfo(Map<String, Object> map);
+    List<Categorythree> getCategoryThreeInfo(Map<String,Object> map);
 
     /**
      * 查询要添加的分类是否存在
