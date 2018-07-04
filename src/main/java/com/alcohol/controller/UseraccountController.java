@@ -2,14 +2,19 @@ package com.alcohol.controller;
 
 import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
+import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +31,14 @@ public class UseraccountController {
             map.put("success",true);
             map.put("msg","手机号或密码不能为空");
         }
-        UserAccountExecution userAccountExecution =  userAccountService.register(username,password);
+        UserAccountExecution userAccountExecution = null;
+        try{
+             userAccountExecution =  userAccountService.register(username,password);
+        }catch(Exception e){
+            map.put("success",false);
+            map.put("msg",e.toString());
+            return map;
+        }
        if(userAccountExecution.getState() == 0){
            map.put("success",true);
            map.put("msg",userAccountExecution.getStateInfo());
@@ -53,15 +65,71 @@ public class UseraccountController {
        }catch(UserAccountOperationException e){
            map.put("success",false);
            map.put("msg",e.toString());
+
            return map;
        }
 
         if(user.getState() == 0){
             map.put("success",true);
             map.put("msg", user.getState());
-        }else{
+
+                }else{
             map.put("success",false);
             map.put("msg", user.getState());
+        }
+        return map;
+    }
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    @PostMapping( value = "/getUserInfo")
+    private Object getUserId(){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        return useraccount;
+    }
+
+    /**
+     * 修改用户信息
+     * @param useraccount
+     * @return
+     */
+    @RequestMapping( value = "/udai_updateUser")
+    public Object updateInfo(Useraccount useraccount){
+        Map<String,Object> map = new HashMap<String ,Object>();
+        UserAccountExecution userAccountExecution = null;
+       try{
+           userAccountExecution = userAccountService.updateInfo(useraccount);
+           if(userAccountExecution.getState() == 0){
+               map.put("success",true);
+               map.put("msg",userAccountExecution.getStateInfo());
+           }else{
+               map.put("success",false);
+               map.put("msg",userAccountExecution.getStateInfo());
+           }
+       }catch (Exception e){
+           map.put("success",false);
+           map.put("msg",e.toString());
+       }
+      return map;
+    }
+    /**
+     * 修改密码
+     */
+    @PostMapping(value = "/upPwd")
+    @ResponseBody
+    public Object upPwd(HttpSession session, String npwd){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        int er=userAccountService.updatePwd(useraccount);
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        if (er!=0){
+            map.put("mes","yes");
+        }else{
+            map.put("mes","no");
+            map.put("mesage","密码修改失败，请重新输入。");
         }
         return map;
     }
