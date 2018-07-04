@@ -15,6 +15,15 @@
     <script src="js/global.js" charset="UTF-8"></script>
     <script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
     <title>U袋网</title>
+    <style>
+        .cat-list__box {
+            display: none;
+        }
+
+        .all-cat:hover > .cat-list__box {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <!-- 顶部tab -->
@@ -69,6 +78,10 @@
     <div class="nav-box inner">
         <div class="all-cat">
             <div class="title"><i class="iconfont icon-menu"></i> 全部分类</div>
+            <div class="cat-list__box">
+
+
+            </div>
         </div>
         <ul class="nva-list">
             <a href="index.html">
@@ -104,39 +117,6 @@
         <div class="filter-box">
 
             <!--一级-->
-            <div class="all-filter">
-            <div class="filter-value">
-                <div class="filter-title">选择商品分类 <i class="iconfont icon-down"></i></div>
-                <!-- 全部大分类 -->
-                <ul class="catelist-card">
-
-                </ul>
-                <!-- 已选选项 -->
-                <div class="ul_filter">
-							<span class="pull-left">
-								颜色：红色 <a href="javascript:;" class="close">&times;</a>
-							</span>
-                            <span class="pull-left">
-								尺寸：XXL <a href="javascript:;" class="close">&times;</a>
-							</span>
-                </div>
-                <a class="reset pull-right" href="item_category.html">重置</a>
-            </div>
-        </div>
-
-            <!--二级-->
-            <div class="filter-prop-item">
-                <span class="filter-prop-title">分类：</span>
-                <ul class="clearfix">
-                    <a href="">
-                        <li class="active">全部</li>
-                    </a>
-                    <a href="">
-                        <li>上装</li>
-                    </a>
-                </ul>
-            </div>
-
             <!--价格-->
             <!--<div class="filter-prop-item">
                 <span class="filter-prop-title">价格：</span>
@@ -731,13 +711,11 @@
         </p>
     </div>
 </div>
-<input type="hidden" class="categorythree_id"/>
 </body>
 </html>
 <script>
     $(function(){
         getcategory();
-        //getParent();
         gettypeNameandValue();
     });
 
@@ -764,62 +742,50 @@
                     content+="</ul>\n" +
                         "</div>";
                 });
-                $(".filter-prop-item").append(content);
-                $(".categorythree_id").val(data.categorythreeId);
+                $(".filter-box").html(content);
             },error:function(){
                 alert("访问服务器异常");
             }
         });
     }
 
+
     //绑定大分类
     function getcategory(){
-        var one="<a href=\"\">\n" +
-            " <li class=\"active\">全部分类</li>\n" +
-            " </a>\n";
+        var content = "";
         $.ajax({
-            url:"lisOne",
-            type:"post",
-            dataType:"json",
-            success:function(data){
-                $.each(data,function(i,e){
-                    alert(e.categoryontName);
-                    one+= "<a href=\"\">\n" +
-                        " <li>"+e.categoryontName+"</li>\n" +
-                        " </a>";
-                });
-                $(".filter-value .catelist-card").html(one);
-            },errror:function(){
-                alert("访问服务器错误");
+            url: "lisOne",
+            type: "post",
+            dataType: "JSON",
+            success: function (result) {
+                $.each(result, function (i, e) {
+                    var content01 = "";
+                    content += " <div class=\"cat-box\">\n" +
+                        "<div class=\"title\">\n" +
+                        "<i class=\"iconfont icon-skirt ce\">" + e.categoryontName + "</i>" +
+                        "</div>" +
+                        "<ul class=\"cat-list clearfix\">\n";
+                    $.each(e.categorytwoList, function (index, item) {
+                        content += "<li>" + item.categorytwoName + "</li>";
+                        content01 += "<div class=\"genre-box clearfix\">" +
+                            "<span class=\"title\">" + item.categorytwoName + "：</span>" +
+                            "<div class=\"genre-list\">";
+                        $.each(item.categorythreeList, function (index1, item1) {
+                            content01 +="<a href=\"/item_category.html?categoryId="+item1.categorythreeId+"\">" + item1.categorythreeName + "</a>";
+                        })
+                        content01 += "</div>" +
+                            "</div>";
+                    })
+                    content += "</ul>" +
+                        "<div class=\"cat-list__deploy\">" +
+                        "<div class=\"deploy-box\">" +
+                        ""+content01+"" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>";
+                })
+                $(".cat-list__box").html(content);
             }
         });
     }
-
-    //绑定分类
-    function getParent(){
-        var parentId=$(".categorythree_id").val();
-        $.ajax({
-            url:"/getCategorytwoBythreeId",
-            data:{parentId:parentId},
-            dataType:"JOSN",
-            type:"post",
-            success:function(data){
-                var content="<a href=\"\">\n" +
-                    "<li class=\"active\">全部</li>\n" +
-                    "</a>\n";
-                $.each(data,function(i,e){
-                    content+="<a href=\"\">\n" +
-                        "<li>"+e.categoryontName+"</li>\n" +
-                        "</a>";
-                });
-                alert(content);
-                $(".catelist-card").html(content);
-            },errror:function(){
-                alert("访问服务器错误");
-            }
-        });
-    }
-
-
-
 </script>

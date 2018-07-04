@@ -1879,29 +1879,28 @@
             dataType: "json",
             type: "post",
             success: function (data) {
-                var imageList="<div class=\"small-box\">\n" +
-                    "\t\t\t\t\t\t<img class=\"cover\" src=\"images/temp/S-001-1_s.jpg\" alt=\"重回汉唐 旧忆 原创设计日常汉服女款绣花长褙子吊带改良宋裤春夏\">\n" +
-                    "\t\t\t\t\t\t<span class=\"hover\"></span>\n" +
-                    "\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t<div class=\"thumbnail-box\">\n" +
-                    "\t\t\t\t\t\t<a href=\"javascript:;\" class=\"btn btn-default btn-prev\"></a>\n" +
-                    "\t\t\t\t\t\t<div class=\"thumb-list\">\n" +
-                    "\t\t\t\t\t\t\t<ul class=\"wrapper clearfix\">\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item active\" data-src=\"images/temp/S-001-1_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-1_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-2_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-2_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-3_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-3_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-4_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-4_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-5_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-5_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-6_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-6_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-7_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-7_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-8_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-8_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-9_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-9_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t\t<li class=\"item\" data-src=\"images/temp/S-001-10_b.jpg\"><img class=\"cover\" src=\"images/temp/S-001-10_s.jpg\" alt=\"商品预览图\"></li>\n" +
-                    "\t\t\t\t\t\t\t</ul>\n" +
-                    "\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t\t<a href=\"javascript:;\" class=\"btn btn-default btn-next\"></a>\n" +
-                    "\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t<div class=\"big-box\"><img src=\"images/temp/S-001-1_b.jpg\" alt=\"重回汉唐 旧忆 原创设计日常汉服女款绣花长褙子吊带改良宋裤春夏\"></div>";
+                //图片的
+                var imageList = "<div class=\"small-box\">\n" +
+                    " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">\n" +
+                    "<span class=\"hover\"></span>\n" +
+                    "</div>\n" +
+                    " <div class=\"thumbnail-box\">\n" +
+                    " <a href=\"javascript:;\" class=\"btn btn-default btn-prev\"></a>\n" +
+                    "<div class=\"thumb-list\">\n" +
+                    "<ul class=\"wrapper clearfix\">\n"+
+                    "<li class=\"item active\" data-src=\""+data.imageList[0].imagePath+"\">"+
+                    "<img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\"商品预览图\"></li>\n";
+                /*"<video  src=\""+data.imageList[0].imagePath+"\" poster=\""+data.imageList[0].imagePath+"\" autoplay=\"autoplay\"></video></li>";*/
+                $.each(data.imageList, function (item, temp) {
+                    if(item!=0){
+                        imageList +="<li class=\"item\" data-src=\""+temp.imagePath+"\"><img class=\"cover\" src=\""+temp.imagePath+"\" alt=\"商品预览图\"></li>\n";
+                    }
+                });
+                imageList += "</ul>\n" +
+                    "</div>\n" +
+                    "<a href=\"javascript:;\" class=\"btn btn-default btn-next\"></a>\n" +
+                    "</div>\n" +
+                    "<div class=\"big-box\" style='display: none'><img src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\"></div>\n";
                 //内容的
                 var content = "\n" +
                     "\t\t\t\t\t<div class=\"item-title\">\n" +
