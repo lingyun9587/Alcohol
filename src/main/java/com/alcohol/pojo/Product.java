@@ -3,6 +3,7 @@ package com.alcohol.pojo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 胡博
@@ -10,6 +11,13 @@ import java.util.Date;
  */
 @Data
 public class Product {
+
+    //图片
+    private List<Image> imageList;
+    //sku属性
+    private List<skuName> skunameList;
+    //sku配合
+    private List<Sku> skuList;
     private Long productId;//商品编号
     private String productName;//商品名称
     private String productDese;//描述

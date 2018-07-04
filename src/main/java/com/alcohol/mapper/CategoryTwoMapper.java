@@ -15,7 +15,7 @@ public interface CategoryTwoMapper {
      * @param map
      * @return
      */
-    List<Categorytwo> getCategoryTwoInfo(Map<String, Object> map);
+    List<Categorytwo> getCategoryTwo(Map<String,Object> map);
 
     /**
      * 查询要添加的分类是否存在
