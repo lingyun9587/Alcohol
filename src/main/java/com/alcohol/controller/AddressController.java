@@ -86,6 +86,7 @@ public class AddressController {
         Map<Object, Object> map = new HashMap<Object, Object>();
         if (er != 0) {
             map.put("mes", "yes");
+            map.put("mesage", "修改成功!");
         } else {
             map.put("mes", "no");
             map.put("mesage", "修改失败,请联系管理员!");
@@ -104,6 +105,26 @@ public class AddressController {
         } else {
             map.put("mes", "no");
             map.put("mesage", "删除失败,请联系管理员!");
+        }
+        return map;
+    }
+    @PostMapping(value="/upMoAdd")
+    @ResponseBody
+    public Object upMoAdd(Long addressId,Address address){
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        address.setUserId(useraccount.getUserId());
+        int er = addressService.upAdd(address);
+        if (er != 0) {
+            int er2=addressService.upMoAdd(addressId);
+            if(er2!=0){
+                map.put("mes", "yes");
+                map.put("mesage", "设置默认地址成功!!");
+            }
+        } else {
+            map.put("mes", "no");
+            map.put("mesage", "设置失败,请联系管理员!");
         }
         return map;
     }
