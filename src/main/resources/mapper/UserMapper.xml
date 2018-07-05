@@ -3,7 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.UserMapper">
-
+    <!-- <resultMap id="user" type="User">
+         <id property="userId" column="user_id"/>
+         <result property="membershipName" column="membership_name"/>
+         <result property="nickName" column="nick_name"/>
+         <result property="sex" column="sex"/>
+         <result property="birthday" column="birthday"/>
+         <result property="createTime" column="create_time"/>
+         <result property="integral" column="integral"/>
+         <result property="status" column="status"/>
+         <collection property="useraccount" column="Useraccount">
+             <id property="accountId" column="account_id"/>
+             <result property="phone" column="phone"/>
+         </collection>
+     </resultMap>-->
     <insert id="insertInfo">
         insert into tb_user(
         user_id,membership_name,real_name,nick_name,frozen,create_time,last_time,integral,status)
@@ -21,7 +34,7 @@
         update tb_user
         <set>
             <if test="membershipName != null and membershipName != ''">
-                 membership_name =#{memershipName},
+                membership_name =#{memershipName},
             </if>
             <if test="realName != null and realName != ''">
                 real_name =#{realName},
@@ -41,5 +54,27 @@
 
         </set>
         where user_id =#{userId}
+    </update>
+    <!--查询用户-->
+    <select id="listUser" resultType="User">
+        SELECT user_id,membership_name,nick_name,sex,birthday,create_time,integral,`status` FROM tb_user
+        WHERE 1=1
+        <!--<if test="nickName!=null And nickName!=''">-->
+            <!--and nick_name LIKE CONCAT ('%',#{nickName},'%')-->
+        <!--</if>-->
+    </select>
+
+    <!--按昵称查询用户-->
+    <select id="getNickNameOne" resultType="User">
+        SELECT user_id,membership_name,nick_name,sex,birthday,create_time,integral,`status` FROM tb_user
+        WHERE 1=1
+        <if test="nickName!=null and nickName!=''">
+          and nick_name LIKE CONCAT ('%',#{nickName},'%')
+        </if>
+    </select>
+    <!--禁用启用用户-->
+    <update id="updStatus">
+          UPDATE tb_user SET `status`=#{status}
+            WHERE user_id=#{userId}
     </update>
 </mapper>
