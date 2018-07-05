@@ -115,13 +115,11 @@ public class AddressController {
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);
         address.setUserId(useraccount.getUserId());
-        int er = addressService.upAdd(address);
-        if (er != 0) {
-            int er2=addressService.upMoAdd(addressId);
-            if(er2!=0){
-                map.put("mes", "yes");
-                map.put("mesage", "设置默认地址成功!!");
-            }
+        int er=addressService.upAdd(address);
+        int er2=addressService.upMoAdd(addressId);
+        if(er2!=0){
+            map.put("mes", "yes");
+            map.put("mesage", "设置默认地址成功!!");
         } else {
             map.put("mes", "no");
             map.put("mesage", "设置失败,请联系管理员!");

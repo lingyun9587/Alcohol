@@ -270,61 +270,64 @@
                             });
                         }
                         //修改收货地址
-                        function upadd(){
-                            var addressId=$("#addressId").val();//获取收货地址Id
-                            var province="";//省
-                            var city="";//市
-                            var area="";//区
-                            var street="";//街道
-                            var consignee=$("#name").val();//收货人姓名
-                            var details=$("#details").val();//详细收货地址
-                            var phone=$("#mobile").val();//手机号
-                            var str=$("#aa").text();//完整选择的收货地址
-                            var arr=new Array();
-                            arr=str.split('/');//注split可以用字符或字符串分割
-                            for(var i=0;i<arr.length;i++)//循环绑定值
-                            {
-                                province=arr[0];
-                                city=arr[1];
-                                area=arr[2];
-                                street=arr[3];
-                            }
-                            var defaults=0;
-                            if($("[name=moren]").is(":checked")){
-                                moren();
-                                defaults=1;
-                            }
-                            $.ajax({
-                                url:"/updateAdd",
-                                data:{
-                                    addressId:addressId,
-                                    province:province,
-                                    city:city,
-                                    area:area,
-                                    street:street,
-                                    consignee:consignee,
-                                    phone:phone,
-                                    comaddress:details,
-                                    defaults:defaults
-                                },
-                                type:"post",
-                                dataType:"json",
-                                success:function(result){
-                                    if(result.mes=="yes"){
-                                        alert(result.mesage);
-                                        $("#xg").hide();
-                                        $("#bc").show();
-                                        $("[name=biao]").html("新增收货地址<span class='c6' style='margin-left: 20px'>必填项</span>");
-                                        c();
-                                        listadd();
-                                    }else{
-                                        alert(result.mesage);
-                                    }
-                                },
-                                error:function(){
-                                    alert("网络错误！");
+                        function upadd() {
+                            if (yanzphone()) {
+                                var addressId = $("#addressId").val();//获取收货地址Id
+                                var province = "";//省
+                                var city = "";//市
+                                var area = "";//区
+                                var street = "";//街道
+                                var consignee = $("#name").val();//收货人姓名
+                                var details = $("#details").val();//详细收货地址
+                                var phone = $("#mobile").val();//手机号
+                                var str = $("#aa").text();//完整选择的收货地址
+                                var arr = new Array();
+                                arr = str.split('/');//注split可以用字符或字符串分割
+                                for (var i = 0; i < arr.length; i++)//循环绑定值
+                                {
+                                    province = arr[0];
+                                    city = arr[1];
+                                    area = arr[2];
+                                    street = arr[3];
                                 }
-                            });
+                                var defaults = 0;
+                                if ($("[name=moren]").is(":checked")) {
+                                    moren();
+                                    defaults = 1;
+                                }
+                                $.ajax({
+                                    url: "/updateAdd",
+                                    data: {
+                                        addressId: addressId,
+                                        province: province,
+                                        city: city,
+                                        area: area,
+                                        street: street,
+                                        consignee: consignee,
+                                        phone: phone,
+                                        comaddress: details,
+                                        defaults: defaults
+                                    },
+                                    type: "post",
+                                    dataType: "json",
+                                    success: function (result) {
+                                        if (result.mes == "yes") {
+                                            alert(result.mesage);
+                                            $("#xg").hide();
+                                            $("#bc").show();
+                                            $("[name=biao]").html("新增收货地址<span class='c6' style='margin-left: 20px'>必填项</span>");
+                                            $("[name='moren']").prop("checked", false);
+                                            c();
+                                            listadd();
+                                        } else {
+                                            alert(result.mesage);
+                                        }
+                                    },
+                                    error: function () {
+                                        alert("网络错误！");
+                                    }
+                                });
+                            }
                         }
                         //删除收货地址
                         function delAdd(addressId){
@@ -355,7 +358,7 @@
                             $("#name").val("");//收货人姓名
                             $("#details").val("");//详细收货地址
                             $("#mobile").val("");//手机号
-                            $("#aa").text("");//完整选择的收货地址
+                            $("#aa").text("请选择地区");//完整选择的收货地址
                         }
                         //加载收货地址
                         function listadd(){
@@ -477,7 +480,7 @@
                                     dataType:"json",
                                     success:function(result){
                                         if(result.mes=="yes"){
-                                           /* $("[name=moren]").attr('checked', false);*/
+                                            $("[name=moren]").prop('checked', false);
                                             c();
                                             listadd();
                                             alert(result.mesage);
@@ -497,15 +500,24 @@
                         }
                         //验证
                         function yanzphone(){
-                            var phone=$("#mobile").val();
+                            var phone=$("#mobile").val();//手机号
                             var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
-                            if (!myreg.test(phone)) {
-                                $("#mobile").val("");//手机号
+                            var name=$("#name").val();//收货人姓名
+                            var str = $("#aa").text();//完整选择的收货地址
+                            if(name==""){
+                                alert("收货人姓名不能为空!");
+                                return false;
+                            }else if(str=="请选择地区"){
+                                alert("请选择地区!");
+                                return false;
+                            }else  if (!myreg.test(phone)) {
                                 alert("请输入正确的手机号!");
                                 return false;
-                            } else {
+                            }
+                            else {
                                 return true;
                             }
+
 
                         }
 
