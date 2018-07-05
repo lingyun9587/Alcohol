@@ -1,18 +1,20 @@
 package com.alcohol.controller;
 
+import com.alcohol.cache.JedisUtil;
 import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
-import com.alcohol.pojo.User;
+import com.alcohol.jms.ConsumerCc;
+import com.alcohol.jms.ProducerCc;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.jms.Queue;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -24,6 +26,17 @@ public class UseraccountController {
     @Resource
     private UserAccountService userAccountService;
 
+
+    @Autowired
+    Queue queue;
+    @Autowired
+    private ProducerCc producerCc;
+
+    @RequestMapping("/rest")
+    public  String index(){
+        producerCc.sendMessage("123");
+        return "123";
+    }
     @PostMapping( value="/registerUser")
     public Object register(@RequestParam(value = "username" , required = false)String username,@RequestParam( value = "password",required = false)String password){
         Map<String,Object> map = new HashMap<String,Object>();
@@ -133,4 +146,5 @@ public class UseraccountController {
         }
         return map;
     }
+
 }
