@@ -15,7 +15,7 @@ public interface CategoryThreeMapper {
      * @param map
      * @return
      */
-    List<Categorythree> getCategoryThreeInfo(Map<String, Object> map);
+    List<Categorythree> getCategoryThreeInfo(Map<String,Object> map);
 
     /**
      * 查询要添加的分类是否存在
@@ -44,5 +44,14 @@ public interface CategoryThreeMapper {
      * @return
      */
     int delCategorythree(Long categorythree_id);
+
+
+    /**
+     * 点击三级分类,显示属性和属性值,商品
+     * @param id
+     * @return
+     */
+    public Categorythree getCategorythreeById(Integer id);
+
 
 }

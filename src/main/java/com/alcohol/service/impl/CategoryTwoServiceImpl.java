@@ -20,7 +20,7 @@ public class CategoryTwoServiceImpl implements CategoryTwoService {
     @Override
     public List<Categorytwo> getCategoryTwoInfo(Map<String, Object> map) {
         try {
-            return cm.getCategoryTwoInfo(map);
+            return cm.getCategoryTwo(map);
         }catch (RuntimeException e){     
             e.printStackTrace();
             throw e;
@@ -65,5 +65,15 @@ public class CategoryTwoServiceImpl implements CategoryTwoService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    /**
+     * 查询三级上的二级
+     * @param id
+     * @return
+     */
+    @Override
+    public  Categorytwo getCategorytwoBythreeId(Integer id){
+        return cm.getCategorytwoBythreeId(id);
     }
 }

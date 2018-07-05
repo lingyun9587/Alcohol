@@ -2,6 +2,8 @@ package com.alcohol.pojo;
 
 import lombok.Data;
 
+import java.util.List;
+
 /***
  * 三级分类张鹏
  */
@@ -12,4 +14,5 @@ public class Categorythree {
     private  Long parentId;//耳机分类id
     private Long weight;//权重
     private Integer isdel;//是否删除
+    private List<TypeName> typeNameList;//属性集合
 }

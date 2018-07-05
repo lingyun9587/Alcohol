@@ -2,15 +2,24 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.alcohol.mapper.category.CategoryTwoMapper">
-
+<mapper namespace="com.alcohol.mapper.CategoryTwoMapper">
+    <resultMap id="two" type="Categorytwo">
+        <id property="categorytwoId" column="categorytwo_id"></id>
+        <result property="parentId" column="parentId"></result>
+        <result property="categorytwoName" column="categorytwo_name"></result>
+        <result property="weight" column="weight"></result>
+        <collection property="categorythreeList" ofType="Categorythree">
+            <id property="categorythreeId" column="categorythree_id"/>
+            <result property="parentId" column="parentId"/>
+            <result property="categorythreeName" column="categorythree_name"/>
+            <result property="weight" column="weight"/>
+        </collection>
+    </resultMap>
     <!--查询二级分类-->
-    <select id="getCategoryTwoInfo" resultType="Categorytwo">
-       SELECT categorytwoid,categorytwoname FROM tb_categorytwo
-        WHERE isdel=0 and parentId =(
-	        SELECT categoryoneid FROM tb_categoryone
-	      WHERE categoryoneid=1
-          )
+    <select id="getCategoryTwoInfo" resultMap="two">
+       SELECT three.categorythree_id,three.categorythree_name,tb_categorytwo.categorytwo_id,tb_categorytwo.categorytwo_name FROM (SELECT * FROM tb_categorythree  ) AS three
+       LEFT JOIN tb_categorytwo ON tb_categorytwo.categorytwo_id=three.parentID
+       where tb_categorytwo.categorytwo_id
     </select>
 
     <!--查询要添加的二级分类是否存在-->
@@ -34,4 +43,14 @@
     <delete id="delCategorytwo">
         update tb_categorytwo set isdel=#{isdel} where categorytwoId=#{categorytwo_id}
     </delete>
+
+    <!--查询三级上的二级-->
+    <select id="getCategorytwoBythreeId" resultType="Categorytwo">
+        SELECT tb_categorytwo.`categorytwo_id`,tb_categorytwo.`categorytwo_name`
+         FROM tb_categorytwo WHERE tb_categorytwo.`parentId`=(SELECT tb_categorytwo.`parentId`
+        FROM  tb_categorythree
+        INNER JOIN tb_categorytwo ON tb_categorythree.`parentId`=tb_categorytwo.`categorytwo_id`
+        WHERE tb_categorythree.`categorythree_id`=#{id})
+
+    </select>
 </mapper>

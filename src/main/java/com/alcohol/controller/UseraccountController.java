@@ -128,6 +128,28 @@ public class UseraccountController {
        }
       return map;
     }
+
+    /**
+     * 判断原密码
+     * @param session
+     * @return
+     */
+    @PostMapping( value="/updatePwd")
+    @ResponseBody
+    public Object UpdatePwd(HttpSession session,String opwd){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        Md5Hash md5 = new Md5Hash(opwd);
+        Map<Object, Object> map = new HashMap<Object, Object>();
+        if(!useraccount.getPassword().equals(md5.toString())){
+            map.put("mes","no");
+            map.put("mesage","密码输入有误，请重新输入！");
+        }else{
+            map.put("mes","yes");
+        }
+        return map;
+    }
+
     /**
      * 修改密码
      */
@@ -136,6 +158,8 @@ public class UseraccountController {
     public Object upPwd(HttpSession session, String npwd){
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);
+        Md5Hash md5 = new Md5Hash(npwd);
+        useraccount.setPassword(md5.toString());
         int er=userAccountService.updatePwd(useraccount);
         Map<Object, Object> map = new HashMap<Object, Object>();
         if (er!=0){

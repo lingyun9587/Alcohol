@@ -28,4 +28,7 @@
     <delete id="delAdd">
          delete from tb_address where address_id=#{addressId}
     </delete>
+    <update id="upMoAdd">
+        UPDATE tb_address SET `default`=1 WHERE address_id=#{addressId}
+    </update>
 </mapper>

@@ -17,6 +17,8 @@
     <resultMap id="userInfo" type="com.alcohol.pojo.Useraccount">
         <id column="account_id" property="accountId"/>
         <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <result column="user_id" property="userId"/>
         <result column="email" property="email"/>
      <association property="user" javaType="com.alcohol.pojo.User">
          <id column="user_id" property="userId"/>
@@ -31,8 +33,10 @@
     <select id="getUserById" resultMap="userInfo">
         SELECT
         ua.account_id,
+        ua.user_id,
         ua.phone,
         ua.email,
+        ua.password,
         us.membership_name,
         us.real_name,
         us.nick_name,

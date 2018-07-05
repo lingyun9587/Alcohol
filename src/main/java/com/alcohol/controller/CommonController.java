@@ -124,26 +124,29 @@ public class CommonController {
     @GetMapping("/udai_modifypwd_step3.html")
     public String udai_modifypwd_step3() { return "udai_modifypwd_step3"; }
     /**
-     * 商品
+     * 商品分类
      * @return
      */
     @GetMapping("/item_category.html")
-    public String item_category() { return "item_category"; }
+    public String item_category(Integer categoryId,HttpServletRequest request) {
+        request.getSession().setAttribute("categoryId",categoryId);
+        return "item_category"; }
 
     /**
      * 商品点击
      * @return
      */
     @GetMapping("/item_show.html")
-    public String item_show() { return "item_show"; }
+    public String item_show(Integer productId,HttpServletRequest request) {
+        request.getSession().setAttribute("productId",productId);
+        return "item_show"; }
 
     /**
      * 我的订单
      * @return
      */
     @GetMapping("/udai_order.html")
-    public String udai_order(Integer productId,HttpServletRequest request) {
-        request.getSession().setAttribute("productId",productId);
+    public String udai_order() {
         return "udai_order"; }
 
     /**
