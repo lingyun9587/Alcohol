@@ -205,7 +205,7 @@
                     <img src="images/floor_1.jpg" alt="" class="cover">
                 </a>
                 <div class="right-box hot-box">
-                    <a href="item_show.html" class="floor-item">
+                    <a href="item_show.html?productId=1" class="floor-item">
                         <div class="item-img hot-img">
                             <img src="images/temp/S-001.jpg" alt="纯色圆领短袖T恤活a动衫弹" class="cover">
                         </div>
@@ -980,46 +980,36 @@
 </body>
 <script>
     $(function () {
-        var content="";
+        var content = "";
         $.ajax({
             url: "lisOne",
             type: "post",
             dataType: "JSON",
             success: function (result) {
                 $.each(result, function (i, e) {
+                    var content01 = "";
                     content += " <div class=\"cat-box\">\n" +
-                        "                    <div class=\"title\">\n" +
-                        "                        <i class=\"iconfont icon-skirt ce\">" + e.categoryontName + "</i>" +
-                        "                    </div>" +
-                    "                        <ul class=\"cat-list clearfix\">\n";
-                    $.each(e.categorytwoList, function (index,item) {
-
+                        "<div class=\"title\">\n" +
+                        "<i class=\"iconfont icon-skirt ce\">" + e.categoryontName + "</i>" +
+                        "</div>" +
+                        "<ul class=\"cat-list clearfix\">\n";
+                    $.each(e.categorytwoList, function (index, item) {
+                        content += "<li>" + item.categorytwoName + "</li>";
+                        content01 += "<div class=\"genre-box clearfix\">" +
+                            "<span class=\"title\">" + item.categorytwoName + "：</span>" +
+                            "<div class=\"genre-list\">";
+                        $.each(item.categorythreeList, function (index1, item1) {
+                            content01 +="<a href=\"/item_category.html?categoryId="+item1.categorythreeId+"\">" + item1.categorythreeName + "</a>";
+                        })
+                        content01 += "</div>" +
+                            "</div>";
                     })
-
-                    for (var i=0;i<e.categorytwoList.size;i++) {
-                        if(e.categorytwoList[i].categorytwoName!=e.categorytwoList[i+1].categorytwoName){
-                            alert(e.categorytwoList[i].categorytwoName);
-                        }
-                    }
-                    /*content += "<li>" + item.categorytwoName + "</li>";*/
-                    /*$.each(item.categorythreeList,function(index1,item1){
-                        //alert(item1.categorythreeName);
-                    });*/
                     content += "</ul>" +
                         "<div class=\"cat-list__deploy\">" +
                         "<div class=\"deploy-box\">" +
-                        "<div class=\"genre-box clearfix\">" +
-                        "<span class=\"title\">下装：</span>" +
-                            "<div class=\"genre-list\">" +
-                                "<a href=\"\">牛仔裤</a>" +
-                                "<a href=\"\">短裤</a>" +
-                                "<a href=\"\">休闲裤</a>" +
-                                "<a href=\"\">打底裤</a>" +
-                                "<a href=\"\">丝袜</a>" +
-                            "</div>" +
+                        ""+content01+"" +
                         "</div>" +
                         "</div>" +
-                        "</div>"+
                         "</div>";
                 })
                 $(".cat-list__box").html(content);
@@ -1027,6 +1017,5 @@
         });
 
     });
-
 </script>
 </html>

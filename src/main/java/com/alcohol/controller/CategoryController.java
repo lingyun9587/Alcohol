@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -97,5 +98,29 @@ public class CategoryController {
     public String listTypeValue(Map<String,Object> map){
         listTypeValue=typeValueService.getTypeValue(map);
         return JSON.toJSONString(listTypeValue);
+    }
+
+    /**
+     * 得到属性和属性值
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/getCategorythreeById",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String getCategorythreeById(HttpServletRequest request){
+        Integer id=(Integer) request.getSession().getAttribute("categoryId");
+        return JSON.toJSONString(categoryThreeService.getCategorythreeById(id));
+    }
+
+
+    /**
+     * 查询三级上的二级
+     * @param parentId
+     * @return
+     */
+    @RequestMapping(value="/getCategorytwoBythreeId",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String getCategorytwoBythreeId(Integer parentId){
+        return JSON.toJSONString(categoryTwoService.getCategorytwoBythreeId(parentId));
     }
 }

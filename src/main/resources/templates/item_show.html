@@ -225,66 +225,7 @@
             <div class="tab-content">
                 <!--商品详情-->
                 <div role="tabpanel" class="tab-pane fade in active" id="detail" aria-labelledby="detail-tab">
-                    <div class="item-detail__info clearfix">
-                        <div class="record">商品编号：D-8812</div>
-                        <div class="record">上架时间：2017-06-24</div>
-                        <div class="record">商品毛重：200克</div>
-                        <div class="record">商品库存：1000件</div>
-                    </div>
-                    <div class="rich-text">
-                        <p style="text-align: center;">
-                            <i id="desc-module-1" style="font-size: 0"></i>
 
-                            <img src="images/temp/S-001_1.jpg" alt=""><br><img src="images/temp/S-001_2.jpg" alt=""><br>
-
-                            <i id="desc-module-2" style="font-size: 0"></i><img src="images/temp/S-001_3.jpg"
-                                                                                alt=""><br><img
-                                src="images/temp/S-001_4.jpg" alt=""><br><img src="images/temp/S-001_5.jpg"
-                                                                              alt=""><br><img
-                                src="images/temp/S-001_6.jpg" alt=""><br><img src="images/temp/S-001_7.jpg"
-                                                                              alt=""><br><img
-                                src="images/temp/S-001_8.jpg" alt=""><br>
-
-                            <i id="desc-module-3" style="font-size: 0"></i><img src="images/temp/S-001_9.jpg"
-                                                                                alt=""><br><img
-                                src="images/temp/S-001_10.jpg" alt=""><br><img src="images/temp/S-001_11.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_12.jpg" alt=""><br>
-
-                            <i id="desc-module-4" style="font-size: 0"></i><img src="images/temp/S-001_13.jpg"
-                                                                                alt=""><br><img
-                                src="images/temp/S-001_14.jpg" alt=""><br><img src="images/temp/S-001_15.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_16.jpg" alt=""><br><img src="images/temp/S-001_17.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_18.jpg" alt=""><br><img src="images/temp/S-001_19.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_20.jpg" alt=""><br><img src="images/temp/S-001_21.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_22.jpg" alt=""><br><img src="images/temp/S-001_23.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_24.jpg" alt=""><br><img src="images/temp/S-001_25.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_26.jpg" alt=""><br><img src="images/temp/S-001_27.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_28.jpg" alt=""><br><img src="images/temp/S-001_29.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_30.jpg" alt=""><br><img src="images/temp/S-001_31.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_32.jpg" alt=""><br><img src="images/temp/S-001_33.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_34.jpg" alt=""><br><img src="images/temp/S-001_35.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_36.jpg" alt=""><br>
-
-                            <i id="desc-module-5" style="font-size: 0"></i><img src="images/temp/S-001_37.jpg"
-                                                                                alt=""><br><img
-                                src="images/temp/S-001_38.jpg" alt=""><br><img src="images/temp/S-001_39.jpg"
-                                                                               alt=""><br><img
-                                src="images/temp/S-001_40.jpg" alt=""><br><img src="images/temp/S-001_41.png"
-                                                                               width="790" alt="">
-                        </p>
-                    </div>
                 </div>
                 <!--评论-->
                 <div role="tabpanel" class="tab-pane fade" id="evaluate" aria-labelledby="evaluate-tab">
@@ -702,6 +643,7 @@
                                         </div>
                                         <div class="name">高***恒</div>
                                     </div>
+
                                     <div class="eval-content">
                                         <div class="eval-text">
                                             真是特别美_回头穿了晒图
@@ -1946,17 +1888,19 @@
                     " <a href=\"javascript:;\" class=\"btn btn-default btn-prev\"></a>\n" +
                     "<div class=\"thumb-list\">\n" +
                     "<ul class=\"wrapper clearfix\">\n"+
-                    "<li class=\"item active\" data-src=\""+data.imageList[0].imagePath+"\"><img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\"商品预览图\"></li>\n";
+                    "<li class=\"item active\" data-src=\""+data.imageList[0].imagePath+"\">"+
+                    "<img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\"商品预览图\"></li>\n";
+                /*"<video  src=\""+data.imageList[0].imagePath+"\" poster=\""+data.imageList[0].imagePath+"\" autoplay=\"autoplay\"></video></li>";*/
                 $.each(data.imageList, function (item, temp) {
                     if(item!=0){
-                         imageList +="<li class=\"item\" data-src=\""+temp.imagePath+"\"><img class=\"cover\" src=\""+temp.imagePath+"\" alt=\"商品预览图\"></li>\n";
+                        imageList +="<li class=\"item\" data-src=\""+temp.imagePath+"\"><img class=\"cover\" src=\""+temp.imagePath+"\" alt=\"商品预览图\"></li>\n";
                     }
-                    });
+                });
                 imageList += "</ul>\n" +
                     "</div>\n" +
                     "<a href=\"javascript:;\" class=\"btn btn-default btn-next\"></a>\n" +
                     "</div>\n" +
-                    "<div class=\"big-box\"><img src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\"></div>\n";
+                    "<div class=\"big-box\" style='display: none'><img src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\"></div>\n";
                 //内容的
                 var content = "\n" +
                     "\t\t\t\t\t<div class=\"item-title\">\n" +
@@ -2029,11 +1973,12 @@
                 //商品名称
                 $(".breadcrumb .active").html(data.productName);
                 //商品图片
-                $(".item-pic__box").html(imageList);
+                $("#magnifier").html(imageList);
                 //商品内容
                 $(".item-info__box").html(content);
                 //商品详情
-                $(".tabpanel").eq(0).html(data.productDetails);
+                alert(data.productDetails);
+                $("#detail").html(data.productDetails);
             },
             error: function () {
                 alert("网络延迟,请稍后重试");
