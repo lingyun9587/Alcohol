@@ -65,6 +65,9 @@
         });
     });
 
+    function show(pageNum){
+        pageOne(pageNum);
+    }
     function getNickName(nickName){
         $.ajax({
             url:"/getNickName",
@@ -75,7 +78,6 @@
 
                 var tbody = $('<tbody></tbody>');
                 $.each(data,function (i,e) {
-                    alert(data.length);
                     var tr = $('<tr></tr>');
                     tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
                     tr.append("<td width='5%'>" + e.userId + "</td>");
@@ -93,7 +95,6 @@
                     }
 
                     tbody.append(tr);
-                    alert(tbody)
                 });
                 $('#tableData tbody').replaceWith(tbody);
             },
@@ -136,7 +137,7 @@
                     tbody.append(tr);
                 });
                 $('#tableData tbody').replaceWith(tbody);
-                showPage(data.pageNum, data.pages, data.total);
+                showPage(pageNum, data.pages, data.total);
             },
             error: function () {
                 alert("出现异常！");
