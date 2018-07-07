@@ -43,12 +43,11 @@ $(function() {
 
 });
 /*分页*/
-function showPage(index, pageCount, totalCount) {
-
+function showPage(pageNum, pages, total) {
     $(".pageStyle").empty();
     var pageInfo = "";
     pageInfo += "<div class='pagecentent'>" +
-        "<span class='txtLeft'>共计：<span class='pagefont'>" + totalCount + "</span>条记录，共<span class='pagefont'>" + pageCount + "</span>页</span>" +
+        "<span class='txtLeft'>共计：<span class='pagefont'>" + total + "</span>条记录，共<span class='pagefont'>" + pages + "</span>页</span>" +
         "</div>" +
         "<div class='searchPage'>" +
         "<div class='txt'>G0&nbsp;</div>" +
@@ -63,31 +62,31 @@ function showPage(index, pageCount, totalCount) {
 
     $("#page").append("<span><a href=' javascript:onclick=show(1)'>首页</a></span>");
     var iqishi = 1;
-    if(pageCount >= 8) {
-        if((index + 4) >= pageCount) {
-            iqishi = pageCount - 8;
-        } else if(index >= 5) {
-            iqishi = index - 4;
+    if(pages >= 8) {
+        if((pageNum + 4) >= pages) {
+            iqishi = pages - 8;
+        } else if(pageNum >= 5) {
+            iqishi = pageNum - 4;
         }
     }
-    if(totalCount != 0) {
-        if(index != 1) {
-            $("#page").append("<span><a href=' javascript:onclick=show(" + (index - 1) + ")'>&lt;&lt;</a></span>");
+    if(total != 0) {
+        if(pageNum != 1) {
+            $("#page").append("<span><a href=' javascript:onclick=show(" + (pageNum - 1) + ")'>&lt;&lt;</a></span>");
         }
         for(var i = iqishi; i <= iqishi + 8; i++) {
-            if(i == index) {
+            if(i == pageNum) {
                 $("#page").append("<span id='active'><a href=' javascript:onclick=show(" + i + ")' >" + i + "</a></span>");
             } else {
                 $("#page").append("<span><a href=' javascript:onclick=show(" + i + ")'>" + i + "</a></span>");
 
             }
-            if(i > pageCount - 1) {
+            if(i > pages - 1) {
                 break;
             }
         }
-        if(index != pageCount) {
-            $("#page").append("<span><a href=' javascript:onchange=show(" + (index + 1) + ")'>&gt;&gt;</a></span>");
+        if(pageNum != pages) {
+            $("#page").append("<span><a href=' javascript:onchange=show(" + (pageNum + 1) + ")'>&gt;&gt;</a></span>");
         }
     }
-    $("#page").append("<span class='endPage'><a href=' javascript:onclick=show(" + pageCount + ")'>末页</a></span>");
+    $("#page").append("<span class='endPage'><a href=' javascript:onclick=show(" + pages + ")'>末页</a></span>");
 }

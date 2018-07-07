@@ -2,6 +2,10 @@ package com.alcohol.mapper;
 
 import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface UserMapper {
 
@@ -32,5 +36,26 @@ public interface UserMapper {
   * @return
   */
  public int updateInfo(User user);
+
+ /**
+  * 查询所有用户
+  * @return
+  */
+ public List<User> listUser();
+
+ /**
+  * 按昵称查找
+  * @param nickName
+  * @return
+  */
+ public List<User> getNickNameOne(@Param("nickName") String nickName);
+
+ /**
+  * 禁用启用用户
+  * @param userId
+  * @param status
+  * @return
+  */
+ public int updStatus(@Param("userId") Long userId,@Param("status") Long status);
 
 }
