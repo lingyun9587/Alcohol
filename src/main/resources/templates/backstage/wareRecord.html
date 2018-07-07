@@ -17,7 +17,7 @@
 			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>入库记录</h1>
 			<div class="serach">
 				<input type="text" class="textStyle" placeholder="请输入商品名称" style="width: 180px;height: 24px;line-height: 24px;"/>
-				&nbsp;&nbsp;<input type="button" value="搜索" class="button search" />
+				&nbsp;&nbsp;<input type="button" value="搜索" class="button search" onclick="sou()" />
 			</div>
 			<!--搜索区结束-->
 			<div class="info">
@@ -48,39 +48,67 @@
 		<script type="text/javascript" src="/js/backstage/table.js"></script>
 		<script type="text/javascript">
 			$(function() {
-				$.ajax({
-					url: "/data/backstage/data.json",
-					type: "get",
-					dataType: "text",
-					async: true,
-					success: function(data) {
-						data = $.parseJSON(data);
-						var tbody = $('<tbody></tbody>');
-						$(data.newsList).each(function(index) {
-							var tr = $('<tr></tr>');
-							tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
-							tr.append("<td>" + this.bh + "</td>");
-							tr.append("<td>" + this.xm + "</td>");
-							tr.append("<td>品牌:温碧泉   作用:补水</td>"); - +
-							tr.append("<td>20</td>");
-							tr.append("<td>" + this.nl + "</td>");
-							tr.append("<td>2017-05-25 15:23:53</td>");
-							tbody.append(tr);
-						});
-						$('#tableData tbody').replaceWith(tbody);
-						showPage(1, 10, 46);
-					},
-					error: function() {
-						alert("出现异常！");
-					}
-
-				});
-
+				list();
 			});
-
-			function update(id) {
-				alert(id)
+			function sou(){
+			    var productName=$(".textStyle").val();
+			    alert(productName);
+                $.ajax({
+                    url: "/proc/listSell",
+                    type: "post",
+                    data:{
+                        productName:productName
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        var tbody = $('<tbody></tbody>');
+                        $(data.listRk).each(function(index) {
+                            var tr = $('<tr></tr>');
+                            tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                            tr.append("<td>" + this.id + "</td>");
+                            tr.append("<td>" + this.product.productName + "</td>");
+                            tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
+                                tr.append("<td>" + this.number + "</td>");
+                            tr.append("<td>" + this.sku.stock + "</td>");
+                            tr.append("<td>" + this.createTime + "</td>");
+                            tbody.append(tr);
+                        });
+                        $('#tableData tbody').replaceWith(tbody);
+                        showPage(0, 10, 46);
+                    },
+                    error: function() {
+                        alert("出现异常！");
+                    }
+                });
 			}
+			function list(){
+                $.ajax({
+                    url: "/proc/listSell",
+                    type: "post",
+                    dataType: "json",
+                    success: function(data) {
+                        var tbody = $('<tbody></tbody>');
+                        $(data.listRk).each(function(index) {
+                            var tr = $('<tr></tr>');
+                            tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                            tr.append("<td>" + this.id + "</td>");
+                            tr.append("<td>" + this.product.productName + "</td>");
+                            tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
+                                tr.append("<td>" + this.number + "</td>");
+                            tr.append("<td>" + this.sku.stock + "</td>");
+                            tr.append("<td>" + this.createTime + "</td>");
+                            tbody.append(tr);
+                        });
+                        $('#tableData tbody').replaceWith(tbody);
+                        showPage(0, 10, 46);
+                    },
+                    error: function() {
+                        alert("出现异常！");
+                    }
+                });
+			}
+
+
 		</script>
 
 	</body>
