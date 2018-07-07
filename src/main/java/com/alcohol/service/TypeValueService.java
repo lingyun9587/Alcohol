@@ -34,4 +34,11 @@ public interface TypeValueService {
      * @return
      */
     int delTypeValue(Long typeValueId);
+
+    /**
+     * 根据Id获取值
+     * @param typeValueId
+     * @return
+     */
+    Typevalue selIdType(Long typeValueId);
 }
