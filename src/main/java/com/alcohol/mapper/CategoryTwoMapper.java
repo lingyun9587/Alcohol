@@ -44,4 +44,11 @@ public interface CategoryTwoMapper {
      * @return
      */
     int delCategorytwo(Long categorytwo_id);
+
+    /**
+     * 查询三级上的二级
+     * @param id
+     * @return
+     */
+     Categorytwo getCategorytwoBythreeId(Integer id);
 }

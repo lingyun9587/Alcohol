@@ -22,4 +22,6 @@ public interface ProductMapper {
      * @return
      */
     public List<Product>  getProduct();
+
+    /*public List<Product>*/
 }
