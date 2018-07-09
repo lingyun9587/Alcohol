@@ -13,4 +13,10 @@ public interface ImageMapper {
      * @return
      */
     List<Image> list();
+
+    /**
+     * 根据商品id查询图片
+     * @return
+     */
+    List<Image> selImageByProductId(Long productId);
 }

@@ -1,6 +1,10 @@
 package com.alcohol.service;
 
 import com.alcohol.pojo.Product;
+import com.alcohol.pojo.Sku;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ProductService {
 
@@ -10,4 +14,11 @@ public interface ProductService {
      * @return
      */
     public Product getProductbyId(Integer productid);
+
+    /**
+     * 赵俊峰
+     * 根据skuid和商品id查询商品，sku为主表，所以返回类型为sku
+     * @return Sku
+     */
+    public Sku selectProductBySkuIdAndProductId(Long productId, Long skuId);
 }

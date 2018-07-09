@@ -1,6 +1,8 @@
 package com.alcohol.mapper;
 
 import com.alcohol.pojo.Product;
+import com.alcohol.pojo.Sku;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +24,11 @@ public interface ProductMapper {
      * @return
      */
     public List<Product>  getProduct();
+
+    /**
+     * 赵俊峰
+     * 根据skuid和商品id查询商品，sku为主表，所以返回类型为sku集合
+     * @return List<Sku>
+     */
+    public List<Sku> selectProductBySkuIdAndProductId(@Param("productId")Long productId,@Param("skuId")Long skuId);
 }

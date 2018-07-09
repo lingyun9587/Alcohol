@@ -555,10 +555,10 @@ public class JedisUtil {
 		 *            fieid 存储的名字
 		 * @return 1存在，0不存在
 		 * */
-		public boolean hexists(String key, String fieid) {
+		public boolean hexists(String key) {
 			// ShardedJedis sjedis = getShardedJedis();
 			Jedis sjedis = getJedis();
-			boolean s = sjedis.hexists(key, fieid);
+			boolean s = sjedis.exists(key);
 			sjedis.close();
 			return s;
 		}
@@ -572,10 +572,10 @@ public class JedisUtil {
 		 *            fieid 存储的名字
 		 * @return 存储对应的值
 		 * */
-		public String hget(String key, String fieid) {
+		public String hget(String key) {
 			// ShardedJedis sjedis = getShardedJedis();
 			Jedis sjedis = getJedis();
-			String s = sjedis.hget(key, fieid);
+			String s = sjedis.get(key);
 			sjedis.close();
 			return s;
 		}

@@ -6,4 +6,7 @@
     <select id="list" resultType="Image">
         SELECT * FROM tb_image WHERE product_id=1
     </select>
+    <select id="selImageByProductId" resultType="Image">
+        SELECT image_id,image_path,product_id,image_type,weight FROM tb_image WHERE product_id=#{productId}
+    </select>
 </mapper>
