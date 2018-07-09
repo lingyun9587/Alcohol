@@ -8,10 +8,33 @@
        insert into tb_useraccount(account_id,phone,user_id,email,password,create_time,last_time)
        value(#{accountId},#{phone},#{userId},#{email},#{password},#{createTime},#{lastTime})
     </insert>
-    <select id="getUserByUserName" resultType="com.alcohol.pojo.Useraccount">
-        SELECT account_id,phone,user_id,email,`password`,create_time,last_time
-         FROM tb_useraccount
-           WHERE phone = #{username} OR email = #{username} OR user_id = (SELECT user_id FROM tb_user WHERE membership_name = #{username})
+
+    <resultMap id="info" type="com.alcohol.pojo.Useraccount">
+        <id column="account_id" property="accountId"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="password" property="password" />
+        <association property="user" javaType="User">
+            <id column="user_id" property="userId"/>
+            <result column="membership_name" property="membershipName"/>
+            <collection property="roles" ofType="Role">
+                <id column="role_id" property="roleId"/>
+                <result column="role_name" property="roleName"/>
+            </collection>
+        </association>
+    </resultMap>
+    <select id="getUserByUserName" resultMap="info">
+        SELECT acc.account_id,acc.phone,acc.email,acc.create_time,acc.last_time,acc.password,
+ us.user_id,us.membership_name,
+ role.role_id,role.role_name
+         FROM tb_useraccount acc
+   INNER JOIN tb_user us ON  acc.user_id = us.user_id
+   LEFT JOIN `tb_permission` per ON per.user_id = us.user_id
+   LEFT JOIN `tb_role` role ON role.role_id = per.role_id
+
+           WHERE acc.phone =#{username} OR acc.email =  #{username} OR acc.user_id = (SELECT user_id FROM tb_user WHERE membership_name = #{username}
+)
+
     </select>
 
     <resultMap id="userInfo" type="com.alcohol.pojo.Useraccount">

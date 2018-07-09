@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.OrderstatusMapper">
+
+    <select id="listByUserId" resultType="com.alcohol.vo.OrderstatusVo">
+  SELECT statu.`orderStatus_id` AS orderStatusId,
+  statu.`orderStatus_name` AS orderStatusName,
+  SUM(comm1.`number`) AS number
+
+  FROM `tb_orderstatus` statu
+  LEFT JOIN
+  (SELECT comm.orderstatus_id,comm.number  FROM tb_commodity comm
+     WHERE comm.order_id IN
+   (SELECT order_id FROM tb_order
+   WHERE user_id = (SELECT user_id FROM tb_user WHERE user_id =#{userId}))) AS comm1
+
+   ON statu.`orderStatus_id`=comm1.`orderstatus_id`
+   WHERE  statu.`orderStatus_id` IN (1,2,3,9)
+  GROUP BY statu.`orderStatus_id`
+
+    </select>
+
+</mapper>
