@@ -3,6 +3,7 @@ package com.alcohol.service;
 import com.alcohol.pojo.Product;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
 
@@ -12,6 +13,12 @@ public interface ProductService {
      * @return
      */
     public Product getProductbyId(Integer productid);
+
+    /**
+     * 查询首页的商品
+     * @return
+     */
+    public List<Product> getProductByCategory(Map<String,Object> map);
     /**
      * 获取多个selTypeVlueId
      * @return

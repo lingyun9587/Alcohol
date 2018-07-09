@@ -749,7 +749,6 @@
         });
     }
 
-
     //绑定大分类
     function getcategory(){
         var content = "";
@@ -766,7 +765,9 @@
                         "</div>" +
                         "<ul class=\"cat-list clearfix\">\n";
                     $.each(e.categorytwoList, function (index, item) {
-                        content += "<li>" + item.categorytwoName + "</li>";
+                        if(index<2){
+                            content += "<li>" + item.categorytwoName + "</li>";
+                        }
                         content01 += "<div class=\"genre-box clearfix\">" +
                             "<span class=\"title\">" + item.categorytwoName + "：</span>" +
                             "<div class=\"genre-list\">";
