@@ -9,16 +9,10 @@ import java.util.Map;
 public interface UserService {
     public boolean ZhuCe(Useraccount useraccount);
     /**
-     * 查询所有用户
+     * 按昵称查询所有用户
      * @return
      */
-    public List<User> listUser(Integer pageNum, Integer pageSize);
-    /**
-     * 按昵称查找
-     * @param nickName
-     * @return
-     */
-    public List<User> getNickNameOne(String nickName);
+    public List<User> listUser(String nickName,Integer pageNum, Integer pageSize);
 
     /**
      * 禁用启用用户
