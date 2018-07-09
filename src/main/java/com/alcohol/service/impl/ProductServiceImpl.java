@@ -2,6 +2,7 @@ package com.alcohol.service.impl;
 
 import com.alcohol.mapper.ProductMapper;
 import com.alcohol.pojo.Product;
+import com.alcohol.pojo.Sku;
 import com.alcohol.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductByCategory(Map<String, Object> map) {
         return productMapper.getProductByCategory(map);
+    }
+    /**
+     * 赵俊峰
+     * 根据skuid和商品id查询商品，sku为主表，所以返回类型为sku
+     * @return Sku
+     */
+    @Override
+    public Sku selectProductBySkuIdAndProductId(Long productId, Long skuId) {
+        Sku sku=null;
+        for (Sku s:productMapper.selectProductBySkuIdAndProductId(null,skuId)) {
+            sku=s;
+        }
+        return sku;
     }
 }

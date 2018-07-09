@@ -1,6 +1,7 @@
 package com.alcohol.service;
 
 import com.alcohol.pojo.Product;
+import com.alcohol.pojo.Sku;
 
 import java.util.List;
 import java.util.Map;
@@ -36,4 +37,12 @@ public interface ProductService {
      * @return
      */
     public List<Product> selAll(Product product);
+
+
+    /**
+     * 赵俊峰
+     * 根据skuid和商品id查询商品，sku为主表，所以返回类型为sku
+     * @return Sku
+     */
+    public Sku selectProductBySkuIdAndProductId(Long productId, Long skuId);
 }
