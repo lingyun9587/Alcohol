@@ -18,7 +18,6 @@ public class Product {
     private List<skuName> skunameList;
     //sku配合
     private List<Sku> skuList;
-    private Long userId;
     private Long productId;//商品编号
     private String productName;//商品名称
     private String productDese;//描述
@@ -34,5 +33,4 @@ public class Product {
     private Long categoryThree;//三级分类
     private String typevalueId;//属性值
     private Long weight;//权重
-
 }

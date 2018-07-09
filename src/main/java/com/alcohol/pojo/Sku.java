@@ -17,6 +17,4 @@ public class Sku {
 
     private Product product;//商品对象  赵俊峰
     private SkuValue skuValue;//sku值对象 赵俊峰
-
-
 }

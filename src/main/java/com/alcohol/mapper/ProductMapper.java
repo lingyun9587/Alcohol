@@ -3,6 +3,7 @@ package com.alcohol.mapper;
 import com.alcohol.pojo.Product;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品接口
@@ -23,5 +24,28 @@ public interface ProductMapper {
      */
     public List<Product>  getProduct();
 
-    /*public List<Product>*/
+    /**
+     * 获取多个selTypeVlueId
+     * @return
+     */
+    public List<Product> selTypeVlue();
+
+    /**
+     * 获取商品数据
+     * @return
+     */
+    public List<Product> selAllDESC(Product product);
+
+    /**
+     * 模糊查倒叙
+     * @param product
+     * @return
+     */
+    public List<Product> selAll(Product product);
+
+    /**
+     * 查询首页的商品 李清
+     * @return
+     */
+    public List<Product> getProductByCategory(Map<String,Object> map);
 }
