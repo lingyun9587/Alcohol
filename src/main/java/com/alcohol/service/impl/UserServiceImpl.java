@@ -8,9 +8,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,23 +21,19 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 查询用户信息
+     * 按昵称查询用户信息
      *
      * @return
      */
     @Override
-    public List<User> listUser(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize,true);
-        return userMapper.listUser();
+    public List<User> listUser(String nickName,Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize, true);
+        return userMapper.listUser(nickName);
     }
 
-    @Override
-    public List<User> getNickNameOne(String nickName) {
-        return userMapper.getNickNameOne(nickName);
-    }
 
     @Override
-    public int updStatus(Long userId,Long status) {
-        return userMapper.updStatus(userId,status);
+    public int updStatus(Long userId, Long status) {
+        return userMapper.updStatus(userId, status);
     }
 }

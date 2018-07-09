@@ -58,60 +58,25 @@
 <script type="text/javascript" src="/js/backstage/tab.js"></script>
 <script type="text/javascript">
     $(function () {
-        pageOne(1);
+        pageOne(null,1);
         $('#nickName').click(function () {
             var nickName=$('.textStyle').val();
-            getNickName(nickName);
+            pageOne(nickName,1);
         });
     });
 
     function show(pageNum){
         pageOne(pageNum);
     }
-    function getNickName(nickName){
-        $.ajax({
-            url:"/getNickName",
-            data:{nickName:nickName},
-            dataType:"json",
-            type:"get",
-            success:function (data) {
-
-                var tbody = $('<tbody></tbody>');
-                $.each(data,function (i,e) {
-                    var tr = $('<tr></tr>');
-                    tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
-                    tr.append("<td width='5%'>" + e.userId + "</td>");
-                    tr.append("<td width='10%'>" + e.membershipName + "</td>");
-
-                    tr.append("<td width='15%'>" + e.nickName + "</td>");
-                    tr.append("<td width='5%'>" + e.sex + "</td>");
-                    tr.append("<td width='15%'>" + e.birthday + "</td>");
-                    tr.append("<td width='15%'>" + e.createTime + "</td>");
-                    tr.append("<td width='5%'>" + e.integral + "</td>");
-                    if (e.status == 0) {
-                        tr.append("<td width='10%'><a onclick='updatestate(" + e.userId + ",1,this)'>禁用</a></td>");
-                    } else {
-                        tr.append("<td width='10%'><a onclick='updatestate(" + e.userId + ",0,this)'>启用</a></td>");
-                    }
-
-                    tbody.append(tr);
-                });
-                $('#tableData tbody').replaceWith(tbody);
-            },
-            error: function () {
-                alert("出现异常！");
-            }
-        })
-    }
 
     /**
-     * 分页查询所有用户
+     * 按昵称分页查询所有用户
      * @param pageNum
      */
-    function pageOne(pageNum) {
+    function pageOne(nickName,pageNum) {
         $.ajax({
             url: "/listUser",
-            data: {pageNum: pageNum, pageSize: 10},
+            data: {pageNum: pageNum, pageSize: 10,nickName:nickName},
             dataType: "json",
             type: "get",
             //  async: true,
