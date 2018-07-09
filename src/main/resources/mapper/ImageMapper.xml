@@ -3,7 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.ImageMapper">
-    <select id="list" resultType="Image">
-        SELECT * FROM tb_image WHERE product_id=1
+    <select id="list" resultMap="resultMap01">
+        SELECT tb_product.`product_id`,tb_image.`image_id`,tb_image.`image_path` FROM  tb_product
+        LEFT JOIN ( SELECT * FROM tb_image WHERE  image_type=0 GROUP BY tb_image.`product_id`) AS tb_image
+        ON tb_image.`product_id`=tb_product.`product_id`
+        WHERE tb_product.`weight`=100
     </select>
+
+    <!---->
+
+    <resultMap id="resultMap01" type="Image">
+        <id column="image_id" property="imageId"/>
+        <result column="image_path" property="imagePath"/>
+        <association property="product" javaType="Product">
+            <id column="product_id" property="productId"/>
+        </association>
+    </resultMap>
 </mapper>

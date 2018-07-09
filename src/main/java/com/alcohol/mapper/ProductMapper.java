@@ -3,6 +3,7 @@ package com.alcohol.mapper;
 import com.alcohol.pojo.Product;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品接口
@@ -41,4 +42,10 @@ public interface ProductMapper {
      * @return
      */
     public List<Product> selAll(Product product);
+
+    /**
+     * 查询首页的商品 李清
+     * @return
+     */
+    public List<Product> getProductByCategory(Map<String,Object> map);
 }

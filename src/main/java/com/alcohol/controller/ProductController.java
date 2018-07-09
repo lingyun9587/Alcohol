@@ -62,7 +62,7 @@ public class ProductController {
      * 点击搜素查询
      * @param product
      * @return
-     *//*
+     */
     @PostMapping(value="/selName")
     @ResponseBody
     public Object selName(Product product,int pan){
@@ -87,5 +87,20 @@ public class ProductController {
             map.put("proslist",proslist);
         }
         return map;
-    }*/
+    }
+
+
+    /**
+     * 查询首页的商品
+     * @return
+     */
+    @RequestMapping(value="/getProductByCategory")
+    @ResponseBody
+    public String getProductByCategory(Integer weight,Integer categoryOne,Integer pageSize){
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("weight",weight);
+        map.put("categoryOne",categoryOne);
+        map.put("pageSize",pageSize);
+        return JSON.toJSONString(productService.getProductByCategory(map));
+    }
 }

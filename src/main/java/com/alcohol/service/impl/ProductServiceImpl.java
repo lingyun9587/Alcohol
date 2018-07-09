@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -40,5 +41,8 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.selAll(product);
     }
 
-
+    @Override
+    public List<Product> getProductByCategory(Map<String, Object> map) {
+        return productMapper.getProductByCategory(map);
+    }
 }
