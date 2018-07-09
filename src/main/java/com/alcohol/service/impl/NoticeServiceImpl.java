@@ -15,4 +15,31 @@ public class NoticeServiceImpl implements NoticeService {
     public List<Notice> list() {
         return noticeMapper.list();
     }
+    /**
+     * 新增资讯
+     * @param inNotice
+     * @return
+     */
+    @Override
+    public int addNotice(Notice inNotice) {
+        return noticeMapper.addNotice(inNotice);
+    }
+    /**
+     * 修改资讯
+     * @param upNotice
+     * @return
+     */
+    @Override
+    public int updateNotice(Notice upNotice) {
+        return noticeMapper.updateNotice(upNotice);
+    }
+    /**
+     * 删除资讯
+     * @param delNotice
+     * @return
+     */
+    @Override
+    public int deleteNotice(int delNotice) {
+        return noticeMapper.deleteNotice(delNotice);
+    }
 }

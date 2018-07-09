@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.CommentMapper">
+    <select id="listComment" resultMap="resultMap01">
+        SELECT tb_user.`nick_name`,tb_comment.`create_time`,
+        tb_sku.`skuvalue_id`,tb_sku.`sku_id`,
+        tb_comment.`content`,tbi.`image_path`,tb_comment.`spare_one`,tb_product.`product_name`,tb_comment.`review`,tb_comment.`reply_conte`
+        FROM tb_comment
+        INNER JOIN tb_sku ON tb_sku.`sku_id`=tb_comment.`sku_id`
+        INNER JOIN tb_product ON tb_sku.`product_id`=tb_product.`product_id`
+        INNER JOIN tb_user ON tb_user.`user_id`=tb_comment.`user_id`
+        LEFT JOIN (SELECT * FROM tb_image WHERE `image_type`=1) tbi ON tbi.`product_id`=tb_comment.`comment_id`
+        WHERE
+        1=1
+        <if test="spareOne!=null and spareOne!=''">
+                and tb_comment.`spare_one`=#{spareOne}
+         </if>
+         <if test="productId!=null and productId!=''">
+                and tb_sku.`product_id`=#{productId}
+         </if>
+        ORDER BY create_time DESC
+    </select>
+    <resultMap id="resultMap01" type="Comment">
+        <id column="comment_id" property="commentId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="content" property="content"/>
+        <result column="spare_one" property="spareOne"/>
+        <result column="review" property="review"/>
+        <result column="reply_conte" property="reply_conte"/>
+        <association property="sku" javaType="Sku">
+            <id column="sku_id" property="skuId"/>
+            <result column="skuvalue_id" property="skuvalueId"/>
+        </association>
+        <association property="product" javaType="Product">
+            <id column="product_id" property="productId"/>
+            <result column="product_name" property="productName"/>
+        </association>
+        <association property="user" javaType="User">
+            <id column="user_id" property="userId"/>
+            <result column="nick_name" property="nickName"/>
+        </association>
+    </resultMap>
+    <update id="upComment">
+        UPDATE tb_comment SET reply_conte= reply_Conte WHERE comment_id=commentId
+    </update>
+
+    <select id="getCommentCountById" resultType="java.lang.Integer">
+      SELECT COUNT(tb_comment.comment_id) FROM tb_comment
+      INNER JOIN tb_sku ON tb_sku.`sku_id`=tb_comment.`sku_id`
+      WHERE tb_sku.`product_id`=#{id}
+      GROUP BY tb_comment.spare_one;
+    </select>
+</mapper>

@@ -33,4 +33,26 @@ WHERE parentId =(
         update tb_categorythree set isdel=#{isdel} where categorythreeId=#{categorythree_id}
     </delete>
 
+    <select id="getCategorythreeById" resultMap="result01">
+         SELECT tb_categorythree.`categorythree_id`,tb_categorythree.`categorythree_name`,
+         tb_typename.`typeName_id`,tb_typename.`typeName_name`, tb_typevalue.`typeValue_id`,tb_typevalue.`typeValue_name`
+          FROM   tb_categorythree
+         INNER JOIN tb_typename ON tb_typename.`category_id`=tb_categorythree.`categorythree_id`
+         INNER JOIN tb_typevalue ON tb_typename.`typeName_id`=tb_typevalue.`typeName_id`
+         WHERE tb_categorythree.`categorythree_id`=#{id}
+    </select>
+    
+    <resultMap id="result01" type="Categorythree">
+        <id column="categorythree_id" property="categorythreeId"/>
+        <result column="categorythree_name" property="categorythreeName"/>
+        <collection property="typeNameList" ofType="TypeName">
+            <id column="typeName_id" property="typeNameId"/>
+            <result column="typeName_name" property="typeNameName"/>
+            <collection property="typevalueList" ofType="Typevalue">
+                <id column="typeValue_id" property="typeValueId"/>
+                <result column="typeValue_name" property="typeValueName"/>
+            </collection>
+        </collection>
+    </resultMap>
+
 </mapper>

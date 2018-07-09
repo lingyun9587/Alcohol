@@ -3,6 +3,7 @@ package com.alcohol.mapper;
 import com.alcohol.exceptions.UserAccountOperationException;
 import com.alcohol.pojo.Role;
 import com.alcohol.pojo.Useraccount;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface UseraccountMapper {
   * @param username
   * @return  返回用户账号
   */
-    Useraccount   getUserByUserName(String username);
+    Useraccount   getUserByUserName(@Param("username") String username);
 
 
     /**

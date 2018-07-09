@@ -26,4 +26,5 @@ public class NoticeController {
         lis=noticeService.list();
         return JSON.toJSONString(lis);
     }
+
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.RktableMapper">
+        <resultMap id="listCha" type="Rktable">
+                <id column="id" property="id"/>
+                <result column="number" property="number"/>
+                <result column="create_time" property="createTime"/>
+                <association property="sku" javaType="Sku">
+                        <result column="stock" property="stock"/>
+                </association>
+                <association property="skuValue" javaType="SkuValue">
+                        <result column="skuvalue_value" property="skuvalueValue"/>
+                </association>
+                <association property="product" javaType="Product">
+                        <result column="product_name" property="productName"/>
+                </association>
+        </resultMap>
+        <select id="SelAll" resultMap="listCha">
+          SELECT tbrk.id,tbpr.product_name,tbskv.skuvalue_value,tbsk.stock,tbrk.number,tbrk.create_time
+            FROM  `tb_rktable` tbrk,`tb_sku` tbsk,tb_skuvalue tbskv,tb_product tbpr
+            WHERE tbrk.sku_id=tbsk.sku_id AND tbsk.skuvalue_id=tbskv.skuvalue_id AND tbsk.product_id=tbpr.product_id
+            <if test="productName!=null and productName!=''">
+                   AND tbpr.product_name LIKE CONCAT ('%',#{productName},'%')
+            </if>
+        </select>
+</mapper>
+

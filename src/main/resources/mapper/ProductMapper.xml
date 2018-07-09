@@ -4,18 +4,51 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.ProductMapper">
         <select id="getProductbyId" resultMap="resultMap01">
-         SELECT tb_product.product_id,tb_product.`product_name`,tb_product.product_details,tb_product.sales,tb_product.`longegral`,
-        tb_skuname.skuname_id,tb_skuname.`skuname_name`,tb_skuvalue.skuvalue_id,tb_skuvalue.`skuvalue_value`,
-        tb_sku.sku_id,tb_sku.stock,tb_sku.original_price,tb_sku.present_price,
-         tb_image.image_id,tb_image.image_path
-        FROM `tb_sku`
-        INNER JOIN tb_product ON tb_product.`product_id`=tb_sku.`product_id`
-        INNER JOIN `tb_skuvalue` ON tb_sku.`skuvalue_id`=tb_skuvalue.`skuvalue_id`
-        INNER JOIN tb_skuname ON tb_skuvalue.`skuname_id`=tb_skuname.`skuname_id`
-        INNER JOIN tb_image ON tb_image.`product_id`=tb_product.`product_id`
-        WHERE tb_product.product_id=#{productid}
+        SELECT tb_product.product_id,tb_product.`product_name`,tb_product.product_details,tb_product.sales,tb_product.`longegral`,
+          tb_skuname.skuname_id,tb_skuname.`skuname_name`,tb_skuvalue.skuvalue_id,tb_skuvalue.`skuvalue_value`,
+          tb_sku.sku_id,tb_sku.stock,tb_sku.original_price,tb_sku.present_price,
+          tb_image.image_id,tb_image.image_path
+          FROM `tb_product`
+          INNER JOIN tb_sku ON tb_product.`product_id`=tb_sku.`product_id`
+          LEFT JOIN tb_skuname ON tb_sku.`product_id`=tb_skuname.`product_id`
+          LEFT JOIN  tb_skuvalue ON tb_skuvalue.`skuname_id`=tb_skuname.`skuname_id`
+          INNER JOIN (SELECT * FROM tb_image WHERE `image_type`=0) AS tb_image ON tb_image.`product_id`=tb_product.`product_id`
+          WHERE tb_product.product_id=#{productid}
+    </select>
+    <select id="selTypeVlue" resultType="Product">
+        SELECT typevalue_id FROM tb_product
+    </select>
+    <select id="selAllDESC" resultMap="Productlist">
+        SELECT product_name,sales,typevalue_id,looknumber FROM tb_product
+        <where>
+            <if test="productName!=null and productName!=''">
+                product_name LIKE CONCAT ('%',#{productName},'%')
+            </if>
+        </where>
+        <if test="panduan==0">
+            ORDER BY sales DESC
+        </if>
+        <if test="panduan==1">
+            ORDER BY looknumber DESC
+        </if>
     </select>
 
+    <select id="selAll" resultMap="Productlist">
+        SELECT product_name,sales,typevalue_id,looknumber FROM tb_product
+        <where>
+            <if test="productName!=null and productName!=''">
+                product_name LIKE CONCAT ('%',#{productName},'%')
+            </if>
+        </where>
+
+        ORDER BY sales
+    </select>
+    <resultMap id="Productlist" type="Product">
+        <id column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="sales" property="sales"/>
+        <result column="looknumber" property="looknumber"/>
+    </resultMap>
     <resultMap id="resultMap01" type="Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
@@ -40,49 +73,24 @@
             <result column="stock" property="stock"/>
             <result column="original_price" property="originalPrice"/>
             <result column="present_price" property="presentPrice"/>
-            <!--<collection property="commentList" ofType="Comment">
-                <id column="comment_id" property="commentId"/>
-                <result column="create_time" property="createTime"/>
-                <result column="content" property="content"/>
-                <result column="review" property="review"/>
-                <result column="reply_conte" property="reply_conte"/>
-                <association property="user" javaType="User">
-                    <id column="user_id" property="userId"/>
-                    <result column="nickName" property="nickName"/>
-                </association>
-            </collection>-->
         </collection>
     </resultMap>
-    <resultMap id="getProductBySkuIdAndProductId" type="com.alcohol.pojo.Sku">
-        <id column="sku_id" property="skuId"/>
-        <result column="stock" property="stock"/>
-        <result column="original_price" property="originalPrice"/>
-        <result column="present_price" property="presentPrice"/>
-        <collection property="product" ofType="Product">
-            <id column="product_id" property="productId"/>
-            <result column="product_name" property="productName"/>
-            <result column="product_desc" property="productDese"/>
-            <result column="product_details" property="productDetails"/>
-            <result column="sales" property="sales"/>
-            <result column="longegral" property="longegral"/>
-        </collection>
-        <collection property="skuValue" ofType="SkuValue">
-            <id column="skuvalue_id" property="skuvalueId"/>
-            <result column="skuvalue_value" property="skuvalueValue"/>
-        </collection>
-    </resultMap>
-    <select id="selectProductBySkuIdAndProductId" resultMap="getProductBySkuIdAndProductId">
-         SELECT s.sku_id,s.product_id,s.stock,s.original_price,s.present_price,
-	            p.product_id,p.product_name,p.product_desc,p.product_details,p.sales,p.longegral,
-	            v.skuvalue_id,v.skuvalue_value
-          FROM tb_sku s,tb_product p,tb_skuvalue v
-          WHERE s.`product_id`=p.`product_id`
-          AND s.`skuvalue_id`=v.`skuvalue_id`
-        <if test="productId!=null">
-          AND s.product_id=#{productId}
+
+    <select id="getProductByCategory" resultMap="resultMap01">
+        SELECT tb_image.`image_id`,tb_image.`image_path`,tb_product.`product_id`,tb_product.`product_name`,
+        sku.`sku_id`,sku.present_price
+        FROM tb_product
+        LEFT JOIN ( SELECT * FROM tb_image WHERE  image_type=0 GROUP BY tb_image.`product_id`) AS tb_image
+        ON tb_image.`product_id`=tb_product.`product_id`
+        LEFT JOIN (SELECT * FROM tb_sku  ORDER BY `present_price`)
+        AS sku ON sku.`product_id`=tb_product.`product_id`
+        WHERE 1=1
+        <if test="weight!=null and weight!=''">
+            and tb_product.weight=#{weight}
         </if>
-        <if test="skuId!=null">
-          AND s.sku_id=#{skuId}
+        <if test="categoryOne!=null and categoryOne!=''">
+            AND tb_product.`category_one`=#{categoryOne}
         </if>
+        GROUP BY tb_product.`product_id`
     </select>
 </mapper>

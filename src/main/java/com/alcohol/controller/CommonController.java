@@ -5,6 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -124,11 +125,13 @@ public class CommonController {
     @GetMapping("/udai_modifypwd_step3.html")
     public String udai_modifypwd_step3() { return "udai_modifypwd_step3"; }
     /**
-     * 商品
+     * 商品分类
      * @return
      */
     @GetMapping("/item_category.html")
-    public String item_category() { return "item_category"; }
+    public String item_category(Integer categoryId,HttpServletRequest request) {
+        request.getSession().setAttribute("categoryId",categoryId);
+        return "item_category"; }
 
     /**
      * 商品点击
@@ -147,6 +150,22 @@ public class CommonController {
     public String udai_order() {
         return "udai_order"; }
 
+    /**
+     * 我的订单详情
+     * @return
+     */
+    @GetMapping("/udai_order_detail.html")
+    public String udai_order_detail() {
+        return "/udai_order_detail"; }
+
+    /**
+     * 立即付款
+     * @return
+     */
+    @RequestMapping( value = "/udai_order_receipted.html")
+        public String udai_order_receipted(){
+        return "udai_order_receipted";
+    }
     /**
      * 积分平台
      * @return
