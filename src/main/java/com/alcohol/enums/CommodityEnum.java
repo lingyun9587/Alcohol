@@ -1,8 +1,7 @@
 package com.alcohol.enums;
 
-public enum OrderEnum {
-    NOFAIL(-1, "下单失败"),
-    USEREMPTY(-2,"账号不存在"),
+public enum CommodityEnum {
+    NOFAIL(-1, "操作失败"),
     NOTFAIL(-5,"其他异常"),
     SUCCESS(0, "操作成功");
 
@@ -17,12 +16,12 @@ public enum OrderEnum {
     public String getStateInfo() {
         return stateInfo;
     }
-    private  OrderEnum(int state,String stateInfo){
+    private  CommodityEnum(int state,String stateInfo){
         this.state = state;
         this.stateInfo = stateInfo;
     }
-    public  static OrderEnum indexOf(int index){
-        for (OrderEnum  state : values()){
+    public  static CommodityEnum indexOf(int index){
+        for (CommodityEnum state : values()){
             if (state.getState() == index){
                 return state;
             }

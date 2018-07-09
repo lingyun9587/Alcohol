@@ -44,12 +44,12 @@
     <section class="user-center inner clearfix">
         <div class="user-content__box clearfix bgf">
             <div class="title">购物车</div>
-            <form action="udai_shopcart_pay.html" class="shopcart-form__box">
+            <form action="" class="shopcart-form__box">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
                         <th width="150">
-
+                            <label class="checked-label"><input type="checkbox" class="check-all"><i></i> 全选</label>
                         </th>
                         <th width="300">商品信息</th>
                         <th width="150">单价</th>
@@ -69,33 +69,34 @@
                                     </svg>
                                 </a>
                             </div>
-                            <div class="img"><img alt="" class="cover"></div><!-- v-bind:src="item.productImage"-->
-                            </label>
+                            <div class="img"><img v-bind:src="item.image.imagePath" alt="" v-bind:title="item.sku.product.productName" class="cover"></div><!-- v-bind:src="item.productImage"-->
+
                         </th>
                         <td>
-                            <div class="name ep3">{{item.productName}}</div>
-                            <div class="type c9">颜色分类：<span v-for="part in item.parts" v-text="part.partsName"></span>
-                                尺码：<span v-for="part in item.parts" v-text="part.partsType"></span></div>
+                            <div class="name ep3">{{item.sku.product.productName}}</div>
+                            <div class="type c9">规格：<span v-text="item.sku.skuValue.skuvalueValue"></span>
+                                <!--尺码：<span v-for="part in item.parts" v-text="part.partsType"></span>--></div>
                         </td>
-                        <td>{{item.price | money('元')}}</td>
+                        <td>{{item.sku.presentPrice | money('元')}}</td>
                         <td>
                             <div class="cart-num__box quantity">
-                                <!--<input type="button" class="sub" value="-" @click="changeMoney(item,-1)">-->
-                                <a href="javascript:void 0" class="sub" @click="changeMoney(item,-1)">-</a>
+                                <input type="button" class="sub" value="-" @click="changeMoney(item,-1)">
+                                <!--<a href="javascript:void 0" class="sub" @click="changeMoney(item,-1)">-</a>-->
 
                                 <!--	<input type="text" class="val" value="1" readonly v-model="item.productQuentity">-->
-                                <input type="text" value="1" disabled v-model="item.orderamount">
-                                <a href="javascript:void 0" class="sub" @click="changeMoney(item,1)">+</a>
+                                <input type="text" value="1" disabled v-model="item.num">
+                                <input type="button" class="sub" value="+" @click="changeMoney(item,1)">
+                                <!--<a href="javascript:void 0" class="sub" @click="changeMoney(item,1)">+</a>-->
                             </div>
                         </td>
-                        <td>{{item.price*item.orderamount | money('元')}}</td>
+                        <td>{{item.sku.presentPrice*item.num | money('元')}}</td>
                         <td><a href="javascript:void 0" @click="delConfrim(item)">删除</a></td>
                     </tr>
 
                     </tbody>
                 </table>
                 <div class="user-form-group tags-box shopcart-submit pull-right">
-                    <button type="submit" class="btn">提交订单</button>
+                    <button class="btn" @click="submitOrder()">提交订单</button>
                 </div>
                 <div class="checkbox shopcart-total">
                     <!-- 全选-->

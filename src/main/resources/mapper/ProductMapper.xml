@@ -93,4 +93,37 @@
         </if>
         GROUP BY tb_product.`product_id`
     </select>
+
+    <resultMap id="getProductBySkuIdAndProductId" type="com.alcohol.pojo.Sku">
+        <id column="sku_id" property="skuId"/>
+        <result column="stock" property="stock"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="present_price" property="presentPrice"/>
+        <collection property="product" ofType="Product">
+            <id column="product_id" property="productId"/>
+            <result column="product_name" property="productName"/>
+            <result column="product_desc" property="productDese"/>
+            <result column="product_details" property="productDetails"/>
+            <result column="sales" property="sales"/>
+            <result column="longegral" property="longegral"/>
+        </collection>
+        <collection property="skuValue" ofType="SkuValue">
+            <id column="skuvalue_id" property="skuvalueId"/>
+            <result column="skuvalue_value" property="skuvalueValue"/>
+        </collection>
+    </resultMap>
+    <select id="selectProductBySkuIdAndProductId" resultMap="getProductBySkuIdAndProductId">
+        SELECT s.sku_id,s.product_id,s.stock,s.original_price,s.present_price,
+        p.product_id,p.product_name,p.product_desc,p.product_details,p.sales,p.longegral,
+        v.skuvalue_id,v.skuvalue_value
+        FROM tb_sku s,tb_product p,tb_skuvalue v
+        WHERE s.`product_id`=p.`product_id`
+        AND s.`skuvalue_id`=v.`skuvalue_id`
+        <if test="productId!=null">
+            AND s.product_id=#{productId}
+        </if>
+        <if test="skuId!=null">
+            AND s.sku_id=#{skuId}
+        </if>
+    </select>
 </mapper>

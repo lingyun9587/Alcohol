@@ -25,20 +25,30 @@ new Vue({
             var _this=this;
 
             this.$http.get("/shop/selshopAll").then(function (json) {
-                  alert(json);
+
                  _this.productList=json.data;
 
             });
         },
         changeMoney:function (product,way) {
+            var _this=this;
             //alert(product.productQuentity);
-            if (way>0){
-                product.orderamount++;
+            if (way>0){-
+                product.num++;
+                this.$http.get("/shop/numPlusOrReduce",{"skuId":product.sku.skuId,"num":product.num}).then(function(json){
+
+                });
             }else{
-                product.orderamount--;
-                if(product.orderamount<1){
+                product.num--;
+                if(product.num>0){
+                    this.$http.get("/shop/numPlusOrReduce",{"skuId":product.sku.skuId,"num":product.num}).then(function(json){
+
+                    });
+                }
+
+                if(product.num<1){
                     alert("亲，不能再减啦！");
-                    product.orderamount=1;
+                    product.num=1;
                 }
             }
             this.calcTotalPrice();
@@ -65,7 +75,24 @@ new Vue({
                 }
             });
             this.calcTotalPrice();
+        },
+        submitOrder: function(){
+            var _this = this;
+            var productOrders=new Array();
+            this.productList.forEach(function (item, index) {
+                if (item.checked) {
+                    productOrders.push(item.sku.skuId);
+                }
+            });
+            if(productOrders.length!=0){
+                location.href="/shop/transferToOrder?productOrders="+productOrders;
+            }else{
+                alert("请至少选择一件商品提交订单！");
+            }
 
+            /*this.$http.get("/shop/transferToOrder",{""}).then(function (data) {
+
+            });*/
         },
         /*计算购物车中全部商品的总消费*/
         calcTotalPrice: function () {
@@ -74,8 +101,8 @@ new Vue({
             this.totalMum=0;
             this.productList.forEach(function (item, index) {
                 if (item.checked) {
-                    _this.totalMoney += item.price * item.orderamount;
-                    _this.totalMum+=item.orderamount;
+                    _this.totalMoney += item.sku.presentPrice * item.num;
+                    _this.totalMum+=item.num;
                 }
             });
 
@@ -83,12 +110,11 @@ new Vue({
         delConfrim: function (item) {
             this.delFlag = true;
             this.product = item;
-            this.delId=item.id;
-
+            this.delId=item.sku.skuId;
         },
         delProduct: function () {
             var _this=this;
-            this.$http.get("/shop/delShop",{"id":_this.delId}).then(function (data) {
+            this.$http.get("/shop/delShop",{"skuId":_this.delId}).then(function (data) {
              _this.delRessult=data.data;
             if(_this.delRessult>0){
                  alert("删除成功！");
@@ -102,7 +128,7 @@ new Vue({
 
             this.delFlag = false;
 
-        },
+        }
 
 
 }

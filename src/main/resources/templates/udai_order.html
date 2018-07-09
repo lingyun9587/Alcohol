@@ -14,6 +14,7 @@
     <script src="js/swiper.min.js" charset="UTF-8"></script>
     <script src="js/global.js" charset="UTF-8"></script>
     <script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+    <script src="js/backstage/table.js" charset="UTF-8"></script>
     <title>U袋网</title>
 </head>
 <body>
@@ -138,19 +139,19 @@
                 <div class="order-list__box bgf">
                     <div class="order-panel">
                         <ul class="nav user-nav__title" role="tablist">
-                            <li role="presentation" class="nav-item active"><a href="#all" aria-controls="all"
+                            <li role="presentation" class="nav-item active"><a href="#all" onclick="statu(null)" aria-controls="all"
                                                                                role="tab" data-toggle="tab">所有订单</a>
                             </li>
-                            <li role="presentation" class="nav-item "><a href="#pay" aria-controls="pay" role="tab"
+                            <li role="presentation" class="nav-item "><a href="#all" onclick="statu(1)" aria-controls="pay" role="tab"
                                                                          data-toggle="tab">待付款 <span class="cr">0</span></a>
                             </li>
-                            <li role="presentation" class="nav-item "><a href="#emit" aria-controls="emit" role="tab"
+                            <li role="presentation" class="nav-item "><a href="#all" onclick="statu(2)" aria-controls="emit" role="tab"
                                                                          data-toggle="tab">待发货 <span class="cr">0</span></a>
                             </li>
-                            <li role="presentation" class="nav-item "><a href="#take" aria-controls="take" role="tab"
+                            <li role="presentation" class="nav-item "><a href="#all"onclick="statu(3)" aria-controls="take" role="tab"
                                                                          data-toggle="tab">待收货 <span class="cr">0</span></a>
                             </li>
-                            <li role="presentation" class="nav-item "><a href="#eval" aria-controls="eval" role="tab"
+                            <li role="presentation" class="nav-item "><a href="#all" onclick="statu(9)" aria-controls="eval" role="tab"
                                                                          data-toggle="tab">待评价 <span class="cr">0</span></a>
                             </li>
                         </ul>
@@ -318,7 +319,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <div class="page text-right clearfix" style="margin-top: 40px">
+                                <div class="page text-right clearfix" style="margin-top: 40px" id="stylepage">
                                     <a class="disabled">上一页</a>
                                     <a class="select">1</a>
                                     <a href="">2</a>
@@ -712,6 +713,212 @@
             18650406668&nbsp;&nbsp;&nbsp;&nbsp;E-mail: 18650406668@qq.com
         </p>
     </div>
+    <script type="text/javascript">
+        var status1;
+        function pageInfo(pageIndex,status){
+
+            var context = "<tr>\n" +
+                "                                        <th width=\"380\">商品信息</th>\n" +
+                "                                        <th width=\"85\">单价</th>\n" +
+                "                                        <th width=\"85\">数量</th>\n" +
+                "                                        <th width=\"120\">实付款</th>\n" +
+                "                                        <th width=\"120\">交易状态</th>\n" +
+                "                                        <th width=\"120\">交易操作</th>\n" +
+                "                                    </tr>";
+            $.ajax({
+                url:"listCommodityInfo",
+                type:"get",
+                data:{
+                    "pageIndex":pageIndex,
+                    "status":status,
+                    "pageSize":5
+                },
+                dataType:"json",
+                success:function(data){
+
+                    var pageNum = data.pageNum;
+                    var pageSize = data.pageSize;
+                    var size = data.size;
+                    if(data.list.length ==0){
+                        context+="   <tr class=\"order-empty\">\n" +
+                            "                                        <td colspan='6'>\n" +
+                            "                                            <div class=\"empty-msg\">最近没有任何订单，家里好像缺了点什么！<br><a href=\"item_category.html\">要不瞧瞧去？</a>\n" +
+                            "                                            </div>\n" +
+                            "                                        </td>\n" +
+                            "                                    </tr>";
+                    }else {
+                        $.each(data.list, function (i, e) {
+
+                            context += " <tr class=\"order-item\">\n" +
+                                "                                        <td>\n" +
+                                "                                            <label>\n" +
+                                "                                                <a href=\"udai_order_detail.html\" class=\"num\">\n" +
+                                "                                                    " + e.order.createTime + " 订单号: " + e.orderId + "\n" +
+                                "                                                </a>\n" +
+                                "                                                <div class=\"card\">\n" +
+                                "                                                    <div class=\"img\"><img src=\"images/temp/item-img_1.jpg\" alt=\"\"\n" +
+                                "                                                                          class=\"cover\"></div>\n" +
+                                "                                                    <div class=\"name ep2\">" + e.sku.product.productName + "</div>\n" +
+                                "                                                    <div class=\"format\">";
+                            $.each(e.sku.product.skunameList, function (i1, e1) {
+                                context += e1.skunameeValue + ":";
+                                $.each(e1.skuValueList, function (i2, e2) {
+                                    context += e2.skuvalueValue;
+                                });
+                            });
+                            context += "</div>\n" +
+                                "                                                    <div class=\"favour\"></div>\n" +
+                                "                                                </div>\n" +
+                                "                                            </label>\n" +
+                                "                                        </td>\n" +
+                                "                                        <td>￥" + e.sku.presentPrice + "</td>\n" +
+                                "                                        <td>" + e.number + "</td>\n" +
+                                "                                        <td>￥" + (e.sku.presentPrice * e.number) + "<br><span class=\"fz12 c6 text-nowrap\">(含运费: ¥0.00)</span></td>\n" +
+                                "                                        <td class=\"state\">\n" +
+                                "                                            <a class=\"but c6\">" + e.orderstatus.orderStatus_name + "</a>\n" +
+                                "                                            <a href=\"udai_mail_query.html\" class=\"but cr\">查看物流</a>\n" +
+                                "                                            <a href='udai_order_detail.html?id=" + e.orderId + "' class=\"but c9\">订单详情</a>\n" +
+                                "                                        </td>\n" +
+                                "                                        <td class=\"order\">\n" +
+                                "                                            <div class=\"del\"><span onclick=\"del('" + e.commodityId + "','" + e.orderId + "',this)\" class=\"glyphicon glyphicon-trash\"\n" +
+                                "                                                                   aria-hidden=\"true\"></span></div>\n" +
+                                "                                            <a href=\"udai_order_receipted.html?id=\""+e.orderId+" class=\"but but-primary\">";
+                            if (e.orderstatus.orderStatus_id == 1) {
+                                context += "立即付款";
+                            } else if (e.orderstatus.orderStatus_id == 2) {
+                                context += "等待发货";
+                            } else if (e.orderstatus.orderStatus_id == 3) {
+                                context += "确认收货";
+                            } else if (e.orderstatus.orderStatus_id == 4) {
+                                context += "等待退款";
+                            } else if (e.orderstatus.orderStatus_id == 5) {
+                                context += "退款失败";
+                            } else if (e.orderstatus.orderStatus_id == 6) {
+                                context += "退款成功";
+                            } else if (e.orderstatus.orderStatus_id == 7) {
+                                context += "交易成功";
+                            } else if (e.orderstatus.orderStatus_id == 8) {
+                                context += "订单已失效";
+                            } else if (e.orderstatus.orderStatus_id == 9) {
+                                context += "评价";
+                            }
+                            context += "                                            <!-- <a href=\"\" class=\"but but-link\">评价</a> -->\n" +
+                                "                                            <a href=\"udai_apply_return.html\" class=\"but c3\">";
+
+                            if (e.orderstatus.orderStatus_id == 1) {
+                                context += "取消订单";
+                            } else if (e.orderstatus.orderStatus_id == 2) {
+                                context += "取消订单";
+                            } else if (e.orderstatus.orderStatus_id == 3) {
+                                context += "退款退货";
+                            } else if (e.orderstatus.orderStatus_id == 4) {
+                                context += "等待退款";
+                            } else if (e.orderstatus.orderStatus_id == 5) {
+                                context += "申请再次退款";
+                            } else if (e.orderstatus.orderStatus_id == 6) {
+                                context += "退款成功";
+                            } else if (e.orderstatus.orderStatus_id == 7) {
+                                context += "退货退款";
+                            } else if (e.orderstatus.orderStatus_id == 8) {
+                                context += "订单已失效";
+                            } else if (e.orderstatus.orderStatus_id == 9) {
+                                context += "退货退款";
+                            }
+                            context += "                                        </td>\n" +
+
+                                "                                    </tr>";
+                        });
+                    }
+
+                    var btn ="";
+                       if(pageIndex== 1 || pageIndex == 0){
+                           btn+=" <a class=\"disabled\">上一页</a>\n" ;
+                       }else{
+                           btn+=" <a onclick='show("+(data.pageNum-1)+")'>上一页</a>\n" ;
+                       }
+
+                       for(var i = 1; i<=data.pages; i++){
+                             if(i == data.pageNum){
+                                 btn+=" <a class=\"select\">"+i+"</a>";
+                              }else{
+                                 btn+=" <a onclick='show("+i+")'>"+i+"</a>";
+                             }
+                       }
+                       if(data.pages == pageIndex || pageIndex == 0 || pageIndex == 1){
+                           btn+="<a class=\"disabled\" >下一页</a>";
+                       }else{
+                           btn+="<a  onclick='show("+(data.pageNum+1)+")'>下一页</a>";
+                       }
+                        $("table tbody").html(context);
+                        $("#stylepage").html(btn);
+                },
+                error:function(){
+                    alert("请求失败！");
+                }
+            })
+        }
+         $(function () {
+             init();
+             pageInfo(1,null);
+         })
+
+        function init() {
+
+
+
+            var context ="<li role=\"presentation\" class=\"nav-item active\"><a href=\"#all\" onclick=\"statu(null)\" aria-controls=\"all\"\n" +
+                "            role=\"tab\" data-toggle=\"tab\">所有订单</a>\n" +
+                "                </li>";
+            $.ajax({
+                url:"listOrderStatusByUserId",
+                type:"get",
+                dataType:"json",
+                success:function(data){
+                    $.each(data,function(i,e){
+                        context+="  <li role=\"presentation\" class=\"nav-item \"><a href=\"#all\" onclick=\"statu("+e.orderStatusId+")\" aria-controls=\"pay\" role=\"tab\"\n" +
+                            "            data-toggle=\"tab\">"+e.orderStatusName+" <span class=\"cr\">"+e.number+"</span></a>\n" +
+                            "            </li>";
+                    })
+                    $(".user-nav__title").html(context);
+                },
+                error:function(){
+                    alert("请求失败");
+                }
+            })
+        }
+        function statu(obj) {
+            status1 = obj;
+            pageInfo(1,obj);
+        }
+        function show(pageIndex){
+            pageInfo(pageIndex,status1);
+        }
+        function  del(commodityId,orderId,obj) {
+            var flag = confirm("确定要删除该订单"+orderId+"中的商品吗？");
+            if(flag){
+                $.ajax({
+                    url:"removeCommodityId",
+                    type:"get",
+                    data:{
+                        "commodityId":commodityId,
+                        "orderId":orderId
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        alert(data.msg);
+                        if(data.success){
+                            init();
+                            $(obj).parent().parent().parent().parent().remove();
+                        }
+                    },
+                    error:function () {
+                        alert("请求失败");
+                    }
+                })
+            }
+
+        }
+    </script>
 </div>
 </body>
 </html>
