@@ -1,6 +1,8 @@
 package com.alcohol.mapper;
 
+import com.alcohol.pojo.Sku;
 import com.alcohol.pojo.SkuValue;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * skuvalue表
@@ -13,4 +15,11 @@ public interface SkuValueMapper {
      * @return
      */
     SkuValue getSkuById(Integer id);
+
+    /**
+     * 点击商品sku属性绑定值
+     * @param id
+     * @return
+     */
+    Sku getSkuBiProductId(@RequestParam("value") String value,@RequestParam("id") Integer id);
 }

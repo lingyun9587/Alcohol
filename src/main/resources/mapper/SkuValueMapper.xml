@@ -20,4 +20,9 @@
             <result column="skuname_name" property="skunameeValue"/>
         </association>
     </resultMap>
+
+    <select id="getSkuBiProductId" resultType="Sku">
+        SELECT sku_id,skuvalue_id,stock,original_price,present_price
+        FROM tb_sku WHERE  skuvalue_id = #{value}  AND product_id=#{id}
+    </select>
 </mapper>
