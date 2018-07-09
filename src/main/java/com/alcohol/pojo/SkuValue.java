@@ -12,4 +12,6 @@ public class SkuValue {
     private String skuvalueValue;//属性值
     private Long skunameId;//属性id
     private Long weight;//权重
+
+    private skuName skuName;//SkuName对象
 }

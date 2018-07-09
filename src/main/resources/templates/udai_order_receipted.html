@@ -237,10 +237,10 @@
                     </div>
                     <hr>
                     <div class="order-info">
-                        订单编号：<span class="c6">121324165465465465</span><br>
-                        支付宝交易号：<span class="c6">165454564564165164654654</span><br>
-                        收货地址：<span class="c6">福建省 福州市 鼓楼区 温泉街道 温泉街道五四路159号世界金龙大厦20层B北 福州喵喵喵网络，林设计，187***8122</span><br>
-                        成交时间：<span class="c6">2017-09-07 16:03:07</span>
+                        订单编号：<span class="c6"><label id="orderId"> 121324165465465465</label></span><br>
+                        支付宝交易号：<span class="c6"><label id="batch">165454564564165164654654</label></span><br>
+                        收货地址：<span class="c6"><label id="addressId">福建省 福州市 鼓楼区 温泉街道 温泉街道五四路159号世界金龙大厦20层B北 福州喵喵喵网络，林设计，187***8122</label></span><br>
+                        成交时间：<span class="c6"><label id="time">2017-09-07 16:03:07</label></span>
                     </div>
                     <div class="modify_div clearfix">
                         <form action="" class="user-setting__form" role="form">
@@ -426,6 +426,133 @@
             18650406668&nbsp;&nbsp;&nbsp;&nbsp;E-mail: 18650406668@qq.com
         </p>
     </div>
+    <script type="text/javascript">
+
+        function getOrderId(id){
+            $.ajax({
+                url:"getByIdOrderInfo",
+                type:"get",
+                data:{
+                    "orderId":id
+                },
+                dataType:"json",
+                success:function(data){
+
+                    var conte = "";
+                    if(data.orderstatus.orderStatus_id   == 1){
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">拍下商品</p>\n" +
+                            "                            </div>" +
+                            "<div class=\"step-flow__line step-flow__line_ing\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>\n" +
+                            "                            </div>";
+                    }else{
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">拍下商品</p>\n" +
+                            "                            </div>" +
+                            "  <div class=\"step-flow__line step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>" ;
+
+                    }
+                    if(data.orderstatus.orderStatus_id   == 2){
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">付款</p>\n" +
+                            "                            </div>" +
+                            "<div class=\"step-flow__line step-flow__line_ing\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>\n" +
+                            "                            </div>";
+                    }else{
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">付款</p>\n" +
+                            "                            </div>" +
+                            "  <div class=\"step-flow__line step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>" ;
+
+                    }
+                    if(data.orderstatus.orderStatus_id   == 3){
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">卖家发货</p>\n" +
+                            "                            </div>" +
+                            "<div class=\"step-flow__line step-flow__line_ing\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>\n" +
+                            "                            </div>";
+                    }else{
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">卖家发货</p>\n" +
+                            "                            </div>" +
+                            "  <div class=\"step-flow__line step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>" ;
+
+                    }
+                    if(data.orderstatus.orderStatus_id   == 4){
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">买家已确认收货</p>\n" +
+                            "                            </div>" +
+                            "<div class=\"step-flow__line step-flow__line_ing\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>\n" +
+                            "                            </div>";
+                    }else{
+                        conte+="<div class=\"step-flow__li step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__state\"><i class=\"iconfont icon-ok\"></i></div>\n" +
+                            "                                <p class=\"step-flow__title-top\">买家已确认收货</p>\n" +
+                            "                            </div>" +
+                            "  <div class=\"step-flow__line step-flow__li_done\">\n" +
+                            "                                <div class=\"step-flow__process\"></div>" ;
+
+                    }
+
+                    var context = "";
+                    $.each(data.commodities,function(i,e){
+                        context +="<div class=\"item\">\n" +
+                            "                            <div class=\"tdf3\">\n" +
+                            "                                <a href=\"item_show.html\">\n" +
+                            "                                    <div class=\"img\"><img src=\"images/temp/M-003.jpg\" alt=\"\" class=\"cover\"></div>\n" +
+                            "                                    <div class=\"ep2 c6\">"+e.sku.product.productName+"</div>\n" +
+                            "                                </a>\n" +
+                            "                                <div class=\"attr ep\">" ;
+                            $(e.sku.product.skunameList,function(i1,e1){
+                                context+=e1.skunameeValue+":";
+                                $.each(e1.skuValueList,function(i2,e2){
+                                    context+=e2.skuvalueValue+"、";
+                                })
+                            })
+                         context +="                            </div>\n</div>\n" +
+                            "                            <div class=\"tdf1\">1</div>\n" +
+                            "                            <div class=\"tdf1\">¥"+e.sku.presentPrice+"</div>\n" +
+                            "                            <div class=\"tdf2\">\n" +
+                            "                                <div class=\"ep2\"><!--活动8折优惠<br>优惠：¥4.0--></div>\n" +
+                            "                            </div>\n" +
+                            "                            <div class=\"tdf1\">¥18.0</div>\n" +
+                            "                            <div class=\"tdf1\">\n" +
+                            "                                <div class=\"ep2\">快递<br>¥0.00</div>\n" +
+                            "                            </div>\n" +
+                            "                        </div>";
+                    })
+$(".step-flow-box  .step-flow__bd").html(conte);
+                    $(".order-item__list").html(context);
+                    $("#orderId").html(data.orderId);
+                    $("#batch").html(data.batch);
+                    $("#addressId").html();
+                    $("#time").html(data.paymentTime);
+                },
+                error:function(){
+                    alert("请求失败");
+                }
+            })
+        }
+
+        $(function(){
+            var id = getUrlParam("id");
+            getOrderId(id);
+        })
+    </script>
 </div>
 </body>
 </html>

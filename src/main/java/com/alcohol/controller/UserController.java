@@ -31,14 +31,14 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/listUser",method = RequestMethod.GET, produces = "text/html;charset=utf-8")
-    public String listUser(User user, @RequestParam(value = "pageNum", required = false) Integer pageNum,
+    public String listUser(User user,
+                           @RequestParam(value="nickName",required = false)String nickName,
+                           @RequestParam(value = "pageNum", required = false) Integer pageNum,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize
     ) {
-        listUser = userService.listUser(pageNum,pageSize);
+        listUser = userService.listUser(nickName,pageNum,pageSize);
         PageInfo<User> page = new PageInfo<User>(listUser);
-//        Map<String,Object> map=new HashMap<String,Object>();
-//        map.put("page", page);
-//        map.put("nickName", nickName);
+        System.out.println("昵称名："+nickName);
         System.out.println("数据总数:" + page.getTotal());
         System.out.println("数据总页数:" + page.getPages());
         return JSON.toJSONString(page);
@@ -62,12 +62,5 @@ public class UserController {
             return map;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/getNickName",method = RequestMethod.GET)
-    private String getNickNameInfo(@RequestParam(value="nickName",required = false)String nickName){
-        List<User> user=userService.getNickNameOne(nickName);
-        System.out.println("昵称："+nickName);
-        return JSON.toJSONString(user);
-    }
 
 }

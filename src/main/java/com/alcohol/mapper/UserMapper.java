@@ -38,17 +38,10 @@ public interface UserMapper {
  public int updateInfo(User user);
 
  /**
-  * 查询所有用户
+  * 按昵称查询所有用户
   * @return
   */
- public List<User> listUser();
-
- /**
-  * 按昵称查找
-  * @param nickName
-  * @return
-  */
- public List<User> getNickNameOne(@Param("nickName") String nickName);
+ public List<User> listUser(@Param("nickName") String nickName);
 
  /**
   * 禁用启用用户
