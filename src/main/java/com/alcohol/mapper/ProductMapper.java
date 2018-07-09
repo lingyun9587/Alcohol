@@ -22,4 +22,23 @@ public interface ProductMapper {
      * @return
      */
     public List<Product>  getProduct();
+
+    /**
+     * 获取多个selTypeVlueId
+     * @return
+     */
+    public List<Product> selTypeVlue();
+
+    /**
+     * 获取商品数据
+     * @return
+     */
+    public List<Product> selAllDESC(Product product);
+
+    /**
+     * 模糊查倒叙
+     * @param product
+     * @return
+     */
+    public List<Product> selAll(Product product);
 }

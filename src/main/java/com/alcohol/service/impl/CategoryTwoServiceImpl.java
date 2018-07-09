@@ -66,4 +66,14 @@ public class CategoryTwoServiceImpl implements CategoryTwoService {
             throw e;
         }
     }
+
+    /**
+     * 查询三级上的二级
+     * @param id
+     * @return
+     */
+    @Override
+    public  Categorytwo getCategorytwoBythreeId(Integer id){
+        return cm.getCategorytwoBythreeId(id);
+    }
 }

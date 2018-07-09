@@ -191,7 +191,20 @@
                             $(".btn").click(function () {
                                 var npwd1 = $("#npwd1").val();
                                 var npwd2 = $("#npwd2").val();
-                                if (npwd1 == npwd2 && npwd1 != "") {
+                                var reg = new RegExp(/^(?![^a-zA-Z]+$)(?!\D+$)/);
+                                if (npwd1 == null || npwd1.length < 6) {
+                                    alert("密码不能为空且不能小于6位!");
+                                    $("#npwd1").val("");
+                                    $("#npwd2").val("");
+                                }else if(!reg.test(npwd1)) {
+                                    alert("密码过于简单,必须包含数字与字母!");
+                                    $("#npwd1").val("");
+                                    $("#npwd2").val("");
+                                }else if(npwd1!=npwd2){
+                                    alert("两次密码不同请重新输入!");
+                                    $("#npwd1").val("");
+                                    $("#npwd2").val("");
+                                }else {
                                     var url = "/upPwd?npwd=" + npwd2 + "";
                                     $.ajax({
                                         url: url,
@@ -209,10 +222,6 @@
                                             alert("链接服务器失败！");
                                         }
                                     })
-                                } else {
-                                    alert("两次密码不匹配，请重新输入！")
-                                    $("#npwd1").val("");
-                                    $("#npwd2").val("");
                                 }
                             })
                         });

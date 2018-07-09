@@ -6,25 +6,25 @@
     <resultMap id="ones" type="Categoryone">
         <id property="categoryoneId" column="categoryone_id"/>
         <result property="categoryontName" column="categoryont_name"/>
+
         <collection property="categorytwoList" ofType="Categorytwo">
             <id property="categorytwoId" column="categorytwo_id"></id>
           <!--  <result property="parentId" column="parentId"></result>-->
             <result property="categorytwoName" column="categorytwo_name"></result>
           <!--  <result property="weight" column="weight"></result>-->
-            <collection property="categorythreeList" ofType="Categorythree">
+           <collection property="categorythreeList" ofType="Categorythree">
                 <id property="categorythreeId" column="categorythree_id"/>
-              <!--  <result property="parentId" column="parentId"/>-->
+               <result property="parentId" column="parentId"/>
                 <result property="categorythreeName" column="categorythree_name"/>
-              <!--  <result property="weight" column="weight"/>-->
+               <result property="weight" column="weight"/>
             </collection>
         </collection>
     </resultMap>
     <!--查询一级分类-->
     <select id="getCategoryOneInfo" resultMap="ones">
-         SELECT tb_categoryone.`categoryone_id`,tb_categoryone.categoryont_name,temp.categorytwo_name,
-        tb_categorythree.`categorythree_id`,tb_categorythree.`categorythree_name`
-         FROM (SELECT * FROM `tb_categorytwo` LIMIT 0,1) AS temp
-         LEFT JOIN  `tb_categoryone` ON `tb_categoryone`.`categoryone_id`=temp.`parentId`
+         SELECT tb_categoryone.`categoryone_id`,tb_categoryone.categoryont_name,temp.categorytwo_id,temp.categorytwo_name,
+          tb_categorythree.`categorythree_id`,tb_categorythree.`categorythree_name` FROM tb_categoryone
+         LEFT JOIN tb_categorytwo AS temp ON `tb_categoryone`.`categoryone_id`=temp.`parentId`
           LEFT JOIN tb_categorythree ON `tb_categorythree`.parentId=temp.categorytwo_id
     </select>
     <!--查询要添加的分类是否存在-->

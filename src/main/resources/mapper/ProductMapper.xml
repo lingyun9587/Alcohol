@@ -15,7 +15,40 @@
         INNER JOIN tb_image ON tb_image.`product_id`=tb_product.`product_id`
         WHERE tb_product.product_id=#{productid}
     </select>
+    <select id="selTypeVlue" resultType="Product">
+        SELECT typevalue_id FROM tb_product
+    </select>
+    <select id="selAllDESC" resultMap="Productlist">
+        SELECT product_name,sales,typevalue_id,looknumber FROM tb_product
+        <where>
+            <if test="productName!=null and productName!=''">
+                product_name LIKE CONCAT ('%',#{productName},'%')
+            </if>
+        </where>
+        <if test="panduan==0">
+            ORDER BY sales DESC
+        </if>
+        <if test="panduan==1">
+            ORDER BY looknumber DESC
+        </if>
+    </select>
 
+    <select id="selAll" resultMap="Productlist">
+        SELECT product_name,sales,typevalue_id,looknumber FROM tb_product
+        <where>
+            <if test="productName!=null and productName!=''">
+                product_name LIKE CONCAT ('%',#{productName},'%')
+            </if>
+        </where>
+
+        ORDER BY sales
+    </select>
+    <resultMap id="Productlist" type="Product">
+        <id column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="sales" property="sales"/>
+        <result column="looknumber" property="looknumber"/>
+    </resultMap>
     <resultMap id="resultMap01" type="Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
