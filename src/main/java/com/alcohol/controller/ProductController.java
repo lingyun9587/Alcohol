@@ -1,6 +1,7 @@
 package com.alcohol.controller;
 
 import com.alcohol.pojo.Product;
+import com.alcohol.pojo.Sku;
 import com.alcohol.pojo.Typevalue;
 import com.alcohol.service.ProductService;
 import com.alcohol.service.TypeValueService;
@@ -103,4 +104,6 @@ public class ProductController {
         map.put("pageSize",pageSize);
         return JSON.toJSONString(productService.getProductByCategory(map));
     }
+
+
 }

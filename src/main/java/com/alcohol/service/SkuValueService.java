@@ -1,5 +1,6 @@
 package com.alcohol.service;
 
+import com.alcohol.pojo.Sku;
 import com.alcohol.pojo.SkuValue;
 
 /**
@@ -13,4 +14,6 @@ public interface SkuValueService {
      * @return
      */
     SkuValue getSkuById(Integer id);
+
+    Sku getSkuBiProductId(String value,Integer id);
 }

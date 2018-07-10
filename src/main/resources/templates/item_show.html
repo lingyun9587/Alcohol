@@ -231,14 +231,15 @@
                 <div role="tabpanel" class="tab-pane fade" id="evaluate" aria-labelledby="evaluate-tab">
                     <div class="evaluate-tabs bgf5">
                         <ul class="nav-tabs nav-pills clearfix" role="tablist">
-                            <li role="presentation" class="active"><a href="#all" role="tab" data-toggle="tab"
+                            <input type="hidden" value="null"/>
+                            <li role="presentation" class="active" onclick="getCommentByProductid(null,1)"><a href="#all" role="tab" data-toggle="tab"
                                                                       aria-controls="all" aria-expanded="true">全部评价
                                 <span class="badge">1314</span></a></li>
-                            <li role="presentation"><a href="#good" role="tab" data-toggle="tab" aria-controls="good">好评
+                            <li role="presentation" onclick="getCommentByProductid(1,1)"><a href="#good" role="tab" data-toggle="tab" aria-controls="good">好评
                                 <span class="badge">1000</span></a></li>
-                            <li role="presentation"><a href="#normal" role="tab" data-toggle="tab"
+                            <li role="presentation" onclick="getCommentByProductid(2,1)"><a href="#normal" role="tab" data-toggle="tab"
                               aria-controls="normal">中评 <span class="badge">314</span></a></li>
-                            <li role="presentation"><a href="#bad" role="tab" data-toggle="tab" aria-controls="bad">差评
+                            <li role="presentation" onclick="getCommentByProductid(3,1)"><a href="#bad" role="tab" data-toggle="tab" aria-controls="bad">差评
                                 <span class="badge">0</span></a></li>
                         </ul>
                     </div>
@@ -246,839 +247,15 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="all" aria-labelledby="all-tab">
 
-                                <!--<div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>-->
-
-
-                                <!-- 分页 -->
-                                <div class="page text-center clearfix">
-                                    <a class="disabled">上一页</a>
-                                    <a class="select">1</a>
-                                    <a href="">2</a>
-                                    <a href="">3</a>
-                                    <a href="">4</a>
-                                    <a href="">5</a>
-                                    <a href="">6</a>
-                                    <a href="">7</a>
-                                    <a href="">8</a>
-                                    <a class="" href="">下一页</a>
-                                    <a class="disabled">1/60页</a>
-                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="good" aria-labelledby="good-tab">
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 分页 -->
-                                <div class="page text-center clearfix">
-                                    <a class="disabled">上一页</a>
-                                    <a class="select">1</a>
-                                    <a href="">2</a>
-                                    <a href="">3</a>
-                                    <a href="">4</a>
-                                    <a href="">5</a>
-                                    <a href="">6</a>
-                                    <a href="">7</a>
-                                    <a href="">8</a>
-                                    <a class="" href="">下一页</a>
-                                    <a class="disabled">1/20页</a>
-                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="normal" aria-labelledby="normal-tab">
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- 分页 -->
-                                <div class="page text-center clearfix">
-                                    <a class="disabled">上一页</a>
-                                    <a class="select">1</a>
-                                    <a href="">2</a>
-                                    <a href="">3</a>
-                                    <a href="">4</a>
-                                    <a href="">5</a>
-                                    <a class="" href="">下一页</a>
-                                    <a class="disabled">1/5页</a>
-                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="bad" aria-labelledby="bad-tab">
 
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="eval-box">
-                                    <div class="eval-author">
-                                        <div class="port">
-                                            <img src="images/icons/default_avt.png" alt="欢迎来到U袋网" class="cover b-r50">
-                                        </div>
-                                        <div class="name">高***恒</div>
-                                    </div>
-                                    <div class="eval-content">
-                                        <div class="eval-text">
-                                            真是特别美_回头穿了晒图
-                                        </div>
-                                        <div class="eval-imgs">
-                                            <div class="img-temp"><img src="images/temp/S-001-1_s.jpg"
-                                                                       data-src="images/temp/S-001-1_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-2_s.jpg"
-                                                                       data-src="images/temp/S-001-2_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-3_s.jpg"
-                                                                       data-src="images/temp/S-001-3_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-4_s.jpg"
-                                                                       data-src="images/temp/S-001-4_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                            <div class="img-temp"><img src="images/temp/S-001-5_s.jpg"
-                                                                       data-src="images/temp/S-001-5_b.jpg"
-                                                                       data-action="zoom" class="cover"></div>
-                                        </div>
-                                        <div class="eval-time">
-                                            2017年08月11日 20:31 颜色分类：深棕色 尺码：均码
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 分页 -->
-                                <div class="page text-center clearfix">
-                                </div>
                             </div>
                         </div>
                         <script src="js/jquery.zoom.js"></script>
@@ -1565,10 +742,11 @@
 </html>
 <script>
     $(function () {
-        getProductById();
-        getCommentByProductid(null);
+        getCommentByProductid(null,1);
         getCommentCountById();
+        getProductById();
     });
+    var valueId="";
     //根据商品编号获取商品
     function getProductById() {
         $.ajax({
@@ -1576,8 +754,9 @@
             dataType: "json",
             type: "post",
             success: function (data) {
+                var number=$(".badge").eq(0).html();
                 //图片的
-                var imageList = "<div class=\"small-box\">\n" +
+                var imageList = "<div class=\"small-box\"><input type='hidden' class='skuId' value='"+data.skuList[0].skuId+"'/>\n" +
                     " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">\n" +
                     "<span class=\"hover\"></span>\n" +
                     "</div>\n" +
@@ -1619,7 +798,7 @@
                     "\t\t\t\t\t\t</li>\n" +
                     "\t\t\t\t\t\t<li class=\"item-ind-item\">\n" +
                     "\t\t\t\t\t\t\t<a href=\"\"><span class=\"ind-label c9\">累计评论</span>\n" +
-                    "\t\t\t\t\t\t\t<span class=\"ind-count cr\" id=\"pls\">1314</span></a>\n" +
+                    "\t\t\t\t\t\t\t<span class=\"ind-count cr\">"+number+"</span></a>\n" +
                     "\t\t\t\t\t\t</li>\n" +
                     "\t\t\t\t\t\t<li class=\"item-ind-item\">\n" +
                     "\t\t\t\t\t\t\t<a href=\"\"><span class=\"ind-label c9\">赠送积分</span>\n" +
@@ -1632,13 +811,13 @@
                     content += "\t\t\t\t\t\t\t<dl class=\"item-prop clearfix\">\n" +
                         "\t\t\t\t\t\t\t\t<dt class=\"item-metatit\">" + e.skunameeValue + ":</dt>\n" +
                         "\t\t\t\t\t\t\t\t<dd><ul data-property=\"" + e.skunameeValue + "\" class=\"clearfix\">\n"+
-                        "\t\t\t\t\t\t\t\t\t<li><a class=\"on\" href=\"javascript:;\" role=\"button\" data-value=\"" + e.skuValueList[0].skuvalueValue.skuvalueValue + "\" aria-disabled=\"true\">\n"+
+                        "\t\t\t\t\t\t\t\t\t<li onclick='addColor(this)'><a  class=\"on\" href=\"javascript:;\" role=\"button\" data-value=\"" + e.skuValueList[0].skuvalueValue.skuvalueValue + "\" aria-disabled=\"true\">\n"+
                         "\t\t\t\t\t\t\t\t\t\t<span>" + e.skuValueList[0].skuvalueValue + "</span>\n" +
                         "\t\t\t\t\t\t\t\t\t</a></li>\n";
                     $.each(e.skuValueList, function (i1, e1) {
                         if(i1>0){
-                            content += "\t\t\t\t\t\t\t\t\t<li><a href=\"javascript:;\" role=\"button\" data-value=\"" + e1.skuvalueValue + "\" aria-disabled=\"true\">\n" +
-                                "\t\t\t\t\t\t\t\t\t\t<span>" + e1.skuvalueValue + "</span>\n" +
+                            content += "\t\t\t\t\t\t\t\t\t<li onclick='addColor(this)'><a href=\"javascript:;\" role=\"button\" data-value=\"" + e1.skuvalueValue + "\" aria-disabled=\"true\">\n" +
+                                "\t\t\t\t\t\t\t\t\t\t<span>" + e1.skuvalueValue + "</span><input type='hidden' class='skuvalueId' value='"+e1.skuvalueId+"'/>\n" +
                                 "\t\t\t\t\t\t\t\t\t</a></li>\n";
                         }
                     });
@@ -1659,6 +838,7 @@
                     "\t\t\t\t\t\t\t\t<div class=\"item-stock\"><span style=\"margin-left: 10px;\">库存 <b id=\"Stock\">" + data.skuList[0].stock + "</b> 件</span></div>\n" +
                     "\t\t\t\t\t\t\t</div>\n" +
                     "\t\t\t\t\t\t</div>\n" +
+                    "<div style='color:orangered;display: none;margin-left: 70px;margin-bottom: 10px;'>请勾选您要的商品信息！</div>"+
                     "\t\t\t\t\t\t<div class=\"item-action clearfix bgf5\">\n" +
                     "\t\t\t\t\t\t\t<a href=\"javascript:;\" rel=\"nofollow\" data-addfastbuy=\"true\" title=\"点击此按钮，到下一步确认购买信息。\"\n" +
                     "\t\t\t\t\t\t\t   role=\"button\" class=\"item-action__buy\">立即购买</a>\n" +
@@ -1683,18 +863,18 @@
     }
 
     //评论
-    function getCommentByProductid(spareOne){
+    function getCommentByProductid(spareOne,pageNum){
         var contents = "";
         $.ajax({
             url:"/listComment",
-            data:{spareOne:spareOne},
+            data:{spareOne:spareOne,pageNum:pageNum,pageSize:5},
             dataType:"JSON",
             type:"post",
             success:function(data){
-                $("#pls").text(0);
-                $(".badge").eq(0).text(0);
-                $(".badge").eq(1).text(0);
-                $("#all").html(0);
+                $("#all").html("");
+                $("#good").html("");
+                $("#normal").html("");
+                $("#bad").html("");
                 $.each(data.list,function (index,item) {
                     contents += "<div class='eval-box'>"+
                         "<div class='eval-author'>"+
@@ -1723,20 +903,42 @@
                     });
                     contents +="</div>"+
                         "</div>"+
-                    "</div>"
+                    "</div>";
+                    var btn ="  <div class=\"page text-center clearfix\">";
+                    if(pageNum== 1){
+                        btn+=" <a class=\"disabled\">上一页</a>\n" ;
+                    }else{
+                        btn+=" <a onclick='show("+spareOne+","+(pageNum-1)+")'>上一页</ a>\n" ;
+                    }
+                    for(var i = 1; i<=data.pages; i++){
+                        if(i == data.pageNum){
+                            btn+=" <a class=\"select\">"+i+"</a>";
+                        }else{
+                            btn+=" <a onclick='show("+spareOne+","+i+")'>"+i+"</a>";
+                        }
+                    }
+                    if(data.pages == pageNum){
+                        btn+="<a class=\"disabled\" >下一页</a>";
+                    }else{
+                        btn+="<a  onclick='show("+spareOne+","+(pageNum+1)+")'>下一页</ a>";
+                    }
+                    btn+="</div>";
+                    $("#all").html(contents+btn);
+                    $("#good").html(contents+btn);
+                    $("#normal").html(contents+btn);
+                    $("#bad").html(contents+btn);
                 });
-                $("#pls").text(data.total);
-                $(".badge").eq(0).text(data.total);
-                $(".badge").eq(1).text(data.total);
-                $("#all").html(contents);
-                $("#good").html(contents);
-                $("#normal").html(contents);
-                $("#bad").html(contents);
             },
             error:function () {
                 alert("出现错误,请稍后重试");
             }
         });
+    }
+
+    //分页
+    function show(spareOne,pageNum){
+        alert(spareOne+"\t\t"+pageNum);
+        getCommentByProductid(spareOne,pageNum);
     }
 
     //得到每个商品好评,中评,差评的个数
@@ -1746,17 +948,28 @@
             dataType:"JSON",
             type:"post",
             success:function(result){
+                var total=0;
+                $(".badge").html(0);
+                var j=2;
                 $.each(result,function(i,e){
-                    alert(e);
-                    $(".evaluate-tabs").find(".badge")
-                    $("#good").html(0);
-                    $("#normal").html(0);
-                    $("#bad").html(0);
+                    total+=parseInt(e);
+                    $(".badge").eq(j).html(e);
+                    j++;
                 });
+                $(".badge").eq(0).html(total);
+                $(".badge").eq(1).html(total);
             },error:function(){
                 alert("请联系管理员");
             }
         });
+    }
+
+    //点击商品属性的时候样式
+    function addColor(obj){
+        $(obj).parent().find("a").removeClass("on");
+        $(obj).find("a").addClass("on");
+        valueId+=$(obj).find("input").val()+":";
+        alert(valueId);
     }
 </script>
 

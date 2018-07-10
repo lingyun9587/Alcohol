@@ -34,7 +34,7 @@ public class CommentController {
             pageNum=1;
             pageSize=5;
         }
-        map.put("pageNum",(pageNum-1)*pageSize);
+        map.put("pageNum",pageNum);
         map.put("pageSize",pageSize);
         Integer productId=(Integer)request.getSession().getAttribute("productId");
         map.put("productId",productId);
@@ -64,5 +64,12 @@ public class CommentController {
         Integer productId=(Integer)request.getSession().getAttribute("productId");
         List<Integer> list=commentService.getCommentCountById(productId);
         return JSON.toJSONString(list);
+    }
+
+    @RequestMapping(value="/getSkuBiProductId")
+    @ResponseBody
+    public String getSkuBiProductId(String value,HttpServletRequest request){
+        Integer productId=(Integer)request.getSession().getAttribute("productId");
+        return JSON.toJSONString(skuValueService.getSkuBiProductId(value,productId));
     }
 }
