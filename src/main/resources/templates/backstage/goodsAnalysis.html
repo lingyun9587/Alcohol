@@ -1,279 +1,256 @@
 <!doctype html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<title>商品分析</title>
+<head>
+	<meta charset="utf-8">
+	<title>商品分析</title>
 
-		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
-		<style>
-			.order-item {
-				transition: all .5s;
-				-o-transition: all .5s;
-				-moz-transition: all .5s;
-				-webkit-transition: all .5s;
-			}
-			
-			.order-item label {
-				font-weight: bold;
-			}
-			
-			.order-item td:first-child {
-				text-align: left;
-			}
-			
-			.order-item:hover {
-				border-radius: 3px;
-				-webkit-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
-				-moz-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
-				box-shadow: 0 0 10px rgba(233, 0, 0, .3);
-			}
-			
-			.order-item .card {
-				height: 80px;
-				position: relative;
-				font-weight: normal;
-			}
-			
-			
-			.order-item .card .img {
-				float: left;
-				margin-right: 10px;
-				width: 80px;
-				height: 80px;
-				border: 1px solid #999;
-			}
-			
-			.order-item .card .name {
-				height: 2.8em;
-				line-height: 1.4em;
-				text-align: left;
-				margin-top: 15px;
-			}
-			
-			.order-item .card .format {
-				color: #999;
-				font-size: 12px;
-				line-height: 1em;
-				/*position: absolute;*/
-                margin-left: 5px;
-                float: left;
-				bottom: 16px;
-				left: 90px;
-			}
-		</style>
-	</head>
+	<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+	<style>
+		.order-item {
+			transition: all .5s;
+			-o-transition: all .5s;
+			-moz-transition: all .5s;
+			-webkit-transition: all .5s;
+		}
 
-	<body>
-		<div class="container">
-			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>商品分析</h1>
-			<div class="serach">
-				<input type="button" value="商品销量" class="button goodsSales" />
-				<input type="button" value="商品点击数"  class="button clickRate" />
-				<input type="button" value="商品购买率"  class="button purchaseRate" />
-			</div>
-			<div class="serach">
-				<input type="text" class="textStyle" placeholder="请输入商品名称" style="width: 180px;height: 24px;line-height: 24px;" name="selName"/>
-            <input type="hidden"  value="0" id="biaoshi"/>
-				<input type="button" value="搜索" class="button search" onclick="selName()"/>
-				<select id="sel">
-					<option selected value="0">从高到低</option>
-					<option value="1">从低到高</option>
-				</select>
-			</div>
-			<!--搜索区结束-->
-			<div class="info">
-				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
-					<thead>
-						<tr class="goodsSalesTh">
-							<th width="70%">商品信息</th>
-							<th width="30%">销量</th>
-						</tr>
-						<tr hidden="hidden" class="clickRateTh">
+		.order-item label {
+			font-weight: bold;
+		}
 
-							<th width="70%">商品信息</th>
-							<th width="30%">商品点击率</th>
-						</tr>
-						<tr hidden="hidden" class="purchaseRateTh">
+		.order-item td:first-child {
+			text-align: left;
+		}
 
-							<th width="70%">商品信息</th>
-							<th width="30%">商品购买率</th>
-						</tr>
-					</thead>
-					<tbody id="tbody">
+		.order-item:hover {
+			border-radius: 3px;
+			-webkit-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+			-moz-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+			box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+		}
 
-					</tbody>
-				</table>
-				<div class='pageStyle'></div>
-			</div>
+		.order-item .card {
+			height: 80px;
+			position: relative;
+			font-weight: normal;
+		}
 
-		</div>
 
-		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="/js/backstage/table.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				goodsSales(1);
-				$('.goodsSales').click(function() {
-					goodsSales();
-					$('.goodsSalesTh').show();
-					$('.clickRateTh').hide();
-					$('.purchaseRateTh').hide();
-                    $("#sel").show();
-				});
-				$('.clickRate').click(function() {
-					clickRate();
-					$('.goodsSalesTh').hide();
-					$('.clickRateTh').show();
-					$('.purchaseRateTh').hide();
-                    $("#sel").show();
-				});
-				$('.purchaseRate').click(function() {
-					purchaseRate();
-					$('.goodsSalesTh').hide();
-					$('.clickRateTh').hide();
-					$('.purchaseRateTh').show();
-                    $("#sel").hide();
-				});
+		.order-item .card .img {
+			float: left;
+			margin-right: 10px;
+			width: 80px;
+			height: 80px;
+			border: 1px solid #999;
+		}
 
-			});
-            function show(pageNum){
-                goodsSales(pageNum);
-            }
-            function selName(){
-                var bianshi=$("#biaoshi").val();
-                var pan= $("#sel").val()
-                var selName=$("[name=selName]").val();
-               $.ajax({
-                   url:"/product/selName",
-                   data:{
-                       pan:pan,
-                       productName:selName,
-                       panduan:bianshi
-                   },
-                   type:"post",
-                   dataType:"json",
-                   success: function(data) {
-                       var tr = "";
-                       $(data.proslist).each(function(i,e) {
-                           tr+="<tr class='order-item'><td><label><div class='card'><div class='name ep2'>"+e.productName+"</div>";
-                           $(e.typeList).each(function(i2,e2){
-                               tr+="<div class='format'>"+e2.typeValueName+"</div>";
-                           });
-                           if(bianshi==0){
-                                tr+="</div></label></td><td>"+e.sales+"   </td></tr>";
-                           }else if(bianshi==1){
-                               tr+="</div></label></td><td>"+e.looknumber+"   </td></tr>";
-                           }else if(bianshi==2){
-                               var er=(e.looknumber/e.sales)*100;
-                               gml=er.toFixed(2)+"%";
-                               tr+="</div></label></td><td>"+gml+"</td></tr>";
-                           }
-                       });
-                       $("#tbody").html(tr);
-                       showPage(1, 10, 46);
-                   },
-                   error: function() {
-                       alert("出现异常！");
-                   }
-               });
-            }
-			function goodsSales(pageNum) {
-              $("#biaoshi").val(0);
-				$.ajax({
-					url: "/product/selpro",
-					type: "post",
-					data:{
-					    pageNum:pageNum,
-						pageSize:2
-					},
-					dataType: "json",
-					success: function(data) {
-                        var tr = "";
-						$(data.proslist).each(function(i,e) {
-								tr+="<tr class='order-item'><td><label><div class='card'><div class='name ep2'>"+e.productName+"</div>";
-							$(e.typeList).each(function(i2,e2){
-                               tr+="<div class='format'>"+e2.typeValueName+"</div>";
-							});
-							tr+="</div></label></td><td>"+e.sales+"   </td></tr>";
-						});
-                        $("#tbody").html(tr);
-						showPage(pageNum,data.pages,data.total);
-					},
-					error: function() {
-						alert("出现异常！");
-					}
+		.order-item .card .name {
+			height: 2.8em;
+			line-height: 1.4em;
+			text-align: left;
+			margin-top: 15px;
+		}
 
-				});
-			}
+		.order-item .card .format {
+			color: #999;
+			font-size: 12px;
+			line-height: 1em;
+			/*position: absolute;*/
+			margin-left: 5px;
+			float: left;
+			bottom: 16px;
+			left: 90px;
+		}
+	</style>
+</head>
 
-			function clickRate() {
-                $("#biaoshi").val(1);
-                var pan= $("#sel").val()
-                var selName=$("[name=selName]").val();
-                $.ajax({
-                    url: "/product/selpro",
-                    data:{
-                        pan:pan,
-                        productName:selName
-                    },
-                    type: "post",
-                    dataType: "json",
-                    success: function(data) {
-                        var tr = "";
-                        $(data.proslist).each(function(i,e) {
-                            tr+="<tr class='order-item'><td><label><div class='card'><div class='name ep2'>"+e.productName+"</div>";
-                            $(e.typeList).each(function(i2,e2){
-                                tr+="<div class='format'>"+e2.typeValueName+"</div>";
-                            });
-                            tr+="</div></label></td><td>"+e.looknumber+"   </td></tr>";
-                        });
-                        $("#tbody").html(tr);
-                        showPage(1, 10, 46);
-                    },
-                    error: function() {
-                        alert("出现异常！");
+<body>
+<div class="container">
+	<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>商品分析</h1>
+	<div class="serach">
+		<input type="button" value="商品销量" class="button goodsSales" />
+		<input type="button" value="商品点击数"  class="button clickRate" />
+	</div>
+	<div class="serach">
+		<input type="text" class="textStyle" placeholder="请输入商品名称" style="width: 180px;height: 24px;line-height: 24px;" name="selName"/>
+		<input type="hidden"  value="0" id="biaoshi"/>
+		<input type="button" value="搜索" class="button search" onclick="selName(1)"/>
+		<select id="sel">
+			<option selected value="0">从高到低</option>
+			<option value="1">从低到高</option>
+		</select>
+	</div>
+	<!--搜索区结束-->
+	<div class="info">
+		<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+			<thead>
+			<tr class="goodsSalesTh">
+				<th width="50%">商品信息</th>
+				<th width="30%">销量</th>
+				<th width="20%">排行</th>
+
+			</tr>
+			<tr hidden="hidden" class="clickRateTh">
+
+				<th width="50%">商品信息</th>
+				<th width="30%">商品点击数</th>
+				<th width="20%">排行</th>
+			</tr>
+			</thead>
+			<tbody id="tbody">
+
+			</tbody>
+		</table>
+		<div class='pageStyle'></div>
+	</div>
+
+</div>
+
+<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/backstage/table.js"></script>
+<script type="text/javascript">
+    $(function() {
+        er();
+        goodsSales(1);
+        $('.goodsSales').click(function() {
+            goodsSales(1);
+            $('.goodsSalesTh').show();
+            $('.clickRateTh').hide();
+            $('.purchaseRateTh').hide();
+            $("#sel").show();
+        });
+        $('.clickRate').click(function() {
+            clickRate(1);
+            $('.goodsSalesTh').hide();
+            $('.clickRateTh').show();
+            $('.purchaseRateTh').hide();
+            $("#sel").show();
+        });
+    });
+    function er(){
+        for (var i=1;i<10;i++){
+        }
+    }
+    function show(pageNum){
+        goodsSales(pageNum);
+        clickRate(pageNum);
+        selName(pageNum);
+    }
+    function selName(pageNum){
+        var bianshi=$("#biaoshi").val();
+        var pan= $("#sel").val()
+        var selName=$("[name=selName]").val();
+        $.ajax({
+            url:"/product/selName",
+            data:{
+                pan:pan,
+                productName:selName,
+                panduan:bianshi,
+                pageNum:pageNum,
+                pageSize:5
+            },
+            type:"post",
+            dataType:"json",
+            success: function(data) {
+                var tr = "";
+                $(data.list).each(function(i,e) {
+                    $(e.imageList).each(function(i3,e3){
+                        if(i3==1){
+                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
+                        }
+                    });
+                    tr+="<div class='card'><div class='name ep2'>"+e.productName+"</div>";
+                    $(e.typeList).each(function(i2,e2){
+                        tr+="<div class='format'>"+e2.typeValueName+"</div>";
+                    });
+                    if(bianshi==0){
+                        tr+="</div></label></td><td>"+e.sales+"   </td><td>"+(i+1)+"</td></tr>";
+                    }else if(bianshi==1){
+                        tr+="</div></label></td><td>"+e.looknumber+"   </td><td>"+(i+1)+"</td></tr>";
                     }
                 });
-			}
-
-			function purchaseRate() {
-                $("#biaoshi").val(2);
-                var pan= $("#sel").val()
-                var selName=$("[name=selName]").val();
-                $.ajax({
-                    url: "/product/selpro",
-                    data:{
-                        pan:pan,
-                        productName:selName
-                    },
-                    type: "post",
-                    dataType: "json",
-                    success: function(data) {
-                        var tr = "";
-                        var gml="";
-                        $(data.proslist).each(function(i,e) {
-                            tr+="<tr class='order-item'><td><label><div class='card'><div class='name ep2'>"+e.productName+"</div>";
-                            $(e.typeList).each(function(i2,e2){
-                                tr+="<div class='format'>"+e2.typeValueName+"</div>";
-                            });
-                                var er=(e.looknumber/e.sales)*100;
-                                gml=er.toFixed(2)+"%";
-                            tr+="</div></label></td><td>"+gml+"   </td></tr>";
-                        });
-                        $("#tbody").html(tr);
-                        showPage(1, 10, );
-                    },
-                    error: function() {
-                        alert("出现异常！");
-                    }
+                $("#tbody").html(tr);
+                showPage(pageNum,data.pages,data.total);
+            },
+            error: function() {
+                alert("出现异常！");
+            }
+        });
+    }
+    function goodsSales(pageNum) {
+        $("#biaoshi").val(0);
+        $.ajax({
+            url: "/product/selpro",
+            type: "post",
+            data:{
+                pageNum:pageNum,
+                pageSize:5
+            },
+            dataType: "json",
+            success: function(data) {
+                var tr = "";
+                $(data.list).each(function(i,e) {
+                    $(e.imageList).each(function(i3,e3){
+                        if(i3==1){
+                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
+                        }
+                    });
+                    tr+="<div class='card'><div class='name ep2'>"+e.productName+"</div>";
+                    $(e.typeList).each(function(i2,e2){
+                        tr+="<div class='format'>"+e2.typeValueName+"</div>";
+                    });
+                    tr+="</div></label></td><td>"+e.sales+"   </td><td>"+(i+1)+"</td></tr>";
                 });
-			}
-		</script>
+                $("#tbody").html(tr);
+                showPage(pageNum,data.pages,data.total);
+            },
+            error: function() {
+                alert("出现异常！");
+            }
+        });
+    }
 
-	</body>
+    function clickRate(pageNum) {
+        $("#biaoshi").val(1);
+        var pan= $("#sel").val()
+        var selName=$("[name=selName]").val();
+        $.ajax({
+            url: "/product/selpro",
+            data:{
+                pan:pan,
+                productName:selName,
+                pageNum:pageNum,
+                pageSize:5
+            },
+            type: "post",
+            dataType: "json",
+            success: function(data) {
+                var tr = "";
+                $(data.list).each(function(i,e) {
+                    $(e.imageList).each(function(i3,e3){
+                        if(i3==1){
+                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
+                        }
+                    });
+                    tr+="<div class='card'><div class='name ep2'>"+e.productName+"</div>";
+                    $(e.typeList).each(function(i2,e2){
+                        tr+="<div class='format'>"+e2.typeValueName+"</div>";
+                    });
+                    tr+="</div></label></td><td>"+e.looknumber+"   </td><td>"+(i+1)+"</td></tr>";
+                });
+                $("#tbody").html(tr);
+                showPage(pageNum,data.pages,data.total);
+            },
+            error: function() {
+                alert("出现异常！");
+            }
+        });
+    }
+</script>
+
+</body>
 
 </html>

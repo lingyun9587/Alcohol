@@ -1,5 +1,7 @@
 package com.alcohol.controller;
 
+import com.alcohol.mapper.ImageMapper;
+import com.alcohol.pojo.Image;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
 import com.alcohol.pojo.Typevalue;
@@ -28,6 +30,8 @@ public class ProductController {
     private ProductService productService;
     @Resource
     private TypeValueService typeValueService;
+    @Resource
+    private ImageMapper imageMapper;
 
     @RequestMapping(value="/getproductbyId")
     @ResponseBody
@@ -35,6 +39,7 @@ public class ProductController {
         Integer productId=(Integer)request.getSession().getAttribute("productId");
         return JSON.toJSONString(productService.getProductbyId(productId));
     }
+
 
     /**
      * 查询全部
@@ -44,13 +49,19 @@ public class ProductController {
     @ResponseBody
     public Object selpro(@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
+        Long imgProductId;
         Product pro=new Product();
-        List<Product> proslist=productService.selAllDESC(pro,1,2);
+        List<Product> proslist=productService.selAllDESC(pro,pageNum,pageSize);
         PageInfo<Product> page=new PageInfo<Product>(proslist);
         for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
-            String[] arr=typevalueId.split(":");
+            imgProductId=pro.getProductId();
+            System.out.println("=======================id====================="+imgProductId);
+            List<Image> listimg=imageMapper.selImageByProductId(imgProductId);
+            System.out.println("=========================集合==================="+listimg.size());
+            pro.setImageList(listimg);
+            String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
                 Typevalue typevalue= typeValueService.selIdType(Long.parseLong(arr[j]));
                 pro.getTypeList().add(typevalue);
@@ -66,30 +77,31 @@ public class ProductController {
      */
     @PostMapping(value="/selName")
     @ResponseBody
-    public Object selName(Product product,int pan){
-        System.out.println("========================"+product.getPanduan());
+    public Object selName(Product product,@RequestParam(value="pan",required = false)int pan,@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
+        Long imgProductId;
         Product pro=new Product();
         List<Product> proslist=new ArrayList<Product>();
         if(pan==0){
-            proslist=productService.selAllDESC(product);
+            proslist=productService.selAll(product,pageNum,pageSize);
         }else if(pan==1){
-            proslist=productService.selAll(product);
+            proslist=productService.selAllDESC(product,pageNum,pageSize);
         }
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        PageInfo<Product> page=new PageInfo<Product>(proslist);
         for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
-            String[] arr=typevalueId.split(":");
+            imgProductId=pro.getProductId();
+            List<Image> listimg=imageMapper.selImageByProductId(imgProductId);
+            pro.setImageList(listimg);
+            String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
                 Typevalue typevalue= typeValueService.selIdType(Long.parseLong(arr[j]));
                 pro.getTypeList().add(typevalue);
             }
-            map.put("proslist",proslist);
         }
-        return map;
+        return JSON.toJSONString(page);
     }
-
 
     /**
      * 查询首页的商品

@@ -10,7 +10,7 @@ public interface ProductService {
 
     /**
      * 根据编号获得一条数据
-     * @param id
+     * @param productid
      * @return
      */
     public Product getProductbyId(Integer productid);
@@ -36,7 +36,7 @@ public interface ProductService {
      * @param product
      * @return
      */
-    public List<Product> selAll(Product product);
+    public List<Product> selAll(Product product,int pageNum, int pageSize);
 
 
     /**

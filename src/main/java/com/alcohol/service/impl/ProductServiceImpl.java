@@ -38,7 +38,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> selAll(Product product) {
+    public List<Product> selAll(Product product,int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize,true);
         return productMapper.selAll(product);
     }
 
