@@ -128,4 +128,55 @@
             AND s.sku_id=#{skuId}
         </if>
     </select>
+
+    <!--根据名字模糊查询商品  xcf-->
+    <select id="getProductList" resultType="Product">
+        SELECT tbpr.product_id,
+        tbpr.product_name,
+        tbpr.sales,
+        tbpr.looknumber,
+        tbimg.image_path,
+        tbsku.present_price,
+        tbcomm.countid
+        FROM tb_product tbpr
+        LEFT JOIN tb_Image tbimg
+        ON tbpr.product_id = tbimg.product_id
+
+        LEFT JOIN (SELECT sku.product_id,sku.present_price FROM (SELECT * FROM tb_sku ORDER BY present_price) sku  GROUP BY product_id) tbsku
+        ON tbsku.product_id = tbpr.product_id
+
+        LEFT JOIN (SELECT tb_sku.product_id pid,COUNT(tb_comment.comment_id) countid FROM tb_sku  LEFT JOIN tb_comment ON tb_sku.sku_id =tb_comment.sku_id GROUP BY tb_sku.product_id) tbcomm
+        ON  tbcomm.pid = tbpr.`product_id`
+        <if test="product_name!=null">
+            WHERE tbpr.product_name LIKE concat('%',#{product_name},'%')
+        </if>
+        GROUP BY tbpr.product_id
+        <if test="judge==1">      <!--销量正序-->
+            ORDER BY tbpr.sales
+        </if>
+        <if test="judge==2">      <!--销量倒叙-->
+            ORDER BY tbpr.sales DESC
+        </if>
+        <if test="judge==3">      <!--评论正序-->
+            ORDER BY tbcomm.countid
+        </if>
+        <if test="judge==4">      <!--评论倒叙-->
+            ORDER BY tbcomm.countid DESC
+        </if>
+        <if test="judge==5">      <!--价格正序-->
+            ORDER BY tbsku.present_price
+        </if>
+        <if test="judge==6">      <!--价格倒叙-->
+            ORDER BY tbsku.present_price DESC
+        </if>
+    </select>
+
+
+    <!--根据名字模糊查询三级分类   xcf-->
+    <select id="getCategorythree" >
+        SELECT categorythree_id ,categorythree_name
+        FROM tb_categorythree
+        WHERE categorythree_name
+        LIKE concat('%'#{pName}'%') ORDER BY weight;
+    </select>
 </mapper>

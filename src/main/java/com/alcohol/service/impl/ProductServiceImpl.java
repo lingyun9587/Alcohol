@@ -1,6 +1,7 @@
 package com.alcohol.service.impl;
 
 import com.alcohol.mapper.ProductMapper;
+import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
 import com.alcohol.service.ProductService;
@@ -59,5 +60,25 @@ public class ProductServiceImpl implements ProductService {
             sku=s;
         }
         return sku;
+    }
+
+    /**
+     * 根据名字查询分类集合
+     * @param categorythree_name  搜索栏中的值
+     * @return 分类集合
+     */
+    @Override
+    public List<Categorythree> getCategorythree(String categorythree_name) {
+        return productMapper.getCategorythree(categorythree_name);
+    }
+
+    /**
+     * 根据名字查询商品集合
+     * @param product_name   搜索栏中的值
+     * @return  商品集合
+     */
+    @Override
+    public List<Product> getProductList(String product_name,int judge) {
+        return productMapper.getProductList(product_name,judge);
     }
 }
