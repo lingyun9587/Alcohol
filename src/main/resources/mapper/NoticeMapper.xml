@@ -4,6 +4,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.NoticeMapper">
     <select id="list" resultType="Notice">
-        SELECT * FROM tb_notice
+        SELECT notice_id,title,link,content,create_time,type FROM tb_notice where spare_one =1 order by create_time desc
     </select>
+    <select id="seleid" resultType="Notice">
+        SELECT notice_id,title,link,content,create_time,type FROM tb_notice where notice_id=#{notice_id}
+    </select>
+    <insert id="add">
+        insert into tb_notice(notice_id,title,link,content,create_time,type)values (#{noticeId},#{title},#{link},#{content},#{createTime},#{type})
+    </insert>
+    <update id="dele" parameterType="int[]">
+        update tb_notice set spare_one=2 where notice_id in
+        <foreach collection="array" item="arr" index="no" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
+    <update id="upda">
+        UPDATE tb_notice
+        <set>
+            <if test="title != null and title != ''">
+                title =#{title},
+            </if>
+            <if test="link != null and link != ''">
+                link =#{link},
+            </if>
+            <if test="content != null and content != ''">
+                content =#{content},
+            </if>
+            <if test="type != null and type != ''">
+                type =#{type}
+            </if>
+        </set>
+        where notice_id =#{noticeId}
+    </update>
 </mapper>
