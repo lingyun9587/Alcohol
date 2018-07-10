@@ -23,6 +23,7 @@ public class Product {
     private String imagePath;      //图片路径
     private Double presentPrice;   //商品最低价
     private int countId;           //评价总记录数
+    private int spare_one;         //浏览量
     private int judge;             //判断用那种方式排序 1销量  2销量倒叙  3评论  4评论倒叙 5价格  6价格倒叙
 
     private Long productId;//商品编号
