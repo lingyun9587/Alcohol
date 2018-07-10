@@ -14,4 +14,6 @@ public class Image {
     private String imageType; //图片类型
     private Long weight; //权重
 
+    private Product product;//商品的对象
+
 }

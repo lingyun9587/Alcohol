@@ -4,37 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.NoticeMapper">
     <select id="list" resultType="Notice">
-        SELECT notice_id,title,link,content,create_time,type FROM tb_notice where spare_one =1 order by create_time desc
+        SELECT * FROM tb_notice
     </select>
-    <select id="seleid" resultType="Notice">
-        SELECT notice_id,title,link,content,create_time,type FROM tb_notice where notice_id=#{notice_id}
-    </select>
-    <insert id="add">
-        insert into tb_notice(notice_id,title,link,content,create_time,type)values (#{noticeId},#{title},#{link},#{content},#{createTime},#{type})
+    <insert id="addNotice">
+        INSERT INTO tb_notice(title,content,create_time,`type`) VALUES(title,content,create_time,type)
     </insert>
-    <update id="dele" parameterType="int[]">
-        update tb_notice set spare_one=2 where notice_id in
-        <foreach collection="array" item="arr" index="no" open="("
-                 separator="," close=")">
-            #{arr}
-        </foreach>
+    <update id="updateNotice">
+        UPDATE tb_notice SET title=title,content=content,create_time=create_time,`type`=type WHERE notice_id = notice_id
     </update>
-    <update id="upda">
-        UPDATE tb_notice
-        <set>
-            <if test="title != null and title != ''">
-                title =#{title},
-            </if>
-            <if test="link != null and link != ''">
-                link =#{link},
-            </if>
-            <if test="content != null and content != ''">
-                content =#{content},
-            </if>
-            <if test="type != null and type != ''">
-                type =#{type}
-            </if>
-        </set>
-        where notice_id =#{noticeId}
-    </update>
+    <delete id="deleteNotice">
+        delete from tb_notice where notice_id = noticeId
+    </delete>
 </mapper>

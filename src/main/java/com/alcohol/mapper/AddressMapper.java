@@ -45,4 +45,11 @@ public interface AddressMapper {
      * @return
      */
     int delAdd(Long addressId);
+
+    /**
+     *点击设置默认地址
+     * @param addressId
+     * @return
+     */
+    int upMoAdd(Long addressId);
 }

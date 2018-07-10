@@ -13,4 +13,10 @@ public interface ImageService {
      * @return
      */
     List<Image> list();
+
+    /**
+     * 根据商品id查询图片
+     * @return
+     */
+    Image selImageByProductId(Long productId);
 }

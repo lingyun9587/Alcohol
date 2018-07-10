@@ -3,6 +3,7 @@ package com.alcohol.pojo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 胡博
@@ -22,4 +23,6 @@ public class User {
     private Long integral;//积分
     private Long status;//会员名状态
     private Long paymentPassword;//支付密码
+
+    private List<Role> roles; //角色集合
 }

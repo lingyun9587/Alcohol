@@ -41,4 +41,11 @@ public interface CategoryThreeService {
      */
     int delCategorythree(Long categorythree_id);
 
+    /**
+     * 点击三级分类,显示属性和属性值,商品
+     * @param id
+     * @return
+     */
+    public Categorythree getCategorythreeById(Integer id);
+
 }

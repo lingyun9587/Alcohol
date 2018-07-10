@@ -12,33 +12,26 @@ public interface NoticeMapper {
      * 查询所有咨询
      * @return
      */
-    public List<Notice> list();
-
-    /***
-     * 根据id查
-     * @param id
+    List<Notice> list();
+    /**
+     * 新增资讯
+     * @param inNotice
      * @return
      */
-    public Notice seleid(int id);
+    int addNotice(Notice inNotice);
 
-    /***
-     * 新增
-     * @param notice
+    /**0
+     * 修改资讯
+     * @param upNotice
      * @return
      */
-    public int add(Notice notice);
+    int updateNotice(Notice upNotice);
 
-    /***
-     * 删除
-     * @param attr
+    /**
+     * 删除资讯
+     * @param delNotice
      * @return
      */
-    public boolean dele(int[] attr);
+    int deleteNotice(int delNotice);
 
-    /***
-     * 修改
-     * @param notice
-     * @return
-     */
-    public int upda(Notice notice);
 }

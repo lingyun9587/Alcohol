@@ -9,9 +9,25 @@ public interface NoticeService {
      * 查询所有咨询
      * @return
      */
-    public List<Notice> all(int pageNum, int pageSize);
-    public Notice seleid(int id);
-    public int add(Notice notice);
-    public boolean dele(int[] attr);
-    public int upda(Notice notice);
+    List<Notice> list();
+    /**
+     * 新增资讯
+     * @param inNotice
+     * @return
+     */
+    int addNotice(Notice inNotice);
+
+    /**0
+     * 修改资讯
+     * @param upNotice
+     * @return
+     */
+    int updateNotice(Notice upNotice);
+
+    /**
+     * 删除资讯
+     * @param delNotice
+     * @return
+     */
+    int deleteNotice(int delNotice);
 }

@@ -15,4 +15,17 @@ public class ImageServiceImpl implements ImageService {
     public List<Image> list() {
         return imageMapper.list();
     }
+
+    @Override
+    public Image selImageByProductId(Long productId) {
+        List<Image> imgs=imageMapper.selImageByProductId(productId);
+        Image img=null;
+        if(imgs!=null){
+            for (Image im:imgs) {
+                img=im;
+                return img;
+            }
+        }
+        return img;
+    }
 }

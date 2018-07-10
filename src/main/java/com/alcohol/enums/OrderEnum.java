@@ -22,7 +22,7 @@ public enum OrderEnum {
         this.stateInfo = stateInfo;
     }
     public  static OrderEnum indexOf(int index){
-        for (OrderEnum state : values()){
+        for (OrderEnum  state : values()){
             if (state.getState() == index){
                 return state;
             }

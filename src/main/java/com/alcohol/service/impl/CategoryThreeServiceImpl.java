@@ -66,4 +66,9 @@ public class CategoryThreeServiceImpl implements CategoryThreeService {
             throw e;
         }
     }
+
+    @Override
+    public Categorythree getCategorythreeById(Integer id) {
+        return cm.getCategorythreeById(id);
+    }
 }
