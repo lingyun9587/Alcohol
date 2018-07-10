@@ -3,9 +3,13 @@ package com.alcohol.controller;
 import com.alcohol.cache.JedisPoolWriper;
 import com.alcohol.cache.JedisUtil;
 import com.alcohol.config.redis.RedisConfiguration;
+import com.alcohol.dto.OrderExecution;
 import com.alcohol.pojo.*;
 import com.alcohol.service.ImageService;
+import com.alcohol.service.OrderService;
 import com.alcohol.service.ProductService;
+import com.alcohol.service.UserAccountService;
+import com.alcohol.util.IDUtil;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -13,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.apache.http.HttpRequest;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +45,11 @@ public class ShopCartController {
     private ImageService imageService;
     @Resource
     private JedisUtil.Hash jedisHashs;
+    @Resource
+    private OrderService orderService;
+    @Resource
+    private UserAccountService userAccountService;
+
     /*@Resource
     private JedisUtil.Keys jedisKeys;
     @Resource
@@ -288,8 +298,9 @@ public class ShopCartController {
      * @return
      */
     @RequestMapping(value = "/transferToOrder")
-    public Map<String,String> transferToOrder(@RequestParam(value = "productOrders",required = false)Long[] productOrders){
-
+    public Object transferToOrder(@RequestParam(value = "productOrders",required = false)Long[] productOrders){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
         // 定义jackson数据转换操作类
         ObjectMapper mapper = new ObjectMapper();
         User u=new User();
@@ -324,11 +335,68 @@ public class ShopCartController {
             }
         }
         jedisHashs.hdel(u.getUserId().toString());
-
             jedisHashs.hmset(u.getUserId().toString(),pp);//保存到redis
 
-
-        return mmm;
+        User user = new User();   //订单对象
+        user.setUserId(useraccount.getUserId());
+        Long orderId = IDUtil.SnowflakeIdWorker();
+        //创建订单对象
+        Order order1 = new Order();
+        order1.setOrderId(orderId);  //设置订单id
+        order1.setCreateTime(new Date());  //设置订单创建时间
+        order1.setUserId(user.getUserId());  //设值用户
+        order1.setStatus(1);   //设置订单状态
+        order1.setAddressId(1L);  //设置地址id  测试
+        //接收商品信息
+        List<Commodity> commodities = new ArrayList<>();  //商铺下的商品
+        int number = 0;  //总数数量
+        double money = 0;  //总金额
+        for (String str: mmm.keySet()) {
+            String so =  mmm.get(str);
+            Gson gson = new Gson();
+            Map<String,Object> map12 = new HashMap<>();
+            map12 = gson.fromJson(so,map12.getClass());
+            String s = new String();
+            String s1 =  JSON.toJSONString(map12.get("num"));
+            s = gson.fromJson(s1,s.getClass());
+            float f =Float.parseFloat(s);
+            int num = (int)f;   //获取到数量
+            Sku sku = new Sku(); //获取sku对象
+            sku = gson.fromJson(JSON.toJSONString(map12.get("sku")),sku.getClass());
+            Product product = new Product();
+            product.setProductId(1L);
+            sku.setProduct(product);
+            //添加订单商品信息
+            long commodityID = IDUtil.SnowflakeIdWorker();
+            Commodity commodity = new Commodity();
+            commodity.setCommodityId(commodityID);  //详情id
+            commodity.setOrderShopId(sku.getProduct().getUserId());  //商品id
+            commodity.setOrderId(orderId);  //订单id
+            commodity.setNumber(num);   //数量
+            commodity.setSkuId(sku.getSkuId());  //skuId
+            commodity.setOrderstatusId(1L);  //1待付款
+            commodities.add(commodity);  //添加到订单信息
+            number =number+num;   //数量
+            money =money+(num*sku.getPresentPrice());  //金额
+        }
+        order1.setCommodities(commodities);
+        order1.setGoodsCount(number);  //设置总数量
+        order1.setMoney(money);    //设置总金额
+        Map<String,Object> map = new HashMap<>();
+        OrderExecution orderExecution;
+        try{
+            orderExecution = orderService.insertInfo(order1);
+            if(orderExecution.getState() == 0 ){
+                map.put("success",true);
+                map.put("msg",orderExecution.getStateInfo());
+            }else{
+                map.put("success",false);
+                map.put("msg",orderExecution.getStateInfo());
+            }
+        }catch(Exception e){
+            map.put("success",false);
+            map.put("msg",e.toString());
+        }
+        return  map; //返回信息
     }
-
 }
