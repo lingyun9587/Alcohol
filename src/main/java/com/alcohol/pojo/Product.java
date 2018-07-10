@@ -2,6 +2,7 @@ package com.alcohol.pojo;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,4 +34,8 @@ public class Product {
     private Long categoryThree;//三级分类
     private String typevalueId;//属性值
     private Long weight;//权重
+    private Long userId;
+    private List<Typevalue> typeList=new ArrayList<Typevalue>();
+    private Long looknumber;//浏览量
+    private Long panduan;//判断的值
 }

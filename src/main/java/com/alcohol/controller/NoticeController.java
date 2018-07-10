@@ -19,7 +19,6 @@ import java.util.List;
 public class NoticeController {
     @Resource
     private NoticeService noticeService;
-
     /**
      * 查询所有的咨询
      * @return
@@ -28,7 +27,7 @@ public class NoticeController {
     @ResponseBody
     public String listNotice(@RequestParam(value = "pageIndex",required = false) int pageIndex,
                              @RequestParam(value = "pageSize",required = false) int  pageSize){
-        List<Notice> lis=noticeService.all(pageIndex,pageSize);
+        List<Notice> lis=noticeService.listall(pageIndex,pageSize);
         PageInfo<Notice> pa=new PageInfo<Notice>(lis);
         return JSON.toJSONString(pa);
     }
@@ -40,7 +39,7 @@ public class NoticeController {
     @RequestMapping(value="delenot",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
     @ResponseBody
     public String delt(@RequestParam(value = "noticeId",required = false) int[] noticeId){
-        boolean bu=noticeService.dele(noticeId);
+        boolean bu=noticeService.deleNotice(noticeId);
         String jso=null;
         if (bu){
             jso="{\"ers\":\"yes\",\"mesage\":\"删除成功\"}";
@@ -49,7 +48,6 @@ public class NoticeController {
         }
         return jso;
     }
-
     /***
      * 新增
      * @param notice
@@ -59,7 +57,7 @@ public class NoticeController {
     @ResponseBody
     public String insert(Notice notice){
         notice.setCreateTime(new Date());
-        int shan=noticeService.add(notice);
+        int shan=noticeService.addNotice(notice);
         String jso=null;
         if (shan>0){
             jso="{\"ers\":\"yes\",\"mesage\":\"新增成功\"}";
@@ -88,7 +86,7 @@ public class NoticeController {
     @RequestMapping(value="updanot",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
     @ResponseBody
     public String upda(Notice notice){
-        int shan=noticeService.upda(notice);
+        int shan=noticeService.updateNotice(notice);
         String jso=null;
         if (shan>0){
             jso="{\"ers\":\"yes\",\"mesage\":\"修改成功\"}";
