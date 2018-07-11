@@ -19,7 +19,7 @@
         SELECT typevalue_id FROM tb_product
     </select>
     <select id="selAllDESC" resultMap="Productlist">
-        SELECT product_id,product_name,sales,typevalue_id,looknumber FROM tb_product
+        SELECT product_id,product_name,sales,typevalue_id,spare_one FROM tb_product
         <where>
             <if test="productName!=null and productName!=''">
                 AND product_name LIKE CONCAT ('%',#{productName},'%')
@@ -29,13 +29,13 @@
             ORDER BY sales DESC
         </if>
         <if test="panduan==1">
-            ORDER BY looknumber DESC
+            ORDER BY spare_one DESC
         </if>
 
     </select>
 
     <select id="selAll" resultMap="Productlist">
-        SELECT product_id,product_name,sales,typevalue_id,looknumber FROM tb_product
+        SELECT product_id,product_name,sales,typevalue_id,spare_one FROM tb_product
         <where>
             <if test="productName!=null and productName!=''">
                 AND product_name LIKE CONCAT ('%',#{productName},'%')
@@ -44,12 +44,12 @@
         </where>
         ORDER BY sales
     </select>
-
     <resultMap id="Productlist" type="Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="sales" property="sales"/>
-        <result column="looknumber" property="looknumber"/>
+        <result column="spare_one" property="spare_one"/>
+        <result column="typevalue_id" property="typevalueId"/>
     </resultMap>
     <resultMap id="resultMap01" type="Product">
         <id column="product_id" property="productId"/>

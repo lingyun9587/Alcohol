@@ -3,9 +3,11 @@ package com.alcohol.controller;
 import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
+import com.alcohol.pojo.Image;
 import com.alcohol.pojo.Typevalue;
 import com.alcohol.service.ProductService;
 import com.alcohol.service.TypeValueService;
+import com.alcohol.service.ImageService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -30,6 +32,8 @@ public class ProductController {
     private ProductService productService;
     @Resource
     private TypeValueService typeValueService;
+    @Resource
+    private ImageService imageService;
 
     @RequestMapping(value="/getproductbyId")
     @ResponseBody
@@ -46,13 +50,18 @@ public class ProductController {
     @ResponseBody
     public Object selpro(@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
+        Long imgProductId;
         Product pro=new Product();
         List<Product> proslist=productService.selAllDESC(pro,pageNum,pageSize);
         PageInfo<Product> page=new PageInfo<Product>(proslist);
         for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
-            String[] arr=typevalueId.split(":");
+            imgProductId=pro.getProductId();
+
+            List<Image> listimg=imageService.selProductId(imgProductId);
+            pro.setImageList(listimg);
+            String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
                 Typevalue typevalue= typeValueService.selIdType(Long.parseLong(arr[j]));
                 pro.getTypeList().add(typevalue);
@@ -68,28 +77,32 @@ public class ProductController {
      */
     @PostMapping(value="/selName")
     @ResponseBody
-    public Object selName(Product product,int pan,@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
+    public Object selName(Product product,@RequestParam(value="pan",required = false)int pan,@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
+        Long imgProductId;
         Product pro=new Product();
         List<Product> proslist=new ArrayList<Product>();
         if(pan==0){
-            proslist=productService.selAllDESC(product,pageNum,pageSize);
-        }else if(pan==1){
             proslist=productService.selAll(product,pageNum,pageSize);
+        }else if(pan==1){
+            proslist=productService.selAllDESC(product,pageNum,pageSize);
         }
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        PageInfo<Product> page=new PageInfo<Product>(proslist);
         for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
-            String[] arr=typevalueId.split(":");
+            imgProductId=pro.getProductId();
+            List<Image> listimg=imageService.selProductId(imgProductId);
+            pro.setImageList(listimg);
+            String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
                 Typevalue typevalue= typeValueService.selIdType(Long.parseLong(arr[j]));
                 pro.getTypeList().add(typevalue);
             }
-            map.put("proslist",proslist);
         }
-        return map;
+        return JSON.toJSONString(page);
     }
+
 
 
     /**
