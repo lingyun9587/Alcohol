@@ -192,10 +192,21 @@ public class CategoryController {
     @RequestMapping(value="listCategorys",produces="text/html;charset=utf-8")
     public String getCategoryOneInfo(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize){
         List<Categoryone> list=categoryOneService.getCategoryOneInfofy(pageNum,pageSize);
-        pageNum=(pageNum-1)*pageSize;
+
         PageInfo<Categoryone> apps=new PageInfo<Categoryone>(list);
 
         return JSON.toJSONString(apps);
+    }
+
+    /**
+     * 查询所有一级分类下拉框
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="getCategoryOneInfos",produces = "text/html;charset=utf-8")
+    public String getCategoryOneInfos(){
+        categoryoneList=categoryOneService.getCategoryOneInfos();
+        return JSON.toJSONString(categoryoneList);
     }
 
     /**

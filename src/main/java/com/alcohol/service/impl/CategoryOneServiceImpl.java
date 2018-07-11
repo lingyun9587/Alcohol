@@ -68,10 +68,13 @@ public class CategoryOneServiceImpl implements CategoryOneService {
             throw e;
         }
     }
+    @Override
+    public List<Categoryone> getCategoryOneInfos() {
+        return cm.getCategoryOneInfos();
+    }
 
     @Override
     public List<Categoryone> getCategoryOneInfofy(Integer pageNum,Integer pageSize) {
-
         PageHelper.startPage(pageNum,pageSize,true,true);
         List<Categoryone> news=cm.getCategoryOneInfofy();
         return news;
