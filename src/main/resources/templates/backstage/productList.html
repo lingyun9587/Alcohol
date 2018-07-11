@@ -13,13 +13,14 @@
 
 		<style type="text/css">
 
-		</style>
+		</style>1
 
 	</head>
 
 	<body>
 		<div class="container">
 			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>分类列表</h1>
+			<input type='button' name='Submit' onclick='javascript:history.back(1);' value='返回上一页'>
 			<div class="serach">
 				<input type="button" value="新增" class="button add" onclick="add()"/>
 			</div>
@@ -29,27 +30,15 @@
 				<table id="dg" cellpadding="0" cellspacing="0" border="0" class="selectTable">
 					<thead>
 						<tr>
-							<th width="5%"><input type="checkbox" /></th>
-							<th width="10%">评论人</th>
-							<th width="35%">评论</th>
-							<th width="10%">评论时间</th>
-							<th width="20">宝贝信息</th>
-							<th width="10">评价</th>
-							<th width="10%">操作</th>
+
+							<th width="10%">分类编号</th>
+							<th width="35%">分类名称</th>
+							<th width="10%">分类级别</th>
+							<th width="20">操作</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox" /></td>
-							<td>微***风</td>
-							<td>卖家不是人，是神仙。一下就到天上了卖家不是人，是神仙。一下就到天上了卖家不是人，是神仙。一下就到天上了</td>
-							<td>2018-05-25</td>
-							<td>御泥坊面膜 补水 美白</td>
-							<td>中评</td>
-							<td>
-								<a href="#" onclick="hf(this)">回复</a>
-							</td>
-						</tr>
+					<tbody class="show">
+
 					</tbody>
 				</table>
 				<div class='pageStyle'>
@@ -58,99 +47,41 @@
 			</div>
 
 			<div id="mb_stuInfo">&nbsp;</div>
+
+
 			<div class="popup" id="stuInfo">
-				<h1>新增商品分类9<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+				<h1>修改<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
 				<div class="pInfo">
-					<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="addForm">
-						<dl>
-							<dt><span>评论</span></dt>
-							<dd>
-								<div class="fbox">
-									<textarea cols="50" rows="8" wrap="hard" style="border: 1px solid #CCCCCC;">机不可失，时不再来，人生得一知机足以，至此，吾生无憾矣！</textarea>
-								</div>
-							</dd>
-						</dl>
-						<dl>
-							<dt><span>回复评论</span></dt>
-							<dd>
-								<div class="fbox">
-									<textarea cols="50" rows="8" wrap="hard" style="border: 1px solid #CCCCCC;"></textarea>
-								</div>
-							</dd>
-						</dl>
+					<form action="#" method="post"  onsubmit="return checkForm()" class="addForm"><br/>
+						<p class="fen" style="padding-left: 8px"></p><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;原名：<input type="text" class="updoneyuanname" readonly="readonly" style="border: 1px solid #a0b7d4;width: 130px;height: 25px" /><input type="hidden" class="updid"/><br/><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="updonename" style="border: 1px solid #a0b7d4;width: 130px;height: 25px" />
 					</form>
 
 				</div>
 				<div class="pfooter">
-					<input type="button" value="回复" class="button save" />
-					<input type="button" value="取消" class="button delete" />
+					<input type="button" value="保存" class="btnupd" style="background-color: #2277da;color: #fff;padding: 6px 15px 5px 30px;" onclick="upds()" />
+					<input type="button" value="取消" onclick="closeMask('stuInfo')" class="button delete" />
 				</div>
 			</div>
+		</div>
 			<script src="/js/backstage/jquery-3.3.1.min.js"></script>
-			<script src="/js/backstage/pagetion.js">
-			</script>
+			<script src="/js/backstage/pagetion.js"></script>
 			<script type="text/javascript" src="/js/backstage/table.js"></script>
 			<script type="text/javascript" src="/js/backstage/popup.js"></script>
 			<script type="text/javascript" src="/js/backstage/jquery-1.8.3.min.js"></script>
-
 			<script type="text/javascript">
+				var one="";
+				var two="";
+				var three="";
+				var shu="";
+				var shuxing="";
                 var pagesize = 10; //页显示多少条记录
                 $(function() {
                     showPage(1, 10, 46);//分页
-                    //tableInit(1, pagesize); //初始默认第一页
+                    tableInit(1, pagesize); //初始默认第一页
                 });
                 //页索引 pageindex
-                function tableInit(pageindex, pagesize) {
-                    //绑定表格数据
-                    $("#dg").grid({
-                        id: "dg",
-                        url: "/data/backstage/data1.json",
-                        data: {
-                            "pageindex": pageindex,
-                            "pagesize": pagesize
-                        },
-                        columns: [{
-                            field: 'ID',
-                            title: '编号',
-                            width: 100,
-                            align: 'center'
-                        },
-                            {
-                                field: 'name',
-                                title: '用户名',
-                                width: 100,
-                                align: 'left'
-                            },
-                            {
-                                field: 'descrtion',
-                                title: '类型',
-                                width: 150,
-                                align: 'center'
-                            },
-                            {
-                                field: 'Price',
-                                title: '评论对象',
-                                width: 200,
-                                align: 'left'
-                            },
-                            {
-                                field: 'Price',
-                                title: '评论时间',
-                                width: 100,
-                                align: 'left'
-                            },
-                            {
-                                field: 'Price',
-                                title: '操作',
-                                width: 100,
-                                align: 'left'
-                            }
-                        ],
-                        pagination: true //是否分页
-
-                    });
-
-                }
                 // 每页点击页码与输入页码跳转页面
                 function show(pageindex) {
                     tableInit(pageindex, pagesize);
@@ -159,11 +90,10 @@
                 function delete1(id) {
                     //alert(id)
                 }
-
                 function update1(id) {
                     //alert(id)
                 }
-                $(function() {
+                /*$(function() {
                     //绑定行单击事件开始
                     $("#dg").on("click", "tr", function() {
                         //单击从表格上取id值
@@ -172,19 +102,456 @@
                     });
                     //绑定行单击事件结束
 
-                    /*绑定行双击事件开始*/
+                    /!*绑定行双击事件开始*!/
                     $("#dg").on("dblclick", "tr", function() {
                         var _trId = $(this).children("td:eq(1)").html();
 
                     });
 
 
-                    /*绑定行双击事件结束*/
-                })
+                    /!*绑定行双击事件结束*!/
+                })*/
 
-                //点击新增
-                function add() {
-                    mask(560, 418, true, "stuInfo");
+                //查询一级分类分页
+                function tableInit(pageindex, pagesize) {
+
+                    $.ajax({
+                        url:"../listCategorys",
+                        type:"post",
+                        data:{pageNum:pageindex,pageSize:pagesize},
+                        dataType:"JSON",
+                        success:function(result){
+                            var content="";
+
+                            $.each(result.list,function(i,e){
+                                content+="<tr><td>"+e.categoryoneId+"</td><td>"+e.categoryontName+"</td>\<td>一级分类</td><td><a href='#' onclick='listTwos("+e.categoryoneId+")'>查看子分类</a>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 40px;height: 20px' value='修改' class='butupd' onclick='upd(this)'/></td></tr>";
+                            })
+                            $(".show").html(content);
+                        }
+                    })
+
+                }
+                //查询一级分类下的二级分类
+                function listTwos(categoryoneId) {
+                    $.ajax({
+                        url:"../getCategoryTwoInfofy",
+                        type:"post",
+                        data:{parentId:categoryoneId,pageNum:1,pageSize:10},
+                        dataType:"JSON",
+                        success:function(result){
+                            var content="";
+                            alert(result);
+                            if(result!=null||result!=""||result.e){
+								alert(1);
+                                $.each(result.list,function(i,e){
+                                    content+="<tr><td>"+e.categorytwoId+"</td><td>"+e.categorytwoName+"</td>\<td>二级分类</td><td><a href='#' onclick='listThree("+e.categorytwoId+")'>查看子分类</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='tableInit(1,10)'>查看父级</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='upd2(this)'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deltwo("+e.categorytwoId+")'>删除</a></td></tr>";
+                                })
+
+                                one=categoryoneId;
+							}else{
+                                alert(2);
+								content+="<p>暂无数据！</p>"
+							}
+
+                            one=categoryoneId;
+                            $(".show").html(content);
+                        }
+
+                    })
+
+                }
+                <!--查询二级分类下的三级分类-->
+				function listThree(categorytwoId){
+                    $.ajax({
+                        url:"../getCategoryThreeInfofy",
+                        type:"post",
+                        data:{parentId:categorytwoId,pageNum:1,pageSize:10},
+                        dataType:"JSON",
+                        success:function(result){
+                            var content="";
+                            $.each(result.list,function(i,e){
+                                content+="<tr><td>"+e.categorythreeId+"</td><td>"+e.categorythreeName+"</td>\<td>三级分类</td><td><a href='#' onclick='listshu("+e.categorythreeId+")'>查看子分类</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='seltwo()'>查看父级</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='upd3(this)'>修改</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='delthree("+e.categorythreeId+")'>删除</a></td></tr>";
+                            })
+							two=categorytwoId;
+                            $(".show").html(content);
+                        }
+                    })
+				}
+				<!--查询三级下的属性-->
+				function listshu(categorythreeId){
+                    $.ajax({
+                        url:"../getTypeNamefy",
+                        type:"post",
+                        data:{categoryId:categorythreeId,pageNum:1,pageSize:10},
+                        dataType:"JSON",
+                        success:function(result){
+                            var content="";
+                            $.each(result.list,function(i,e){
+                                content+="<tr><td>"+e.typeNameId+"</td><td>"+e.typeNameName+"</td>\<td>分类属性</td><td><a href='#' onclick='listshuzhi("+e.typeNameId+")'>查看属性值</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='selthree()'>查看父级</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='upd4(this)'>修改</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='delshu("+e.typeNameId+")'>删除</a></td></tr>";
+                            })
+							three=categorythreeId;
+                            $(".show").html(content);
+                        }
+                    })
+				}
+				<!--查询属性下的属性值-->
+				function listshuzhi(typeNameId){
+                    $.ajax({
+                        url:"../getTypeValuefy",
+                        type:"post",
+                        data:{typeNameId:typeNameId,pageNum:1,pageSize:10},
+                        dataType:"JSON",
+                        success:function(result){
+                            var content="";
+                            if(result==null){
+
+							}
+                            $.each(result.list,function(i,e){
+                                content+="<tr><td>"+e.typeValueId+"</td><td>"+e.typeValueName+"</td>\<td>分类属性</td><td><a href='#' onclick='selshu()'>查看父级</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='upd5(this)'>修改</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='delshuxing("+e.typeValueId+")'>删除</a></td></tr>";
+                            })
+							shu=typeNameId;
+                            $(".show").html(content);
+                        }
+                    })
+				}
+				<!--根据一级分类的id查询对应的二级分类(查看三级查看二级父类的时候)-->
+				function seltwo(){
+					//获取所选一级分类的编号
+					//调用一级分类查询二级分类
+                    listTwos(one);
+				}
+				<!--根据二级分类的id查询对应的三级分类(查看属性的三级分类)-->
+				function selthree(){
+                    //调用二级分类查询三级分类
+                    listThree(two);
+				}
+				<!--根据三级分类的id查询对应的属性（查看属性值的属性）-->
+				function selshu(){
+                    //调用三级分类查询属性
+					listshu(three);
+				}
+				<!--查询属性值-->
+				function selshuxing(){
+                    listshuzhi(shu);
+				}
+                <!--删除二级分类-->
+				function deltwo(categorytwoId){
+
+                    $.ajax({
+                        url:"../delcategorytwo",
+                        type:"post",
+                        data:{categorytwoId:categorytwoId},
+                        dataType:"JSON",
+                        success:function(result){
+                            if(result==1){
+                                alert("该分类下还有商品");
+                            }else if(result==2){
+                                alert("删除成功");
+                            }else if(result==3){
+                                alert("删除失败");
+                            }else{
+                                alert("数据去游玩了~~~");
+                            }
+                            //调用属性值，重新查询
+                            seltwo();
+                        }
+                    })
+				}
+                <!--删除三级分类-->
+                function delthree(categorythreeId){
+                    $.ajax({
+                        url:"../delcategorythree",
+                        type:"post",
+                        data:{categorythreeId:categorythreeId},
+                        dataType:"JSON",
+                        success:function(result){
+                            if(result==1){
+                                alert("该分类下还有商品");
+                            }else if(result==2){
+                                alert("删除成功");
+                            }else if(result==3){
+                                alert("删除失败");
+                            }else{
+                                alert("数据去游玩了~~~");
+                            }
+                            //调用属性值，重新查询
+                            selthree();
+                        }
+                    })
+				}
+                <!--删除属性-->
+                function delshu(typeNameId){
+
+                    //判断属性值下是否有商品
+                    //如果有商品不得删除
+                    //如果没有商品可以删除
+                    //获取到商品的父级（一级分类，二级分类，三级分类，属性，属性值）
+                    $.ajax({
+                        url:"../delTypename",
+                        type:"post",
+                        data:{typeNameId:typeNameId},
+                        dataType:"JSON",
+                        success:function(result){
+                            if(result==1){
+                                alert("该属性下还有商品");
+                            }else if(result==2){
+                                alert("删除成功");
+                            }else if(result==3){
+                                alert("删除失败");
+                            }else{
+                                alert("数据去游玩了~~~");
+                            }
+                            //调用属性值，重新查询
+                            selshu();
+                        }
+                    })
+				}
+                <!--删除属性值-->
+                function delshuxing(shuxing){
+
+                    //判断属性值下是否有商品
+                    //如果有商品不得删除
+                    //如果没有商品可以删除
+                    //获取到商品的父级（一级分类，二级分类，三级分类，属性，属性值）
+                    $.ajax({
+                        url:"../delTypeValue",
+                        type:"post",
+                        data:{typeValueId:shuxing},
+                        dataType:"JSON",
+                        success:function(result){
+                            if(result==1){
+                                alert("该属性值下还有商品");
+                            }else if(result==2){
+                                alert("删除成功");
+                            }else if(result==3){
+                                alert("删除失败");
+                            }else{
+                                alert("数据去游玩了~~~");
+                            }
+                            //调用属性值，重新查询
+                            selshuxing();
+                        }
+                    })
+                }
+                //判断是几级分类的保存
+                function upds(){
+                    var fen=$(".fen").text();
+                    if(fen=="一级分类："){
+                        //修改一级分类
+                        updone();
+					}else if(fen=="二级分类："){
+                        updtwo();
+					}else if(fen=="三级分类："){
+                        updthree();
+					}else if(fen=="属性："){
+                        updshu();
+					}else if(fen=="属性值："){
+                        updshuxing();
+					}else{
+                        alert("出错啦/(ㄒoㄒ)/~~");
+					}
+
+				}
+                //点击修改一级分类加载修改页面
+                function upd(obj) {
+                    $(".updonename").val("");
+                    $(".fen").text("一级分类：");
+                    mask(360, 248, true, "stuInfo");
+                    var id= $(obj).parent().parent().find("td").eq(0).html();
+                    var name= $(obj).parent().parent().find("td").eq(1).html();
+                    $(".updoneyuanname").val(name);
+                    $(".updid").val(id);
+                }
+                //点击修改二级分类加载修改页面
+                function upd2(obj) {
+                    $(".updonename").val("");
+                    $(".fen").text("二级分类：");
+                    mask(360, 248, true, "stuInfo");
+                    var id= $(obj).parent().parent().find("td").eq(0).html();
+                    var name= $(obj).parent().parent().find("td").eq(1).html();
+                    $(".updoneyuanname").val(name);
+                    $(".updid").val(id);
+                }
+                //点击修改三级分类加载修改页面
+                function upd3(obj) {
+                    $(".updonename").val("");
+                    $(".fen").text("三级分类：");
+                    mask(360, 248, true, "stuInfo");
+                    var id= $(obj).parent().parent().find("td").eq(0).html();
+                    var name= $(obj).parent().parent().find("td").eq(1).html();
+                    $(".updoneyuanname").val(name);
+                    $(".updid").val(id);
+                }
+                //点击修改属性级加载修改页面
+                function upd4(obj) {
+                    $(".updonename").val("");
+                    $(".fen").text("属性：");
+                    mask(360, 248, true, "stuInfo");
+                    var id= $(obj).parent().parent().find("td").eq(0).html();
+                    var name= $(obj).parent().parent().find("td").eq(1).html();
+                    $(".updoneyuanname").val(name);
+                    $(".updid").val(id);
+                }
+                //点击修改属性值加载修改页面
+                function upd5(obj) {
+                    $(".updonename").val("");
+                    $(".fen").text("属性值：");
+                    mask(360, 248, true, "stuInfo");
+                    var id= $(obj).parent().parent().find("td").eq(0).html();
+                    var name= $(obj).parent().parent().find("td").eq(1).html();
+                    $(".updoneyuanname").val(name);
+                    $(".updid").val(id);
+                }
+                <!--修改一级分类-->
+				function updone(){
+                    var id=$(".updid").val();
+                    var name=$(".updonename").val();
+                    if(name==""||name==null){
+                        alert("请输入新分类名");
+					}else{
+                        $.ajax({
+                            url:"../updone",
+                            type:"post",
+                            data:{categoryoneId:id,categoryontName:name},
+                            dataType:"JSON",
+                            success:function(result){
+                                if(result==1){
+                                    alert("修改成功");
+                                    $(".updonename").val("");
+                                    $(".updid").val("");
+                                    tableInit(1, pagesize);
+                                    closeMask('stuInfo');
+                                }else if(result==2){
+                                    alert("修改有误");
+                                }else if(result==3){
+                                    alert("分类已存在请重新输入！");
+                                }else{
+                                    alert("数据游玩中，请稍后再试~~~");
+                                }
+                            }
+                        })
+					}
+
+				}
+                <!--修改二级分类-->
+                function updtwo(){
+                    var id=$(".updid").val();
+                    var name=$(".updonename").val();
+                    if(name==""||name==null){
+                        alert("请输入新分类名");
+                    }else{
+                        $.ajax({
+                            url:"../updtwo",
+                            type:"post",
+                            data:{categorytwoId:id,categorytwoName:name},
+                            dataType:"JSON",
+                            success:function(result){
+                                if(result==1){
+                                    alert("修改成功");
+                                    $(".updonename").val("");
+                                    $(".updid").val("");
+                                    listTwos(one);
+                                    closeMask('stuInfo');
+                                }else if(result==2){
+                                    alert("修改有误");
+                                }else if(result==3){
+                                    alert("分类已存在请重新输入！");
+                                }else{
+                                    alert("数据游玩中，请稍后再试~~~");
+                                }
+                            }
+                        })
+                    }
+                }
+                <!--修改三级分类-->
+                function updthree(){
+                    var id=$(".updid").val();
+                    var name=$(".updonename").val();
+                    if(name==""||name==null){
+                        alert("请输入新分类名");
+                    }else{
+                        $.ajax({
+                            url:"../updthree",
+                            type:"post",
+                            data:{categorythreeId:id,categorythreeName:name},
+                            dataType:"JSON",
+                            success:function(result){
+                                if(result==1){
+                                    alert("修改成功");
+                                    $(".updonename").val("");
+                                    $(".updid").val("");
+                                    listThree(two);
+                                    closeMask('stuInfo');
+                                }else if(result==2){
+                                    alert("修改有误");
+                                }else if(result==3){
+                                    alert("分类已存在请重新输入！");
+                                }else{
+                                    alert("数据游玩中，请稍后再试~~~");
+                                }
+                            }
+                        })
+                    }
+                }
+                <!--修改属性-->
+                function updshu(){
+                    var id=$(".updid").val();
+                    var name=$(".updonename").val();
+                    if(name==""||name==null){
+                        alert("请输入新属性名");
+                    }else{
+                        $.ajax({
+                            url:"../updshu",
+                            type:"post",
+                            data:{typeNameId:id,typeNameName:name},
+                            dataType:"JSON",
+                            success:function(result){
+                                if(result==1){
+                                    alert("修改成功");
+                                    $(".updonename").val("");
+                                    $(".updid").val("");
+                                    listshu(three);
+                                    closeMask('stuInfo');
+                                }else if(result==2){
+                                    alert("修改有误");
+                                }else if(result==3){
+                                    alert("属性已存在请重新输入！");
+                                }else{
+                                    alert("数据游玩中，请稍后再试~~~");
+                                }
+                            }
+                        })
+                    }
+                }
+                <!--修改属性值级-->
+                function updshuxing(){
+                    var id=$(".updid").val();
+                    var name=$(".updonename").val();
+                    if(name==""||name==null){
+                        alert("请输入新属性名");
+                    }else{
+                        $.ajax({
+                            url:"../updshuxing",
+                            type:"post",
+                            data:{typeValueId:id,typeValueName:name},
+                            dataType:"JSON",
+                            success:function(result){
+                                if(result==1){
+                                    alert("修改成功");
+                                    $(".updonename").val("");
+                                    $(".updid").val("");
+                                    listshuzhi(shu);
+                                    closeMask('stuInfo');
+                                }else if(result==2){
+                                    alert("修改有误");
+                                }else if(result==3){
+                                    alert("属性值已存在请重新输入！");
+                                }else{
+                                    alert("数据游玩中，请稍后再试~~~");
+                                }
+                            }
+                        })
+                    }
                 }
 			</script>
 	</body>
