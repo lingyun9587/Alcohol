@@ -105,5 +105,12 @@ public class ProductController {
         return JSON.toJSONString(productService.getProductByCategory(map));
     }
 
+    @RequestMapping(value="/AddProduct")
+    @ResponseBody
+    public String AddProduct(Product product){
+        int x=productService.AddProduct(product);
+
+        return "";
+    }
 
 }
