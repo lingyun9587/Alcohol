@@ -43,6 +43,5 @@ public class Product {
     private Long weight;//权重
     private Long userId;
     private List<Typevalue> typeList=new ArrayList<Typevalue>();
-    private Long looknumber;//浏览量
     private Long panduan;//判断的值
 }
