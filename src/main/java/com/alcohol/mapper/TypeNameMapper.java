@@ -15,11 +15,23 @@ public interface TypeNameMapper {
     List<TypeName> getTypeName(Map<String, Object> map);
 
     /**
+     *根据三级分类查询对应的属性
+     */
+    List<TypeName> getTypeNamefy(TypeName tn);
+
+    /**
      * 新增属性
      * @param tn
      * @return
      */
     int addTypeName(TypeName tn);
+
+    /**
+     * 判断要修改的属性名是否存在
+     * @param tn
+     * @return
+     */
+    int TypeNameissel(TypeName tn);
 
     /**
      * 修改属性
@@ -29,10 +41,28 @@ public interface TypeNameMapper {
     int modifyTypeName(TypeName tn);
 
     /**
-     * 删除属性
-     * @param typeNameId
+     * 判断删除的属性下是否有属性值
+     * @param tn
      * @return
      */
-    int delTypeName(Long typeNameId);
+    int delistypevalue(TypeName tn);
+
+    /**
+     * 删除属性
+     * @param tn
+     * @return
+     */
+    int delTypeName(TypeName tn);
+
+    /**
+     * 查询属性是否存在
+     */
+    int seltnId(TypeName typeName);
+
+    /**
+     * 查询新增属性的id
+     * @return
+     */
+    int list();
 
 }
