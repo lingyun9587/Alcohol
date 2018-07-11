@@ -16,6 +16,11 @@ public interface CategoryOneMapper {
     List<Categoryone> getCategoryOneInfo();
 
     /**
+     * 查询一级分类分页
+     */
+    List<Categoryone> getCategoryOneInfofy();
+
+    /**
      * 查询要添加的分类是否存在
      * @param categoryontName
      * @return
@@ -42,4 +47,10 @@ public interface CategoryOneMapper {
      * @return
      */
     int delCategoryone(Long categoryone_id);
+
+    /**
+     *王磊
+     *后台查询分类
+     */
+    public List<Categoryone> listCategory();
 }
