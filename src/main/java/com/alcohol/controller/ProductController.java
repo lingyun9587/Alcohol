@@ -1,11 +1,13 @@
 package com.alcohol.controller;
 
+import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
 import com.alcohol.pojo.Typevalue;
 import com.alcohol.service.ProductService;
 import com.alcohol.service.TypeValueService;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
@@ -102,6 +104,49 @@ public class ProductController {
         map.put("categoryOne",categoryOne);
         map.put("pageSize",pageSize);
         return JSON.toJSONString(productService.getProductByCategory(map));
+    }
+
+    /**
+     * 根据搜索名模糊查询三级分类集合
+     * @param request 作用域
+     * @return 分类集合json字符串
+     */
+    @RequestMapping(value = "getSearch")
+    @ResponseBody
+    public String getSearch(HttpServletRequest request,String pName){
+        //获取前台搜索框的值
+        String pName1 = (String)request.getSession().getAttribute("pName");
+        //调用service层的方法进行查询
+        List<Categorythree> typeList = productService.getCategorythree(pName1);
+        //把分类集合转换为json字符串
+        String json = JSON.toJSONString(typeList);
+        //返回参数
+        System.out.println(json);
+        return json;
+    }
+
+    /**
+     * 根据商品名模糊查询商品集合
+     * @param request 作用域
+     * @param pName 搜索框的值
+     * @return 查询到的商品集合
+     */
+    @RequestMapping(value = "getProduct")
+    @ResponseBody
+    public String getProduct(HttpServletRequest request,String pName,int judge,Integer pageIndex,Integer pageSize){
+        //调用service层的方法进行查询 sout
+        System.out.println(pName);
+        if(pageIndex==null){
+            pageIndex=1;
+            pageSize=1;
+        }
+        PageHelper.startPage(pageIndex,pageSize,true);
+        List<Product> prList = productService.getProductList(pName,judge);
+        PageInfo<Product> page=new PageInfo<Product>(prList);
+        //把分类集合转换为json字符串
+        String json = JSON.toJSONString(page);
+        //展示json数据
+        return json;
     }
 
 

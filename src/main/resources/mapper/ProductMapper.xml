@@ -147,7 +147,7 @@
 
         LEFT JOIN (SELECT tb_sku.product_id pid,COUNT(tb_comment.comment_id) countid FROM tb_sku  LEFT JOIN tb_comment ON tb_sku.sku_id =tb_comment.sku_id GROUP BY tb_sku.product_id) tbcomm
         ON  tbcomm.pid = tbpr.`product_id`
-        <if test="product_name!=null">
+        <if test="product_name!='' and product_name!=null">
             WHERE tbpr.product_name LIKE concat('%',#{product_name},'%')
         </if>
         GROUP BY tbpr.product_id
