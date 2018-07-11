@@ -9,5 +9,5 @@ public interface RktableService {
      * 查询全部
      * @return
      */
-    List<Rktable> SelAll(String productName);
+    List<Rktable> SelAll(String productName,int pageNum,int pageSize);
 }
