@@ -16,6 +16,12 @@ public interface CategoryOneMapper {
     List<Categoryone> getCategoryOneInfo();
 
     /**
+     * 后台查询一级分类
+     * @return
+     */
+    List<Categoryone> getCategoryOneInfos();
+
+    /**
      * 查询一级分类分页
      */
     List<Categoryone> getCategoryOneInfofy();

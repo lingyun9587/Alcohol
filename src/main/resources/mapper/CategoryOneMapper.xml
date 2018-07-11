@@ -27,6 +27,12 @@
          LEFT JOIN tb_categorytwo AS temp ON `tb_categoryone`.`categoryone_id`=temp.`parentId`
           LEFT JOIN tb_categorythree ON `tb_categorythree`.parentId=temp.categorytwo_id
     </select>
+
+    <!--查询一级分类下拉框-->
+    <select id="getCategoryOneInfos" resultType="Categoryone">
+        SELECT categoryone_id,categoryont_name FROM tb_categoryone
+    </select>
+
     <!--查询一级分类分页-->
     <select id="getCategoryOneInfofy" resultType="Categoryone">
         SELECT categoryone_id,categoryont_name FROM tb_categoryone

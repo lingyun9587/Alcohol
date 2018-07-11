@@ -16,7 +16,7 @@ import javax.jms.TextMessage;
 @Component
 public class ConsumerCc {
 
-    private final static Logger logger = LoggerFactory
+   /* private final static Logger logger = LoggerFactory
             .getLogger(ConsumerCc.class);
 
     @JmsListener(destination = "queue1", containerFactory = "jmsQueueListener")
@@ -31,5 +31,5 @@ public class ConsumerCc {
             session.recover();// 此不可省略 重发信息使用
         }
 
-    }
+    }*/
 }

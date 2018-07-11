@@ -7,6 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface CategoryThreeService {
+
+
+    /**
+     * 点击三级分类,显示属性和属性值,商品
+     * @param id
+     * @return
+     */
+    public Categorythree getCategorythreeById(Integer id);
+
     /**
      * 根据二级查询三级分类
      * @param three

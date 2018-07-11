@@ -12,6 +12,11 @@ public interface CategoryOneService {
      * 查询一级分类
      */
     List<Categoryone> getCategoryOneInfo();
+    /**
+     * 后台查询一级分类
+     * @return
+     */
+    List<Categoryone> getCategoryOneInfos();
 
     /**
      * 查询要添加的分类是否存在

@@ -8,6 +8,12 @@ import java.util.Map;
 public interface TypeValueMapper {
 
     /**
+     * 根据Id获取值
+     * @param typeValueId
+     * @return
+     */
+    Typevalue selIdType(Long typeValueId);
+    /**
      * 根据三级查询所有的属性值
      * @param map
      * @return
