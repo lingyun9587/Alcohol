@@ -52,17 +52,17 @@ public class CategoryController {
         return JSON.toJSONString(categoryoneList);
     }
 
-    /**
+   /* *//**
      * 根据一级所选分类查询所有的一级分类下的二级分类
      * @param map
      * @return
-     */
+     *//*
     @RequestMapping(value="listwo",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String listwo(Map<String,Object> map){
         categorytwoList=categoryTwoService.getCategoryTwoInfo(map);
         return JSON.toJSONString(categorytwoList);
-    }
+    }*/
 
     /**
      * 根据二级所选分类查询所有的二级下的三级分类

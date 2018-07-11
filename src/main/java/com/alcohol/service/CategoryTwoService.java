@@ -1,7 +1,6 @@
 package com.alcohol.service;
 
 import com.alcohol.pojo.Categorytwo;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -9,16 +8,10 @@ import java.util.Map;
 public interface CategoryTwoService {
     /**
      * 查询一级下的二级
-     * @param ct
+     * @param map
      * @return
      */
-    List<Categorytwo> getCategoryTwoInfo(Categorytwo ct);
-    /**
-     * 查询二级分类分页
-     * @param ct
-     * @return
-     */
-    List<Categorytwo> getCategoryTwoInfofy(Categorytwo ct, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize);
+    List<Categorytwo> getCategoryTwoInfo(Map<String, Object> map);
 
     /**
      * 查询要添加的分类是否存在
@@ -40,17 +33,18 @@ public interface CategoryTwoService {
      * @return
      */
     int updateCategorytwo(Categorytwo ct);
-    /**
-     * 判断二级分类下是否有三级分类
-     * @param two
-     * @return
-     */
-    int delistwo(Categorytwo two);
 
     /**
      * 删除
-     * @param two
+     * @param id
      * @return
      */
-    int delCategorytwo(Categorytwo two);
+    int delCategorytwo(Long categorytwo_id);
+
+    /**
+     * 查询三级上的二级
+     * @param id
+     * @return
+     */
+    Categorytwo getCategorytwoBythreeId(Integer id);
 }

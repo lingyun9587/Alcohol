@@ -12,30 +12,47 @@ WHERE parentId =(
     </select>
 
 
-    <!--查询三级分类分页-->
-    <select id="getCategoryThreeInfofy" resultType="Categorythree">
-        SELECT * FROM tb_categorythree WHERE parentId=#{parentId} and isdel=0
-    </select>
-
     <!--查询要添加的三级分类是否存在-->
-    <select id="getCategoryThree" resultType="java.lang.Integer">
-        select count(1) from tb_categorythree where parentId=#{parentId} and categorythree_name=#{categorythreeName} and isdel=0
+    <select id="getCategoryThree" resultType="Categorythree">
+        select count(1) from tb_categorythree where categorythreeName=#{categorythreeName} where isdel=0
     </select>
     <!--新增三级分类-->
     <insert id="addCategoryThree">
-        INSERT INTO tb_categorythree
-          VALUE (NULL,#{categorythreeName},#{parentId},0,null,null,null,null,null)
+        insert into tb_categorythree values
+        (#{categorythree_name},#{parentId},#{weight},#{isdel})
     </insert>
-    <!--判断三级分类下是否有属性-->
-    <select id="delisthree" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM tb_typename WHERE FIND_IN_SET(#{categorythreeId},category_id) and isdel=0;
-    </select>
-    <!--删除三级分类-->
-    <update id="delCategorythree">
-        UPDATE tb_categorythree SET isdel=#{isdel} where categorythree_id=#{categorythreeId}
-    </update>
-    <!--修改三级分类-->
+
+    <!--修改-->
     <update id="updateCategorythree">
-        UPDATE tb_categorythree SET categorythree_name=#{categorythreeName} where categorythree_id=#{categorythreeId}
+        update tb_categorythree set categorythreeName=#{categorythree_name}
+
     </update>
+
+    <!--删除-->
+    <delete id="delCategorythree">
+        update tb_categorythree set isdel=#{isdel} where categorythreeId=#{categorythree_id}
+    </delete>
+
+    <select id="getCategorythreeById" resultMap="result01">
+         SELECT tb_categorythree.`categorythree_id`,tb_categorythree.`categorythree_name`,
+         tb_typename.`typeName_id`,tb_typename.`typeName_name`, tb_typevalue.`typeValue_id`,tb_typevalue.`typeValue_name`
+          FROM   tb_categorythree
+         INNER JOIN tb_typename ON tb_typename.`category_id`=tb_categorythree.`categorythree_id`
+         INNER JOIN tb_typevalue ON tb_typename.`typeName_id`=tb_typevalue.`typeName_id`
+         WHERE tb_categorythree.`categorythree_id`=#{id}
+    </select>
+
+    <resultMap id="result01" type="Categorythree">
+        <id column="categorythree_id" property="categorythreeId"/>
+        <result column="categorythree_name" property="categorythreeName"/>
+        <collection property="typeNameList" ofType="TypeName">
+            <id column="typeName_id" property="typeNameId"/>
+            <result column="typeName_name" property="typeNameName"/>
+            <collection property="typevalueList" ofType="Typevalue">
+                <id column="typeValue_id" property="typeValueId"/>
+                <result column="typeValue_name" property="typeValueName"/>
+            </collection>
+        </collection>
+    </resultMap>
+
 </mapper>

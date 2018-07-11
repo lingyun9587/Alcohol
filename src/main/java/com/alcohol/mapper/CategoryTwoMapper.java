@@ -11,18 +11,11 @@ import java.util.Map;
 public interface CategoryTwoMapper {
 
     /**
-     * 查询二级分类下拉
-     * @param ct
+     * 查询一级下的二级
+     * @param map
      * @return
      */
-    List<Categorytwo> getCategoryTwoInfo(Categorytwo ct);
-    /**
-     * 查询二级分类分页
-     * @param ct
-     * @return
-     */
-    List<Categorytwo> getCategoryTwoInfofy(Categorytwo ct);
-
+    List<Categorytwo> getCategoryTwo(Map<String,Object> map);
 
     /**
      * 查询要添加的分类是否存在
@@ -46,16 +39,16 @@ public interface CategoryTwoMapper {
     int updateCategorytwo(Categorytwo ct);
 
     /**
-     * 判断二级分类下是否有三级分类
-     * @param two
+     * 删除
+     * @param categorytwo_id
      * @return
      */
-    int delistwo(Categorytwo two);
+    int delCategorytwo(Long categorytwo_id);
 
     /**
-     * 删除
-     * @param two
+     * 查询三级上的二级
+     * @param id
      * @return
      */
-    int delCategorytwo(Categorytwo two);
+     Categorytwo getCategorytwoBythreeId(Integer id);
 }

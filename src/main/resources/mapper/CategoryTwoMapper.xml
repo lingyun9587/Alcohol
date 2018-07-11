@@ -22,32 +22,35 @@
        where tb_categorytwo.categorytwo_id
     </select>
 
-    <!--查询二级分类分页-->
-    <select id="getCategoryTwoInfofy" resultType="Categorytwo">
-      SELECT * FROM tb_categorytwo WHERE parentId=#{parentId} and isdel=0
-    </select>
-
     <!--查询要添加的二级分类是否存在-->
-    <select id="getCategoryTwo" resultType="java.lang.Integer">
-        select count(1) from tb_categorytwo where categorytwo_name=#{categorytwoName} and isdel=0
+    <select id="getCategoryTwo" resultType="Categorytwo">
+        select count(1) from tb_categorytwo where categorytwoName=#{categorytwo_name} where isdel=0
     </select>
 
     <!--新增二级分类-->
     <insert id="addCategoryTwo">
-        INSERT INTO tb_categorytwo
-       VALUES (NULL,#{categorytwoName},#{parentId},0)
+        insert into tb_categorytwo values
+        (#{categorytwo_name},#{parentId},#{weight},#{isdel})
     </insert>
 
-    <!--查询二级分类下是否有三级分类-->
-    <select id="delistwo" resultType="java.lang.Integer">
-      SELECT COUNT(1) FROM tb_categorythree WHERE FIND_IN_SET(#{categorytwoId},parentId) AND isdel=0;
-    </select>
-    <!--删除三级分类-->
-    <update id="delCategorytwo">
-      UPDATE tb_categorytwo SET isdel=#{isdel} where categorytwo_id=#{categorytwoId}
-    </update>
-    <!--修改二级分类-->
+    <!--修改-->
     <update id="updateCategorytwo">
-        UPDATE tb_categorytwo SET categorytwo_name=#{categorytwoName} where categorytwo_id=#{categorytwoId}
+        update tb_categorytwo set categorytwoName=#{categorytwo_name}
+
     </update>
+
+    <!--删除-->
+    <delete id="delCategorytwo">
+        update tb_categorytwo set isdel=#{isdel} where categorytwoId=#{categorytwo_id}
+    </delete>
+
+    <!--查询三级上的二级-->
+    <select id="getCategorytwoBythreeId" resultType="Categorytwo">
+        SELECT tb_categorytwo.`categorytwo_id`,tb_categorytwo.`categorytwo_name`
+         FROM tb_categorytwo WHERE tb_categorytwo.`parentId`=(SELECT tb_categorytwo.`parentId`
+        FROM  tb_categorythree
+        INNER JOIN tb_categorytwo ON tb_categorythree.`parentId`=tb_categorytwo.`categorytwo_id`
+        WHERE tb_categorythree.`categorythree_id`=#{id})
+
+    </select>
 </mapper>
