@@ -27,6 +27,8 @@ public class CategoryOneServiceImpl implements CategoryOneService {
         }
     }
 
+
+
     @Override
     public int getCategoryone(String categoryontName) {
         try {
