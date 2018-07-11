@@ -94,9 +94,9 @@
                     tr.append("<td width='15%'>" + e.createTime + "</td>");
                     tr.append("<td width='5%'>" + e.integral + "</td>");
                     if (e.status == 0) {
-                        tr.append("<td width='10%'><a onclick='updatestate(" + e.userId + ",1,this)'>禁用</a></td>");
+                        tr.append("<td width='10%'><a onclick='updatestate(1,this)'>禁用</a></td>");
                     } else {
-                        tr.append("<td width='10%'><a onclick='updatestate(" + e.userId + ",0,this)'>启用</a></td>");
+                        tr.append("<td width='10%'><a onclick='updatestate(0,this)'>启用</a></td>");
                     }
 
                     tbody.append(tr);
@@ -117,7 +117,8 @@
      * @param status
      * @param jia
      */
-    function updatestate(userId, status, jia) {
+    function updatestate( status, jia) {
+        var userId=$(jia).parent().parent().find("td").eq(1).html();
         var obj = $(jia);
         $.ajax({
             url: "/updateStatus",
@@ -128,13 +129,15 @@
                 if (data.success) {
                     if (obj.text() == "启用") {
                         obj.text("禁用");
+                        pageOne(null,1);
                     } else {
                         obj.text("启用");
+                        pageOne(null,1);
                     }
                 } else {
                     alert(data.mess);
                 }
-                /* pageOne(1);*/
+                /!* pageOne(1);*!/
             },
             error: function () {
                 alert("出现异常！");
