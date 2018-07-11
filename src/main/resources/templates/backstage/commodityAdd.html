@@ -15,7 +15,7 @@
 
 	<body>
 	<div class="container">
-		<h1 class="tabTitle"><span onclick="NewPage('tab.html')"><img src="images/xjt.png"/></span>新增商品</h1>
+		<h1 class="tabTitle"><span onclick="NewPage('tab.html')"><img src="/images/backstage/xjt.png"/></span>新增商品</h1>
 		<div class="info">
 			<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="formSheet">
 				<dl>
@@ -90,7 +90,7 @@
 					<dt><span >商品属性</span></dt>
 					<dd>
 						<div class="fbox" >
-							<button class="cloneSku">添加sku属性</button>
+							<button type="button" class="cloneSku">添加sku属性</button>
 							<!--sku模板,用于克隆,生成自定义sku-->
 							<div id="skuCloneModel" style="display: none;height: 30px; width: 1000px;" >
 								<div class="clear"></div>
@@ -106,7 +106,7 @@
 											<input type="checkbox" class="model_sku_val" propvalid='' value="11"/>
 											<input type="text" class="cusSkuValInput" style="width: 100px;"/>
 										</li>
-										<button class="cloneSkuVal">添加属性值</button>
+										<button type="button" class="cloneSkuVal">添加属性值</button>
 									</ul>
 								</div>
 								<div class="clear"></div>
@@ -128,7 +128,7 @@
 					<dt><span>上传图片</span></dt>
 					<dd>
 						<div class="fbox">
-							<img src="images/cat.png" width="150px" height="150px" style="padding-top: 20px;">
+							<img src="/images/backstage/cat.png" width="150px" height="150px" style="padding-top: 20px;">
 							<input type="button" class="button" value="上传" id="upload"/>
 						</div>
 						<span class="txtInfo" id="uptxt"></span>
@@ -168,11 +168,11 @@
 	<script type="text/javascript" src="/js/backstage/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/backstage/createSkuTable.js"></script>
 	<script type="text/javascript" src="/js/backstage/customSku.js"></script>
-	<script type="text/javascript" src="/plugins/layer/layer.js"></script>
-	<script type="text/javascript" src="/js/backstagege/tSetSkuVals.js"></script>
+<!--	<script type="text/javascript" src="/plugins/layer/layer.js"></script>-->
+	<script type="text/javascript" src="/js/backstage/getSetSkuVals.js"></script>
 	<script type="text/javascript" src="/js/backstage/commAdd.js"></script>
 
-	<script type="text/javascript">
+	<!--<script type="text/javascript">
         //上传弹窗
 		$(function(){
             //加载一级分类
@@ -332,7 +332,7 @@
             }
         }
 	</script>
-
+-->
 	</body>
 
 </html>
