@@ -45,7 +45,7 @@ public class ProductController {
     public Object selpro(@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
         Product pro=new Product();
-        List<Product> proslist=productService.selAllDESC(pro,1,2);
+        List<Product> proslist=productService.selAllDESC(pro,pageNum,pageSize);
         PageInfo<Product> page=new PageInfo<Product>(proslist);
         for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
@@ -66,15 +66,14 @@ public class ProductController {
      */
     @PostMapping(value="/selName")
     @ResponseBody
-    public Object selName(Product product,int pan){
-        System.out.println("========================"+product.getPanduan());
+    public Object selName(Product product,int pan,@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
         Product pro=new Product();
         List<Product> proslist=new ArrayList<Product>();
         if(pan==0){
-            proslist=productService.selAllDESC(product);
+            proslist=productService.selAllDESC(product,pageNum,pageSize);
         }else if(pan==1){
-            proslist=productService.selAll(product);
+            proslist=productService.selAll(product,pageNum,pageSize);
         }
         Map<Object, Object> map = new HashMap<Object, Object>();
         for (int i=0;i<proslist.size();i++){
