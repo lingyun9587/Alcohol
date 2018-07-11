@@ -47,16 +47,13 @@
 <script src="/js/backstage/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/js/backstage/table.js"></script>
 <script type="text/javascript">
-	//页面加载
     $(function() {
         list(1);
     });
-    //获取页码
     function show(pageNum){
         sou(pageNum);
         list(pageNum);
     }
-    //点击搜索
     function sou(pageNum){
         var productName=$(".textStyle").val();
         $.ajax({
@@ -71,6 +68,10 @@
             success: function(data) {
                 var tbody = $('<tbody></tbody>');
                 $(data.list).each(function(index) {
+                    var paymentTimes=this.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                    alert(times);
                     var tr = $('<tr></tr>');
                     tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
                     tr.append("<td>" + this.id + "</td>");
@@ -78,7 +79,7 @@
                     tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
                         tr.append("<td>" + this.number + "</td>");
                     tr.append("<td>" + this.sku.stock + "</td>");
-                    tr.append("<td>" + this.createTime + "</td>");
+                    tr.append("<td>" + times+ "</td>");
                     tbody.append(tr);
                 });
                 $('#tableData tbody').replaceWith(tbody);
@@ -90,7 +91,7 @@
             }
         });
     }
-    //页面加载
+
     function list(pageNum){
         $.ajax({
             url: "/proc/listSell",
@@ -103,6 +104,9 @@
             success: function(data) {
                 var tbody = $('<tbody></tbody>');
                 $(data.list).each(function(index) {
+                    var paymentTimes=this.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                     var tr = $('<tr></tr>');
                     tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
                     tr.append("<td>" + this.id + "</td>");
@@ -110,7 +114,7 @@
                     tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
                         tr.append("<td>" + this.number + "</td>");
                     tr.append("<td>" + this.sku.stock + "</td>");
-                    tr.append("<td>" + this.createTime + "</td>");
+                    tr.append("<td>" + times + "</td>");
                     tbody.append(tr);
                 });
                 $('#tableData tbody').replaceWith(tbody);
@@ -124,7 +128,6 @@
 
 
 </script>
-
 </body>
 
 </html>
