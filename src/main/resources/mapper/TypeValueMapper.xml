@@ -3,14 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.TypeValueMapper">
-    <!--查询三级分类-->
-    <select id="getTypeValue" resultType="Typevalue">
-SELECT typevalueid,typeValuename FROM tb_typevalue
-WHERE typeNameid=(
-	SELECT typeNameid FROM tb_typename WHERE categoryid=2
-)
-    </select>
 
+    <select id="selIdType" resultType="com.alcohol.pojo.Typevalue">
+        SELECT typeValue_id,typeValue_name FROM `tb_typevalue` WHERE typeValue_id=#{typeValueId}
+    </select>
     <select id="getTypeValuefy" resultType="Typevalue">
         SELECT typevalue_id,typeValue_name,typeName_id FROM tb_typevalue WHERE typeName_id=#{typeNameId} and isdel=0
     </select>

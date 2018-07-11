@@ -19,6 +19,18 @@ public class TypeValueServiceImpl implements TypeValueService {
     @Resource
     private TypeValueMapper tm;
 
+
+    @Override
+    public Typevalue selIdType(Long typeValueId) {
+        try {
+            return tm.selIdType(typeValueId);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
     @Override
     public List<Typevalue> getTypeValue(Map<String, Object> map) {
         try {
