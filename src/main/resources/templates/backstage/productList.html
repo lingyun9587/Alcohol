@@ -13,7 +13,7 @@
 
 		<style type="text/css">
 
-		</style>1
+		</style>
 
 	</head>
 
@@ -22,7 +22,7 @@
 			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>分类列表</h1>
 			<input type='button' name='Submit' onclick='javascript:history.back(1);' value='返回上一页'>
 			<div class="serach">
-				<input type="button" value="新增" class="button add" onclick="add()"/>
+				<!--<input type="button" value="新增" class="button add" onclick="add()"/>-->
 			</div>
 			<!--搜索区结束-->
 
@@ -76,9 +76,9 @@
 				var three="";
 				var shu="";
 				var shuxing="";
-                var pagesize = 10; //页显示多少条记录
+                var pagesize = 1; //页显示多少条记录
                 $(function() {
-                    showPage(1, 10, 46);//分页
+
                     tableInit(1, pagesize); //初始默认第一页
                 });
                 //页索引 pageindex
@@ -124,35 +124,27 @@
                             var content="";
 
                             $.each(result.list,function(i,e){
-                                content+="<tr><td>"+e.categoryoneId+"</td><td>"+e.categoryontName+"</td>\<td>一级分类</td><td><a href='#' onclick='listTwos("+e.categoryoneId+")'>查看子分类</a>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 40px;height: 20px' value='修改' class='butupd' onclick='upd(this)'/></td></tr>";
+                                content+="<tr><td>"+e.categoryoneId+"</td><td>"+e.categoryontName+"</td>\<td>一级分类</td><td><a href='#' onclick='listTwos("+e.categoryoneId+",1)'>查看子分类</a>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 40px;height: 20px' value='修改' class='butupd' onclick='upd(this)'/></td></tr>";
                             })
+                            showPage(pageindex,result.pages,result.total);
                             $(".show").html(content);
                         }
                     })
 
                 }
                 //查询一级分类下的二级分类
-                function listTwos(categoryoneId) {
+                function listTwos(categoryoneId,pageindex) {
                     $.ajax({
                         url:"../getCategoryTwoInfofy",
                         type:"post",
-                        data:{parentId:categoryoneId,pageNum:1,pageSize:10},
+                        data:{parentId:categoryoneId,pageNum:pageindex,pageSize:10},
                         dataType:"JSON",
                         success:function(result){
                             var content="";
-                            alert(result);
-                            if(result!=null||result!=""||result.e){
-								alert(1);
                                 $.each(result.list,function(i,e){
                                     content+="<tr><td>"+e.categorytwoId+"</td><td>"+e.categorytwoName+"</td>\<td>二级分类</td><td><a href='#' onclick='listThree("+e.categorytwoId+")'>查看子分类</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='tableInit(1,10)'>查看父级</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='upd2(this)'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deltwo("+e.categorytwoId+")'>删除</a></td></tr>";
                                 })
-
-                                one=categoryoneId;
-							}else{
-                                alert(2);
-								content+="<p>暂无数据！</p>"
-							}
-
+                            showPage(pageindex,result.pages,result.total);
                             one=categoryoneId;
                             $(".show").html(content);
                         }
@@ -218,7 +210,7 @@
 				function seltwo(){
 					//获取所选一级分类的编号
 					//调用一级分类查询二级分类
-                    listTwos(one);
+                    listTwos(one,1);
 				}
 				<!--根据二级分类的id查询对应的三级分类(查看属性的三级分类)-->
 				function selthree(){
@@ -450,7 +442,7 @@
                                     alert("修改成功");
                                     $(".updonename").val("");
                                     $(".updid").val("");
-                                    listTwos(one);
+                                    listTwos(one,1);
                                     closeMask('stuInfo');
                                 }else if(result==2){
                                     alert("修改有误");

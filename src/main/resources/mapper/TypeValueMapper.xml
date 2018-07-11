@@ -25,7 +25,7 @@
     </update>
     <!--执行删除，判断属性值下是否有商品-->
     <select id="delisshop" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM tb_product WHERE FIND_IN_SET(#{typeValueId},typeValue_id) and isdel=0;
+        SELECT COUNT(1) FROM tb_product WHERE FIND_IN_SET(#{typeValueId},typeValue_id) and `status`!=2
     </select>
     <!--删除-->
     <update id="delTypeValue">
