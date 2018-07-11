@@ -1,5 +1,6 @@
 package com.alcohol.mapper;
 
+import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
 import org.apache.ibatis.annotations.Param;
@@ -56,4 +57,19 @@ public interface ProductMapper {
      * @return List<Sku>
      */
     public List<Sku> selectProductBySkuIdAndProductId(@Param("productId")Long productId, @Param("skuId")Long skuId);
+
+
+    /**
+     * 根据分类名进行模糊查询三级分类  放到下拉框中   xcf
+     * @param categorythree_name  搜索栏中的值
+     * @return  三级分类集合
+     */
+    public List<Categorythree> getCategorythree(String categorythree_name);
+
+    /**
+     * 根据商品名进行模糊查询   xcf
+     * @param product_name
+     * @return
+     */
+    public List<Product> getProductList(@Param("product_name")String product_name,@Param("judge")int judge);
 }

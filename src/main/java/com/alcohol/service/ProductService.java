@@ -1,5 +1,6 @@
 package com.alcohol.service;
 
+import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
 
@@ -10,7 +11,7 @@ public interface ProductService {
 
     /**
      * 根据编号获得一条数据
-     * @param id
+     * @param productid
      * @return
      */
     public Product getProductbyId(Integer productid);
@@ -36,7 +37,7 @@ public interface ProductService {
      * @param product
      * @return
      */
-    public List<Product> selAll(Product product);
+    public List<Product> selAll(Product product,int pageNum, int pageSize);
 
 
     /**
@@ -45,4 +46,18 @@ public interface ProductService {
      * @return Sku
      */
     public Sku selectProductBySkuIdAndProductId(Long productId, Long skuId);
+
+    /**
+     * 根据分类名进行模糊查询三级分类  放到下拉框中   xcf
+     * @param categorythree_name  搜索栏中的值
+     * @return  三级分类集合
+     */
+    public List<Categorythree> getCategorythree(String categorythree_name);
+
+    /**
+     * 根据商品名进行模糊查询   xcf
+     * @param product_name
+     * @return
+     */
+    public List<Product> getProductList(String product_name,int judge);
 }
