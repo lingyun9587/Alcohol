@@ -1,6 +1,7 @@
 package com.alcohol.service;
 
 import com.alcohol.pojo.Categoryone;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -35,8 +36,14 @@ public interface CategoryOneService {
 
     /**
      * 删除
-     * @param id
+     * @param categoryone_id
      * @return
      */
     int delCategoryone(Long categoryone_id);
+
+    /**
+     *王磊
+     *后台查询分类
+     */
+    public List<Categoryone> getCategoryOneInfofy(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
 }
