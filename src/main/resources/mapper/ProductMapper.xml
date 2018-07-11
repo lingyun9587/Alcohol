@@ -134,7 +134,7 @@
         SELECT tbpr.product_id,
         tbpr.product_name,
         tbpr.sales,
-        tbpr.looknumber,
+        tbpr.spare_one,
         tbimg.image_path,
         tbsku.present_price,
         tbcomm.countid
