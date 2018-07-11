@@ -66,6 +66,7 @@ public class CommentController {
         return JSON.toJSONString(list);
     }
 
+
     @RequestMapping(value="/getSkuByProductId")
     @ResponseBody
     public String getSkuBiProductId(String value,HttpServletRequest request){
