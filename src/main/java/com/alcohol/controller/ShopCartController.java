@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.sun.deploy.net.URLEncoder;
 import org.apache.http.HttpRequest;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
@@ -31,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -61,59 +64,64 @@ public class ShopCartController {
      */
     @GetMapping(value = "/addShopCart")
     @ResponseBody
-    public String addShopCart(/*@RequestParam(value = "productId",required = false)Long productId,
+    public String addShopCart(/*@RequestParam(value = "productId",required = false)Long productId,*/
                               @RequestParam(value = "skuId",required = false)Long skuId,
-                              @RequestParam(value = "num",required = false)int num,*/
+                              @RequestParam(value = "num",required = false)int num,
                               HttpServletRequest request, HttpServletResponse response, HttpSession session)throws  Exception{
-
-// 定义jackson数据转换操作类
+        // 定义jackson数据转换操作类
         ObjectMapper mapper = new ObjectMapper();
         String jsonString;
-
-       Long productId=2L;
-       Long skuId=4L;
-       int num=5;
-        User u=new User();
-        u.setUserId((long) 3);
-        u.setNickName("zz");
-         request.getSession().setAttribute("user",u);//向session中保存数据
-         User user=(User) session.getAttribute("user");//获取session中的数据
-
+        Integer productid=(Integer)request.getSession().getAttribute("productId");
+        long productId=(long)productid;
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        User u=useraccount.getUser();
+        String dateKey=new Date().toString();
+        String keymapmap=dateKey+u.getUserId().toString();
+        String keyGai=keymapmap.replace(" ","").replace(":","");//去除空格
         Image img=imageService.selImageByProductId(productId);
+        //按照商品id和skuid查询出对应的sku和商品信息
+        Sku sku= null;
+        //查询出商品信息
+        sku=productService.selectProductBySkuIdAndProductId(productId,skuId);
         StringBuffer sb=new StringBuffer();
         sb.append(productId);
         sb.append("#");//使用逗号分开，以便取值
+
         sb.append(skuId);
         sb.append("#");
         String str1= sb.append(num).toString();
-        //按照商品id和skuid查询出对应的sku和商品信息
-        Sku sku= null;//productService.getProductBySkuIdAndProductId(productId,skuId);
-         if(user==null){//如果为null，证明没有登录，操作cookie
+
+        ShopCart sc=new ShopCart();
+        sc.setNum(num);
+        sc.setImage(img);
+        sc.setSku(sku);
+        //productService.getProductBySkuIdAndProductId(productId,skuId);
+         if(u==null){//如果为null，证明没有登录，操作cookie
              Cookie[] c=request.getCookies();//获取cookie的所有数据
             //遍历现有cookie数据
              if(c!=null){
                  for (Cookie cookie : c) {
-                  /*cookie.setMaxAge(0);
-                     response.addCookie(cookie);*/
-                     //分割cookie值，取出分别的值
-                     String[] s=cookie.getValue().toString().split("#");
+                     cookie.setMaxAge(0);
                      //要添加的商品sku和cookie中已经有的商品sku是否一样
-                         if(s[0].equals(productId.toString()) && s[1].equals(skuId.toString())){
+                        /*if(){
                             //证明有相同商品，修改商品数量
                             //
                              return "";//方法结束cookie修改
-                         }
+                         }*/
                  }
-                 //走到这证明没有在现有cookie中找到同样的商品，所以添加到cookie
-                 Cookie cc=new Cookie("c7",str1);
-                 response.addCookie(cc);
+
              }
+             //走到这证明没有在现有cookie中找到同样的商品，所以添加到cookie
+             String coo=mapper.writeValueAsString(sc);
+             String co=URLEncoder.encode(coo, "utf-8");
+             Cookie cc=new Cookie(keyGai,co);
+             cc.setMaxAge(60*60*24*30);
+             response.addCookie(cc);
             return JSON.toJSONString("添加成功");//方法结束cookie添加
          }else{//证明已经登录，操作redis
-             //查询出商品信息
-            sku=productService.selectProductBySkuIdAndProductId(productId,skuId);
-             String dateKey=new Date().toString();
-             String keymapmap=u.getUserId().toString()+dateKey;
+
+
              Image im=null;
              //将商品信息和用户选择的数量保存到redis
              //判断是否有这个用户
@@ -139,7 +147,7 @@ public class ShopCartController {
                          int iiii=iii+num;
                          mk.put("num",iiii);
                          pp.put(str,mapper.writeValueAsString(mk));
-                         jedisHashs.hmset(user.getUserId().toString(),pp);//保存到redis
+                         jedisHashs.hmset(u.getUserId().toString(),pp);//保存到redis
                          return JSON.toJSONString("该商品已在购物车，数量改变");
                      }
                  }
@@ -151,7 +159,7 @@ public class ShopCartController {
                  map.put("num",num);//用户选择商品的数量
                  map.put("img",img);
                  mp.put(keymapmap,mapper.writeValueAsString(map));
-                 jedisHashs.hmset(user.getUserId().toString(),mp);//保存到redis
+                 jedisHashs.hmset(u.getUserId().toString(),mp);//保存到redis
                 return JSON.toJSONString("添加成功");
              }else{
                 //没有的话新建key-value
@@ -162,7 +170,7 @@ public class ShopCartController {
                  map.put("img",img);
                  Map<String,String> mapmap=new HashMap<String,String>();
                  mapmap.put(keymapmap,mapper.writeValueAsString(map));
-                jedisHashs.hmset(user.getUserId().toString(),mapmap);//保存到redis
+                jedisHashs.hmset(u.getUserId().toString(),mapmap);//保存到redis
                  return JSON.toJSONString("添加成功");//方法结束，redis添加，修改
              }
          }
@@ -174,10 +182,10 @@ public class ShopCartController {
      */
     @GetMapping(value = "/selshopAll")
     @ResponseBody
-    public String getShopCart(){
-        User u=new User();
-        u.setUserId((long) 3);
-        u.setNickName("zz");
+    public String getShopCart(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        User u=useraccount.getUser();
         String dateKey=new Date().toString();
         String keymapmap=u.getUserId().toString()+dateKey;
         // 定义jackson数据转换操作类
@@ -185,6 +193,17 @@ public class ShopCartController {
         List<ShopCart> shopCartList=new ArrayList<ShopCart>();
         if(u==null){
             //查询cookie
+            Cookie[] c=request.getCookies();//获取cookie的所有数据
+
+            for (Cookie cookie:c) {
+
+                try {
+                   String name= URLDecoder.decode(cookie.getName(),"utf-8");
+                    String name1= URLDecoder.decode(cookie.getValue(),"utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
             return "";
         }else{
             //查询redis
@@ -226,9 +245,9 @@ public class ShopCartController {
     public String delShop(@RequestParam("skuId")Long skuId){
         // 定义jackson数据转换操作类
         ObjectMapper mapper = new ObjectMapper();
-        User u=new User();
-        u.setUserId((long) 3);
-        u.setNickName("zz");
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        User u=useraccount.getUser();
         //查询redis
         Map<String,String> pp= jedisHashs.hgetAll(u.getUserId().toString());
         Iterator<String> it=pp.keySet().iterator();
@@ -260,9 +279,9 @@ public class ShopCartController {
     public String numPlusOrReduce(@RequestParam("skuId")Long skuId, @RequestParam("num")int num){
         // 定义jackson数据转换操作类
         ObjectMapper mapper = new ObjectMapper();
-        User u=new User();
-        u.setUserId((long) 3);
-        u.setNickName("zz");
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        User u=useraccount.getUser();
         //查出redis的现有数据
         Map<String,String> pp= jedisHashs.hgetAll(u.getUserId().toString());
 
@@ -303,9 +322,7 @@ public class ShopCartController {
         Useraccount useraccount = userAccountService.getUserById(userName);
         // 定义jackson数据转换操作类
         ObjectMapper mapper = new ObjectMapper();
-        User u=new User();
-        u.setUserId((long) 3);
-        u.setNickName("zz");
+        User u=useraccount.getUser();
         String dateKey=new Date().toString();
         String keymapmap=u.getUserId().toString()+dateKey;
         //查出redis的现有数据
