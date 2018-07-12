@@ -43,7 +43,7 @@ public class CommentController {
         List<Comment> clist = commentService.listComment(map);
         for (int i=0;i<clist.size();i++){
             String skuvalueId=clist.get(i).getSku().getSkuvalueId();
-            String[] arr=skuvalueId.split(":");
+            String[] arr=skuvalueId.split(",");
             List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
             SkuValue skuvalue=null;
             for (int j = 0; j < arr.length; j++) {
@@ -68,7 +68,8 @@ public class CommentController {
         return JSON.toJSONString(list);
     }
 
-    @RequestMapping(value="/getSkuBiProductId")
+
+    @RequestMapping(value="/getSkuByProductId")
     @ResponseBody
     public String getSkuBiProductId(String value,HttpServletRequest request){
         Integer productId=(Integer)request.getSession().getAttribute("productId");

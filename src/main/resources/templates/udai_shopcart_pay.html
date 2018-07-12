@@ -48,10 +48,11 @@
         <div class="user-content__box clearfix bgf">
             <div class="title">购物车-确认支付</div>
             <div class="shop-title">收货地址</div>
-            <form action="" class="shopcart-form__box">
-                <input type="hidden" name="orderId"/>
-                <input type="hidden" name="address"/>
-                <input type="hidden" name="shoppingInfo"/>
+            <form action="alipaySum" class="shopcart-form__box">
+                <input type="hidden" name="WIDout_trade_no"/>
+                <input type="hidden" name="WIDtotal_amount"/>
+                <input type="hidden" name="WIDbody"/>
+                <input type="hidden" name="WIDsubject"/>
                 <div class="addr-radio">
                     <div class="radio-line radio-box active">
                         <label class="radio-label ep"
@@ -218,7 +219,7 @@
                     </div>
                 </div>
                 <div class="user-form-group shopcart-submit">
-                    <button type="button" class="btn">继续支付</button>
+                    <button type="submit" class="btn">继续支付</button>
                 </div>
                 <script>
                     $(document).ready(function () {
@@ -367,14 +368,6 @@
        $(function(){
            init();
            init1();
-           $(".btn").click(function () {
-               $("[name='address']").val();
-               var orderId =   $("[name='orderId']").val();
-               var shoopingInfo =  $("[name='shoppingInfo']").val();
-               var addressInfo = $("[name='addr']").val();
-               alert(orderId);
-               alert(shoopingInfo);
-           })
        })
        function init(){
            var id = getUrlParam("id");
@@ -390,7 +383,7 @@
                dataType:"json",
                success:function (data) {
                    $.each(data.commodities,function (i,e) {
-                       contextShopping +=e.sku.product.productName+":"+e.number+"/n";
+                       contextShopping +=e.sku.product.productName+":"+e.number+"\n";
                        context += "<tr>\n" +
                            "                            <th scope=\"row\"><a href=\"item_show.html\">\n" +
                            "                                <div class=\"img\"><img src=\"images/temp/M-003.jpg\" alt=\"\" class=\"cover\"></div>\n" +
@@ -417,9 +410,9 @@
                    $("#time").html(data.createTime);
                    $("#batch").html(data.batch);
                    $(".money").html(money);
-                   $("[name='orderId']").val(data.orderId);
-
-                   $("[name='shoppingInfo']").val(contextShopping);
+                   $("[name='WIDout_trade_no']").val(data.orderId);
+                   $("[name='WIDtotal_amount']").val(money);
+                   $("[name='WIDsubject']").val(contextShopping);
                },
                error:function () {
                    alert("请求失败");

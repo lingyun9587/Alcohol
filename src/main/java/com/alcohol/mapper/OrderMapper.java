@@ -4,7 +4,6 @@ import com.alcohol.pojo.Order;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 订单 陈赓
@@ -52,26 +51,14 @@ public interface OrderMapper {
      */
      Order getById(@Param("orderId") Long orderId);
 
-
-
     /**
-     * 查询订单  韩庆林
-     * @param
+     * 查询全部订单过期的订单
      * @return
      */
-    List<Order>  order(Map<String,Object> map);
-
+     List<Order> listSellDaily();
     /**
-     * 查看订单详情  韩庆林
-     * @param
+     * 定时查看订单是否过期
      * @return
      */
-    Order cha(@Param("order_id") int order_id);
-
-    /**
-     * 查修改退款状态  韩庆林
-     * @param
-     * @return
-     */
-    int status(int order_id);
+    int orderSelldaily();
 }

@@ -3,9 +3,11 @@ package com.alcohol.jms;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
-import javax.jms.Destination;
+import javax.jms.*;
+import java.io.Serializable;
 
 /**
  * 生产者如下
@@ -32,4 +34,5 @@ public class ProducerCc {
         System.out.println(jmsTemplate.getDeliveryMode());
         jmsTemplate.convertAndSend("queue1",message);
     }
+
 }

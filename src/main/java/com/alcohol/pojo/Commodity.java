@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /***
  * 订单商品详情张鹏
  */
 @Data
-public class Commodity {
+public class Commodity implements Serializable {
 
     @JsonSerialize(using = LongJsonSerializer.class)
     @JsonDeserialize(using = LongJsonDeserializer.class)

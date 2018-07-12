@@ -215,6 +215,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form class="avatar-form" action="{%url('admin/upload-logo')%}" enctype="multipart/form-data" method="post">
+                <span style="display: none;" id="userId"></span>
                 <div class="modal-header">
                     <button class="close" data-dismiss="modal" type="button">&times;</button>
                     <h4 class="modal-title" id="avatar-modal-label">Change Logo Picture</h4>
@@ -407,7 +408,7 @@
                 //会员名
                 $("#membership").val(data.user.membershipName);
                 //membership用户名
-                $("#membership").val(data.user.nickName);
+                $("#user-id").val(data.user.nickName);
                 var xradio = document.getElementsByName("sex");
                 //性别
                 for(var i=0;i<xradio.length;i++){
@@ -420,9 +421,11 @@
                 //user-truename真实姓名
                 $("#user-truename").val(data.user.realName);
                 //phone手机号
-                $("#phone").val(data.phone);
+                phone = data.phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+                $("#phone").val(phone);
                 //mailbox邮箱
                 $("#mailbox").val(data.email);
+                $("#userId").text(data.user.userId);
             },
             error:function () {
                 alert("访问服务器错误");
@@ -453,23 +456,26 @@
         var month = $("#month").val();
         var days = $("#days").val();
         var birthday = year + "-" + month + "-" + days;//日期类型转换失败
+        //user-truename真实姓名
         var usertruename = $("#user-truename").val();
-
+       var mailbox= $("#mailbox").val();
         $.ajax({
             url: "/udai_updateUser",
             data: {
-                membership: membership,
-                name: userName,
-                sex: sex,
-                birthday: birthday,
-                truename: usertruename
+
+                "membershipName": membership,
+                "nickName": userName,
+                 "sex": sex,
+                 "birthday": birthday,
+                "realName": usertruename,
+                "email":mailbox
             },
             dataType: "json",
             type: "post",
             success: function (data) {
-                if (result.mes == "yes") {
+                if (data.success) {
                     alert("修改成功！")
-                } else if (result.mes == "no") {
+                } else  {
                     alert("修改失败！")
                 }
             },

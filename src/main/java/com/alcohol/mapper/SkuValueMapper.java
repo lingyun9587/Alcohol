@@ -2,6 +2,7 @@ package com.alcohol.mapper;
 
 import com.alcohol.pojo.Sku;
 import com.alcohol.pojo.SkuValue;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -21,5 +22,5 @@ public interface SkuValueMapper {
      * @param id
      * @return
      */
-    Sku getSkuBiProductId(@RequestParam("value") String value,@RequestParam("id") Integer id);
+    Sku getSkuBiProductId(@Param("value") String value, @Param("id") Integer id);
 }

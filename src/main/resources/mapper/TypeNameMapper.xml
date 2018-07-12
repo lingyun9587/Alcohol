@@ -2,23 +2,34 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.alcohol.mapper.type.TypeNameMapper">
-    <!--查询三级分类-->
-    <select id="getTypeName" resultType="TypeName">
-SELECT typeNameid,typeNamename FROM tb_typename
-WHERE isdel=0 and categoryid =(
-	SELECT categorythreeid FROM tb_categorythree WHERE categorythreeid=2
-)
+<mapper namespace="com.alcohol.mapper.TypeNameMapper">
+    <select id="seltnId" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM tb_typename WHERE category_id=#{categoryId} AND typeName_name=#{typeNameName} and isdel=0
     </select>
 
+    <select id="TypeNameissel" resultType="java.lang.Integer">
+         SELECT COUNT(1) FROM tb_typename WHERE typeName_name=#{typeNameName} and isdel=0
+    </select>
+    <select id="getTypeNamefy" resultType="TypeName">
+        SELECT * FROM tb_typename WHERE category_id=#{categoryId} and isdel=0
+    </select>
+    <select id="list" resultType="java.lang.Integer">
+      SELECT MAX(typeName_id) FROM tb_typename where isdel=0
+    </select>
     <insert id="addTypeName">
-        INSERT INTO tb_typename values
-        (#{typeName_name},#{category_id},#{isDel})
+       INSERT INTO tb_typename VALUES
+        (NULL,#{typeNameName},#{categoryId},null,null,null,null,null)
     </insert>
+    <!--修改属性-->
     <update id="modifyTypeName">
-        update tb_typename set typeNameName=#{typeName_name}
+       UPDATE tb_typename SET typeName_name=#{typeNameName} where typeName_id=#{typeNameId}
     </update>
+    <!--判断删除的属性下是否有属性值-->
+    <select id="delistypevalue" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM tb_typevalue WHERE FIND_IN_SET(#{typeNameId},typeName_id) and isdel=0;
+    </select>
+    <!--删除属性-->
     <update id="delTypeName">
-         update tb_typename set isdel=#{isDel} where typeNameId=#{typeNameId}
+         update tb_typename set isdel=#{isdel} where typeName_id=#{typeNameId}
     </update>
 </mapper>
