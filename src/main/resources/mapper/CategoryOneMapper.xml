@@ -27,25 +27,52 @@
          LEFT JOIN tb_categorytwo AS temp ON `tb_categoryone`.`categoryone_id`=temp.`parentId`
           LEFT JOIN tb_categorythree ON `tb_categorythree`.parentId=temp.categorytwo_id
     </select>
+
+    <!--查询一级分类下拉框-->
+    <select id="getCategoryOneInfos" resultType="Categoryone">
+        SELECT categoryone_id,categoryont_name FROM tb_categoryone
+    </select>
+
+    <!--查询一级分类分页-->
+    <select id="getCategoryOneInfofy" resultType="Categoryone">
+        SELECT categoryone_id,categoryont_name FROM tb_categoryone
+        WHERE isdel=0
+    </select>
     <!--查询要添加的分类是否存在-->
-    <select id="getCategoryone" resultType="Categoryone">
-        SELECT COUNT(1) FROM tb_categoryone WHERE categoryontName=#{categoryont_name} where isdel=0
+    <select id="getCategoryone" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM tb_categoryone WHERE categoryont_Name=#{categoryontName} and isdel=0
     </select>
 
     <!--添加一级分类-->
     <insert id="addCategoryOne">
-          insert into tb_categoryone values
-          (#{categoryont_name},#{weight},#{isdel})
+         INSERT INTO tb_categoryone
+      VALUES (NULL,#{categoryontName},0,NULL,NULL,NULL,NULL,NULL)
     </insert>
-    
-    <!--修改-->
+
+    <resultMap id="listcategorys" type="Categoryone">
+        <id property="categoryoneId" column="categoryone_id"/>
+        <result property="categoryontName" column="categoryont_name"/>
+        <collection property="listcategorytwos" ofType="Categorytwo">
+            <id property="categorytwoId" column="categorytwo_id"/>
+            <result property="categorytwoName" column="categorytwo_name"/>
+            <result property="parentId" column="parentId"/>
+            <collection property="listcategorythrees" ofType="Categorythree">
+                <id property="categorythreeId" column="categorythree_id"/>
+                <result property="categorythreeName" column="categorythree_name"/>
+                <result property="parentId" column="parentId"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="listCategory" resultMap="listcategorys">
+        SELECT `one`.`categoryone_id`,one.`categoryont_name`,two.`categorytwo_id`,two.`categorytwo_name`,two.`parentId`,
+        three.`categorythree_id`,three.`categorythree_name`,three.`parentId` FROM tb_categoryone `one`
+        LEFT JOIN tb_categorytwo two ON one.`categoryone_id`=two.parentId
+        LEFT JOIN tb_categorythree three ON two.`categorytwo_id`=three.`parentId`
+
+    </select>
+    <!--一级分类修改-->
     <update id="updateCategoryone">
-        update tb_categoryone set categoryontName=#{categoryont_name}
+        UPDATE tb_categoryone SET categoryont_name=#{categoryontName} where categoryone_id=#{categoryoneId}
     </update>
-    
-    <!--删除-->
-    <delete id="delCategoryone">
-        update tb_categoryone set isdel=#{isdel} where categoryoneId=#{categoryone_id}
-    </delete>
     
 </mapper>

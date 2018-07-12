@@ -11,18 +11,30 @@ import java.util.Map;
 public interface CategoryThreeMapper {
 
     /**
-     * 根据二级查询三级分类
-     * @param map
+     * 点击三级分类,显示属性和属性值,商品
+     * @param id
      * @return
      */
-    List<Categorythree> getCategoryThreeInfo(Map<String,Object> map);
+    public Categorythree getCategorythreeById(Integer id);
+    /**
+     * 根据二级查询三级分类下拉
+     * @param three
+     * @return
+     */
+    List<Categorythree> getCategoryThreeInfo(Categorythree three);
+    /**
+     * 根据二级查询三级分类分页
+     * @param three
+     * @return
+     */
+    List<Categorythree> getCategoryThreeInfofy(Categorythree three);
 
     /**
      * 查询要添加的分类是否存在
-     * @param categorythreeId
+     * @param ct
      * @return
      */
-    int getCategoryThree(String categorythreeId);
+    int getCategoryThree(Categorythree ct);
 
     /**
      * 新增三级分类
@@ -39,19 +51,18 @@ public interface CategoryThreeMapper {
     int updateCategorythree(Categorythree ct);
 
     /**
-     * 删除
-     * @param categorythree_id
+     * 判断三级分类下是否存在属性值
+     * @param three
      * @return
      */
-    int delCategorythree(Long categorythree_id);
-
+    int delisthree(Categorythree three);
 
     /**
-     * 点击三级分类,显示属性和属性值,商品
-     * @param id
+     * 删除
+     * @param three
      * @return
      */
-    public Categorythree getCategorythreeById(Integer id);
+    int delCategorythree(Categorythree three);
 
 
 }

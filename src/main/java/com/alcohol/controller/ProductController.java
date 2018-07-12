@@ -1,11 +1,15 @@
 package com.alcohol.controller;
 
+import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
+import com.alcohol.pojo.Image;
 import com.alcohol.pojo.Typevalue;
 import com.alcohol.service.ProductService;
 import com.alcohol.service.TypeValueService;
+import com.alcohol.service.ImageService;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,8 @@ public class ProductController {
     private ProductService productService;
     @Resource
     private TypeValueService typeValueService;
+    @Resource
+    private ImageService imageService;
 
     @RequestMapping(value="/getproductbyId")
     @ResponseBody
@@ -44,13 +50,18 @@ public class ProductController {
     @ResponseBody
     public Object selpro(@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
+        Long imgProductId;
         Product pro=new Product();
-        List<Product> proslist=productService.selAllDESC(pro,1,2);
+        List<Product> proslist=productService.selAllDESC(pro,pageNum,pageSize);
         PageInfo<Product> page=new PageInfo<Product>(proslist);
         for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
-            String[] arr=typevalueId.split(":");
+            imgProductId=pro.getProductId();
+
+            List<Image> listimg=imageService.selProductId(imgProductId);
+            pro.setImageList(listimg);
+            String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
                 Typevalue typevalue= typeValueService.selIdType(Long.parseLong(arr[j]));
                 pro.getTypeList().add(typevalue);
@@ -66,29 +77,32 @@ public class ProductController {
      */
     @PostMapping(value="/selName")
     @ResponseBody
-    public Object selName(Product product,int pan){
-        System.out.println("========================"+product.getPanduan());
+    public Object selName(Product product,@RequestParam(value="pan",required = false)int pan,@RequestParam(value="pageNum",required = false)Integer pageNum,@RequestParam(value="pageSize",required = false)Integer pageSize){
         String typevalueId="";
+        Long imgProductId;
         Product pro=new Product();
         List<Product> proslist=new ArrayList<Product>();
         if(pan==0){
-           /* proslist=productService.selAllDESC(product);*/
+            proslist=productService.selAll(product,pageNum,pageSize);
         }else if(pan==1){
-            proslist=productService.selAll(product);
+            proslist=productService.selAllDESC(product,pageNum,pageSize);
         }
-        Map<Object, Object> map = new HashMap<Object, Object>();
+        PageInfo<Product> page=new PageInfo<Product>(proslist);
         for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
-            String[] arr=typevalueId.split(":");
+            imgProductId=pro.getProductId();
+            List<Image> listimg=imageService.selProductId(imgProductId);
+            pro.setImageList(listimg);
+            String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
                 Typevalue typevalue= typeValueService.selIdType(Long.parseLong(arr[j]));
                 pro.getTypeList().add(typevalue);
             }
-            map.put("proslist",proslist);
         }
-        return map;
+        return JSON.toJSONString(page);
     }
+
 
 
     /**
@@ -103,6 +117,49 @@ public class ProductController {
         map.put("categoryOne",categoryOne);
         map.put("pageSize",pageSize);
         return JSON.toJSONString(productService.getProductByCategory(map));
+    }
+
+    /**
+     * 根据搜索名模糊查询三级分类集合
+     * @param request 作用域
+     * @return 分类集合json字符串
+     */
+    @RequestMapping(value = "getSearch")
+    @ResponseBody
+    public String getSearch(HttpServletRequest request,String pName){
+        //获取前台搜索框的值
+        String pName1 = (String)request.getSession().getAttribute("pName");
+        //调用service层的方法进行查询
+        List<Categorythree> typeList = productService.getCategorythree(pName1);
+        //把分类集合转换为json字符串
+        String json = JSON.toJSONString(typeList);
+        //返回参数
+        System.out.println(json);
+        return json;
+    }
+
+    /**
+     * 根据商品名模糊查询商品集合
+     * @param request 作用域
+     * @param pName 搜索框的值
+     * @return 查询到的商品集合
+     */
+    @RequestMapping(value = "getProduct")
+    @ResponseBody
+    public String getProduct(HttpServletRequest request,String pName,int judge,Integer pageIndex,Integer pageSize){
+        //调用service层的方法进行查询 sout
+        System.out.println(pName);
+        if(pageIndex==null){
+            pageIndex=1;
+            pageSize=1;
+        }
+        PageHelper.startPage(pageIndex,pageSize,true);
+        List<Product> prList = productService.getProductList(pName,judge);
+        PageInfo<Product> page=new PageInfo<Product>(prList);
+        //把分类集合转换为json字符串
+        String json = JSON.toJSONString(page);
+        //展示json数据
+        return json;
     }
 
 

@@ -3,6 +3,7 @@ package com.alcohol.service.impl;
 import com.alcohol.mapper.CategoryTwoMapper;
 import com.alcohol.pojo.Categorytwo;
 import com.alcohol.service.CategoryTwoService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +19,24 @@ public class CategoryTwoServiceImpl implements CategoryTwoService {
     private CategoryTwoMapper cm;
 
     @Override
-    public List<Categorytwo> getCategoryTwoInfo(Map<String, Object> map) {
+    public List<Categorytwo> getCategoryTwoInfo(Categorytwo ct) {
         try {
-            return cm.getCategoryTwo(map);
-        }catch (RuntimeException e){     
+            return cm.getCategoryTwoInfo(ct);
+        }catch (RuntimeException e){
             e.printStackTrace();
             throw e;
         }
     }
+
+    @Override
+    public List<Categorytwo> getCategoryTwoInfofy(Categorytwo ct,Integer pageNum,Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize,true,true);
+        List<Categorytwo> nws=cm.getCategoryTwoInfofy(ct);
+        return nws;
+    }
+
+
+
 
     @Override
     public int getCategoryTwo(String categorytwoName) {
@@ -58,22 +69,17 @@ public class CategoryTwoServiceImpl implements CategoryTwoService {
     }
 
     @Override
-    public int delCategorytwo(Long categorytwo_id) {
+    public int delistwo(Categorytwo two) {
+        return cm.delistwo(two);
+    }
+
+    @Override
+    public int delCategorytwo(Categorytwo two) {
         try {
-            return cm.delCategorytwo(categorytwo_id);
+            return cm.delCategorytwo(two);
         }catch (RuntimeException e){
             e.printStackTrace();
             throw e;
         }
-    }
-
-    /**
-     * 查询三级上的二级
-     * @param id
-     * @return
-     */
-    @Override
-    public  Categorytwo getCategorytwoBythreeId(Integer id){
-        return cm.getCategorytwoBythreeId(id);
     }
 }

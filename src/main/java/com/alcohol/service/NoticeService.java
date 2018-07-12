@@ -11,6 +11,17 @@ public interface NoticeService {
      */
     List<Notice> list();
     /**
+     * 后台查询所有咨询
+     * @return
+     */
+    List<Notice> listall(int pageNum, int pageSize);
+    /***
+     * 根据id查
+     * @param id
+     * @return
+     */
+    public Notice seleid(int id);
+    /**
      * 新增资讯
      * @param inNotice
      * @return
@@ -26,8 +37,8 @@ public interface NoticeService {
 
     /**
      * 删除资讯
-     * @param delNotice
+     * @param attr
      * @return
      */
-    int deleteNotice(int delNotice);
+    boolean deleNotice(int[] attr);
 }

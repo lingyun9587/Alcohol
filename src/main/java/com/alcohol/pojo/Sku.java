@@ -16,7 +16,7 @@ public class Sku {
     private Long stock;//库存
     private double originalPrice;//原价
     private double presentPrice;//现价
-
+    private List<SkuValue> SkuValueList;
     private Product product;//商品对象  赵俊峰
     private SkuValue skuValue;//sku值对象 赵俊峰
 

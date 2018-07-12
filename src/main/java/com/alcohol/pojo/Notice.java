@@ -16,4 +16,5 @@ public class Notice {
     private  String content; //内容
     private Date createTime;  //创建时间
     private  Integer type;  //类型id
+    private Integer spare_one;//状态
 }
