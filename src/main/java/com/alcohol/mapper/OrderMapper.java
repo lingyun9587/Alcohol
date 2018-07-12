@@ -4,6 +4,7 @@ import com.alcohol.pojo.Order;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单 陈赓
@@ -50,4 +51,27 @@ public interface OrderMapper {
      * @return
      */
      Order getById(@Param("orderId") Long orderId);
+
+
+
+    /**
+     * 查询订单  韩庆林
+     * @param
+     * @return
+     */
+    List<Order>  order(Map<String,Object> map);
+
+    /**
+     * 查看订单详情  韩庆林
+     * @param
+     * @return
+     */
+    Order cha(@Param("order_id") int order_id);
+
+    /**
+     * 查修改退款状态  韩庆林
+     * @param
+     * @return
+     */
+    int status(int order_id);
 }

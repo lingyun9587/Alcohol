@@ -3,6 +3,7 @@ package com.alcohol.pojo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 胡博
@@ -15,4 +16,7 @@ public class Shoppingdetails {
     private Long skuId;//sku编号
     private Long number;//数量
     private Date createTime;//加入时间
+
+    //sku表  韩庆林
+    private List<Sku> sku;
 }

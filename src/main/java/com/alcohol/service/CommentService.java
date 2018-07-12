@@ -1,6 +1,7 @@
 package com.alcohol.service;
 
 import com.alcohol.pojo.Comment;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +26,10 @@ public interface CommentService {
      * @return
      */
     List<Integer> getCommentCountById(Integer id);
+    /**
+     * 批量回复用户评价
+     * @param com
+     * @return
+     */
+    int upListComment(int[] com, @Param("reply_conte") String reply_conte);
 }

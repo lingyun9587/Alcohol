@@ -19,7 +19,7 @@
         SELECT typevalue_id FROM tb_product
     </select>
     <select id="selAllDESC" resultMap="Productlist">
-        SELECT product_id,product_name,sales,typevalue_id,looknumber FROM tb_product
+        SELECT product_id,product_name,sales,typevalue_id,spare_one FROM tb_product
         <where>
             <if test="productName!=null and productName!=''">
                 AND product_name LIKE CONCAT ('%',#{productName},'%')
@@ -29,13 +29,13 @@
             ORDER BY sales DESC
         </if>
         <if test="panduan==1">
-            ORDER BY looknumber DESC
+            ORDER BY spare_one DESC
         </if>
 
     </select>
 
     <select id="selAll" resultMap="Productlist">
-        SELECT product_id,product_name,sales,typevalue_id,looknumber FROM tb_product
+        SELECT product_id,product_name,sales,typevalue_id,spare_one FROM tb_product
         <where>
             <if test="productName!=null and productName!=''">
                 AND product_name LIKE CONCAT ('%',#{productName},'%')
@@ -49,7 +49,7 @@
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="sales" property="sales"/>
-        <result column="looknumber" property="looknumber"/>
+        <result column="spare_one" property="spare_one"/>
     </resultMap>
     <resultMap id="resultMap01" type="Product">
         <id column="product_id" property="productId"/>
@@ -134,7 +134,7 @@
         SELECT tbpr.product_id,
         tbpr.product_name,
         tbpr.sales,
-        tbpr.looknumber,
+        tbpr.spare_one,
         tbimg.image_path,
         tbsku.present_price,
         tbcomm.countid
@@ -179,4 +179,55 @@
         WHERE categorythree_name
         LIKE concat('%'#{pName}'%') ORDER BY weight;
     </select>
+
+    <!--张鹏商品后台列表-->
+    <select id="listAll" resultType="Product">
+      SELECT tbpr.product_id,
+        tbpr.product_name,
+        tbpr.sales,
+        tbpr.spare_one,
+        tbpr.status,
+        tbpr.create_time,
+        tbpr.down_time,
+        tbsku.present_price,
+        sumsku.countid,
+        tbimg.image_path
+        FROM tb_product tbpr
+        LEFT JOIN tb_Image tbimg
+        ON tbpr.product_id = tbimg.product_id
+        LEFT JOIN (SELECT sku.product_id,sku.present_price FROM (SELECT * FROM tb_sku ORDER BY present_price) sku  GROUP BY product_id) tbsku
+        ON tbsku.product_id = tbpr.product_id
+        LEFT JOIN (SELECT tb_sku.product_id,SUM(tb_sku.stock) countid FROM tb_sku GROUP BY tb_sku.product_id) sumsku
+        ON sumsku.product_id=tbpr.product_id
+        WHERE 1=1
+      <if test="status!=0">
+          AND tbpr.status=#{status}
+      </if>
+      AND tbpr.product_name LIKE CONCAT ('%',#{product_name},'%') GROUP BY tbpr.product_id
+    </select>
+
+    <!--张鹏商品下架-->
+    <update id="updateStatus" parameterType="int[]">
+        update tb_product set status =1,down_time=NOW() where product_id in
+        <foreach collection="array" item="arr" index="no" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
+    <!--张鹏商品上架-->
+    <update id="updateStatussj" parameterType="int[]">
+        update tb_product set status =2,down_time=NOW() where product_id in
+        <foreach collection="array" item="arr" index="no" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
+    <!--张鹏商品删除-->
+    <update id="deleStatus" parameterType="int[]">
+        update tb_product set status =3,down_time=NOW() where product_id in
+        <foreach collection="array" item="arr" index="no" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
 </mapper>

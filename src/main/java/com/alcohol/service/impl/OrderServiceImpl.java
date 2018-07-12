@@ -8,10 +8,14 @@ import com.alcohol.mapper.OrderMapper;
 import com.alcohol.pojo.Commodity;
 import com.alcohol.pojo.Order;
 import com.alcohol.service.OrderService;
+import com.github.pagehelper.PageHelper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -58,4 +62,35 @@ public class OrderServiceImpl implements OrderService {
 
         return order;
     }
+
+    /**
+     * 订单查看 韩庆林
+     * @param map
+     * @return
+     */
+    @Override
+    public List<Order> order(Map<String, Object> map) {
+        PageHelper.startPage((Integer) map.get("pageNum"), (Integer) map.get("pageSize"), true, true);
+        return orderMapper.order(map);
+    }
+
+    /**
+     * 查看订单详情 韩庆林
+     * @param
+     * @return
+     */
+    @Override
+    public Order cha(@Param("order_id") int order_id) {
+        return  orderMapper.cha(order_id);
+    }
+    /**
+     * 修改退款状态 韩庆林
+     * @param order_id
+     * @return
+     */
+    @Override
+    public int status(int order_id) {
+        return orderMapper.status(order_id);
+    }
+
 }
