@@ -162,6 +162,7 @@
     //页索引 pageindex
     function tableInit(pageNum,spareOne) {
         var content="";
+        var spare="";
         //绑定表格数据
         $.ajax({
             url: "/listComment",
@@ -171,16 +172,27 @@
             dataType:"JSON",
             success:function(data){
                 $.each(data.list,function (index,item) {
+                    if (item.spareOne==1){
+						spare="好评";
+                    }
+                    if (item.spareOne==2){
+                        spare="中评";
+                    }
+                    if (item.spareOne==3){
+                        spare="差评";
+                    }
                     content+="<tr>\n" +
                         "<th><input type='checkbox' name='checkItem' class='checknum' value='"+item.commentId+"'/></th>\n" +
-                        "<th>"+item.spareOne+"</th>\n" +
+                        "<th>"+spare+"</th>\n" +
                         "<th>"+item.content+"</th>\n" +
                         "<th>"+item.user.nickName+"</th>\n" +
                         "<th>"+item.product.productName+"</th>\n" +
                         "<th>"+item.reply_conte+"</th>\n" +
                         "<th><a href='#' onclick='hf(this)'>回复</a></th>\n" +
-                        "</tr>"
-                });
+                        "</tr>";
+
+                        });
+
                 $("#dab").html(content);
                 showPage(pageNum,data.pages,data.total);
             },

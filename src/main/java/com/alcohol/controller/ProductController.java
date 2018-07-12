@@ -2,8 +2,8 @@ package com.alcohol.controller;
 
 import com.alcohol.mapper.ImageMapper;
 import com.alcohol.pojo.*;
+import com.alcohol.service.ProductService;
 import com.alcohol.service.TypeValueService;
-import com.alcohol.service.impl.CommodityServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class ProductController {
 
     @Resource
-    private CommodityServiceImpl.ProductService productService;
+    private ProductService productService;
     @Resource
     private TypeValueService typeValueService;
     @Resource

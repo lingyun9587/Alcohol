@@ -4,6 +4,7 @@ import com.alcohol.mapper.ProductMapper;
 import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
+import com.alcohol.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ProductServiceImpl implements CommodityServiceImpl.ProductService {
+public class ProductServiceImpl implements ProductService {
 
     @Resource
     private ProductMapper productMapper;
