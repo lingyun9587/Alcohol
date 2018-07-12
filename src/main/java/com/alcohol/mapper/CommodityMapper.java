@@ -2,6 +2,7 @@ package com.alcohol.mapper;
 
 import com.alcohol.controller.CommonController;
 import com.alcohol.pojo.Commodity;
+import com.alcohol.pojo.Order;
 import com.alcohol.vo.OrderstatusVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -59,4 +60,23 @@ public interface CommodityMapper {
      * @return
      */
      List<Commodity> listCommodityInfo(@Param("id")Integer id, @Param("status")Integer status);
+
+    /**
+     * 获取所有 超时订单信息
+     * @return
+     */
+     List<Commodity> listCommoditySail(List<Order> list);
+    /**
+     * 批量删除订单超时信息
+     * @param list
+     */
+    void deleteSailDaily(List<Order> list);
+
+
+    /**
+     * 根据订单编号修改状态
+     * @param
+     * @return
+     */
+    int updateCommodityStatusByOrderId(@Param("orderId") Long orderId,@Param("status") Integer status);
 }

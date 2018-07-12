@@ -122,4 +122,26 @@ public class OrderController{
     }
 
 
+    @RequestMapping(value = "/updateOrderStatus")
+    public Object updateInfo(@RequestParam("id")Long id,@RequestParam("status")Integer status){
+        Order order  = new Order();
+        order.setOrderId(id);
+        order.setStatus(status);
+        Map<String,Object> map = new HashMap<>();
+        OrderExecution orderExecution = null;
+        try {
+            orderExecution = orderService.updateOrderStatus(order);
+            if(orderExecution.getState() == 0){
+                map.put("success",true);
+                map.put("msg",orderExecution.getStateInfo());
+            }else{
+                map.put("success",false);
+                map.put("msg",orderExecution.getStateInfo());
+            }
+        }catch (Exception e){
+            map.put("success",false);
+            map.put("msg",e.toString());
+        }
+        return map;
+    }
 }

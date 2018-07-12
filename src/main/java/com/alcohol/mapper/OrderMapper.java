@@ -50,4 +50,15 @@ public interface OrderMapper {
      * @return
      */
      Order getById(@Param("orderId") Long orderId);
+
+    /**
+     * 查询全部订单过期的订单
+     * @return
+     */
+     List<Order> listSellDaily();
+    /**
+     * 定时查看订单是否过期
+     * @return
+     */
+    int orderSelldaily();
 }

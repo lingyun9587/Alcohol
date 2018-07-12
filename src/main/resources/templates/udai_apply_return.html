@@ -353,6 +353,25 @@
             18650406668&nbsp;&nbsp;&nbsp;&nbsp;E-mail: 18650406668@qq.com
         </p>
     </div>
+    <script type="text/javascript">
+    $(function () {
+        var id = getUrlParam("id");
+        $.ajax({
+            url:"",
+            type:"get",
+            data:{
+                "id":id
+            },
+            dataType:"json",
+            success:function (data) {
+
+            },
+            error:function () {
+                alert("请求失败！");
+            }
+        })
+    })
+    </script>
 </div>
 </body>
 </html>

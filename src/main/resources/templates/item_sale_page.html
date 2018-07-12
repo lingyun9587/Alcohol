@@ -14,6 +14,142 @@
     <script src="js/swiper.min.js" charset="UTF-8"></script>
     <script src="js/global.js" charset="UTF-8"></script>
     <script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        //代替toggle
+        $.prototype["myToggle"] = function () {
+            var args = arguments;
+            var that = this;
+            var i = 0;
+            var n = args.length;
+
+            this.click(function () {
+                var func = args[i%n];
+                if (typeof func === 'function') {
+                    func.call(that);
+                }
+                i += 1;
+
+                return false;
+            });
+        };
+        $(function () {
+            //先判断浏览器是不是万恶的IE，没办法，写的东西也有IE使用者  item_sale_page.html
+            /*  var bind_name = 'input';
+              if (navigator.userAgent.indexOf("MSIE") != -1){
+                  bind_name = 'propertychange';
+              }
+              function f() {
+                  $('#search').bind(bind_name, function(){
+                      $('#inputorp_s').text($(this).val());
+                      var pName = $(this).val();
+                      $.ajax({
+                          url: "product/getSearch",
+                          type: "post",
+                          date:{pName:pName},
+                          dataType: "JSON",
+                          success: function (result) {
+                              alert(result);
+                          }
+                      });
+                  });
+              }*/
+            //搜索框事件
+
+            //销量
+            $("#sort1").myToggle(
+                function () {
+                    $(this).find("i").attr("class","iconfont icon-sortDown")
+                    pLise(1,1);
+                },
+                function () {
+                    $(this).find("i").attr("class","iconfont icon-sortUp")
+                    pLise(2,1);
+                }
+            )
+            //销量
+            $("#sort2").myToggle(
+                function () {
+                    $(this).find("i").attr("class","iconfont icon-sortDown")
+                    pLise(3,1);
+                },
+                function () {
+                    $(this).find("i").attr("class","iconfont icon-sortUp")
+                    pLise(4,1);
+                }
+            )
+            //销量
+            $("#sort3").myToggle(
+                function () {
+                    $(this).find("i").attr("class","iconfont icon-sortDown")
+                    pLise(5,1);
+                },
+                function () {
+                    $(this).find("i").attr("class","iconfont icon-sortUp")
+                    pLise(6,1);
+                }
+            )
+        });
+        function show(judge,pageNum){
+            pLise(judge,pageNum);
+        }
+
+        function pLise(judge,pageIndex) {
+            //获取搜索框的值
+            var pName = $("#search").val();
+            var judge = judge;
+            $.ajax({
+                url:"product/getProduct",
+                type:"post",
+                data:{pName:pName,judge:judge,pageIndex:pageIndex,pageSize:1},
+                dateType:"JSON",
+                success:function (result) {
+                    var html = "<div class=\"item-list__area clearfix\">";
+                    result=JSON.parse(result);
+                    $.each(result.list,function(index,i){
+                        html +="<div class='item-card'>\n" +
+                            "<a href='item_show.html?productId="+i.productId+"' class='photo'>\n" +
+                            "<img src='"+i.productName+"' alt='"+i.productName+"' class='cover'>\n" +
+                            "<div class='name'>"+i.productName+"</div>\n" +
+                            "</a>\n" +
+                            "<div class='middle'>\n" +
+                            "<div class='price'>\n" +
+                            "<small>￥</small>\n" +
+                            i.presentPrice+"\n" +
+                            "</div>\n" +
+                            "<div class='sale'><a href='''>加入购物车</a></div>\n" +
+                            "</div>\n" +
+                            "<div class='buttom'>\n" +
+                            "<div>销量 <b>"+i.sales+"</b></div>\n" +
+                            "<div>浏览量 <b>"+i.spare_one+"</b></div>\n" +
+                            "<div>评论 <b>"+i.countId+"</b></div>\n" +
+                            "</div>\n"+
+                            "</div>";
+                    });
+                    html+="</div>";
+                    var btn ="  <div class=\"page text-center clearfix\">";
+                    if(pageIndex== 1){
+                        btn+=" <a class=\"disabled\">上一页</a>\n" ;
+                    }else{
+                        btn+=" <a onclick='show("+judge+","+(pageIndex-1)+")'>上一页</ a>\n" ;
+                    }
+                    for(var i = 1; i<=result.pages; i++){
+                        if(i == pageIndex){
+                            btn+=" <a class=\"select\">"+i+"</ a>";
+                        }else{
+                            btn+=" <a onclick='show("+judge+","+i+")'>"+i+"</ a>";
+                        }
+                    }
+                    if(result.pages == pageIndex){
+                        btn+="<a class=\"disabled\" >下一页</a>";
+                    }else{
+                        btn+="<a  onclick='show("+judge+","+(pageIndex+1)+")'>下一页</ a>";
+                    }
+                    btn+="</div>";
+                    $(".item-show__div .pull-left").html(html+btn);
+                }
+            })
+        }
+    </script>
     <title>U袋网</title>
 </head>
 <body>
@@ -40,9 +176,9 @@
         <a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
         <div class="search-box">
             <form class="input-group">
-                <input placeholder="Ta们都在搜U袋网" type="text">
+                <input id="search" placeholder="Ta们都在搜U袋网" type="text">
                 <span class="input-group-btn">
-						<button type="button">
+						<button type="button" onclick="pLise(1,1)">
 							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 						</button>
 					</span>
@@ -112,14 +248,14 @@
         </div>
         <div class="sort-box bgf5">
             <div class="sort-text">排序：</div>
-            <a href="">
-                <div class="sort-text">销量 <i class="iconfont icon-sortDown"></i></div>
+            <a id="sort1">
+                <div class="sort-text">销量 <i class="icon-sortUp"></i></div>
             </a>
-            <a href="">
-                <div class="sort-text">评价 <i class="iconfont icon-sortUp"></i></div>
+            <a id="sort2">
+                <div class="sort-text">评价 <i class="icon-sortUp "></i></div>
             </a>
-            <a href="">
-                <div class="sort-text">价格 <i class="iconfont"></i></div>
+            <a id="sort3">
+                <div class="sort-text">价格 <i class="icon-sortUp"></i></div>
             </a>
             <div class="sort-total pull-right">共1688个商品</div>
         </div>

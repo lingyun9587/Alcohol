@@ -8,11 +8,25 @@ import java.util.Map;
 public interface TypeValueMapper {
 
     /**
+     * 根据Id获取值
+     * @param typeValueId
+     * @return
+     */
+    Typevalue selIdType(Long typeValueId);
+    /**
      * 根据三级查询所有的属性值
      * @param map
      * @return
      */
     List<Typevalue> getTypeValue(Map<String, Object> map);
+
+    /**
+     * 根据属性查询对应的属性值
+     * @param tv
+     * @return
+     */
+
+    List<Typevalue> getTypeValuefy(Typevalue tv);
 
     /**
      * 新增属性值
@@ -22,6 +36,13 @@ public interface TypeValueMapper {
     int addTypeValue(Typevalue tn);
 
     /**
+     * 判断修改的属性值是否存在
+     * @param tv
+     * @return
+     */
+    int updissel(Typevalue tv);
+
+    /**
      * 修改属性值
      * @param tn
      * @return
@@ -29,15 +50,16 @@ public interface TypeValueMapper {
     int modifyTypeValue(Typevalue tn);
 
     /**
-     * 删除属性值
-     * @param typeValueId
+     * 判断删除的属性值下是否有商品
+     * @param tv
      * @return
      */
-    int delTypeValue(Long typeValueId);
+    int delisshop(Typevalue tv);
+
     /**
-     * 根据Id获取值
-     * @param typeValueId
+     * 删除属性值
+     * @param tv
      * @return
      */
-    Typevalue selIdType(Long typeValueId);
+    int delTypeValue(Typevalue tv);
 }

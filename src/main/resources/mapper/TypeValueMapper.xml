@@ -3,25 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.TypeValueMapper">
-    <!--查询三级分类-->
-    <select id="getTypeValue" resultType="Typevalue">
-SELECT typevalueid,typeValuename FROM tb_typevalue
-WHERE typeNameid=(
-	SELECT typeNameid FROM tb_typename WHERE categoryid=2
-)
-    </select>
 
-    <insert id="addTypeValue">
-        INSERT INTO tb_typevalue values
-        (#{typeValue_name},#{typeName_id},#{weight},#{isDel})
-    </insert>
-    <update id="modifyTypeValue">
-        update tb_typevalue set typeValuename=#{typeValue_name}
-    </update>
-    <update id="delTypeValue">
-         update tb_typevalue set isdel=#{isDel} where typeValueid=#{typeValue_id}
-    </update>
     <select id="selIdType" resultType="com.alcohol.pojo.Typevalue">
         SELECT typeValue_id,typeValue_name FROM `tb_typevalue` WHERE typeValue_id=#{typeValueId}
     </select>
+    <select id="getTypeValuefy" resultType="Typevalue">
+        SELECT typevalue_id,typeValue_name,typeName_id FROM tb_typevalue WHERE typeName_id=#{typeNameId} and isdel=0
+    </select>
+
+    <insert id="addTypeValue">
+       INSERT INTO tb_typevalue VALUES
+        (NULL,#{typeValue_name},#{typeName_id},0,null,null,null,null,null)
+    </insert>
+    <!--判断修改的属性值是否存在-->
+    <select id="updissel" resultType="java.lang.Integer">
+         SELECT COUNT(1) FROM tb_typevalue WHERE typeValue_name=#{typeValueName} and isdel=0
+    </select>
+    <!--修改属性值-->
+    <update id="modifyTypeValue">
+         UPDATE tb_typevalue SET typeValue_name=#{typeValueName} where typeValue_id=#{typeValueId} and isdel=0
+    </update>
+    <!--执行删除，判断属性值下是否有商品-->
+    <select id="delisshop" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM tb_product WHERE FIND_IN_SET(#{typeValueId},typeValue_id) and `status`!=2
+    </select>
+    <!--删除-->
+    <update id="delTypeValue">
+         UPDATE tb_typevalue SET isdel=#{isdel} where typeValue_id=#{typeValueId}
+    </update>
 </mapper>

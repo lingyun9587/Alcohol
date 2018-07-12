@@ -17,7 +17,7 @@ import javax.jms.Session;
 @Configuration
 public class ActiveMQ4Config {
 
-    @Bean
+   /* @Bean
     public Queue queue(){
         return new ActiveMQQueue("queue1");
     }
@@ -56,7 +56,7 @@ public class ActiveMQ4Config {
         jmsTemplate.setDeliveryMode(2);//进行持久化配置 1表示非持久化，2表示持久化
         jmsTemplate.setConnectionFactory(activeMQConnectionFactory);
         jmsTemplate.setDefaultDestination(queue); //此处可不设置默认，在发送消息时也可设置队列
-        jmsTemplate.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);//客户端签收模式
+        jmsTemplate.setSessionAcknowledgeMode(Session.AUTO_ACKNOWLEDGE);//客户端签收模式
         return jmsTemplate;
     }
 
@@ -72,6 +72,6 @@ public class ActiveMQ4Config {
         factory.setRecoveryInterval(1000L);
         factory.setSessionAcknowledgeMode(4);
         return factory;
-    }
+    }*/
 
 }

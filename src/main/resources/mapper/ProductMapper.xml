@@ -19,35 +19,37 @@
         SELECT typevalue_id FROM tb_product
     </select>
     <select id="selAllDESC" resultMap="Productlist">
-        SELECT product_name,sales,typevalue_id,looknumber FROM tb_product
+        SELECT product_id,product_name,sales,typevalue_id,spare_one FROM tb_product
         <where>
             <if test="productName!=null and productName!=''">
-                product_name LIKE CONCAT ('%',#{productName},'%')
+                AND product_name LIKE CONCAT ('%',#{productName},'%')
             </if>
         </where>
         <if test="panduan==0">
             ORDER BY sales DESC
         </if>
         <if test="panduan==1">
-            ORDER BY looknumber DESC
+            ORDER BY spare_one DESC
         </if>
+
     </select>
 
     <select id="selAll" resultMap="Productlist">
-        SELECT product_name,sales,typevalue_id,looknumber FROM tb_product
+        SELECT product_id,product_name,sales,typevalue_id,spare_one FROM tb_product
         <where>
             <if test="productName!=null and productName!=''">
-                product_name LIKE CONCAT ('%',#{productName},'%')
+                AND product_name LIKE CONCAT ('%',#{productName},'%')
             </if>
-        </where>
 
+        </where>
         ORDER BY sales
     </select>
     <resultMap id="Productlist" type="Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="sales" property="sales"/>
-        <result column="looknumber" property="looknumber"/>
+        <result column="spare_one" property="spare_one"/>
+        <result column="typevalue_id" property="typevalueId"/>
     </resultMap>
     <resultMap id="resultMap01" type="Product">
         <id column="product_id" property="productId"/>
@@ -125,5 +127,56 @@
         <if test="skuId!=null">
             AND s.sku_id=#{skuId}
         </if>
+    </select>
+
+    <!--根据名字模糊查询商品  xcf-->
+    <select id="getProductList" resultType="Product">
+        SELECT tbpr.product_id,
+        tbpr.product_name,
+        tbpr.sales,
+        tbpr.spare_one,
+        tbimg.image_path,
+        tbsku.present_price,
+        tbcomm.countid
+        FROM tb_product tbpr
+        LEFT JOIN tb_Image tbimg
+        ON tbpr.product_id = tbimg.product_id
+
+        LEFT JOIN (SELECT sku.product_id,sku.present_price FROM (SELECT * FROM tb_sku ORDER BY present_price) sku  GROUP BY product_id) tbsku
+        ON tbsku.product_id = tbpr.product_id
+
+        LEFT JOIN (SELECT tb_sku.product_id pid,COUNT(tb_comment.comment_id) countid FROM tb_sku  LEFT JOIN tb_comment ON tb_sku.sku_id =tb_comment.sku_id GROUP BY tb_sku.product_id) tbcomm
+        ON  tbcomm.pid = tbpr.`product_id`
+        <if test="product_name!='' and product_name!=null">
+            WHERE tbpr.product_name LIKE concat('%',#{product_name},'%')
+        </if>
+        GROUP BY tbpr.product_id
+        <if test="judge==1">      <!--销量正序-->
+            ORDER BY tbpr.sales
+        </if>
+        <if test="judge==2">      <!--销量倒叙-->
+            ORDER BY tbpr.sales DESC
+        </if>
+        <if test="judge==3">      <!--评论正序-->
+            ORDER BY tbcomm.countid
+        </if>
+        <if test="judge==4">      <!--评论倒叙-->
+            ORDER BY tbcomm.countid DESC
+        </if>
+        <if test="judge==5">      <!--价格正序-->
+            ORDER BY tbsku.present_price
+        </if>
+        <if test="judge==6">      <!--价格倒叙-->
+            ORDER BY tbsku.present_price DESC
+        </if>
+    </select>
+
+
+    <!--根据名字模糊查询三级分类   xcf-->
+    <select id="getCategorythree" >
+        SELECT categorythree_id ,categorythree_name
+        FROM tb_categorythree
+        WHERE categorythree_name
+        LIKE concat('%'#{pName}'%') ORDER BY weight;
     </select>
 </mapper>

@@ -3,20 +3,27 @@ package com.alcohol.service.impl;
 import com.alcohol.dto.OrderExecution;
 import com.alcohol.enums.OrderEnum;
 import com.alcohol.exceptions.OrderOperationException;
+import com.alcohol.jms.ProducerCc;
 import com.alcohol.mapper.CommodityMapper;
 import com.alcohol.mapper.OrderMapper;
 import com.alcohol.pojo.Commodity;
 import com.alcohol.pojo.Order;
 import com.alcohol.service.OrderService;
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.management.Query;
+import java.io.Serializable;
 
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
+    @Resource
+    private ProducerCc producerCc;
     @Resource
     private OrderMapper orderMapper;
     @Resource
@@ -48,6 +55,9 @@ public class OrderServiceImpl implements OrderService {
         }catch (OrderOperationException e){
             throw  new OrderOperationException(e.toString());
         }
+        if(orderExecution.getState() == 0){ //执行消息队列
+            producerCc.sendMessage(JSON.toJSONString(order.getCommodities()));
+        }
         return orderExecution;
     }
 
@@ -57,5 +67,22 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderMapper.getById(id);
 
         return order;
+    }
+
+    @Override
+    public OrderExecution updateOrderStatus(Order order)throws OrderOperationException {
+        OrderExecution orderExecution =null;
+        try{
+            int result = orderMapper.updateOrderState(order);
+            if(result>0){
+                commodityMapper.updateCommodityStatusByOrderId(order.getOrderId(),order.getStatus());
+                orderExecution = new OrderExecution(OrderEnum.SUCCESS);
+            }else{
+                orderExecution = new OrderExecution(OrderEnum.NOTFAIL);
+            }
+        }catch (OrderOperationException e){
+            throw new OrderOperationException(e.toString());
+        }
+        return orderExecution;
     }
 }

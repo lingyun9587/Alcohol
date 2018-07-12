@@ -52,8 +52,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         User user = new User();
         user.setUserId(userId);
         user.setMembershipName(memId);
-        user.setRealName("骚磊");
-        user.setNickName("傲慢小胖妞");
         user.setFrozen(0L);
         user.setCreateTime(new Date());
         user.setLastTime(new Date());
