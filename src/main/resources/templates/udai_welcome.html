@@ -146,28 +146,28 @@
                 <div class="pull-right user-nav">
                     <a href="udai_order.html" class="user-nav__but">
                         <i class="iconfont icon-rmb fz40 cr"></i>
-                        <div class="c6">待支付 <span class="cr">1</span></div>
+                        <div class="c6">待支付 <span class="cr" id="statusdai">1</span></div>
                     </a>
                     <a href="udai_order.html" class="user-nav__but">
                         <i class="iconfont icon-eval fz40 cr"></i>
-                        <div class="c6">待评价 <span class="c3">0</span></div>
+                        <div class="c6">待评价 <span class="c3" id="statusping">0</span></div>
                     </a>
-                    <a href="udai_collection.html" class="user-nav__but">
+                  <!--  <a href="udai_collection.html" class="user-nav__but">
                         <i class="iconfont icon-star fz40 cr"></i>
                         <div class="c6">收藏 <span class="c3">0</span></div>
-                    </a>
-                    <a href="udai_coupon.html" class="user-nav__but">
+                    </a>-->
+                  <!--  <a href="udai_coupon.html" class="user-nav__but">
                         <i class="iconfont icon-quan fz40 cr"></i>
                         <div class="c6">优惠券 <span class="cr">2</span></div>
-                    </a>
+                    </a>-->
                     <a href="udai_integral.html" class="user-nav__but">
                         <i class="iconfont icon-jifen fz40 cr"></i>
-                        <div class="c6">积分 <span class="cr">200</span></div>
+                        <div class="c6">积分 <span class="cr" id="jifen">200</span></div>
                     </a>
-                    <a href="udai_message.html" class="user-nav__but">
+                   <!-- <a href="udai_message.html" class="user-nav__but">
                         <i class="iconfont icon-xiaoxi fz40 cr"></i>
                         <div class="c6">消息 <span class="cr">2</span></div>
-                    </a>
+                    </a>-->
                 </div>
             </div>
             <div class="order-list__div bgf">
@@ -836,8 +836,14 @@
                     context+="  <li role=\"presentation\" class=\"nav-item \"><a href=\"#all\" onclick=\"statu("+e.orderStatusId+")\" aria-controls=\"pay\" role=\"tab\"\n" +
                         "            data-toggle=\"tab\">"+e.orderStatusName+" <span class=\"cr\">"+e.number+"</span></a>\n" +
                         "            </li>";
+               if(e.orderStatusId ==1){
+                    $("#statusdai").text(e.number);
+               }else if(e.orderStatusId == 9){
+                   $("statusping").text(e.number);
+               }
                 })
                 $(".user-nav__title").html(context);
+
             },
             error:function(){
                 alert("请求失败");
@@ -915,21 +921,21 @@
                         if (e.orderstatus.orderStatus_id == 1) {
                             context +="<a href='udai_shopcart_pay.html?id="+e.orderId+"' class=\"but but-primary\">"+"立即付款";
                         } else if (e.orderstatus.orderStatus_id == 2) {
-                            context += " <a href='udai_order_receipted.html?id="+e.orderId+"' class=\"but but-primary\">"+"等待发货";
+                            context += " <a href='javascript:void(0)' class=\"but \">"+"等待发货";
                         } else if (e.orderstatus.orderStatus_id == 3) {
                             context +=  " <a href='udai_order_receipted.html?id="+e.orderId+"' class=\"but but-primary\">"+"确认收货";
                         } else if (e.orderstatus.orderStatus_id == 4) {
-                            context +=  " <a href='javascript:void(0)' class=\"but but-primary\">"+"等待退款";
+                            context +=  " <a href='javascript:void(0)' class=\"but \">"+"等待退款";
                         } else if (e.orderstatus.orderStatus_id == 5) {
-                            context += " <a href='javascript:void(0)' class=\"but but-primary\">"+"退款失败";
+                            context += " <a href='javascript:void(0)' class=\"but \">"+"退款失败";
                         } else if (e.orderstatus.orderStatus_id == 6) {
-                            context += " <a href='javascript:void(0)' class=\"but but-primary\">"+"退款成功";
+                            context += " <a href='javascript:void(0)' class=\"but \">"+"退款成功";
                         } else if (e.orderstatus.orderStatus_id == 7) {
-                            context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "交易成功";
+                            context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "已收货";
                         } else if (e.orderstatus.orderStatus_id == 8) {
                             context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "订单已失效";
                         } else if (e.orderstatus.orderStatus_id == 9) {
-                            context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "评价";
+                            context += " <a href='udai_order_receipted.html?id="+e.orderId+"' class=\"but but-primary\">"+"评价";
                         }
 
 
@@ -938,19 +944,19 @@
                         } else if (e.orderstatus.orderStatus_id == 2) {
                             context += " <a href='javascript:void(0)'data-toggle=\"modal\" onclick='orderId(\""+e.orderId+"\")' data-target=\"#myModal\" class=\"but c3\">"+ "取消订单";
                         } else if (e.orderstatus.orderStatus_id == 3) {
-                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "退款退货";
+                            context += " <a href='udai_apply_return.html?id="+e.orderId+"' class=\"but c3\">"+ "退款退货";
                         } else if (e.orderstatus.orderStatus_id == 4) {
-                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "等待退款";
+                            context += " <a  href='javascript:void(0)' class=\"but c3\">"+ "等待退款";
                         } else if (e.orderstatus.orderStatus_id == 5) {
-                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "申请再次退款";
+                            context += " <a href='javascript:void(0)' class=\"but c3\">"+ "退款失败";
                         } else if (e.orderstatus.orderStatus_id == 6) {
-                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "退款成功";
+                            context += " <a href='javascript:void(0)' class=\"but c3\">"+ "退款成功";
                         } else if (e.orderstatus.orderStatus_id == 7) {
-                            context +=  " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+"退货退款";
+                            context +=  " <a href='udai_apply_return.html?id="+e.orderId+"' class=\"but c3\">"+"退货退款";
                         } else if (e.orderstatus.orderStatus_id == 8) {
-                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "订单已失效";
+                            context += " <a  href='javascript:void(0)' class=\"but c3\">"+ "订单已失效";
                         } else if (e.orderstatus.orderStatus_id == 9) {
-                            context +=  " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+"退货退款";
+                            context +=  " <a href='udai_apply_return.html?id="+e.orderId+"' class=\"but c3\">"+"退货退款";
                         }
                         context += "                                        </td>\n" +
 
@@ -970,6 +976,7 @@
             url:"getUserInfo",
             type:"post",
             success:function(data){
+                $("#jifen").text(data.integral);
                 $("#phone").text(data.phone);
                 var context = "";
                 $.each(data.user.roles,function(i,e){

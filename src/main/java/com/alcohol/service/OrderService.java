@@ -29,4 +29,11 @@ public interface OrderService {
      */
     OrderExecution updateOrderStatus(Order order);
 
+    /**
+     * 进行下订单
+     * @param order
+     * @return
+     */
+    OrderExecution updateOrder(Order order);
+
 }

@@ -1,6 +1,7 @@
 package com.alcohol.config.shiro;
 
 
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -11,8 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Filter;
 
 /**
  * shiro配置类
@@ -20,6 +23,7 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfiguration {
+
 
   @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(@Qualifier( "securityManager") SecurityManager securityManager){
@@ -43,12 +47,17 @@ public class ShiroConfiguration {
       filterChainDefinitionMap.put("/static/**", "anon");
       filterChainDefinitionMap.put("/static/*.*", "anon");
       filterChainDefinitionMap.put("/user/loginUser", "anon");
-        filterChainDefinitionMap.put("/ajaxLogin", "anon");
 
         // 配置退出过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
-
+        //用户
         filterChainDefinitionMap.put("/udai_address.html", "roles[用户]");
+      filterChainDefinitionMap.put("/udai_welcome.html", "roles[用户]");  //我的信息
+      filterChainDefinitionMap.put("/udai_order.html", "roles[用户]");  //我的订单
+      filterChainDefinitionMap.put("/udai_integral.html", "roles[用户]");  //积分平台
+      filterChainDefinitionMap.put("/temp_article/udai_article4.html", "roles[用户]");  //帮助中心
+
+
         //filterChainDefinitionMap.put("/udai_paypwd_modify.html", "roles[管理员]");
         // <!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
@@ -108,4 +117,7 @@ public class ShiroConfiguration {
         advisor.setSecurityManager(manager);
         return advisor;
     }
+
+
+
 }

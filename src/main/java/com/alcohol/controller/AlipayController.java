@@ -65,7 +65,7 @@ public class AlipayController {
         Long orderId =Long.valueOf(out_trade_no);
         Order order = new Order();
         order.setOrderId(orderId);
-        order.setStatus(6);
+        order.setStatus(7);
         orderService.updateOrderStatus(order);
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","

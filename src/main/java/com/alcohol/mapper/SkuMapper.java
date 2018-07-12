@@ -19,4 +19,6 @@ public interface SkuMapper {
      * @return
      */
     int updateInfo(@Param("skuId") Long skuId,@Param("number") Integer number,@Param("status") Integer status);
+
+
 }

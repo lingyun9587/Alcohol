@@ -23,12 +23,12 @@ public class CommodityServiceImpl implements CommodityService {
     @Resource
     private OrderMapper orderMapper;
     @Override
-    public List<OrderstatusVo> listVoByUserId(Integer id) {
+    public List<OrderstatusVo> listVoByUserId(Long id) {
         return commodityMapper.listVoByUserId(id);
     }
 
     @Override
-    public List<Commodity> listCommodityInfo(Integer id,Integer status) {
+    public List<Commodity> listCommodityInfo(Long id,Integer status) {
         return commodityMapper.listCommodityInfo(id,status);
     }
 

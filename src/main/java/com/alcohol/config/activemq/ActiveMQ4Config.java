@@ -17,7 +17,7 @@ import javax.jms.Session;
 @Configuration
 public class ActiveMQ4Config {
 
-   /* @Bean
+    @Bean
     public Queue queue(){
         return new ActiveMQQueue("queue1");
     }
@@ -72,6 +72,6 @@ public class ActiveMQ4Config {
         factory.setRecoveryInterval(1000L);
         factory.setSessionAcknowledgeMode(4);
         return factory;
-    }*/
+    }
 
 }
