@@ -3,6 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.ProductMapper">
+
+    <insert id="addProduct" useGeneratedKeys="true"
+            keyColumn="product_id" keyProperty="productId">
+        INSERT INTO tb_product(product_id,`product_name`,`product_desc`,`product_details`,`create_time`,`status`,`sales`,
+        `longegral`,`category_one`,`category_two`,`category_three`,`typevalue_id`,`weight`)
+        VALUES(NULL,#{productName},#{productDese},#{productDetails},NOW(),#{status},#{sales},#{longegral},#{categoryOne},
+        #{categoryTow},#{categoryThree},#{typevalueId},#{weight})
+    </insert>
+
         <select id="getProductbyId" resultMap="resultMap01">
         SELECT tb_product.product_id,tb_product.`product_name`,tb_product.product_details,tb_product.sales,tb_product.`longegral`,
           tb_skuname.skuname_id,tb_skuname.`skuname_name`,tb_skuvalue.skuvalue_id,tb_skuvalue.`skuvalue_value`,

@@ -17,6 +17,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Resource
     private ProductMapper productMapper;
+
+    @Override
+    public int addProduct(Product p) {
+        return productMapper.addProduct(p);
+    }
+
     @Override
     /**
      * 根据编号获得一条数据

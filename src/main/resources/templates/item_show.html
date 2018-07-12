@@ -777,7 +777,8 @@
             success: function (data) {
                 var number=$(".badge").eq(0).html();
                 //图片的
-                var imageList = "<div class=\"small-box\"><input type='hidden' class='skuId' value='0'/>\n" +
+
+                var imageList = "<div class=\"small-box\">\n" +
                     " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">\n" +
                     "<span class=\"hover\"></span>\n" +
                     "</div>\n" +
@@ -827,7 +828,8 @@
                     "</li>\n" +
                     "</ul>\n" +
                     "<div class=\"item-key\">\n" +
-                    "<div class=\"item-sku\">\n";
+                    "<div class=\"item-sku\"><input type='hidden' class='skuId' value='0'/>\n";
+
                 $.each(data.skunameList, function (i, e) {
                     content += "<dl class=\"item-prop clearfix\">\n" +
                         "<dt class=\"item-metatit\">" + e.skunameeValue + ":</dt>\n" +
@@ -872,6 +874,9 @@
                 //商品详情
                 $("#detail").html(data.productDetails);
                 $(".Info").hide();
+                if(data.skunameList.length==0){
+                    $(".skuId").val("空");
+                }
             },
             error: function () {
                 alert("网络延迟,请稍后重试");
@@ -1071,7 +1076,6 @@
                 alert("sku获取失败");
             }
         });
-
     }
 
     //加入购物车
@@ -1081,10 +1085,11 @@
         if(skuId==0){
             $(".Info").show();
             return;
-        }else{
+        }
+        else{
             $.ajax({
                 url:"/addShopCart",
-                data:{skuId:skuId,},
+                data:{skuId:skuId},
                 dataType:"JSON",
                 type:"post",
                 success:function(result){

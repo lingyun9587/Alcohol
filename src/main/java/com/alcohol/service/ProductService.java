@@ -10,6 +10,13 @@ import java.util.Map;
 public interface ProductService {
 
     /**
+     * 新增商品
+     * @param p
+     * @return
+     */
+    public int addProduct(Product p);
+
+    /**
      * 根据编号获得一条数据
      * @param productid
      * @return
