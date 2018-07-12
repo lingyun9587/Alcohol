@@ -17,6 +17,8 @@
         <association property="user" javaType="User">
             <id column="user_id" property="userId"/>
             <result column="membership_name" property="membershipName"/>
+            <result column="sex" property="sex"/>
+            <result column="nick_name" property="nickName"/>
             <collection property="roles" ofType="Role">
                 <id column="role_id" property="roleId"/>
                 <result column="role_name" property="roleName"/>
@@ -25,7 +27,7 @@
     </resultMap>
     <select id="getUserByUserName" resultMap="info">
         SELECT acc.account_id,acc.phone,acc.email,acc.create_time,acc.last_time,acc.password,
- us.user_id,us.membership_name,
+ us.user_id,us.membership_name,us.nick_name,us.sex,
  role.role_id,role.role_name
          FROM tb_useraccount acc
    INNER JOIN tb_user us ON  acc.user_id = us.user_id

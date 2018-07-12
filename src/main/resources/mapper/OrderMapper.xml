@@ -4,6 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.OrderMapper">
 
+    <update id="updateOrderState">
+          UPDATE `tb_order` SET `status`=#{status} where `order_id`=#{orderId}
+    </update>
     <insert id="insertInfo">
         insert into `tb_order`(order_id,address_id,create_time,user_id,goodsCount,status,money)
         values(#{orderId},#{addressId},#{createTime},#{userId},#{goodsCount},#{status},#{money})
@@ -79,4 +82,11 @@
 
         DELETE FROM `tb_order` WHERE `order_id` = #{orderId}
     </delete>
+
+    <delete id="orderSelldaily">
+        UPDATE`tb_order` SET `status`=8 WHERE NOW()>=    DATE_ADD(create_time, INTERVAL 3 DAY) AND `status`=1
+    </delete>
+    <select id="listSellDaily" resultType="Order">
+        SELECT order_id FROM tb_order WHERE NOW()>=    DATE_ADD(create_time, INTERVAL 3 DAY) AND `status`=1
+    </select>
 </mapper>

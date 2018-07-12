@@ -22,4 +22,11 @@ public interface OrderService {
      */
     Order getById(Long id);
 
+    /**
+     * 修该订单信息状态
+     * @param order
+     * @return
+     */
+    OrderExecution updateOrderStatus(Order order);
+
 }

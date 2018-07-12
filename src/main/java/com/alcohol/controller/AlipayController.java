@@ -1,6 +1,8 @@
 package com.alcohol.controller;
 
 import com.alcohol.config.alipay.AlipayConfig;
+import com.alcohol.pojo.Order;
+import com.alcohol.service.OrderService;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -28,6 +31,8 @@ public class AlipayController {
         return "/alipay/index";
     }
 
+    @Resource
+    private OrderService orderService;
 
     /**
      * 快捷支付调用支付宝支付接口
@@ -48,14 +53,20 @@ public class AlipayController {
         alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
 
         //商户订单号，商户网站订单系统中唯一订单号，必填
-        String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        String out_trade_no = new String(request.getParameter("WIDout_trade_no").getBytes("UTF-8"),"UTF-8");
         //付款金额，必填
-        String total_amount = new String(request.getParameter("WIDtotal_amount").getBytes("ISO-8859-1"),"UTF-8");
+        String total_amount = new String(request.getParameter("WIDtotal_amount").getBytes("UTF-8"),"UTF-8");
         //订单名称，必填
-        String subject = new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
+        String subject = new String(request.getParameter("WIDsubject").getBytes("UTF-8"),"UTF-8");
         //商品描述，可空
-        String body = new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
+        String body = new String(request.getParameter("WIDbody").getBytes("UTF-8"),"UTF-8");
 
+        //处理订单付款成功方法
+        Long orderId =Long.valueOf(out_trade_no);
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setStatus(6);
+        orderService.updateOrderStatus(order);
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","
                 + "\"subject\":\""+ subject +"\","

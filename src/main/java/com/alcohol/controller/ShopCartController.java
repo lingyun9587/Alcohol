@@ -74,7 +74,7 @@ public class ShopCartController {
        Long skuId=4L;
        int num=5;
         User u=new User();
-        u.setUserId((long) 3);
+        u.setUserId((long) 1);
         u.setNickName("zz");
          request.getSession().setAttribute("user",u);//向session中保存数据
          User user=(User) session.getAttribute("user");//获取session中的数据

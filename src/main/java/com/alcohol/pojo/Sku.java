@@ -2,6 +2,8 @@ package com.alcohol.pojo;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 胡博
  * Sku 表组合表
@@ -17,4 +19,6 @@ public class Sku {
 
     private Product product;//商品对象  赵俊峰
     private SkuValue skuValue;//sku值对象 赵俊峰
+
+    private List<SkuValue> skuValueList;
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.SkuMapper">
+
+    <select id="getSkuStockById" resultType="Integer">
+   SELECT stock FROM tb_sku WHERE sku_id=#{id}
+    </select>
+
+    <update id="updateInfo" >
+          UPDATE `tb_sku`
+          <set>
+              <if test="status == 0">
+                  stock=stock-#{number},locking=locking+#{number}
+              </if>
+              <if test="status ==1">
+                  stock=stock+#{number},locking=locking-#{number}
+              </if>
+          </set>
+    WHERE sku_id=#{skuId}
+    </update>
+</mapper>

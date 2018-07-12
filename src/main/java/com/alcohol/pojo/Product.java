@@ -33,4 +33,9 @@ public class Product {
     private Long categoryThree;//三级分类
     private String typevalueId;//属性值
     private Long weight;//权重
+
+    private List<Typevalue> typeList;
+
+    private Long panduan;
+    private Long userId;
 }

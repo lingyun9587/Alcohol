@@ -159,12 +159,21 @@ public class CommonController {
         return "/udai_order_detail"; }
 
     /**
-     * 立即付款
+     * 查看订单
      * @return
      */
     @RequestMapping( value = "/udai_order_receipted.html")
         public String udai_order_receipted(){
         return "udai_order_receipted";
+    }
+
+    /**
+     * 取消订单
+     * @return
+     */
+    @RequestMapping(value = "/udai_apply_return.html")
+    public String udai_apply_return(){
+        return "udai_apply_return";
     }
     /**
      * 积分平台

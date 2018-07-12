@@ -72,7 +72,7 @@ public class ProductController {
         Product pro=new Product();
         List<Product> proslist=new ArrayList<Product>();
         if(pan==0){
-            proslist=productService.selAllDESC(product);
+           /* proslist=productService.selAllDESC(product);*/
         }else if(pan==1){
             proslist=productService.selAll(product);
         }
