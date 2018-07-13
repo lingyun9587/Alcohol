@@ -332,6 +332,6 @@ public class ShopCartController {
         //jedisHashs.hdel(u.getUserId().toString());
         jedisHashs.hmset(orderKey,mmm);//保存到redis
         jedisHashs.expire(orderKey,180);
-       return "udai_shopcart_pay";
+       return JSON.toJSONString(1);
     }
 }
