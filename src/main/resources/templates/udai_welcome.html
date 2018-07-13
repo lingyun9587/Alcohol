@@ -786,6 +786,37 @@
         </p>
     </div>
 </div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <span id="orderIdInfo" style="display:none;"></span>
+                   你确定要取消该订单吗？
+                </h4>
+                <input type="hidden" name=""/>
+            </div>
+            <div class="modal-body">
+                请选择取消订单的理由
+                <select>
+                    <option selected="selected">请选择关闭的理由</option>
+                    <option>我不想买了</option>
+                    <option>地址填写错误，重新拍</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="quxiaoOrder">
+                    确定
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 <script type="text/javascript">
 
 
@@ -884,43 +915,42 @@
                         if (e.orderstatus.orderStatus_id == 1) {
                             context +="<a href='udai_shopcart_pay.html?id="+e.orderId+"' class=\"but but-primary\">"+"立即付款";
                         } else if (e.orderstatus.orderStatus_id == 2) {
-                            context += "等待发货";
+                            context += " <a href='udai_order_receipted.html?id="+e.orderId+"' class=\"but but-primary\">"+"等待发货";
                         } else if (e.orderstatus.orderStatus_id == 3) {
-                            context += "确认收货";
+                            context +=  " <a href='udai_order_receipted.html?id="+e.orderId+"' class=\"but but-primary\">"+"确认收货";
                         } else if (e.orderstatus.orderStatus_id == 4) {
-                            context += "等待退款";
+                            context +=  " <a href='javascript:void(0)' class=\"but but-primary\">"+"等待退款";
                         } else if (e.orderstatus.orderStatus_id == 5) {
-                            context += "退款失败";
+                            context += " <a href='javascript:void(0)' class=\"but but-primary\">"+"退款失败";
                         } else if (e.orderstatus.orderStatus_id == 6) {
-                            context += "退款成功";
+                            context += " <a href='javascript:void(0)' class=\"but but-primary\">"+"退款成功";
                         } else if (e.orderstatus.orderStatus_id == 7) {
-                            context += "交易成功";
+                            context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "交易成功";
                         } else if (e.orderstatus.orderStatus_id == 8) {
-                            context += "订单已失效";
+                            context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "订单已失效";
                         } else if (e.orderstatus.orderStatus_id == 9) {
-                            context += "评价";
+                            context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "评价";
                         }
-                        context += "                                            <!-- <a href=\"\" class=\"but but-link\">评价</a> -->\n" +
-                            "                                            <a href=\"udai_apply_return.html?=\" class=\"but c3\">";
+
 
                         if (e.orderstatus.orderStatus_id == 1) {
-                            context += "取消订单";
+                            context +=  " <a href='javascript:void(0)'data-toggle=\"modal\" onclick='orderId(\""+e.orderId+"\")' data-target=\"#myModal\" class=\"but c3\">"+"取消订单";
                         } else if (e.orderstatus.orderStatus_id == 2) {
-                            context += "取消订单";
+                            context += " <a href='javascript:void(0)'data-toggle=\"modal\" onclick='orderId(\""+e.orderId+"\")' data-target=\"#myModal\" class=\"but c3\">"+ "取消订单";
                         } else if (e.orderstatus.orderStatus_id == 3) {
-                            context += "退款退货";
+                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "退款退货";
                         } else if (e.orderstatus.orderStatus_id == 4) {
-                            context += "等待退款";
+                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "等待退款";
                         } else if (e.orderstatus.orderStatus_id == 5) {
-                            context += "申请再次退款";
+                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "申请再次退款";
                         } else if (e.orderstatus.orderStatus_id == 6) {
-                            context += "退款成功";
+                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "退款成功";
                         } else if (e.orderstatus.orderStatus_id == 7) {
-                            context += "退货退款";
+                            context +=  " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+"退货退款";
                         } else if (e.orderstatus.orderStatus_id == 8) {
-                            context += "订单已失效";
+                            context += " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+ "订单已失效";
                         } else if (e.orderstatus.orderStatus_id == 9) {
-                            context += "退货退款";
+                            context +=  " <a href='udai_apply_return.html?id='"+e.orderId+" class=\"but c3\">"+"退货退款";
                         }
                         context += "                                        </td>\n" +
 
@@ -956,11 +986,62 @@
         info();
         init();
         pageInfo(1,null);
+        $("#quxiaoOrder").click(function(){
+            var id =$("#orderIdInfo").text();
+            $.ajax({
+                url:"updateOrderStatus",
+                type:"post",
+                data:{
+                    "id":id,
+                    "status":8
+                },
+                success:function (data) {
+                    if(data.success){
+                        $("#myModal").modal('hide');  //手动关闭
+                        init();
+                        pageInfo(1,null);
+                    }else{
+                        alert(data.msg);
+                    }
+                },
+                error:function () {
+                    alert("请求失败");
+                }
+            })
+        })
     })
     function statu(obj) {
         status1 = obj;
         pageInfo(1,obj);
     }
+    function orderId(id) {
+        $("#orderIdInfo").text(id);
+    }
+    function  del(commodityId,orderId,obj) {
+        var flag = confirm("确定要删除该订单"+orderId+"中的商品吗？");
+        if(flag){
+            $.ajax({
+                url:"removeCommodityId",
+                type:"get",
+                data:{
+                    "commodityId":commodityId,
+                    "orderId":orderId
+                },
+                dataType:"json",
+                success:function(data){
+                    alert(data.msg);
+                    if(data.success){
+                        init();
+                        $(obj).parent().parent().parent().parent().remove();
+                    }
+                },
+                error:function () {
+                    alert("请求失败");
+                }
+            })
+        }
+    }
 </script>
+</div>
 </body>
 </html>

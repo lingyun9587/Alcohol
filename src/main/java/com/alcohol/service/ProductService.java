@@ -3,12 +3,12 @@ package com.alcohol.service;
 import com.alcohol.pojo.Categorythree;
 import com.alcohol.pojo.Product;
 import com.alcohol.pojo.Sku;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
-
     /**
      * 新增商品
      * @param p
@@ -67,4 +67,20 @@ public interface ProductService {
      * @return
      */
     public List<Product> getProductList(String product_name,int judge);
+    /**
+     * 张鹏后台商品列表
+     */
+    public List<Product> listAll(@Param("product_name")String product_name, @Param("status") int status,int pageNum, int pageSize);
+    /***
+     *商品下架
+     */
+    public boolean updateStatus(int [] attr);
+    /***
+     *商品上架
+     */
+    public boolean updateStatussj(int [] attr);
+    /***
+     *商品删除
+     */
+    public boolean deleStatus(int [] attr);
 }

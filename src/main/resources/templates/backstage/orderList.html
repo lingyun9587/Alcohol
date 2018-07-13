@@ -1,213 +1,459 @@
 <!doctype html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<title>交易记录</title>
+<head>
+	<meta charset="utf-8">
+	<title>交易记录</title>
 
-		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
-		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
-		<style>
-			.order-item {
-				transition: all .5s;
-				-o-transition: all .5s;
-				-moz-transition: all .5s;
-				-webkit-transition: all .5s;
-			}
-			.order-item label{
-				font-weight: bold;
-			}
-			
-			.order-item td:first-child {
-				text-align: left;
-			}
-			
-			.order-item:hover {
-				border-radius: 3px;
-				-webkit-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
-				-moz-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
-				box-shadow: 0 0 10px rgba(233, 0, 0, .3);
-			}
-			
-			.order-item .card {
-				height: 80px;
-				position: relative;
-				font-weight: normal;
-			}
-			
-			.order-item .num {
-				color: #666;
-				line-height: 30px;
-				text-decoration: none;
-				margin-left:-80px;
-			}
-			
-			.order-item .card .img {
-				float: left;
-				margin-right: 10px;
-				width: 80px;
-				height: 80px;
-				border: 1px solid #999;
-			}
-			
-			.order-item .card .name {
-				height: 2.8em;
-				line-height: 1.4em;
-				text-align: left;
-			}
-			
-			.order-item .card .format,
-			.order-item .card .favour {
-				color: #999;
-				font-size: 12px;
-				line-height: 1em;
-				position: absolute;
-				bottom: 16px;
-				left: 90px;
-			}
-			
-			.order-item .card .favour {
-				bottom: 0;
-				color: #b31e22;
-			}
-		</style>
-	</head>
+	<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+	<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+	<style>
+		.order-item {
+			transition: all .5s;
+			-o-transition: all .5s;
+			-moz-transition: all .5s;
+			-webkit-transition: all .5s;
+		}
+		.order-item label{
+			font-weight: bold;
+		}
 
-	<body>
-		<div class="container">
-			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>交易记录</h1>
+		.order-item td:first-child {
+			text-align: left;
+		}
 
-			<div class="serach">
-				<input type="text" class="textStyle" placeholder="请输入订单号" style="width: 180px;height: 24px;line-height: 24px;" />
-				<input type="button" value="搜索" class="button search" />
+		.order-item:hover {
+			border-radius: 3px;
+			-webkit-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+			-moz-box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+			box-shadow: 0 0 10px rgba(233, 0, 0, .3);
+		}
 
-			</div>
-			<div class="serach">
-				<input type="button" value="全部" class="button search" />
-				<input type="button" value="未付款" class="button search" />
-				<input type="button" value="未发货" class="button search" />
-				<input type="button" value="已发货" class="button search" />
-				<input type="button" value="退款中" class="button search" />
-				<input type="button" value="未评价" class="button search" />
-				<input type="button" value="已发货" class="button search" />
-			</div>
+		.order-item .card {
+			height: 80px;
+			position: relative;
+			font-weight: normal;
+		}
 
-			<!--搜索区结束-->
-			<div class="info">
-				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
-					<thead>
-						<tr>
-							<th width="5%">&nbsp;</th>
-							<th width="35%">商品</th>
-							<th width="10%">单价</th>
-							<th width="10%">数量</th>
-							<th width="10%">实付款</th>
-							<th width="10%">交易状态</th>
-							<th width="10%">操作</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="11"><img src='/images/backstage/loading.gif' /></td>
-						</tr>
-					</tbody>
-				</table>
-				<div class='pageStyle'></div>
-			</div>
+		.order-item .num {
+			color: #666;
+			line-height: 30px;
+			text-decoration: none;
+			margin-left:-80px;
+		}
 
-		</div>
-		<!--弹出框开始    "mb_"后面的值与里面的div名称必须保持一致-->
-		<div id="mb_stuInfo">&nbsp;</div>
-		<div class="popup" id="stuInfo">
-			<h1>交易记录详情<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
-			<div class="pInfo">
-				<table cellpadding="0" cellspacing="0" border="0" class="showTable" id="dg">
-					<tr>
-						<td class="tdWidth"><span>*</span>姓名：</td>
-						<td>张三</td>
+		.order-item .card .img {
+			float: left;
+			margin-right: 10px;
+			width: 80px;
+			height: 80px;
+			border: 1px solid #999;
+		}
 
-						<td class="tdWidth">年龄：</td>
-						<td>29岁</td>
-					</tr>
-					<tr>
-						<td class="tdWidth">性别：</td>
-						<td>女</td>
+		.order-item .card .name {
+			height: 2.8em;
+			line-height: 1.4em;
+			text-align: left;
+		}
 
-						<td class="tdWidth">爱好：</td>
-						<td>上网</td>
-					</tr>
-					<tr>
-						<td class="tdWidth">拼音码：</td>
-						<td>ZhangSan</td>
+		.order-item .card .format,
+		.order-item .card .favour {
+			color: #999;
+			font-size: 12px;
+			line-height: 1em;
+			position: absolute;
+			bottom: 16px;
+			left: 90px;
+		}
 
-						<td class="tdWidth">邮箱：</td>
-						<td>877218421@qq.com</td>
-					</tr>
-					<tr>
-						<td class="tdWidth"><span>*</span>姓名：</td>
-						<td>张三</td>
-						<td class="tdWidth">年龄：</td>
-						<td>29岁</td>
-					</tr>
-					<tr>
-						<td class="tdWidth">性别：</td>
-						<td>女</td>
+		.order-item .card .favour {
+			bottom: 0;
+			color: #b31e22;
+		}
+	</style>
+</head>
 
-						<td class="tdWidth">爱好：</td>
-						<td>上网</td>
-					</tr>
+<body>
+<div class="container">
+	<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>交易记录</h1>
 
-				</table>
-			</div>
+	<div class="serach">
+		<input type="text" class="textStyle" placeholder="请输入订单号" style="width: 180px;height: 24px;line-height: 24px;" />
+		<input type="button" value="搜索" class="button search" onclick="cha(1)" />
 
-		</div>
-		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="/js/backstage/table.js"></script>
-		<script type="text/javascript" src="/js/backstage/popup.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$.ajax({
-					url: "/data/backstage/data.json",
-					type: "get",
-					dataType: "text",
-					async: true,
-					success: function(data) {
-						data = $.parseJSON(data);
-						var tbody = $('<tbody></tbody>');
-						$(data.newsList).each(function(index) {
-							var tr = $('<tr class="order-item"></tr>');
-							tr.append("<td width='40'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
-							tr.append("<td><label><a class='num'>2017-03-30 订单号: 2669901385864042</a><div class='card'><div class='img'><img src='/images/backstage/cat.png' height='78' width='78' alt='' class='cover'></div>" +
-								"<div class='name ep2'>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>" +
-								"<div class='format'>颜色分类：深棕色  尺码：均码</div>" +
-								"<div class='favour'>使用优惠券：优惠¥2.00</div></div></label></td>");
-							tr.append("<td>200￥</td>");
-							tr.append("<td>5</td>");
-							tr.append("<td>1000￥</td>");
-							tr.append("<td>" + this.xb + "</td>");
-							tr.append("<td><a href='javascript:void(0);' onclick='update(2)' id='open'>详情</a></td>");
-							tbody.append(tr);
+	</div>
+	<div class="serach">
+		<input type="button" value="全部" class="button search" onclick="cha(1,null)"/>
+		<input type="button" value="未付款" class="button search" onclick="cha(1,4)"/>
+		<input type="button" value="已付款" class="button search"  onclick="cha(1,3)" />
+		<input type="button" value="未发货" class="button search"  onclick="cha(1,2)" />
+		<input type="button" value="已发货" class="button search"  onclick="cha(1,1)" />
+		<input type="button" value="未评价" class="button search"  onclick="cha(1,6)" />
+		<input type="button" value="已评价" class="button search"  onclick="cha(1,5)" />
+		<input type="button" value="退款中" class="button search"  onclick="cha(1,7)" />
+		<input type="button" value="已退款" class="button search"  onclick="cha(1,8)" />
+	</div>
 
-						});
-						$('#tableData tbody').replaceWith(tbody);
-						showPage(1, 10, 46);
-					},
-					error: function() {
-						alert("出现异常！");
-					}
+	<!--搜索区结束-->
+	<div class="info">
+		<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+			<thead>
+			<tr>
+				<th width="5%">&nbsp;</th>
+				<th width="35%">商品</th>
+				<th width="10%">单价</th>
+				<th width="10%">数量</th>
+				<th width="10%">实付款</th>
+				<th width="10%">交易状态</th>
+				<th width="10%">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<!--<tr>
+                <td colspan="11"><img src='/images/backstage/loading.gif' /></td>
+            </tr>-->
+			</tbody>
+		</table>
+		<div class='pageStyle'></div>
+	</div>
 
-				});
+</div>
+<!--弹出框开始    "mb_"后面的值与里面的div名称必须保持一致-->
+<div id="mb_stuInfo">&nbsp;</div>
+<div class="popup" id="stuInfo">
+	<h1>交易记录详情<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+	<div class="pInfo">
+		<!--<table cellpadding="0" cellspacing="0" border="0" class="showTable" id="dg">
+            <tr>
+                <td class="tdWidth"><span>*</span>商品：</td>
+                <td>张三</td>
 
-			});
+                <td class="tdWidth">单价：</td>
+                <td>￥</td>
+            </tr>
+            <tr>
+                <td class="tdWidth">数量：</td>
+                <td>11</td>
 
-			function update(id) {
-				mask(560, 340, true, "stuInfo");
-			}
-		</script>
+                <td class="tdWidth">实付款：</td>
+                <td>￥</td>
+            </tr>
+            <tr>
+                <td class="tdWidth">交易状态：</td>
+                <td>未付款</td>
+            </tr>
+        </table>-->
+	</div>
 
-	</body>
+</div>
+<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+
+<!--<script type="text/javascript" src="/js/backstage/table.js"></script>-->
+<script type="text/javascript" src="/js/backstage/popup.js"></script>
+<script type="text/javascript">
+    /*$(function() {
+        $.ajax({
+            url: "/data/backstage/data.json",
+            type: "get",
+            dataType: "text",
+            async: true,
+            success: function(data) {
+                data = $.parseJSON(data);
+                var tbody = $('<tbody></tbody>');
+                $(data.newsList).each(function(index) {
+                    var tr = $('<tr class="order-item"></tr>');
+                    tr.append("<td width='40'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                    tr.append("<td><label><a class='num'>2017-03-30 订单号: 2669901385864042</a><div class='card'><div class='img'><img src='/images/backstage/cat.png' height='78' width='78' alt='' class='cover'></div>" +
+                        "<div class='name ep2'>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>" +
+                        "<div class='format'>颜色分类：深棕色  尺码：均码</div>" +
+                        "<div class='favour'>使用优惠券：优惠¥2.00</div></div></label></td>");
+                    tr.append("<td>200￥</td>");
+                    tr.append("<td>5</td>");
+                    tr.append("<td>1000￥</td>");
+                    tr.append("<td>已发货</td>");
+                    /!*tr.append("<td>" + this.xb + "</td>");*!/
+                    tr.append("<td><a href='javascript:void(0);' onclick='update(2)' id='open'>详情</a></td>");
+                    tbody.append(tr);
+
+                });
+                $('#tableData tbody').replaceWith(tbody);
+                showPage(1, 10, 46);
+            },
+            error: function() {
+                alert("出现异常！");
+            }
+
+        });
+
+    });*/
+    var status1="";
+    $(function() {
+
+        /*给未来元素绑定单击事件，单击表格选中一行开始*/
+        $("#tableData").on("click", "tr", function() {
+
+            // 找到checkbox对象
+            var chks = $("input[type='checkbox']", this);
+            var tag = $(this).attr("tag");
+
+            chks.prop("checked", true);
+            $(this).siblings().children("td").children("input[type='checkbox']").prop("checked", false);
+
+            if(tag == "selected") {
+                // 之前已选中，设置为未选中
+                $(this).siblings().children("td").removeClass("tr_active");
+                chks.prop("checked", false);
+
+            } else {
+                // 之前未选中，设置为选中
+                $(this).siblings().children("td").removeClass("tr_active");
+                $(this).children("td").addClass("tr_active");
+                chks.prop("checked", true);
+
+            }
+        });
+
+        /*给未来元素绑定单击事件，单击表格选中一行结束*/
+
+        // 跳页按钮被点击时
+        $(document).on("click", ".imgSearch:visible", function() {
+            // 获取表单值
+            var ival = $(this).prev().val();
+            if(isNaN(ival) || ival == "") {
+                alert('请填写正确数字');
+                $(this).prev().val("");
+                return false;
+            }
+            $(this).prev().val(parseInt(ival));
+
+            // 将小数转为整数
+            show(parseInt(ival));
+        });
+        cha(1,null);
+    });
+    /*分页*/
+    function showPage(index, pageCount, totalCount,orderState) {
+        $(".pageStyle").empty();
+        var pageInfo = "";
+        pageInfo += "<div class='pagecentent'>" +
+            "<span class='txtLeft'>共计：<span class='pagefont'>" + totalCount + "</span>条记录，共<span class='pagefont'>" + pageCount + "</span>页</span>" +
+            "</div>" +
+            "<div class='searchPage'>" +
+            "<div class='txt'>G0&nbsp;</div>" +
+            "<input type='text' name='pageNo'/>" +
+            "<img src='/images/backstage/fdj.png' class='imgSearch' />" +
+            "</div>" +
+            "<div class='page' id='page'>&nbsp;</div>";
+        $(".pageStyle").append(pageInfo);
+        //
+
+        $("#page").empty();
+
+        $("#page").append("<span><a href=' javascript:onclick=show(1,"+orderState+")'>首页</a></span>");
+
+        var iqishi = 1;
+        if(pageCount >= 8) {
+            if((index + 4) >= pageCount) {
+                iqishi = pageCount - 8;
+            } else if(index >= 5) {
+                iqishi = index - 4;
+            }
+        }
+        if(totalCount != 0) {
+            if(index != 1) {
+                $("#page").append("<span><a href=' javascript:onclick=show(" + (index - 1) + ","+orderState+")'>&lt;&lt;</a></span>");
+            }
+            for(var i = iqishi; i <= iqishi + 8; i++) {
+                if(i == index) {
+                    $("#page").append("<span id='active'><a href=' javascript:onclick=show(" + i + ","+orderState+")' >" + i + "</a></span>");
+                } else {
+                    $("#page").append("<span><a href=' javascript:onclick=show(" + i + ","+orderState+")'>" + i + "</a></span>");
+
+                }
+                if(i > pageCount - 1) {
+                    break;
+                }
+            }
+            if(index != pageCount) {
+                $("#page").append("<span><a href=' javascript:onchange=show(" + (index + 1) + ","+orderState+")'>&gt;&gt;</a></span>");
+            }
+        }
+        $("#page").append("<span class='endPage'><a href=' javascript:onclick=show(" + pageCount + ","+orderState+")'>末页</a></span>");
+
+    }
+
+    //查看订单
+    function cha(pageNum,orderStatus){
+        status1=orderStatus;
+        var textStyle=$(".textStyle").val();
+        var context="";
+        $.ajax({
+            url:"/backstage/order",
+            type:"post",
+            data:{
+                "pageNum":pageNum,
+                "pageSize":4,
+                "batch":textStyle,
+                //orderStatus:status1!=null&&orderStatus!=null?status1:orderStatus
+                orderStatus:orderStatus
+            },
+            dataType:"json",
+            success:function(data){
+                var tbody = $('<tbody></tbody>');
+                $.each(data.list,function(i,e){
+                    var paymentTimes=e.paymentTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+                    var tr = $('<tr class="order-item"></tr>');
+                    tr.append("<td width='40'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                    var x="";
+                    var x1="";
+                    var status="";
+                    var tu="";
+                    var ping="";
+                    $.each(e.orderstatus1,function(i,e1){
+                        status=e1.orderStatus_name;
+                    });
+                    $.each(e.shoppingdetails,function(i,e1){
+                        $.each(e1.sku,function(i,e2){
+                            x1=e2.presentPrice;
+                            $.each(e2.products,function(i,e3){
+                                x=e3.productName;
+                                $.each(e3.images,function(i,e4){
+                                    tu=e4.imagePath;
+                                });
+                            });
+                            $.each(e2.skuValue1,function(i,e5){
+                                ping=e5.skuvalueValue;
+                            });
+                        });
+                    });
+                    if(orderStatus==7){
+                        tr.append("<td><label><a class='num'>"+"&nbsp"+times+"&nbsp"+"订单号："+e.batch+"</a><div class='card'>" +
+                            "<div class='img'><img src='"+tu+"' height='78' width='78' alt='' class='cover'></div>" +
+                            "<div class='name ep2'>"+x+"</div>" +
+                            "<div class='format'> 商品规格："+ping+"</div>" +
+                            "</div></label></td>");
+                        tr.append("<td> ￥"+x1+"</td>");
+                        tr.append("<td>"+e.goodsCount+"</td>");
+                        tr.append("<td> ￥"+e.money+"</td>");
+                        tr.append("<td id='status1'>"+status+"</td>");
+                        tr.append("<td><a href='javascript:void(0);' onclick='update("+e.orderId+")'  id='open'>详情</a>"+"&nbsp&nbsp"+"<a href='javascript:void(0);' onclick='dianji("+e.orderId+")'>确认退款</a>"+"</td>");
+                        tbody.append(tr);
+                    }else {
+                        tr.append("<td><label><a class='num'>" + "&nbsp" + times + "&nbsp" + "订单号：" + e.batch + "</a><div class='card'>" +
+                            "<div class='img'><img src='" + tu + "' height='78' width='78' alt='' class='cover'></div>" +
+                            "<div class='name ep2'>" + x + "</div>" +
+                            "<div class='format'> 商品规格：" + ping + "</div>" +
+                            "</div></label></td>");
+                        tr.append("<td>￥" + x1 + "</td>");
+                        tr.append("<td>" + e.goodsCount + "</td>");
+                        tr.append("<td>￥" + e.money + "</td>");
+                        tr.append("<td id='status1'>" + status + "</td>");
+                        tr.append("<td><a href='javascript:void(0);' onclick='update("+e.orderId+")' id='open'>详情</a></td>");
+                        tbody.append(tr);
+                    }
+                });
+                //$("tbody").html(tr);
+                //showPage(data.index, data.pageCount, data.totalCount);
+                $('#tableData tbody').replaceWith(tbody);
+                showPage(pageNum,data.pages,data.total,orderStatus);
+
+            },error:function(data){
+                alert("报错");
+            }
+        });
+    }
+
+    //分页
+    function  show(pageIndex,orderState) {
+        cha(pageIndex,orderState);
+    }
+
+    //查看订单详情
+    function update(order_id) {
+        $.ajax({
+            url:"/backstage/cha",
+            type:"post",
+            data:{
+                "order_id":order_id
+            },
+            dataType:"json",
+            success:function(data){
+                var paymentTimes=data.paymentTime;
+                var d = new Date(paymentTimes);
+                var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                //alert(data.shoppingdetails[0].sku[0].presentPrice);
+                var table = $('<table cellpadding="0" cellspacing="0" border="0" class="showTable" id="dg"></table>');
+                var tr = $('<tr></tr>');
+                var tr1 = $('<tr></tr>');
+                var tr2 = $('<tr></tr>');
+                var tr3 = $('<tr></tr>');
+                var tr4 = $('<tr></tr>');
+                var tr5 = $('<tr></tr>');
+                tr.append("<td class='tdWidth'>收货人：</td>");
+                tr.append("<td>"+data.address.consignee+"&nbsp&nbsp&nbsp&nbsp86-"+data.address.phone+"</td>");
+                tr.append("<td class='tdWidth'>收货地址：</td>");
+                tr.append("<td>"+data.address.comaddress+"</td>");
+                tr1.append("<td class='tdWidth'>商品名称：</td>");
+                tr1.append("<td colspan='5'>"+data.shoppingdetails[0].sku[0].products[0].productName+"</td>");
+                tr2.append("<td class='tdWidth'>商品图片：</td>");
+                tr2.append("<td><img src='"+data.shoppingdetails[0].sku[0].products[0].images[0].imagePath+"' height='78' width='78'></td>");
+                tr2.append("<td class='tdWidth'>商品规格：</td>");
+                tr2.append("<td>"+times+"</td>");
+                tr3.append("<td class='tdWidth'>创建时间:</td>");
+                tr3.append("<td>"+times+"</td>");
+                tr3.append("<td class='tdWidth'>订单号：</td>");
+                tr3.append("<td>"+data.batch+"</td>");
+                tr4.append("<td class='tdWidth'>单价：</td>");
+                tr4.append("<td>"+data.shoppingdetails[0].sku[0].presentPrice+"</td>");
+                tr4.append("<td class='tdWidth'>数量：</td>");
+                tr4.append("<td>"+data.goodsCount+"</td>");
+                tr5.append("<td class='tdWidth'>实付款：</td>");
+                tr5.append("<td>"+data.money+"</td>");
+                tr5.append("<td class='tdWidth'>交易状态：</td>");
+                tr5.append("<td>"+data.orderstatus1[0].orderStatus_name+"</td>");
+                table.append(tr);
+                table.append(tr1);
+                table.append(tr2);
+                table.append(tr3);
+                table.append(tr4);
+                table.append(tr5);
+                var pinfo= $(".pInfo").append(table);
+                $("#popup").append(pinfo);
+            },error:function (data) {
+                alert("错误11111");
+            }
+        });
+        //弹框
+        mask(535, 365,true,"stuInfo");
+    }
+
+
+    //点击退款中，退款成功，变为已退款
+    function dianji(order_id) {
+        $.ajax({
+            url:"/backstage/status",
+            type:"post",
+            data:{
+                order_id:order_id
+            },
+            dataType:"json",
+            success:function (data) {
+                if(data.result=="yes"){
+                    cha(1,status1);
+                }else{
+                }
+            }
+        });
+    }
+
+</script>
+
+</body>
 
 </html>

@@ -7,12 +7,10 @@ import com.alcohol.util.IDUtil;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.domain.InteligentGeneralMerchantPromo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -121,5 +119,84 @@ public class OrderController{
       return order;
     }
 
+    /**
+     * 查看订单 韩庆林
+     * @param pageNum
+     * @param pageSize
+     * @param batch
+     * @param orderStatus
+     * @return
+     */
+    @RequestMapping(value="/backstage/order")
+    @ResponseBody
+    public  Object order(@RequestParam(value = "pageNum",required = false) Integer pageNum,
+                         @RequestParam(value = "pageSize",required = false) Integer pageSize,
+                         @RequestParam(value = "batch",required = false) String batch,
+                         @RequestParam(value = "orderStatus",required = false) Integer orderStatus){
 
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("batch",batch);
+        map.put("pageNum",pageNum);
+        map.put("pageSize",pageSize);
+        map.put("orderStatus",orderStatus);
+        List<Order> list=orderService.order(map);
+        PageInfo<Order> page=new PageInfo<Order>(list);
+        System.out.println(page.getTotal());
+        System.out.println(list);
+        return page;
+    }
+
+    /**
+     * 查看订单详情 韩庆林
+     * @param order_id
+     * @return
+     */
+    @RequestMapping(value="/backstage/cha")
+    @ResponseBody
+    public  Object cha(@RequestParam(value = "order_id",required = false) Integer order_id){
+        Order order=orderService.cha(order_id);
+        return JSON.toJSONString(order);
+    }
+
+    /**
+     * 点击退款中，改变状态，变为已退款  韩庆林
+     * @param order_id
+     * @return
+     */
+    @RequestMapping(value ="/backstage/status")
+    @ResponseBody
+    public  String   status(int order_id){
+        int x=orderService.status(order_id);
+        String json="";
+        if(x>0){
+            json="{\"result\":\"yes\",\"mes\":\"退款成功！\"}";
+        }else{
+            json="{\"result\":\"no\",\"mes\":\"退款失败！\"}";
+        }
+        return  json;
+    }
+
+
+    @RequestMapping(value = "/updateOrderStatus")
+    public Object updateInfo(@RequestParam("id")Long id,@RequestParam("status")Integer status){
+        Order order  = new Order();
+        order.setOrderId(id);
+        order.setStatus(status);
+        Map<String,Object> map = new HashMap<>();
+        OrderExecution orderExecution = null;
+        try {
+            orderExecution = orderService.updateOrderStatus(order);
+            if(orderExecution.getState() == 0){
+                map.put("success",true);
+                map.put("msg",orderExecution.getStateInfo());
+            }else{
+                map.put("success",false);
+                map.put("msg",orderExecution.getStateInfo());
+            }
+        }catch (Exception e){
+            map.put("success",false);
+            map.put("msg",e.toString());
+        }
+        return map;
+    }
 }

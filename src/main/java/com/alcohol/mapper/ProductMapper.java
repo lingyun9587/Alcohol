@@ -79,4 +79,21 @@ public interface ProductMapper {
      * @return
      */
     public List<Product> getProductList(@Param("product_name")String product_name,@Param("judge")int judge);
+
+    /**
+     * 张鹏后台商品列表
+     */
+    public List<Product> listAll(@Param("product_name")String product_name,@Param("status") int status);
+    /***
+     *商品下架
+     */
+    public boolean updateStatus(int [] attr);
+    /***
+     *商品上架
+     */
+    public boolean updateStatussj(int [] attr);
+    /***
+     *商品删除
+     */
+    public boolean deleStatus(int [] attr);
 }

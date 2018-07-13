@@ -5,6 +5,7 @@ import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
 import com.alcohol.jms.ConsumerCc;
 import com.alcohol.jms.ProducerCc;
+import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 import javax.jms.Queue;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +40,7 @@ public class UseraccountController {
         return "123";
     }*/
     @PostMapping( value="/registerUser")
-    public Object register(@RequestParam(value = "username" , required = false)String username,@RequestParam( value = "password",required = false)String password){
+    public Object register(HttpServletRequest request,@RequestParam(value = "username" , required = false)String username,@RequestParam( value = "password",required = false)String password){
         Map<String,Object> map = new HashMap<String,Object>();
         if(username == null || password == null){
             map.put("success",true);
@@ -48,11 +50,15 @@ public class UseraccountController {
         try{
              userAccountExecution =  userAccountService.register(username,password);
         }catch(Exception e){
+
             map.put("success",false);
             map.put("msg",e.toString());
             return map;
         }
        if(userAccountExecution.getState() == 0){
+           UserAccountExecution  user=null;
+           Md5Hash md5 = new Md5Hash(password);
+           user = userAccountService.login(username,md5.toString(),request);
            map.put("success",true);
            map.put("msg",userAccountExecution.getStateInfo());
        }else{
@@ -75,6 +81,13 @@ public class UseraccountController {
         Md5Hash md5 = new Md5Hash(password);
        try{
             user = userAccountService.login(username,md5.toString(),request);
+            if(user.getState() ==0){
+                map.put("success",true);
+                map.put("msg",user.getStateInfo());
+            }else{
+                map.put("success",false);
+                map.put("msg",user.getStateInfo());
+            }
        }catch(UserAccountOperationException e){
            map.put("success",false);
            map.put("msg",e.toString());
@@ -110,7 +123,25 @@ public class UseraccountController {
      * @return
      */
     @RequestMapping( value = "/udai_updateUser")
-    public Object updateInfo(Useraccount useraccount){
+    public Object updateInfo(@RequestParam(value = "membershipName",required = false)String membershipName,
+                             @RequestParam(value = "nickName",required = false)String nickName,
+                             @RequestParam(value = "sex",required = false)char  sex,
+                             @RequestParam(value = "realName",required = false)String  realName,
+                             @RequestParam(value = "email",required = false)String email
+                             ){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount1 = userAccountService.getUserById(userName);
+        Useraccount useraccount=new Useraccount();
+        useraccount.setUserId(useraccount1.getUserId());
+        useraccount.setEmail(email);
+        User user = new User();
+        user.setUserId(useraccount1.getUserId());
+        user.setNickName(nickName);
+      /*  user.setBirthday(birthday);
+                             @RequestParam(value = "birthday",required = false)Date birthday,*/
+        user.setRealName(realName);
+        user.setSex(sex);
+        useraccount.setUser(user);
         Map<String,Object> map = new HashMap<String ,Object>();
         UserAccountExecution userAccountExecution = null;
        try{

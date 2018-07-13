@@ -1,14 +1,16 @@
 package com.alcohol.controller;
 
-import com.alcohol.pojo.*;
+import com.alcohol.pojo.Categorythree;
+import com.alcohol.pojo.Product;
+import com.alcohol.pojo.Sku;
+import com.alcohol.pojo.Image;
+import com.alcohol.pojo.Typevalue;
 import com.alcohol.service.ProductService;
-import com.alcohol.service.SkuValueService;
 import com.alcohol.service.TypeValueService;
 import com.alcohol.service.ImageService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import net.sf.json.JSONObject;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +34,6 @@ public class ProductController {
     private TypeValueService typeValueService;
     @Resource
     private ImageService imageService;
-
-    @Resource
-    private SkuValueService skuValueService;
 
     @RequestMapping(value="/getproductbyId")
     @ResponseBody
@@ -89,7 +88,7 @@ public class ProductController {
             proslist=productService.selAllDESC(product,pageNum,pageSize);
         }
         PageInfo<Product> page=new PageInfo<Product>(proslist);
-        /*for (int i=0;i<proslist.size();i++){
+        for (int i=0;i<proslist.size();i++){
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
             imgProductId=pro.getProductId();
@@ -100,7 +99,7 @@ public class ProductController {
                 Typevalue typevalue= typeValueService.selIdType(Long.parseLong(arr[j]));
                 pro.getTypeList().add(typevalue);
             }
-        }*/
+        }
         return JSON.toJSONString(page);
     }
 
@@ -160,65 +159,6 @@ public class ProductController {
         //把分类集合转换为json字符串
         String json = JSON.toJSONString(page);
         //展示json数据
-        return json;
-    }
-
-
-    @RequestMapping(value = "/addProduct")
-    @ResponseBody
-    public String addProduct(Product p,HttpServletRequest request){
-        String json="";
-        String  skuTypeArr = request.getParameter("skuTypeArr");//sku属性和属性值
-        String alreadySetSkuVals1 = request.getParameter("alreadySetSkuVals1");
-        List<TempSkuName> list=JSON.parseArray(skuTypeArr,TempSkuName.class);
-        List<TempSku> listSku=JSON.parseArray(alreadySetSkuVals1,TempSku.class);
-        int x=productService.addProduct(p);//第一步新增商品
-        if(x>0){
-            for (TempSkuName temp:list){
-                skuName skuname=new skuName();
-                skuname.setProductId(p.getProductId());//商品编号
-                skuname.setSkunameeValue(temp.getSkuTypeTitle());//属性名称
-                int y=skuValueService.addSkuName(skuname);//新增属性
-                for (TempSkuValue skuvalue:temp.getSkuValues()){
-                    SkuValue value=new SkuValue();
-                    value.setSkuvalueValue(skuvalue.getSkuValueTitle());//属性值
-                    value.setWeight(10L);//权重
-                    value.setSkunameId(skuname.getSkunameId());//属性Id
-                    int z=skuValueService.addSkuValue(value);
-                }
-            }
-            //新增sku
-            for(TempSku sku:listSku) {
-                Sku s=new Sku();
-                s.setProductId(p.getProductId());//商品编号
-                s.setStock(sku.getSkuStock().longValue());//库存
-                s.setPresentPrice(sku.getSkuPrice());//价格
-                s.setOriginalPrice(sku.getSkuPrice()*2);//原价
-                String value = sku.getSkuId();//-2,-3
-                String arr01="";
-                String[] arr = value.split(",");
-                for (int i = 0; i < arr.length; i++) {
-                    Integer valueId = Integer.valueOf(arr[i]);
-                    for (TempSkuName temp : list) {
-                        for (TempSkuValue skuvalue:temp.getSkuValues()) {
-                            if (valueId == skuvalue.getSkuValueId()) {
-                                SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
-                                arr01+=skuvalues.getSkuvalueId()+"";
-                                if(i<arr.length-1){
-                                    arr01+=",";
-                                }
-                            }
-                        }
-                    }
-                }
-                s.setSkuvalueId(arr01);
-                System.out.print(arr01);
-                int y=skuValueService.addSku(s);
-                json="{\"res\":\"yes\",\"mes\":\"商品新增成功\"}";
-            }
-        }else{
-            json="{\"res\":\"no\",\"mes\":\"商品新增失败\"}";
-        }
         return json;
     }
 
