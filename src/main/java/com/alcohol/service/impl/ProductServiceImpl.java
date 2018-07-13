@@ -7,12 +7,14 @@ import com.alcohol.pojo.Sku;
 import com.alcohol.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Resource
@@ -115,5 +117,10 @@ public class ProductServiceImpl implements ProductService {
      */
     public boolean deleStatus(int[] attr) {
         return productMapper.deleStatus(attr);
+    }
+
+    @Override
+    public int updatesales(Long productId, Integer number) {
+        return productMapper.updatesales(productId,number);
     }
 }

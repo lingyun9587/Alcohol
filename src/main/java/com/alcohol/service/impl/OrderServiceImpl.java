@@ -17,6 +17,8 @@ import javax.annotation.Resource;
 import javax.jms.Destination;
 import javax.management.Query;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -84,5 +86,25 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderOperationException(e.toString());
         }
         return orderExecution;
+    }
+
+    @Override
+    public List<Order> order(Map<String, Object> map) {
+        return null;
+    }
+
+    @Override
+    public Order cha(int order_id) {
+        return null;
+    }
+
+    @Override
+    public int status(int order_id) {
+        return 0;
+    }
+
+    @Override
+    public OrderExecution updateOrder(Order order) {
+        return null;
     }
 }

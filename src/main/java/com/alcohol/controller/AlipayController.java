@@ -4,6 +4,8 @@ import com.alcohol.cache.JedisUtil;
 import com.alcohol.config.alipay.AlipayConfig;
 import com.alcohol.pojo.*;
 import com.alcohol.service.OrderService;
+import com.alcohol.service.ProductService;
+import com.alcohol.service.SkuService;
 import com.alcohol.service.UserAccountService;
 import com.alcohol.util.IDUtil;
 import com.alibaba.fastjson.JSON;
@@ -30,6 +32,10 @@ import java.util.*;
 public class AlipayController {
     @Resource
     private UserAccountService userAccountService;
+    @Resource
+    private ProductService productService;
+    @Resource
+    private SkuService skuService;
     @Resource
     private JedisUtil.Hash jedisHashs;
     @RequestMapping(value = "/alipay/index.html")
@@ -110,6 +116,7 @@ public class AlipayController {
         }else if(status.equals("2")){ //购物车
 
             Long orderId = IDUtil.SnowflakeIdWorker();
+            out_trade_no=orderId.toString();
             //创建订单对象
             Order order1 = new Order();
             order1.setOrderId(orderId);  //设置订单id
@@ -145,8 +152,9 @@ public class AlipayController {
                 commodities.add(commodity);  //添加到订单信息
                 number =number+num;   //数量
                 money =money+(num*sku.getPresentPrice());  //金额
+                productService.updatesales(sku.getProductId(),num);  //修改销量
             }
-            order1.setCommodities(commodities);
+            order1.setCommodities(commodities);  //设置订单的商品详情集合
             order1.setGoodsCount(number);  //设置总数量
             order1.setMoney(money);    //设置总金额
             orderService.insertInfo(order1);
