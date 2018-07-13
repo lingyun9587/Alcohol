@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.SkuValueMapper">
 
+    <select id="getSkuValueIdByname" resultType="SkuValue">
+      SELECT tb_skuvalue.`skuvalue_id` FROM `tb_skuvalue`
+      LEFT JOIN tb_skuname ON tb_skuname.`skuname_id`=tb_skuvalue.`skuname_id`
+      WHERE tb_skuname.`product_id`=#{productId} AND tb_skuvalue.`skuvalue_value`=#{name}
+    </select>
+
+
     <select id="getSkuById" resultMap="resultMap01">
         SELECT tb_skuname.`skuname_id`,tb_skuname.`skuname_name`,
         tb_skuValue.`skuvalue_id`,tb_skuValue.`skuvalue_value`
@@ -23,6 +30,28 @@
 
     <select id="getSkuBiProductId" resultType="Sku">
         SELECT sku_id,skuvalue_id,stock,original_price,present_price
-        FROM tb_sku WHERE  skuvalue_id = #{value}  AND product_id=#{id}
+        FROM tb_sku WHERE  skuvalue_id =#{value}  AND product_id=#{id}
     </select>
+
+
+    <!--新增sku属性-->
+
+    <insert id="addSkuName" useGeneratedKeys="true"
+            keyColumn="skuname_id" keyProperty="skunameId">
+         INSERT INTO tb_skuname(skuname_id,`skuname_name`,`product_id`,`weight`)
+          VALUES(NULL,#{skunameeValue},#{productId},1)
+    </insert>
+    <!--新增sku属性值-->
+    <insert id="addSkuValue" useGeneratedKeys="true"
+            keyColumn="skuvalue_id" keyProperty="skuvalueId">
+       INSERT INTO tb_skuvalue(skuvalue_id,`skuvalue_value`,`skuname_id`,`weight`)
+        VALUES(NULL,#{skuvalueValue},#{skunameId},#{weight})
+    </insert>
+
+    <!--新增sku-->
+    <insert id="addSku" useGeneratedKeys="true"
+            keyColumn="sku_id" keyProperty="skuId">
+      INSERT INTO tb_sku (sku_id,`product_id`,`skuvalue_id`,`stock`,`original_price`,`present_price`)
+      VALUES(NULL,#{productId},#{skuvalueId},#{stock},#{originalPrice},#{presentPrice})
+    </insert>
 </mapper>

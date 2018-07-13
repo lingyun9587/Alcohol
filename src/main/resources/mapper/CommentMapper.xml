@@ -6,7 +6,7 @@
     <select id="listComment" resultMap="resultMap01">
         SELECT tb_user.`nick_name`,tb_comment.`create_time`,
         tb_sku.`skuvalue_id`,tb_sku.`sku_id`,
-        tb_comment.`content`,tbi.`image_path`,tb_comment.`spare_one`,tb_product.`product_name`,tb_comment.`review`,tb_comment.`reply_conte`
+        tb_comment.`content`,tb_comment.`comment_id`,tbi.`image_path`,tb_comment.`spare_one`,tb_product.`product_name`,tb_comment.`review`,tb_comment.`reply_conte`
         FROM tb_comment
         INNER JOIN tb_sku ON tb_sku.`sku_id`=tb_comment.`sku_id`
         INNER JOIN tb_product ON tb_sku.`product_id`=tb_product.`product_id`
@@ -52,4 +52,10 @@
       WHERE tb_sku.`product_id`=#{id}
       GROUP BY tb_comment.spare_one;
     </select>
+    <update id="upListComment" parameterType="int[]">
+        UPDATE tb_comment SET reply_conte= #{reply_conte} WHERE comment_id in
+        <foreach collection="com" item="commentId" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </update>
 </mapper>

@@ -3,6 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.ProductMapper">
+
+    <insert id="addProduct" useGeneratedKeys="true"
+            keyColumn="product_id" keyProperty="productId">
+        INSERT INTO tb_product(product_id,`product_name`,`product_desc`,`product_details`,`create_time`,`status`,`sales`,
+        `longegral`,`category_one`,`category_two`,`category_three`,`typevalue_id`,`weight`)
+        VALUES(NULL,#{productName},#{productDese},#{productDetails},NOW(),#{status},#{sales},#{longegral},#{categoryOne},
+        #{categoryTow},#{categoryThree},#{typevalueId},#{weight})
+    </insert>
+
         <select id="getProductbyId" resultMap="resultMap01">
         SELECT tb_product.product_id,tb_product.`product_name`,tb_product.product_details,tb_product.sales,tb_product.`longegral`,
           tb_skuname.skuname_id,tb_skuname.`skuname_name`,tb_skuvalue.skuvalue_id,tb_skuvalue.`skuvalue_value`,
@@ -170,8 +179,6 @@
             ORDER BY tbsku.present_price DESC
         </if>
     </select>
-
-
     <!--根据名字模糊查询三级分类   xcf-->
     <select id="getCategorythree" >
         SELECT categorythree_id ,categorythree_name
@@ -179,4 +186,54 @@
         WHERE categorythree_name
         LIKE concat('%'#{pName}'%') ORDER BY weight;
     </select>
+    <!--张鹏商品后台列表-->
+    <select id="listAll" resultType="Product">
+        SELECT tbpr.product_id,
+        tbpr.product_name,
+        tbpr.sales,
+        tbpr.spare_one,
+        tbpr.status,
+        tbpr.create_time,
+        tbpr.down_time,
+        tbsku.present_price,
+        sumsku.countid,
+        tbimg.image_path
+        FROM tb_product tbpr
+        LEFT JOIN tb_Image tbimg
+        ON tbpr.product_id = tbimg.product_id
+        LEFT JOIN (SELECT sku.product_id,sku.present_price FROM (SELECT * FROM tb_sku ORDER BY present_price) sku  GROUP BY product_id) tbsku
+        ON tbsku.product_id = tbpr.product_id
+        LEFT JOIN (SELECT tb_sku.product_id,SUM(tb_sku.stock) countid FROM tb_sku GROUP BY tb_sku.product_id) sumsku
+        ON sumsku.product_id=tbpr.product_id
+        WHERE 1=1
+        <if test="status!=0">
+            AND tbpr.status=#{status}
+        </if>
+        AND tbpr.product_name LIKE CONCAT ('%',#{product_name},'%') GROUP BY tbpr.product_id
+    </select>
+
+    <!--张鹏商品下架-->
+    <update id="updateStatus" parameterType="int[]">
+        update tb_product set status =1,down_time=NOW() where product_id in
+        <foreach collection="array" item="arr" index="no" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
+    <!--张鹏商品上架-->
+    <update id="updateStatussj" parameterType="int[]">
+        update tb_product set status =2,down_time=NOW() where product_id in
+        <foreach collection="array" item="arr" index="no" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
+    <!--张鹏商品删除-->
+    <update id="deleStatus" parameterType="int[]">
+        update tb_product set status =3,down_time=NOW() where product_id in
+        <foreach collection="array" item="arr" index="no" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </update>
 </mapper>

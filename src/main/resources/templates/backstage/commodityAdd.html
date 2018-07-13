@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/backstage/layout.css" />
 		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
 		<link rel="stylesheet" type="text/css" href="/css/backstage/upload.css" />
+
 	</head>
 
 	<body>
@@ -36,7 +37,7 @@
 						</div>
 					</div>
 
-					<div style="font-size: 14px; margin-left: 127px; margin-top: -20px;">
+					<div class="type" style="font-size: 14px; margin-left: 127px; margin-top: -20px;">
 						<a style="margin-left: -7px; ">类别属性:</a>
 
 						<div style=" width: 100%;">
@@ -64,7 +65,7 @@
 					<dd>
 					<dt><span>商品名称</span></dt>
 					<div class="fbox" style="width: 30%;float: left;margin-left: 8px;margin-top: 8px;">
-						<input type="text" class="textStyle" id="userName1" name="userName" style="width:360px;" placeholder="请输入商品名称" />
+						<input type="text" class="textStyle" id="productName" name="userName" style="width:360px;" placeholder="请输入商品名称" />
 					</div>
 					</dd>
 				</dl>
@@ -72,7 +73,7 @@
 					<dd>
 					<dt><span>商品描述</span></dt>
 					<div class="fbox" style="width: 30%;float: left;margin-left: 8px;margin-top: 8px;">
-						<input type="text" class="textStyle" id="userName2" name="userName" style="width:360px;" placeholder="请输入商品分类" />
+						<input type="text" class="textStyle" id="productDesc" name="userName" style="width:360px;" placeholder="请输入商品分类" />
 					</div>
 					</dd>
 				</dl>
@@ -80,7 +81,7 @@
 					<dd>
 					<dt><span>赠送积分</span></dt>
 					<div class="fbox" style="width: 30%;float: left;margin-left: 8px;margin-top: 8px;">
-						<input type="text" class="textStyle" id="userName3" name="userName" style="width:360px;" value="-1"/>
+						<input type="text" class="textStyle" id="longegral" name="userName" style="width:360px;" value="-1"/>
 					</div>
 					<span id="userNameText" class="txtInfo" style="float: none;margin-top: 50px;margin-left: 122px;font-size: 12px;">购买该商品时赠送等级积分数,-1表示按商品价格赠送</span>
 					</dd>
@@ -92,7 +93,7 @@
 						<div class="fbox" >
 							<button type="button" class="cloneSku">添加sku属性</button>
 							<!--sku模板,用于克隆,生成自定义sku-->
-							<div id="skuCloneModel" style="display: none;height: 30px; width: 1000px;" >
+							<div id="skuCloneModel" class="sku" style="display: none;height: 30px; width: 1000px;" >
 								<div class="clear"></div>
 								<div style="margin-left: 50px;">
 									<ul class="SKU_TYPE">
@@ -171,51 +172,62 @@
 <!--	<script type="text/javascript" src="/plugins/layer/layer.js"></script>-->
 	<script type="text/javascript" src="/js/backstage/getSetSkuVals.js"></script>
 	<script type="text/javascript" src="/js/backstage/commAdd.js"></script>
+	<script src="../../static/js/backstage/pagetion2.js"></script>
 
-	<!--<script type="text/javascript">
+	<script type="text/javascript">
         //上传弹窗
-		$(function(){
+		$(function() {
+            $(".type").hide();
             //加载一级分类
             oneClassinfo();
-		})
-        /*jQuery(function() {
-           /!* $("#upload").click(function() {
+
+            //保存按钮
+            $(".button").click(function () {
+
+        	});
+
+        $(".type").on("click","[name='check']",function(){
+            var tag = $(this).attr("checked");
+            if(tag!=undefined) {
+                // 之前已选中，设置为未选中
+                $(this).attr("checked", false);
+            }else{
+                $(this).attr("checked", true);
+            }
+        });
+
+        });
+
+        jQuery(function() {
+            $("#upload").click(function() {
                 //参数false代表文件不是图片
                 up_load(true);
                 //弹框
                 mask(420, 270, true, "upfile");
             });
             var file;
-            for (var i = 0;document.getElementById("file").files.length;i++) {
+            /*for (var i = 0;document.getElementById("file").files.length;i++) {
                 file = document.getElementById("file").files[i];
                 alert(file.name);
-            }*!/
+            }*/
 
-        });*/
-        //根据三级分类加载属性
-		function listName(){
-		    var productId=$("#url_lists3").val();
-		    alert(productId);
-		    $.ajax({
-				url:"../listName",
-				type:"post",
-				data:{productId:productId},
-				dataType:"JSON",
-				success:function(result){
-				    var content="";
-				    $.each(result,function(i,e){
-				        content+="<li is_required='0' propid='1' sku-type-name='"+e.skunameName+"'><input type='hidden' class='id"+e.skunameId+"' value='"+e.skunameId+"' /><em></em>"+e.skunameName+":</li>";
-					})
-					alert(content);
-					$(".SKU_TYPEproduct").html(content);
-                    listvalue();
-				}
-			})
+        });
+
+       //新增sku表
+		function addsku(){
+			//新增sku属性
+            $(".cusSkuTypeInput").each(function(i,e){
+                var value=$(this).val();
+                alert(value);
+
+                //新增sku属性值
+                $(".cusSkuValInput").each(function(i,e){
+                    var value=$(this).val();
+                    alert(value);
+                });
+            });
 		}
-		//根据三级分类下的属性查询对应的属性值
-		function listvalue(){
-		    var skuvalueId=$(".").val();
-		}
+
         //加载一级分类
         function oneClassinfo(){
             //加载一级分类
@@ -225,28 +237,25 @@
                 dataType:"JSON",
                 success:function(result){
                     var jsonFirst=result[0].categoryontName;
-                    var content=""
+                    var content="<option selected='selected'>请选择:</option>";
                     $.each(result,function(i,e){
                         if(e.categoryontName==result[0].categoryontName){
-                            content+="<option selected='selected' value='"+e.categoryoneId+"'>"+e.categoryontName+"</option>"
+                            content+="<option  value='"+e.categoryoneId+"'>"+e.categoryontName+"</option>"
                         }else{
                             content+="<option value='"+e.categoryoneId+"'>"+e.categoryontName+"</option>"
                         }
-
                     })
                     $("#url_list").html(content);
                     $("#url_lists").html(content);
                     $("#url_lists1").html(content);
-                    //加载二级分类
-                    sh();
-                    Shoptype();
                 }
             })
         }
+
         //根据一级分类查询二级分类
         function sh(){
             var parentid=$("#url_lists").val();
-
+            alert(parentid);
             $.ajax({
                 url:"../getCategoryTwoInfo",
                 type:"post",
@@ -266,7 +275,9 @@
         //根据商品属性的一级分类查询二级分类
         function Shoptype(){
             var parentid=$("#url_lists1").val();
-
+            if(parentid=="请选择"){
+				alert("请选择分类");
+			}
             $.ajax({
                 url:"../getCategoryTwoInfo",
                 type:"post",
@@ -274,7 +285,7 @@
                 datatype:"JSON",
                 success:function(result){
                     var json=JSON.parse(result);
-                    var content="";
+                    var content="<option>请选择:</option>";
                     $.each(json,function(i,e){
                         if(e.categorytwoName==result[0].categorytwoName){
                             content+="<option selected='selected' value='"+e.categorytwoId+"'>"+e.categorytwoName+"</option>";
@@ -284,32 +295,63 @@
 
                     })
                     $("#url_lists2").html(content);
-                    Shoptypethree();
                 }
             })
         }
+
+
         //根据商品属性的二级分类查询三级分类
         function Shoptypethree(){
             var parentid=$("#url_lists2").val();
+            if(parentid=="请选择"){
+                alert("请选择分类");
+            }
             $.ajax({
                 url:"../categoryThreeInfo",
                 type:"post",
                 data:{parentId:parentid},
                 dataType:"JSON",
                 success:function(result){
-
-                    var content="";
+                    var content="<option>请选择:</option>";
                     $.each(result,function(i,e){
 
                         content+="<option value='"+e.categorythreeId+"'>"+e.categorythreeName+"</option>";
                     })
                     $("#url_lists3").html(content);
-                    listName();
                 }
             })
         }
 
-
+        //根据三级分类加载属性
+        function listName(){
+            var productId=$("#url_lists3").val();
+            $.ajax({
+                url:"/getCategorythreeById",
+                data:{id:productId},
+                dataType:"JSON",
+                type:"post",
+                success:function(data){
+                    var content=" <a style=\"margin-left: -7px; font-weight: bold; font-size: 20px; \">属性:</a>";
+                    $.each(data.typeNameList,function(i,e){
+                        content+=" <div style=\" width: 100%;\">\n" +
+                            "<ul class=\"SKU_TYPEproduct\">\n" +
+                            "<li is_required='0' propid='"+e.typeNameId+"' sku-type-name=\""+e.typeNameName+"\"><em></em>"+e.typeNameName+"：</li>\n" +
+                            "</ul>\n" +
+                            "<ul class=\"SKU_TYPEValue\">";
+                        $.each(e.typevalueList,function(i1,e1){
+                            content+=" <li><label><input type=\"checkbox\" propvalid='"+e1.typeValueId+"' name=\"check\" value=\""+ e1.typeValueId+"\" />"+ e1.typeValueName+"</label></li>";
+                        });
+                        content+="</ul>"+
+                            "<div class=\"clear\"></div>"+
+                            "</div>";
+                        $(".type").show();
+                    });
+                    $(".type").html(content);
+                },error:function(){
+                    alert("访问服务器异常");
+                }
+            });
+        }
 
 
         //表单验证   注意：文本提示的信息应在开始的时候全部写在placeholder中
@@ -317,6 +359,7 @@
             var name = checkUserName();
             return name;
         }
+
         //验证姓名
         function checkUserName() {
             var username = $("#userName");
@@ -332,7 +375,6 @@
             }
         }
 	</script>
--->
 	</body>
 
 </html>

@@ -71,6 +71,7 @@ $(function(){
 				SKUTableDom += '<th>'+skuTypeArr[t].skuTypeTitle+'</th>';
 			}
 			SKUTableDom += '<th>价格</th><th>库存</th>';
+            /*SKUTableDom += '<th>原价</th><th>现价</th><th>库存</th>';*/
 			SKUTableDom += "</tr>";
 			//循环处理表体
 			for(var i = 0 ; i < totalRow ; i ++){//总共需要创建多少行

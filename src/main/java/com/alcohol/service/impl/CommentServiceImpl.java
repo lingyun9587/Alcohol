@@ -30,4 +30,13 @@ public class CommentServiceImpl implements CommentService {
     public List<Integer> getCommentCountById(Integer id){
         return commentMapper.getCommentCountById(id);
     }
+    /**
+     * 批量回复用户评价
+     * @param com
+     * @return
+     */
+    @Override
+    public int upListComment(int[] com, String reply_conte) {
+        return commentMapper.upListComment(com,reply_conte);
+    }
 }
