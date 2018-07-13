@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
 		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
 		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
-
+		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
 		<style>
 			tbody tr td img{
 				float: left;
@@ -28,84 +28,265 @@
 			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>商品管理</h1>
 		<div class="serach">
 				<input type="text" class="textStyle" placeholder="请输入搜索内容" style="width: 180px;height: 24px;line-height: 24px;"/>
-				<input type="button" value="搜索" class="button search" />
-				<input type="button" value="上架" class="button add" />
-				<input type="button" value="下架" class="button" />
-				<input type="button" value="删除" class="button delete" />
+				<input type="button" value="搜索" class="button search" onclick="fy(1)"/>
+				<input type="button" value="上架" class="button add" onclick="sxjsj()"/>
+				<input type="button" value="下架" class="button xia" onclick="sxj()"/>
+				<input type="button" value="删除" class="button delete" onclick="dele()"/>
+				<select name="status" id="sel" onchange="fy(1)">
+					<option value="0">请选择</option>
+					<option value="1">已下架</option>
+					<option value="2">已上架</option>
+				</select>
 			</div>
 			<!--搜索区结束-->
 			<div class="info">
-				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="dg">
 					<thead>
 						<tr>
-							<th width="5%"><input type='checkbox' name='CheckBox'/></th>
-							<th width="35">宝贝</th>
+							<th width="30%">宝贝</th>
 							<th width="10%">库存</th>
 							<th width="10%">销量</th>
 							<th width="10%">浏览量</th>
 							<th width="10%">发布时间</th>
+							<th width="10%">下架时间</th>
 							<th width="10%">价格</th>
 							<th width="10%">操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td cols pan="11"><img src='/images/backstage/loading.gif' /></td>
-						</tr>
+
 					</tbody>
 				</table>
 				<div class='pageStyle'></div>
 			</div>
+		</div>
+		<div id="mb_stuInfo">&nbsp;</div>
+		<div class="popup" id="stuInfo">
+			<h1>新增库存<span class="closeX" onclick="closeMask('stuInfo')">X</span></h1>
+			<div class="pInfo">
+				<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="addForm">
+					<dl>
+						<dt><span>黑色/M</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="heim" name="link" style="width:140px;"  />
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt><span>雅典黑/M</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="yam" name="link" style="width:140px;"  />
+							</div>
+						</dd>
+					</dl>
+
+					<dl>
+						<dt><span>黑色/L</span></dt>
+						<dd>
+							<div class="fbox">
+								<input type="text" class="textStyle" id="heil" name="link" style="width:140px;"  />
+							</div>
+						</dd>
+					</dl>
+				</form>
+				<div class="pfooter">
+					<input type="button" value="保存" class="button save" />
+					<input type="button" value="取消" class="button delete" />
+				</div>
+			</div>
+
 		</div>
 	</div>
 		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
 		<script type="text/javascript" src="/js/backstage/global.js"></script>
 		<script type="text/javascript" src="/js/backstage/table.js"></script>
 		<script type="text/javascript" src="/js/backstage/tab.js"></script>
+		<script type="text/javascript" src="/js/backstage/popup.js"></script>
 		<script type="text/javascript">
 			$(function() {
-				$.ajax({
-					url: "/data/backstage/data.json",
-					type: "get",
-					dataType: "text",
-					async: true,
-					success: function(data) {
-						data = $.parseJSON(data);
-						var tbody = $('<tbody></tbody>');
-						$(data.newsList).each(function(index) {
-							var tr = $('<tr></tr>');
-							tr.append("<td><input type='checkbox' name='CheckBox'/></td>");
-							tr.append("<td>" + "<img src='/images/backstage/cat.png' height='78' width='78'/>" + "<div><a>纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</a></div></td>");
-							tr.append("<td>" + this.nl + "</td>");
-							tr.append("<td>" + 10 + "</td>");
-							tr.append("<td>" + 10000 + "</td>");
-							tr.append("<td>2018-1-08</td>");
-							tr.append("<td>20-100</td>");
-							tr.append("<td width='6%' height='100%'><a href='javascript:void(0);'>编辑宝贝</a></td>");
-							tbody.append(tr);
-						});
-						$('#tableData tbody').replaceWith(tbody);
-						showPage(1, 10, 46);
-					},
-					error: function() {
-						alert("出现异常！");
-					}
-				});
-
-
-				$("[name='CheckBox']").eq(0).click(function(){
-					var flag=$("[name='CheckBox']").prop("checked");
-					alert(flag);
-					if(flag){
-						$("[name='CheckBox']").prop("checked","true");
-					}else{
-						$("[name='CheckBox']").prop("checked","false");
-					}
-				});
+                var $thr = $('table thead tr');
+                var $tbr = $('table tbody tr');
+                var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" onclick="demo()"/></th>');
+                /*将全选/反选复选框添加到表头最前，即增加一列*/
+                $thr.prepend($checkAllTh);
+                /*“全选/反选”复选框*/
+                var $checkAll = $thr.find('input');
+                $checkAll.click(function(event){
+                    /*将所有行的选中状态设成全选框的选中状态*/
+                    $tbr.find('input').prop('checked',$(this).prop('checked'));
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击全选框所在单元格时也触发全选框的点击操作*/
+                $checkAllTh.click(function(){
+                    $(this).find('input').click();
+                });
+                var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');
+                /*每一行都在最前面插入一个选中复选框的单元格*/
+                $tbr.prepend($checkItemTd);
+                /*点击每一行的选中复选框时*/
+                $tbr.find('input').click(function(event){
+                    /*调整选中行的CSS样式*/
+                    $(this).parent().parent().toggleClass('tr_active');
+                    /*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/
+                    $checkAll.prop('checked',$tbr.find('input:checked').length == $tbr.length ? true : false);
+                    /*阻止向上冒泡，以防再次触发点击操作*/
+                    event.stopPropagation();
+                });
+                /*点击每一行时也触发该行的选中操作*/
+                $tbr.click(function(){
+                    $(this).find('input').click();
+                });
+                fy(1);
+                $(".delete").click(function () {
+                    closeMask('upInfo');
+                });
 			});
-			/*function update(id) {
-				alert(id)
-			}*/
+            //点击全选，子复选框被选中
+            function demo(){
+                var allcheck=document.getElementById("checkAll");
+                var choice=document.getElementsByName("checkItem");
+                for(var i=0;i<choice.length;i++){
+                    choice[i].checked=allcheck.checked;
+                }
+            }
+            function fy(pageIndex) {
+                var tr ="";
+                var name=$(".textStyle").val();
+                var stat=$("#sel").val();
+                $.ajax({
+                    url: "/product/backpro",
+                    data:{"product_name":name,"status":stat,pageIndex:pageIndex,pageSize:5},
+                    type: "post",
+                    dataType: "json",
+                    success: function(data) {
+                        $.each(data.list,function(i,e) {
+                            var price=e.presentPrice;
+                            if(price==undefined){
+                                price=0;
+							}
+                            var paymentTimes=e.createTime;
+                            var d = new Date(paymentTimes);
+                            var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                            var paymentTimes1=e.createTime;
+                            var d1 = new Date(paymentTimes1);
+                            var times1=d1.getFullYear() + '-' + (d1.getMonth() + 1) + '-' + d1.getDate() + ' ' + d1.getHours() + ':' + d1.getMinutes() + ':' + d1.getSeconds();
+                            tr+="<tr><td><input type='checkbox' name='checkItem' class='checknum' value='"+e.productId+"'/></td><td><img src="+e.imagePath+" width='58px' hight='58px'>"+e.productName+"</td><td>"+e.countId+"</td><td>"+e.sales+"</td><td>"+e.spare_one+"</td><td>"+times+"</td><td>"+times1+"</td><td>"+price+"</td><td><button onclick='sid("+e.product_id+")'>修改</button>&nbsp;&nbsp;<button onclick='insert("+e.product_id+")'>新增库存</button></td></tr>";
+                        });
+                        $('#dg tbody').html(tr);
+                        showPage(pageIndex, data.pages, data.total);
+                    },
+                    error: function() {
+                        alert("出现异常！");
+                    }
+                });
+            }
+			function update(id) {
+                text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
+                    return $(elem).val();
+                }).get().join(',');
+			}
+			//下架
+            function sxj() {
+                var xia=$("#sel").val();
+                if(xia==1){
+                    alert("已是下架状态");
+                    return;
+				}
+                text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
+                    return $(elem).val();
+                }).get().join(',');
+                if (text == "" || text == 0) {
+                    alert("请选择要下架的商品");
+                    return;
+                }else{
+                    $.ajax({
+                        url: "/product/backsxj",
+                        data: {"product_id": text},
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.ers == "yes") {
+                                alert(data.mesage);
+                                fy(1);
+                            } else {
+                                alert(data.mesage);
+                            }
+                        },
+                        error: function () {
+                            alert("出错了");
+                        }
+                    });
+                }
+            }
+            //上架
+            function sxjsj() {
+                var xia=$("#sel").val();
+                if(xia==2){
+                    alert("已是上架状态");
+                    return;
+                }
+                text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
+                    return $(elem).val();
+                }).get().join(',');
+                if (text == "" || text == 0) {
+                    alert("请选择要上架的商品");
+                    return;
+                }else{
+                    $.ajax({
+                        url: "/product/backsxjsj",
+                        data: {"product_id": text},
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.ers == "yes") {
+                                alert(data.mesage);
+                                fy(1);
+                            } else {
+                                alert(data.mesage);
+                            }
+                        },
+                        error: function () {
+                            alert("出错了");
+                        }
+                    });
+                }
+            }
+            //删除
+            function dele() {
+                text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
+                    return $(elem).val();
+                }).get().join(',');
+                if (text == "" || text == 0) {
+                    alert("请选择要删除的商品");
+                }else if(confirm("确定要删除吗!")==true) {
+                    $.ajax({
+                        url: "/product/backdele",
+                        data: {"product_id": text},
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.ers == "yes") {
+                                fy(1);
+                            } else {
+                                alert(data.mesage);
+                            }
+                        },
+                        error: function () {
+                            alert("出错了");
+                        }
+                    });
+                }
+            }
+            //新增库存
+			function insert() {
+                mask(450, 320, true, "stuInfo");
+            }
+            function show(pageIndex){
+                fy(pageIndex);
+            }
 		</script>
 	</body>
 

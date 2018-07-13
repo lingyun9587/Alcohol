@@ -60,8 +60,10 @@ public class CategoryController {
      */
     @RequestMapping(value="/getCategorythreeById",produces = "text/html;charset=utf-8")
     @ResponseBody
-    public String getCategorythreeById(HttpServletRequest request){
-        Integer id=(Integer) request.getSession().getAttribute("categoryId");
+    public String getCategorythreeById(Integer id,HttpServletRequest request){
+        if(id==null){
+            id=(Integer) request.getSession().getAttribute("categoryId");
+        }
         return JSON.toJSONString(categoryThreeService.getCategorythreeById(id));
     }
 

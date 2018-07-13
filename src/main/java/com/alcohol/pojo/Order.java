@@ -31,4 +31,13 @@ public class Order {
     private Orderstatus orderstatus; //订单状态
     //private Set<OrderShop> orderShops;  //订单商铺id
     private List<Commodity> commodities; //订单信息
+
+
+    //订单状态表 韩庆林
+    private List<Orderstatus> orderstatus1;
+    //订单详情表  韩庆林
+    private List<Shoppingdetails> shoppingdetails;
+
+    //地址表  韩庆林
+    private Address address;
 }

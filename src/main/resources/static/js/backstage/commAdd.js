@@ -31,11 +31,8 @@ function getAlreadySetSkuVals2(){
 				skuTypeArr.push(skuTypeObj);//保存进数组中
 			}
 		});
-alert("商品属性"+JSON.stringify(skuTypeArr));
+		return skuTypeArr;
 }
-
-
-
 
 function gettype(){
 	var b = true;
@@ -79,7 +76,7 @@ function gettype(){
 				skuTypeArr.push(skuTypeObj);//保存进数组中
 			}
 		});
-alert("分类属性"+JSON.stringify(skuTypeArr));
+    return skuTypeArr;
 }
 
 /**
@@ -105,16 +102,76 @@ function getAlreadySetSkuVals1(){
 			alreadySetSkuVals1.push(alreadySetSkuVals);
 		}
 	});
-	
-	alert(JSON.stringify(alreadySetSkuVals1));
-
+	return alreadySetSkuVals1;
 }
+
 
 $(function(){
 	$("#submit").click(function(){
-	    gettype();
-		getAlreadySetSkuVals2();
-		/*getAlreadySetSkuVals1();*/
-		getAlreadySetSkuVals1();
-});
+        //新增商品信息
+        var categoryone = $("#url_lists1").val();//一级分类
+        var categorytwo = $("#url_lists2").val();//二级分类
+        var categorythree = $("#url_lists3").val();//三级分类
+        if(categoryone=="请选择:"||categorytwo=="请选择:"||categorythree=="请选择:"){
+            alert("请选择商品分类");
+            return;
+        }
+        var arr = [];//属性值选中的值,保存在数组
+        $("input[checked='checked']").each(function (i, e) {
+            var value = $(this).val();
+            if (value != undefined) {
+                arr[i] = value;
+            }
+        });
+        var typevalueId=arr.toString();//属性值
+		if(typevalueId==""){
+			alert("请选择商品属性值");
+			return;
+		}
+        var productName = $("#productName").val();//名称
+		if(productName==""){
+            alert("请输入商品名称");
+            return;
+		}
+        var productDesc = $("#productDesc").val();//描述
+        if(productDesc==""){
+            alert("请输入商品描述");
+            return;
+        }
+        var longegral = $("#longegral").val();//积分
+        if(longegral==""){
+            alert("请输入商品积分");
+            return;
+        }
+        var productDetails=null;
+        var status=1;//商品状态
+        var sales=0;//销量
+        var weight=10;
+        var skuTypeArr=getAlreadySetSkuVals2();//获取属性值
+        var alreadySetSkuVals1=getAlreadySetSkuVals1();//获取已经设置的SKU值
+		$.ajax({
+			url:"/product/addProduct",
+			data:{skuTypeArr:JSON.stringify(skuTypeArr),
+                alreadySetSkuVals1:JSON.stringify(alreadySetSkuVals1),
+                productName:productName,
+                productDese:productDesc,
+                productDetails:productDetails,
+                longegral:longegral,
+                status:status,
+                sales:sales,
+                weight:weight,
+                categoryOne:categoryone,
+                categoryTow:categorytwo,
+        		categoryThree:categorythree,
+                typevalueId:typevalueId,
+			},
+			dataType:"JSON",
+			type:"post",
+			success:function(result){
+				alert(result.mes);
+			},error:function(){
+				alert("新增商品失败");
+			}
+		});
+	});
 })

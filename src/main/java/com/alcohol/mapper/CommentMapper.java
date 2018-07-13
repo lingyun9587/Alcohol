@@ -1,6 +1,7 @@
 package com.alcohol.mapper;
 
 import com.alcohol.pojo.Comment;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,10 @@ public interface CommentMapper {
      * @return
      */
     List<Integer> getCommentCountById(Integer id);
-
+    /**
+     * 批量回复用户评价
+     * @param com
+     * @return
+     */
+    int upListComment(@Param("com") int[] com, @Param("reply_conte") String reply_conte);
 }

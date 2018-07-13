@@ -89,4 +89,108 @@
     <select id="listSellDaily" resultType="Order">
         SELECT order_id FROM tb_order WHERE NOW()>=    DATE_ADD(create_time, INTERVAL 3 DAY) AND `status`=1
     </select>
+    <resultMap type="Order" id="rOrder">
+        <id property="orderId" column="order_id"/>
+        <result property="status" column="status"/>
+        <result property="money" column="money"/>
+        <result property="goodsCount" column="goodsCount"/>
+        <result property="paymentTime" column="payment_time"/>
+        <result property="batch" column="batch"/>
+
+        <association property="address" javaType="Address">
+            <id property="addressId" column="address_id"/>
+            <result property="consignee" column="consignee"/>
+            <result property="phone" column="phone"/>
+            <result property="code" column="code"/>
+            <result property="comaddress" column="comaddress"/>
+        </association>
+
+        <collection property='orderstatus1' ofType="Orderstatus">
+            <id property="orderStatus_id" column="orderStatus_id"/>
+            <result property="orderStatus_name" column="orderStatus_name"/>
+        </collection>
+
+        <collection property='shoppingdetails' ofType="Shoppingdetails">
+            <id property="shoppingDetailsId" column="shoppingDetails_id"/>
+            <result property="shoppingId" column="shopping_id"/>
+            <result property="skuId" column="sku_id"/>
+            <result property="number" column="number"/>
+
+            <collection property='sku' ofType="Sku">
+                <id property="productId" column="product_id"/>
+                <result property="skuvalueId" column="skuvalue_id"/>
+                <result property="presentPrice" column="present_price"/>
+
+                <collection property='products' ofType="Product">
+                    <id property="productId" column="product_id"/>
+                    <result property="productName" column="product_name"/>
+
+                    <collection property='images' ofType="Image">
+                        <id property="imageId" column="image_id"/>
+                        <result property="imagePath" column="image_path"/>
+                    </collection>
+                </collection>
+
+                <collection property='skuValue1' ofType="SkuValue">
+                    <id property="skuvalueId" column="skuvalueId"/>
+                    <result property="skuvalueValue" column="skuvalue_value"/>
+                </collection>
+
+            </collection>
+
+        </collection>
+    </resultMap>
+    <select id="order" resultMap="rOrder">
+        SELECT  o.`order_id`, o.`payment_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`, orderstatus.orderStatus_name,shopingdetails.`number`,sku.`present_price`,
+        product.`product_name`,
+        image.`image_path`
+        FROM tb_order o
+        INNER JOIN `tb_orderstatus` orderstatus
+        ON  orderstatus.`orderStatus_id`=o.`status`
+        INNER JOIN `tb_shoppingdetails` shopingdetails
+        ON shopingdetails.shopping_id=o.`order_id`
+        INNER JOIN tb_sku sku
+        ON sku.`sku_id`=shopingdetails.`sku_id`
+        INNER JOIN tb_product product
+        ON product.`product_id`=sku.`product_id`
+        INNER JOIN tb_image image
+        ON image.`product_id`=product.`product_id`
+        WHERE 1=1
+        <if test="batch!='' and batch!=null">
+            and  o.batch=#{batch}
+        </if>
+        <if test="orderStatus!=null and orderStatus!=''">
+            and  orderstatus.orderStatus_id=#{orderStatus}
+        </if>
+        GROUP BY o.`order_id`
+    </select>
+
+    <select id="cha" resultMap="rOrder">
+         SELECT o.`order_id`,o.`payment_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`, adress.`consignee`,adress.`phone`,adress.`code`,adress.`comaddress`,
+	    orderstatus.`orderStatus_id`,orderstatus.orderStatus_name,shopingdetails.`number`,sku.`present_price`,
+         product.`product_name`,skuvalue.`skuvalue_value`,
+         image.`image_path`
+         FROM tb_order o
+         LEFT JOIN tb_address adress
+         ON adress.`address_id`=o.`address_id`
+         LEFT JOIN `tb_orderstatus` orderstatus
+         ON  orderstatus.`orderStatus_id`=o.`status`
+         LEFT JOIN `tb_shoppingdetails` shopingdetails
+         ON shopingdetails.shopping_id=o.`order_id`
+         LEFT JOIN tb_sku sku
+         ON sku.`sku_id`=shopingdetails.`sku_id`
+         LEFT JOIN tb_product product
+         ON product.`product_id`=sku.`product_id`
+         LEFT JOIN tb_skuvalue skuvalue
+         ON skuvalue.`skuvalue_id`=sku.`skuvalue_id`
+         LEFT JOIN tb_image image
+         ON image.`product_id`=product.`product_id`
+         WHERE
+         o.`order_id`=#{order_id}
+         GROUP BY o.`order_id`
+    </select>
+
+    <update id="status" >
+         UPDATE tb_order SET `status`=8  where `order_id`=#{orderId};
+    </update>
 </mapper>

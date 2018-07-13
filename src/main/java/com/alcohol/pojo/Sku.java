@@ -21,4 +21,8 @@ public class Sku {
     private SkuValue skuValue;//sku值对象 赵俊峰
 
     private List<SkuValue> skuValueList;
+    //商品表 韩庆林
+    private List<Product> products;
+    //SkuValue表 韩庆林
+    private List<SkuValue> skuValue1;
 }

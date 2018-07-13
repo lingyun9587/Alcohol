@@ -6,7 +6,6 @@ import com.alcohol.exceptions.OrderOperationException;
 import com.alcohol.jms.ProducerCc;
 import com.alcohol.mapper.CommodityMapper;
 import com.alcohol.mapper.OrderMapper;
-import com.alcohol.mapper.SkuMapper;
 import com.alcohol.pojo.Commodity;
 import com.alcohol.pojo.Order;
 import com.alcohol.service.OrderService;
@@ -29,9 +28,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     @Resource
     private CommodityMapper commodityMapper;
-
-    @Resource
-    private SkuMapper skuMapper;
     @Override
     public OrderExecution insertInfo(Order order)throws OrderOperationException {
         OrderExecution orderExecution =null;
@@ -80,27 +76,6 @@ public class OrderServiceImpl implements OrderService {
             int result = orderMapper.updateOrderState(order);
             if(result>0){
                 commodityMapper.updateCommodityStatusByOrderId(order.getOrderId(),order.getStatus());
-                orderExecution = new OrderExecution(OrderEnum.SUCCESS);
-            }else{
-                orderExecution = new OrderExecution(OrderEnum.NOTFAIL);
-            }
-        }catch (OrderOperationException e){
-            throw new OrderOperationException(e.toString());
-        }
-        return orderExecution;
-    }
-
-    @Override
-    public OrderExecution updateOrder(Order order) {
-        OrderExecution orderExecution =null;
-        try{
-            int result = orderMapper.updateOrderState(order);
-            if(result>0){
-                commodityMapper.updateCommodityStatusByOrderId(order.getOrderId(),order.getStatus());
-                order =  orderMapper.getById(order.getOrderId());
-                for (Commodity commodity: order.getCommodities()  ) {
-                    skuMapper.updateInfo(commodity.getSkuId(),commodity.getNumber(),3);
-                }
                 orderExecution = new OrderExecution(OrderEnum.SUCCESS);
             }else{
                 orderExecution = new OrderExecution(OrderEnum.NOTFAIL);
