@@ -872,6 +872,9 @@
                 //商品详情
                 $("#detail").html(data.productDetails);
                 $(".Info").hide();
+                if(data.skunameList==""||data.skunameList==null){
+                    $(".skuId").val(data.skuList[0].skuId);
+                }
             },
             error: function () {
                 alert("网络延迟,请稍后重试");
@@ -1007,6 +1010,7 @@
                     $("#good").html(contents+btn);
                     $("#normal").html(contents+btn);
                     $("#bad").html(contents+btn);
+
                 });
             },
             error:function () {
@@ -1081,10 +1085,11 @@
         if(skuId==0){
             $(".Info").show();
             return;
-        }else{
+        }
+        else{
             $.ajax({
-                url:"/addShopCart",
-                data:{skuId:skuId,},
+                url:"/shop/addShopCart",
+                data:{skuid:skuId,num:number},
                 dataType:"JSON",
                 type:"post",
                 success:function(result){
