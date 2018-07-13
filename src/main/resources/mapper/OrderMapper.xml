@@ -68,7 +68,7 @@
     LEFT JOIN  `tb_sku` sku ON comm.`sku_id`=sku.`sku_id`
     INNER JOIN `tb_orderstatus` statu ON statu.`orderStatus_id`=comm.`orderstatus_id`
     INNER JOIN `tb_product` pro ON sku.`product_id`=pro.`product_id`
-    INNER JOIN `tb_skuname` skuname ON pro.`product_id`=skuname.`skuname_id`
+    INNER JOIN `tb_skuname` skuname ON pro.`product_id`=skuname.`product_id`
     LEFT JOIN `tb_skuvalue` skuvalue ON skuvalue.`skuname_id`=skuname.`skuname_id`
     LEFT JOIN `tb_image` img ON img.`product_id`=pro.`product_id`
      INNER JOIN `tb_orderstatus` statu1 ON statu1.`orderStatus_id` = orde.`status`

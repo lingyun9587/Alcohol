@@ -42,15 +42,20 @@ public class CommodityController {
         return list;
     }
     @GetMapping( value = "/listCommodityInfo")
-    public Object listCommodityInfo(@RequestParam( value = "pageIndex",required = false)Integer pageIndex,
+    public Object listCommodityInfo(@RequestParam(defaultValue = "1",value = "pageIndex",required = false)Integer pageIndex,
                                     @RequestParam( value = "pageSize",required = false)Integer pageSize,
                                      @RequestParam(value = "status",required = false)Integer status){
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);//从作用域中获取对象编号
         Long userId = useraccount.getUserId();  //从作用域中获取对象编号
-        PageHelper.startPage(pageIndex == null?1:pageIndex,pageSize);
+
+        //Integer index=Integer.parseInt(pageIndex);
+        //PageHelper.startPage(index,2,true,true);
         List<Commodity> list = commodityService.listCommodityInfo(userId,status);
+        PageHelper.startPage(pageIndex == null?1:pageIndex,pageSize);
+        System.out.println("======================="+list.size());
         PageInfo<Commodity>  pageInfo = new PageInfo<>(list);
+        System.out.println("::::::::::::::::::"+pageInfo.getList());
         System.out.println(list);
         return pageInfo;
     }
