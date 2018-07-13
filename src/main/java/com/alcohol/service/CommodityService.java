@@ -16,14 +16,14 @@ public interface CommodityService {
      * @param id
      * @return
      */
-    List<OrderstatusVo> listVoByUserId(Integer id);
+    List<OrderstatusVo> listVoByUserId(Long id);
 
     /**
      * 查询所有用户的订单信息
      * @param id
      * @return
      */
-    List<Commodity> listCommodityInfo(Integer id,Integer status);
+    List<Commodity> listCommodityInfo(Long id,Integer status);
 
     /**
      * 删除商品详细信息

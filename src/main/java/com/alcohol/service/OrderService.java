@@ -41,4 +41,11 @@ public interface OrderService {
 
 
 
+    /**
+     * 进行下订单
+     * @param order
+     * @return
+     */
+    OrderExecution updateOrder(Order order);
+
 }
