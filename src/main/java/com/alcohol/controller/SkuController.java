@@ -68,6 +68,7 @@ public class SkuController {
             commodity.setNumber(num);   //数量
             commodity.setSkuId(sku.getSkuId());  //skuId
             commodity.setSku(skuService.getById(sku.getSkuId()));
+            commodities.add(commodity);
         }
         return commodities;
     }
