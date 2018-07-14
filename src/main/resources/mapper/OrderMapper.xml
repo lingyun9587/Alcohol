@@ -193,4 +193,10 @@
     <update id="status" >
          UPDATE tb_order SET `status`=8  where `order_id`=#{orderId};
     </update>
+
+    <select id="getLastOrderInfo" resultType="Order">
+ SELECT
+order_id,address_id,create_time,batch,user_id,goodsCount,`status`
+  FROM `tb_order` WHERE user_id=#{userId} order by create_time desc limit 0,1
+    </select>
 </mapper>

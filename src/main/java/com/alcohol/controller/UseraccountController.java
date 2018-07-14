@@ -1,24 +1,17 @@
 package com.alcohol.controller;
 
-import com.alcohol.cache.JedisUtil;
 import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
-import com.alcohol.jms.ConsumerCc;
-import com.alcohol.jms.ProducerCc;
 import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.jms.Queue;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

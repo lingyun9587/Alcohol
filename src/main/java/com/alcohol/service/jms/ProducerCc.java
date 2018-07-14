@@ -1,13 +1,11 @@
-package com.alcohol.jms;
+package com.alcohol.service.jms;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
 import javax.jms.*;
-import java.io.Serializable;
 
 /**
  * 生产者如下

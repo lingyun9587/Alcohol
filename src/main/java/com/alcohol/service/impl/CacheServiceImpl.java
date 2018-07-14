@@ -6,10 +6,11 @@ import com.alcohol.cache.JedisUtil;
 import com.alcohol.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional
 public class CacheServiceImpl implements CacheService {
 	@Autowired
 	private JedisUtil.Keys jedisKeys;
