@@ -777,8 +777,7 @@
             success: function (data) {
                 var number=$(".badge").eq(0).html();
                 //图片的
-
-                var imageList = "<div class=\"small-box\">\n" +
+                var imageList = "<div class=\"small-box\"><input type='hidden' class='skuId' value='0'/>\n" +
                     " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">\n" +
                     "<span class=\"hover\"></span>\n" +
                     "</div>\n" +
@@ -828,8 +827,7 @@
                     "</li>\n" +
                     "</ul>\n" +
                     "<div class=\"item-key\">\n" +
-                    "<div class=\"item-sku\"><input type='hidden' class='skuId' value='0'/>\n";
-
+                    "<div class=\"item-sku\">\n";
                 $.each(data.skunameList, function (i, e) {
                     content += "<dl class=\"item-prop clearfix\">\n" +
                         "<dt class=\"item-metatit\">" + e.skunameeValue + ":</dt>\n" +
@@ -859,7 +857,7 @@
                     "<div class='Info'>请勾选您要的商品信息！</div>"+
                     "<div class=\"item-action clearfix bgf5\">\n" +
                     "<a href=\"javascript:;\" rel=\"nofollow\" data-addfastbuy=\"true\" title=\"点击此按钮，到下一步确认购买信息。\"\n" +
-                    "role=\"button\" class=\"item-action__buy\" onclick='buy()'>立即购买</a>\n" +
+                    "role=\"button\" class=\"item-action__buy\" onclick='buy1()'>立即购买</a>\n" +
                     "<a href=\"javascript:;\" onclick='buy()' rel=\"nofollow\" data-addfastbuy=\"true\" role=\"button\" class=\"item-action__basket\">\n" +
                     "<i class=\"iconfont icon-shopcart\"></i> 加入购物车\n" +
                     "</a>\n" +
@@ -874,8 +872,8 @@
                 //商品详情
                 $("#detail").html(data.productDetails);
                 $(".Info").hide();
-                if(data.skunameList.length==0){
-                    $(".skuId").val("空");
+                if(data.skunameList==""||data.skunameList==null){
+                    $(".skuId").val(data.skuList[0].skuId);
                 }
             },
             error: function () {
@@ -1012,6 +1010,7 @@
                     $("#good").html(contents+btn);
                     $("#normal").html(contents+btn);
                     $("#bad").html(contents+btn);
+
                 });
             },
             error:function () {
@@ -1076,26 +1075,55 @@
                 alert("sku获取失败");
             }
         });
+
     }
 
     //加入购物车
     function buy(){
         var skuId=$(".skuId").val();
         var number=$('.amount-input').val();
+        alert(skuId);
         if(skuId==0){
             $(".Info").show();
             return;
         }
         else{
+            alert(skuId);
             $.ajax({
-                url:"/addShopCart",
-                data:{skuId:skuId},
+                url:"/shop/addShopCart",
+                data:{skuid:skuId,num:number},
                 dataType:"JSON",
                 type:"post",
                 success:function(result){
                     alert("加入购物车成功");
                 },error:function(){
                     alert("加入购物车失败");
+                }
+            });
+        }
+    }
+    //立即购买
+    function buy1(){
+        var skuId=$(".skuId").val();
+        var number=$('.amount-input').val();
+        alert(skuId);
+        if(skuId==0){
+            $(".Info").show();
+            return;
+        }
+        else{
+            $.ajax({
+                url:"/getUserInfo",
+                dataType:"JSON",
+                type:"post",
+                success:function(result){
+                    if(result == null){
+                        alert("用户未登录");
+                    }else{
+                        location.href="udai_shopcart_pay.html?skuId="+skuId+"&number="+number;
+                    }
+                },error:function(){
+
                 }
             });
         }

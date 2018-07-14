@@ -28,6 +28,7 @@ public class UseraccountController {
 
     @Resource
     private UserAccountService userAccountService;
+    private String phone;
 
 
     /*@Autowired
@@ -208,9 +209,17 @@ public class UseraccountController {
     @ResponseBody
     @RequestMapping(value="seldeng",produces = "text/html;charset=utf-8")
     public String seldeng(Useraccount us){
-        System.out.println(123123);
+        System.out.println(us.getPhone());
+        phone=us.getPhone();
+        System.out.println(phone);
         int count=userAccountService.seldeng(us);
         return JSON.toJSONString(count);
+    }
+    @ResponseBody
+    @RequestMapping(value="cha",produces = "text/html;charset=utf-8")
+    public String cha(){
+        System.out.println(phone);
+        return JSON.toJSONString(phone);
     }
 
 }

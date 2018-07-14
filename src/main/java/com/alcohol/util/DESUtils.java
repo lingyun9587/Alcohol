@@ -90,7 +90,11 @@ public class DESUtils {
 
 	public static void main(String[] args) {
 		System.out.println(getEncryptString("root"));
+
 		System.out.println(getEncryptString("123456"));
+
+		System.out.println(getEncryptString("123"));
+
 	}
 
 }

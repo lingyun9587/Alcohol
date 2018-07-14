@@ -14,6 +14,7 @@ import java.util.List;
 public interface CommodityMapper {
 
 
+    List<OrderstatusVo> listVoByUserId(Long id);
     /**
      * 修改订单商品信息
      * @param commodity
@@ -34,7 +35,8 @@ public interface CommodityMapper {
      */
      int insertInfo(Commodity commodity );
 
-    /**
+    /**     List<OrderstatusVo> listVoByUserId(Integer id);
+
      * 删除订单信息
      * @param commodityId
      * @return
@@ -52,14 +54,13 @@ public interface CommodityMapper {
      * @param id
      * @return
      */
-     List<OrderstatusVo> listVoByUserId(Integer id);
 
     /**
      * 查询所有用户的订单信息
      * @param id
      * @return
      */
-     List<Commodity> listCommodityInfo(@Param("id")Integer id, @Param("status")Integer status);
+     List<Commodity> listCommodityInfo(@Param("id")Long id, @Param("status")Integer status);
 
     /**
      * 获取所有 超时订单信息

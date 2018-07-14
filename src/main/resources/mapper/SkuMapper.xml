@@ -17,7 +17,68 @@
               <if test="status ==1">
                   stock=stock+#{number},locking=locking-#{number}
               </if>
+              <if test="locking == 2">
+                  locking = locking-#{number}
+              </if>
           </set>
     WHERE sku_id=#{skuId}
     </update>
+
+    <resultMap id="info" type="Sku">
+     <id column="sku_id" property="skuId"/>
+        <result column="skuvalue_id" property="skuvalueId"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="present_price" property="presentPrice"/>
+        <association property="product" javaType="Product">
+            <id column="product_id" property="productId"/>
+            <result column="product_name" property="productName"/>
+            <result column="product_desc" property="productDese"/>
+            <result column="product_details" property="productDetails"/>
+            <collection property="imageList" ofType="Image">
+                <id column="image_id" property="imageId"/>
+                <result column="image_path" property="imagePath"/>
+            </collection>
+            <collection property="skunameList" ofType="skuName">
+                <id column="skuname_id" property="skunameId"/>
+                <result column="skuname_name" property="skunameeValue"/>
+                <collection property="skuValueList" ofType="SkuValue">
+                    <id property="skuvalueId" column="skuvalue_id"/>
+                    <result column="skuvalue_value" property="skuvalueValue"/>
+                </collection>
+            </collection>
+        </association>
+    </resultMap>
+    <select id="getById" resultMap="info">
+      SELECT sku.sku_id,sku.skuvalue_id,sku.original_price,sku.present_price,
+pro.product_id,pro.product_name,pro.product_desc,pro.product_details,
+img.image_id,img.image_path,
+skuname.skuname_id,skuname.skuname_name,
+skuvalue.`skuvalue_id`,skuvalue.`skuvalue_value`
+FROM `tb_sku` sku
+INNER JOIN `tb_product` pro ON sku.`product_id`=pro.`product_id`
+LEFT JOIN `tb_image` img ON pro.product_id=img.product_id
+LEFT JOIN `tb_skuname` skuname ON skuname.product_id=pro.product_id
+LEFT JOIN `tb_skuvalue` skuvalue ON skuname.`skuname_id`=skuvalue.skuname_id
+WHERE sku.sku_id=#{id}
+    </select>
+
+    <select id="listById" resultMap="info">
+        SELECT sku.sku_id,sku.skuvalue_id,sku.original_price,sku.present_price,
+        pro.product_id,pro.product_name,pro.product_desc,pro.product_details,
+        img.image_id,img.image_path,
+        skuname.skuname_id,skuname.skuname_name,
+        skuvalue.`skuvalue_id`,skuvalue.`skuvalue_value`
+        FROM `tb_sku` sku
+        INNER JOIN `tb_product` pro ON sku.`product_id`=pro.`product_id`
+        LEFT JOIN `tb_image` img ON pro.product_id=img.product_id
+        LEFT JOIN `tb_skuname` skuname ON skuname.product_id=pro.product_id
+        LEFT JOIN `tb_skuvalue` skuvalue ON skuname.`skuname_id`=skuvalue.skuname_id
+
+<where>
+    <foreach collection="list" item="item" separator="or">
+        sku.sku_id=#{item.skuId}
+    </foreach>
+</where>
+    </select>
+
 </mapper>

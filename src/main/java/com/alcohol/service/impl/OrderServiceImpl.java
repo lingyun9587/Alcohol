@@ -10,8 +10,6 @@ import com.alcohol.pojo.Commodity;
 import com.alcohol.pojo.Order;
 import com.alcohol.service.OrderService;
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,30 +88,23 @@ public class OrderServiceImpl implements OrderService {
         return orderExecution;
     }
 
-    /**
-     * 订单查看
-     * @param map
-     * @return
-     */
     @Override
     public List<Order> order(Map<String, Object> map) {
-        PageHelper.startPage((Integer) map.get("pageNum"), (Integer) map.get("pageSize"), true, true);
-        return orderMapper.order(map);
+        return null;
     }
 
-    /**
-     * 查看订单详情
-     * @param
-     * @return
-     */
     @Override
-    public Order cha(@Param("order_id") int order_id) {
-        return  orderMapper.cha(order_id);
+    public Order cha(int order_id) {
+        return null;
     }
 
     @Override
     public int status(int order_id) {
-        return orderMapper.status(order_id);
+        return 0;
     }
 
+    @Override
+    public OrderExecution updateOrder(Order order) {
+        return null;
+    }
 }

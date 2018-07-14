@@ -84,8 +84,14 @@ new Vue({
                     productOrders.push(item.sku.skuId);
                 }
             });
+
             if(productOrders.length!=0){
-                location.href="/shop/transferToOrder?productOrders="+productOrders;
+                this.$http.get("/shop/transferToOrder",{"productOrders":productOrders}).then(function(json){
+                    //alert(json.data);
+                    //location.href="/shop/transferToOrder?productOrders="+productOrders;
+                    location.href="udai_shopcart_pay.html";
+                });
+
             }else{
                 alert("请至少选择一件商品提交订单！");
             }

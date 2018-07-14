@@ -125,9 +125,14 @@ public class UserAccountServiceImpl implements UserAccountService {
         int result1 = 0;
 
         try{
-            result = useraccountMapper.updateInfo(useraccount);
+            if(useraccount.getEmail() != null){
+                result = useraccountMapper.updateInfo(useraccount);
+            }
+            if(result <=0 ){
+                return new UserAccountExecution(UserAccountEnum.NOTFAIL);
+            }
             result1 = userMapper.updateInfo(useraccount.getUser());
-            if(result <=0 || result1 <=0){
+            if( result1 <=0){
                 return new UserAccountExecution(UserAccountEnum.NOTFAIL);
             }else{
                 return new UserAccountExecution(UserAccountEnum.SUCCESS);

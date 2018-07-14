@@ -524,6 +524,21 @@ public class JedisUtil {
 	public class Hash {
 
 		/**
+		 * 设置过期时间
+		 *
+		 * @author ruan 2013-4-11
+		 * @param key
+		 * @param seconds
+		 */
+		public void expire(String key, int seconds) {
+			if (seconds <= 0) {
+				return;
+			}
+			Jedis jedis = getJedis();
+			jedis.expire(key, seconds);
+			jedis.close();
+		}
+		/**
 		 * 从hash中删除指定的存储
 		 * 
 		 * @param String

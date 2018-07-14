@@ -37,7 +37,12 @@ public class ConsumerCc {
                 System.out.println("xiaoxi");
 
                 for (Commodity commodity: list  ) {
-                    skuMapper.updateInfo(commodity.getSkuId(),commodity.getNumber(),0);
+                    if(commodity.getOrderstatusId() == 1){ //待付款
+                        skuMapper.updateInfo(commodity.getSkuId(),commodity.getNumber(),0);
+                    } else if(commodity.getOrderstatusId() == 7){
+                        skuMapper.updateInfo(commodity.getSkuId(),commodity.getNumber(),3);
+                    }
+
                 }
             }
             message.acknowledge();// 使用手动签收模式，需要手动的调用，如果不在catch中调用session.recover()消息只会在重启服务后重发

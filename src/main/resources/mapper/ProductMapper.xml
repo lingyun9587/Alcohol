@@ -236,4 +236,7 @@
             #{arr}
         </foreach>
     </update>
+    <update id="updatesales">
+      UPDATE `tb_product` SET sales=sales+#{number} where product_id=#{productId}
+    </update>
 </mapper>

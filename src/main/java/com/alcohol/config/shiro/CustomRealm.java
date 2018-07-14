@@ -72,6 +72,7 @@ public class CustomRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken arg0) throws AuthenticationException {
 
+
 		//1.从主体传过来的认证信息中，获得用户名
 		String username = (String) arg0.getPrincipal();
 		//2.通过用户名到数据库中获取凭证
