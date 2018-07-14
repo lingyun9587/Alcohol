@@ -1,17 +1,25 @@
 package com.alcohol.controller;
 
+import com.alcohol.cache.JedisUtil;
 import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
+import com.alcohol.jms.ConsumerCc;
+import com.alcohol.jms.ProducerCc;
 import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.jms.Queue;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +28,7 @@ public class UseraccountController {
 
     @Resource
     private UserAccountService userAccountService;
+    private String phone;
 
 
     /*@Autowired
@@ -69,6 +78,7 @@ public class UseraccountController {
      */
     @PostMapping( value="/user/loginUser")
     public Object login(HttpServletRequest request, @RequestParam( name = "username") String username, @RequestParam( name = "password") String password){
+
         Map<String,Object> map = new HashMap<String,Object>();
         UserAccountExecution  user=null;
         Md5Hash md5 = new Md5Hash(password);
@@ -84,15 +94,13 @@ public class UseraccountController {
        }catch(UserAccountOperationException e){
            map.put("success",false);
            map.put("msg",e.toString());
-
            return map;
        }
 
         if(user.getState() == 0){
             map.put("success",true);
             map.put("msg", user.getState());
-
-                }else{
+       }else{
             map.put("success",false);
             map.put("msg", user.getState());
         }
@@ -193,6 +201,25 @@ public class UseraccountController {
             map.put("mesage","密码修改失败，请重新输入。");
         }
         return map;
+    }
+
+    /**
+     * 后台登录
+     */
+    @ResponseBody
+    @RequestMapping(value="seldeng",produces = "text/html;charset=utf-8")
+    public String seldeng(Useraccount us){
+        System.out.println(us.getPhone());
+        phone=us.getPhone();
+        System.out.println(phone);
+        int count=userAccountService.seldeng(us);
+        return JSON.toJSONString(count);
+    }
+    @ResponseBody
+    @RequestMapping(value="cha",produces = "text/html;charset=utf-8")
+    public String cha(){
+        System.out.println(phone);
+        return JSON.toJSONString(phone);
     }
 
 }
