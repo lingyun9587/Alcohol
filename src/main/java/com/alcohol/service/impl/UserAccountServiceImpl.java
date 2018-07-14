@@ -141,4 +141,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     public int updatePwd(Useraccount useraccount) {
         return useraccountMapper.updatePwd(useraccount);
     }
+
+    @Override
+    public int seldeng(Useraccount ua) {
+        return useraccountMapper.seldeng(ua);
+    }
 }

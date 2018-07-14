@@ -13,21 +13,21 @@ import javax.jms.Topic;
 @EnableJms
 public class MsgListeners {
 
-    /**
+   /* *//**
      * 点对点
      * @return
-     */
-/*    @Bean
+     *//*
+*//*    @Bean
     public Queue queue(){
         return new ActiveMQQueue("queue1");
-    }*/
+    }*//*
 
-    /**
+    *//**
      * 发布/订阅
      * @return
-     */
+     *//*
     @Bean
     public Topic topic(){
         return new ActiveMQTopic("zh-topic");
-    }
+    }*/
 }

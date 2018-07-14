@@ -76,7 +76,7 @@
 				var three="";
 				var shu="";
 				var shuxing="";
-                var pagesize = 1; //页显示多少条记录
+                var pagesize = 10; //页显示多少条记录
                 $(function() {
 
                     tableInit(1, pagesize); //初始默认第一页
@@ -122,10 +122,14 @@
                         dataType:"JSON",
                         success:function(result){
                             var content="";
+							if(result.apps!=null||result.apps!=""){
+                                $.each(result.list,function(i,e){
+                                    content+="<tr><td>"+e.categoryoneId+"</td><td>"+e.categoryontName+"</td>\<td>一级分类</td><td><a href='#' onclick='listTwos("+e.categoryoneId+",1)'>查看子分类</a>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 40px;height: 20px' value='修改' class='butupd' onclick='upd(this)'/></td></tr>";
+                                })
+							}else{
+							    content="暂无数据";
+							}
 
-                            $.each(result.list,function(i,e){
-                                content+="<tr><td>"+e.categoryoneId+"</td><td>"+e.categoryontName+"</td>\<td>一级分类</td><td><a href='#' onclick='listTwos("+e.categoryoneId+",1)'>查看子分类</a>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 40px;height: 20px' value='修改' class='butupd' onclick='upd(this)'/></td></tr>";
-                            })
                             showPage(pageindex,result.pages,result.total);
                             $(".show").html(content);
                         }
@@ -141,9 +145,14 @@
                         dataType:"JSON",
                         success:function(result){
                             var content="";
+                            alert(result.apps);
+                            if(result.apps!=null||result.apps!=""){
                                 $.each(result.list,function(i,e){
                                     content+="<tr><td>"+e.categorytwoId+"</td><td>"+e.categorytwoName+"</td>\<td>二级分类</td><td><a href='#' onclick='listThree("+e.categorytwoId+")'>查看子分类</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='tableInit(1,10)'>查看父级</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='upd2(this)'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onclick='deltwo("+e.categorytwoId+")'>删除</a></td></tr>";
                                 })
+                            }else{
+                                content="暂无数据";
+                            }
                             showPage(pageindex,result.pages,result.total);
                             one=categoryoneId;
                             $(".show").html(content);

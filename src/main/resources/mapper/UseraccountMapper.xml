@@ -89,4 +89,9 @@
     <update id="updatePwd">
         UPDATE tb_useraccount SET `password`=#{password} WHERE user_id=#{userId}
     </update>
+    <!--后台登录-->
+    <select id="seldeng" resultType="java.lang.Integer">
+      SELECT COUNT(1) FROM tb_useraccount
+      WHERE phone=#{phone} AND PASSWORD=#{password}
+    </select>
 </mapper>
