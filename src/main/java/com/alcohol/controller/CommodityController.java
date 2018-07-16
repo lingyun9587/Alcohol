@@ -55,7 +55,7 @@ public class CommodityController {
         PageHelper.startPage(pageIndex == null?1:pageIndex,pageSize);
         System.out.println("======================="+list.size());
         PageInfo<Commodity>  pageInfo = new PageInfo<>(list);
-        System.out.println("::::::::::::::::::"+pageInfo.getList());
+        System.out.println(":::::"+pageInfo.getList());
         System.out.println(list);
         return pageInfo;
     }

@@ -47,13 +47,16 @@
 <script src="/js/backstage/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/js/backstage/table.js"></script>
 <script type="text/javascript">
+	//页面加载事件
     $(function() {
         list(1);
     });
+    //获取页面页码
     function show(pageNum){
         sou(pageNum);
         list(pageNum);
     }
+    //点击搜索按钮
     function sou(pageNum){
         var productName=$(".textStyle").val();
         $.ajax({
@@ -90,7 +93,7 @@
             }
         });
     }
-
+	//页面加载全部
     function list(pageNum){
         $.ajax({
             url: "/proc/listSell",

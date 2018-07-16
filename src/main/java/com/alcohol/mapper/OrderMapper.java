@@ -70,4 +70,10 @@ public interface OrderMapper {
 
     //修改退款状态
     int status(int order_id);
+
+    /**
+     * 获取最后一个订单
+     * @return
+     */
+    Order getLastOrderInfo(Long userId);
 }

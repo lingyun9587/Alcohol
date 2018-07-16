@@ -2,6 +2,7 @@ package com.alcohol.controller;
 
 import com.alcohol.cache.JedisUtil;
 import com.alcohol.config.alipay.AlipayConfig;
+import com.alcohol.service.jms.ProducerCc;
 import com.alcohol.pojo.*;
 import com.alcohol.service.OrderService;
 import com.alcohol.service.ProductService;
@@ -9,10 +10,8 @@ import com.alcohol.service.SkuService;
 import com.alcohol.service.UserAccountService;
 import com.alcohol.util.IDUtil;
 import com.alibaba.fastjson.JSON;
-import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.google.gson.Gson;
 import org.apache.shiro.SecurityUtils;
@@ -23,9 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Controller
@@ -38,6 +35,9 @@ public class AlipayController {
     private SkuService skuService;
     @Resource
     private JedisUtil.Hash jedisHashs;
+
+    @Resource
+    private ProducerCc producerCc;
     @RequestMapping(value = "/alipay/index.html")
     private String index(){
         return "/alipay/index";
@@ -79,12 +79,13 @@ public class AlipayController {
         String number1 =new String(request.getParameter("number").getBytes("UTF-8"),"UTF-8");
         String status =new String(request.getParameter("status").getBytes("UTF-8"),"UTF-8");
         String addr =new String(request.getParameter("addr").getBytes("UTF-8"),"UTF-8");
+        String desc =new String(request.getParameter("desc").getBytes("UTF-8"),"UTF-8");
         if(status.equals("0")){ //订单
             //处理订单付款成功方法
             Long orderId =Long.valueOf(out_trade_no);
             Order order = new Order();
             order.setOrderId(orderId);
-            order.setStatus(7);
+            order.setStatus(1); //待发货
             orderService.updateOrderStatus(order);
         }else if(status.equals("1")){  //立即购买
 
@@ -96,7 +97,7 @@ public class AlipayController {
             order1.setOrderId(orderId);  //设置订单id
             order1.setCreateTime(new Date());  //设置订单创建时间
             order1.setUserId(useraccount.getUserId());  //设值用户
-            order1.setStatus(7);   //设置订单状态
+            order1.setStatus(1);   //设置订单状态
             order1.setAddressId(Long.valueOf(addr));  //设置地址id  测试
             List<Commodity> commodities = new ArrayList<>();  //商铺下的商品
             //添加订单商品信息
@@ -107,12 +108,12 @@ public class AlipayController {
             commodity.setOrderId(orderId);  //订单id
             commodity.setNumber(Integer.parseInt(number1));   //数量
             commodity.setSkuId(Long.valueOf(skuId));  //skuId
-            commodity.setOrderstatusId(7L);  //1待付款
+            commodity.setOrderstatusId(1L);  //1待付款
             commodities.add(commodity);  //添加到订单信息
             order1.setCommodities(commodities);
             order1.setGoodsCount(Integer.parseInt(number1));  //设置总数量
             order1.setMoney(Double.valueOf(total_amount));    //设置总金额
-            orderService.insertInfo(order1);
+            orderService.insertInfo(order1);//发送消息队列进行修改库存
         }else if(status.equals("2")){ //购物车
 
             Long orderId = IDUtil.SnowflakeIdWorker();
@@ -122,7 +123,7 @@ public class AlipayController {
             order1.setOrderId(orderId);  //设置订单id
             order1.setCreateTime(new Date());  //设置订单创建时间
             order1.setUserId(useraccount.getUserId());  //设值用户
-            order1.setStatus(7);   //设置订单状态
+            order1.setStatus(1);   //设置订单状态
             order1.setAddressId(Long.valueOf(addr));  //设置地址id  测试
             Map<String,String> mapshopping= jedisHashs.hgetAll(useraccount.getUserId()+"order");
             int number = 0;  //总数数量
@@ -148,16 +149,17 @@ public class AlipayController {
                 commodity.setOrderId(orderId);  //订单id
                 commodity.setNumber(num);   //数量
                 commodity.setSkuId(sku.getSkuId());  //skuId
-                commodity.setOrderstatusId(7L);  //1待付款
+                commodity.setOrderstatusId(1L);  //1待付款
                 commodities.add(commodity);  //添加到订单信息
                 number =number+num;   //数量
                 money =money+(num*sku.getPresentPrice());  //金额
-                productService.updatesales(sku.getProductId(),num);  //修改销量
+              //  skuService.updateInfo(sku.getSkuId(),number,3); //修改库存
+
             }
             order1.setCommodities(commodities);  //设置订单的商品详情集合
             order1.setGoodsCount(number);  //设置总数量
             order1.setMoney(money);    //设置总金额
-            orderService.insertInfo(order1);
+            orderService.insertInfo(order1);//发送消息队列进行修改库存
         }
 
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
