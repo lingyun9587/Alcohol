@@ -3,8 +3,7 @@ package com.alcohol.controller;
 import com.alcohol.cache.JedisUtil;
 import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
-import com.alcohol.jms.ConsumerCc;
-import com.alcohol.jms.ProducerCc;
+
 import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
