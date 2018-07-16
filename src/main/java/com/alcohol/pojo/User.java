@@ -1,5 +1,9 @@
 package com.alcohol.pojo;
 
+import com.alcohol.util.LongJsonDeserializer;
+import com.alcohol.util.LongJsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,6 +15,8 @@ import java.util.List;
  */
 @Data
 public class User {
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long userId;//用户编号
     private String membershipName;//会员名
     private String realName;//真实姓名
