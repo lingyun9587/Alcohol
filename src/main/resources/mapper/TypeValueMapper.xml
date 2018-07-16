@@ -13,7 +13,7 @@
 
     <insert id="addTypeValue">
        INSERT INTO tb_typevalue VALUES
-        (NULL,#{typeValue_name},#{typeName_id},0,null,null,null,null,null)
+        (NULL,#{typeValueName},#{typeNameId},0,0,null,null,null,null)
     </insert>
     <!--判断修改的属性值是否存在-->
     <select id="updissel" resultType="java.lang.Integer">

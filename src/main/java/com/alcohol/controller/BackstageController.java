@@ -18,8 +18,14 @@ public class BackstageController {
      *s
      * @return
      */
+    @GetMapping("/backstage/typeAdd.html")
+    public String ClassInfo() { return "/backstage/typeAdd"; }
+    /**
+     *s
+     * @return
+     */
     @GetMapping("/backstage/ClassInfo.html")
-    public String ClassInfo() { return "/backstage/ClassInfo"; }
+    public String typeadd() { return "/backstage/ClassInfo"; }
     /**
      *
      * @return

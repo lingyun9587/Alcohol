@@ -105,7 +105,6 @@ function getAlreadySetSkuVals1(){
 	return alreadySetSkuVals1;
 }
 
-
 $(function(){
 	$("#submit").click(function(){
         //新增商品信息
@@ -116,6 +115,7 @@ $(function(){
             alert("请选择商品分类");
             return;
         }
+
         var arr = [];//属性值选中的值,保存在数组
         $("input[checked='checked']").each(function (i, e) {
             var value = $(this).val();
@@ -149,6 +149,9 @@ $(function(){
         var weight=10;
         var skuTypeArr=getAlreadySetSkuVals2();//获取属性值
         var alreadySetSkuVals1=getAlreadySetSkuVals1();//获取已经设置的SKU值
+		alert("jinlaile");
+		alert(skuTypeArr);
+        alert(alreadySetSkuVals1);
 		$.ajax({
 			url:"/product/addProduct",
 			data:{skuTypeArr:JSON.stringify(skuTypeArr),
