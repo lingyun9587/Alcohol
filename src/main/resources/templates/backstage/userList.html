@@ -17,7 +17,7 @@
 
 <body>
 <div class="container">
-    <h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>用户管理</h1>
+    <h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/upload/backstage/xjt.png"/></span>用户管理</h1>
     <div class="serach">
         <input type="text" class="textStyle" placeholder="请输入搜索内容"
                style="width: 180px;height: 24px;line-height: 24px;"/>
@@ -41,7 +41,7 @@
             </thead>
             <tbody>
             <tr>
-                <td cols pan="11"><img src='/images/backstage/loading.gif'/></td>
+                <td cols pan="11"><img src='/upload/backstage/loading.gif'/></td>
             </tr>
             <tr>
 
@@ -65,9 +65,7 @@
         });
     });
 
-    function show(pageNum){
-        pageOne(pageNum);
-    }
+
 
     /**
      * 按昵称分页查询所有用户
@@ -83,6 +81,9 @@
             success: function (data) {
                 var tbody = $('<tbody></tbody>');
                 $.each(data.list, function (i, e) {
+                    var paymentTimes=this.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                     var tr = $('<tr></tr>');
                     tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
                     tr.append("<td width='5%'>" + e.userId + "</td>");
@@ -91,9 +92,9 @@
                     tr.append("<td width='15%'>" + e.nickName + "</td>");
                     tr.append("<td width='5%'>" + e.sex + "</td>");
                     tr.append("<td width='15%'>" + e.birthday + "</td>");
-                    tr.append("<td width='15%'>" + e.createTime + "</td>");
+                    tr.append("<td width='15%'>" + e.times + "</td>");
                     tr.append("<td width='5%'>" + e.integral + "</td>");
-                    if (e.status == 0) {
+                    if (e.frozen == 0) {
                         tr.append("<td width='10%'><a onclick='updatestate(1,this)'>禁用</a></td>");
                     } else {
                         tr.append("<td width='10%'><a onclick='updatestate(0,this)'>启用</a></td>");
@@ -114,15 +115,15 @@
     /**
      * 禁用启用
      * @param userId
-     * @param status
+     * @param frozen
      * @param jia
      */
-    function updatestate( status, jia) {
+    function updatestate(frozen, jia) {
         var userId=$(jia).parent().parent().find("td").eq(1).html();
         var obj = $(jia);
         $.ajax({
             url: "/updateStatus",
-            data: {userId: userId, status: status},
+            data: {userId: userId, frozen: frozen},
             dataType: "json",
             type: "post",
             success: function (data) {
@@ -144,7 +145,9 @@
             }
         })
     }
-
+    function show(pageNum){
+        pageOne(null,pageNum);
+    }
 
 </script>
 </body>
