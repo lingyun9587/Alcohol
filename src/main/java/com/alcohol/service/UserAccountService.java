@@ -41,4 +41,10 @@ public interface UserAccountService {
      * @return 返回int修改成功
      */
     int updatePwd(Useraccount useraccount);
+
+    /**
+     * 后台登录
+     * @return
+     */
+    int seldeng(Useraccount ua);
 }

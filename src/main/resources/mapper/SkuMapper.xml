@@ -17,11 +17,11 @@
               <if test="status ==1">
                   stock=stock+#{number},locking=locking-#{number}
               </if>
-              <if test="locking == 2">
+              <if test="status == 2">
                   locking = locking-#{number}
               </if>
           </set>
-    WHERE sku_id=#{skuId}
+    where sku_id=#{skuId}
     </update>
 
     <resultMap id="info" type="Sku">

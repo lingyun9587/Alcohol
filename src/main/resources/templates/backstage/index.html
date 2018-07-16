@@ -21,11 +21,10 @@
         <li class="hav_li">积分</li>
     </ul>-->
 	<div class="login" id="admin">
-		<span class="loginUser">admin</span>
+		<span class="loginUser">欢迎：admin</span>
 		<div class="person">
-			<span>个人中心</span>
-			<span>修改密码</span>
-			<span onclick="openPage('/backstage/login.html')" ;>退出</span>
+
+			<span onclick="openPage('/backstage/long.html')" ;>退出</span>
 		</div>
 	</div>
 </div>
@@ -73,6 +72,7 @@
 					<div class="nav_title">内容管理</div>
 					<ul class='second'>
 						<li onclick="NewPage('/backstage/notice.html')">内容列表</li>
+						<li onclick="NewPage('/backstage/notice.html')">内容列表</li>
 					</ul>
 				</li>
 
@@ -99,7 +99,20 @@
 <script type="text/javascript" src="/js/backstage/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="/js/backstage/index.js"></script>
 <script type="text/javascript" src="/js/backstage/glob	al.js"></script>
+<script type="text/javascript">
+	$(function(){
+	    var loginUser=loginUser;
+	    $.ajax({
+			url:"../cha",
+			type:"post",
+			data:"",
+			dataType:"JSON",
+			success:function(result){
 
+			}
+		})
+	})
+</script>
 </body>
 
 </html>

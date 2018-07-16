@@ -3,7 +3,7 @@ package com.alcohol.service.impl;
 import com.alcohol.dto.OrderExecution;
 import com.alcohol.enums.OrderEnum;
 import com.alcohol.exceptions.OrderOperationException;
-import com.alcohol.jms.ProducerCc;
+import com.alcohol.service.jms.ProducerCc;
 import com.alcohol.mapper.CommodityMapper;
 import com.alcohol.mapper.OrderMapper;
 import com.alcohol.pojo.Commodity;
@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.jms.Destination;
-import javax.management.Query;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -57,9 +54,9 @@ public class OrderServiceImpl implements OrderService {
         }catch (OrderOperationException e){
             throw  new OrderOperationException(e.toString());
         }
-        if(orderExecution.getState() == 0){ //执行消息队列
+        /*if(orderExecution.getState() == 0){ //执行消息队列
             producerCc.sendMessage(JSON.toJSONString(order.getCommodities()));
-        }
+        }*/
         return orderExecution;
     }
 
@@ -106,5 +103,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderExecution updateOrder(Order order) {
         return null;
+    }
+
+    @Override
+    public Order getLastOrderInfo(Long userId) {
+        return orderMapper.getLastOrderInfo(userId);
     }
 }
