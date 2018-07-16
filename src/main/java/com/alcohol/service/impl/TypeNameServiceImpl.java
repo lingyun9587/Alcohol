@@ -31,8 +31,8 @@ public class TypeNameServiceImpl implements TypeNameService {
     @Override
     public List<TypeName> getTypeNamefy(TypeName tn,Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize,true,true);
-        List<TypeName> nws=tm.getTypeNamefy(tn);
-        return nws;
+        List<TypeName> news=tm.getTypeNamefy(tn);
+        return news;
     }
 
     @Override

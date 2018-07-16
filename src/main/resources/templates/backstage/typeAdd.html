@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>表单</title>
+    <link rel="stylesheet" href="/css/backstage/sku_style.css" />
+    <link rel="stylesheet" type="/text/css" href="css/backstage/global.css">
+    <link rel="stylesheet" type="/text/css" href="css/backstage/form.css" />
+    <link rel="stylesheet" type="/text/css" href="css/backstage/add.css" />
+    <link rel="stylesheet" type="/text/css" href="css/backstage/layout.css" />
+    <link rel="stylesheet" type="/text/css" href="css/backstage/popup.css" />
+    <link rel="stylesheet" type="/text/css" href="css/backstage/upload.css" />
+</head>
+
+<body>
+<div class="container">
+    <h1 class="tabTitle"><span onclick="NewPage('tab.html')"><img src="/css/images/backstage/xjt.png"/></span>新增分类</h1>
+    <div class="info">
+        <form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="formSheet">
+            <dl>
+                <dt><span>商品分类</span></dt>
+                <dd>
+                    <div style="font-size: 14px; width: 100%; height: 150px;">
+                        <div style="width: 100%;height: 40px;">
+                            <a>一级分类:</a>
+                            <input type="text" class="textStyle" id="userName" name="userName" style="width:200px; margin-left: 10px;" placeholder="请输入一级分类" />
+                            <input type="button" style="margin-left: 10px;" value="保存" class="button save" onclick="insOne()"/>
+                            <span class="tsone" style="color: red"></span>
+                        </div>
+                        <div style="width: 100%;height: 40px;">
+                            <a>二级分类:</a>
+
+                           <!-- <input type="text" list="url_list" class="textStyle" style="width:200px;  margin-left: 10px;" />-->
+                            <select id="url_list" style="height: 29px;width: 220px;margin-left: 14px">
+
+                            </select>
+                            <input type="text" class="textStyle" id="userName1" name="userName" style="width:200px; margin-left: 10px;" placeholder="请输入二级名称" />
+                            <input type="button" style="margin-left: 10px;" value="保存" class="button save" onclick="twoClassinfo()" />
+                            <span class="tstwo" style="color: red"></span>
+                        </div>
+                        <div style="width: 100%;height: 40px;">
+                            <a>三级分类:</a>
+                            <select id="url_lists" style="height: 29px;width: 220px;margin-left: 14px" onchange="sh()">
+
+                            </select>
+
+                            <select id="url_list3" style="height: 29px;width: 220px;margin-left: 14px">
+
+                            </select>
+                            <input type="text" class="textStyle" id="userName2" name="userName" style="width:200px; margin-left: 10px;" placeholder="请输入三级名称" />
+                            <input type="submit" style="margin-left: 10px;" value="保存" class="button save" onclick="insthree()"/> <!--onclick="insthree()"-->
+                            <span class="tsthree" style="color: red"></span>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt><span >商品属性:</span>
+                    <select id="url_lists1" style="height: 29px;width: 220px;margin-left: 14px" onchange="Shoptype()"> </select>
+                    <select id="url_lists2" style="height: 29px;width: 220px;margin-left: 14px" onchange="Shoptypethree()"> </select>
+                    <select id="url_lists3" style="height: 29px;width: 220px;margin-left: 14px" > </select>
+                </dt>
+                <dd>
+                    <div class="fbox" >
+                        <button class="cloneSku">添加sku属性</button>
+                        <!--sku模板,用于克隆,生成自定义sku-->
+                        <div id="skuCloneModel" style="display: none;height: 30px; width: 1000px;" >
+                            <div class="clear"></div>
+                            <div style="margin-left: 50px;">
+                                <ul class="SKU_TYPE">
+                                    <li is_required='0' propid='' sku-type-name="">
+                                        <a href="javascript:void(0);" class="delCusSkuType">移除</a>
+                                        <input type="text" class="cusSkuTypeInput" style="width: 100px;"/>：
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <input type="checkbox" class="model_sku_val" propvalid='' value="11"/>
+                                        <input type="text" class="cusSkuValInput" style="width: 100px;"/>
+                                    </li>
+                                    <button class="cloneSkuVal">添加属性值</button>
+                                </ul>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <!--单个sku值克隆模板-->
+                        <li style="display: none;" id="onlySkuValCloneModel">
+                            <input type="checkbox" class="model_sku_val" propvalid='' value="" />
+                            <input type="text" class="cusSkuValInput" style="width: 100px;"/>
+                            <a href="javascript:void(0);" class="delCusSkuVal">删除</a>
+                        </li>
+                        <div class="clear"></div>
+                        <div id="skuTable"></div>
+                    </div>
+
+                </dd>
+            </dl>
+            <dl>
+                <dt>&nbsp;</dt>
+                <dd>
+                    <input type="button" id="submit" value="保存" onclick="addTypeValue()" class="button save typevalue" />
+                </dd>
+            </dl>
+
+        </form>
+    </div>
+</div>
+
+
+<!--蒙板结束-->
+
+<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
+<script type="text/javascript" src="/js/backstage/global.js"></script>
+<script type="text/javascript" src="/js/backstage/popup.js"></script>
+<script type="text/javascript" src="/js/backstage/upload.js"></script>
+<script type="text/javascript" src="/js/backstage/jquery.min.js"></script>
+<!--<script type="text/javascript" src="/js/backstage/createSkuTable.js"></script>-->
+<script type="text/javascript" src="/js/backstage/customSku.js"></script>
+<script type="text/javascript" src="/plugins/layer/layer.js"></script>
+<script type="text/javascript" src="/js/backstagege/tSetSkuVals.js"></script>
+<script type="text/javascript" src="/js/backstage/type.js"></script>
+<script type="text/javascript">
+
+    //表单验证   注意：文本提示的信息应在开始的时候全部写在placeholder中
+    function checkForm() {
+        var name = checkUserName();
+        return name;
+    }
+    //验证姓名
+    function checkUserName() {
+        var username = $("#userName");
+        var usernameText=$("#userNameText");
+        if(username.val() == "") {
+            username.addClass("err");
+            usernameText.text("姓名输入不能超过四个字符")
+            usernameText.addClass("red");
+            return false;
+        } else {
+            username.removeClass("err");
+            return true;
+        }
+    }
+    //新增一级分类
+    function insOne(){
+        //获取一级分类名字
+        var categoryontName=$("#userName").val();
+        if(categoryontName.length==0){
+            $(".tsone").html("一级分类不得为空");
+
+        }else{
+            $(".tsone").html("");
+            $.ajax({
+                url:"../insOne",
+                type:"post",
+                data:{categoryontName:categoryontName},
+                datatype:"json",
+                success:function(result){
+                   if(result==0){
+                       alert("您输入的信息违规");
+                   }else if(result==1){
+                       alert("新增成功！");
+                   }else if(result==2){
+                       alert("分类已存在！");
+                   }else{
+                       alert("服务出去游玩了~~");
+                   }
+                   $("#userName").val("");
+                    oneClassinfo();
+
+                }
+            })
+
+        }
+    }
+    $(function(){
+        //加载一级分类
+        oneClassinfo();
+    })
+
+    //加载一级分类
+    function oneClassinfo(){
+        //加载一级分类
+        $.ajax({
+            url:"../getCategoryOneInfo",
+            type:"post",
+            dataType:"JSON",
+            success:function(result){
+                var jsonFirst=result[0].categoryontName;
+                var content=""
+                $.each(result,function(i,e){
+                    if(e.categoryontName==result[0].categoryontName){
+                        content+="<option selected='selected' value='"+e.categoryoneId+"'>"+e.categoryontName+"</option>"
+                    }else{
+                        content+="<option value='"+e.categoryoneId+"'>"+e.categoryontName+"</option>"
+                    }
+
+                })
+                $("#url_list").html(content);
+                $("#url_lists").html(content);
+                $("#url_lists1").html(content);
+                //加载二级分类
+                sh();
+                Shoptype();
+            }
+        })
+    }
+
+    //根据一级分类查询二级分类
+    function sh(){
+        var parentid=$("#url_lists").val();
+
+        $.ajax({
+            url:"../getCategoryTwoInfo",
+            type:"post",
+            data:{parentId:parentid},
+            datatype:"JSON",
+            success:function(result){
+                var json=JSON.parse(result);
+                var content="";
+                $.each(json,function(i,e){
+                    content+="<option value='"+e.categorytwoId+"'>"+e.categorytwoName+"</option>";
+                })
+                $("#url_list3").html(content);
+            }
+        })
+    }
+
+    //新增二级分类
+    function twoClassinfo(){
+        var url_list=$("#url_list").val();
+        var userName1=$("#userName1").val();
+
+
+        if(userName1==""){
+            $(".tstwo").html("请输入分类名");
+        }else(
+
+            $.ajax({
+                url:"../addCategoryTwo",
+                type:"post",
+                data:{parentId:url_list,categorytwoName:userName1},
+                datatype:"json",
+                success:function(result){
+                    $(".tstwo").html("");
+                    if(result==0){
+                        alert("您输入的信息违规");
+                    }else if(result==1){
+                        alert("新增成功！");
+                    }else if(result==2){
+                        alert("分类已存在！");
+                    }else{
+                        alert("服务出去游玩了~~");
+                    }
+                    $("#userName1").val("");
+                    oneClassinfo();
+                }
+
+            })
+        )
+
+
+
+
+    }
+
+    //新增三级分类
+    function insthree(){
+
+        var parendid=$("#url_list3").val();
+        var name=$("#userName2").val();
+
+        if(name==""){
+            $(".tsthree").html("请输入分类名");
+        }else{
+            $(".tsthree").html(" ");
+            $.ajax({
+                url:"../addCategoryThree",
+                type:"post",
+                data:{parentId:parendid,categorythreeName:name},
+                datatype:"json",
+                success:function(result){
+
+                    if(result==0){
+                        alert("您输入的信息违规");
+                    }else if(result==1){
+                        alert("新增成功！");
+                    }else if(result==2){
+                        alert("分类已存在！");
+                    }else{
+                        alert("服务出去游玩了~~");
+                    }
+                    $("#userName2").val("");
+                    oneClassinfo();
+                }
+            })
+        }
+    }
+
+
+    //根据商品属性的一级分类查询二级分类
+    function Shoptype(){
+        var parentid=$("#url_lists1").val();
+
+        $.ajax({
+            url:"../getCategoryTwoInfo",
+            type:"post",
+            data:{parentId:parentid},
+            datatype:"JSON",
+            success:function(result){
+                var json=JSON.parse(result);
+                var content="";
+                $.each(json,function(i,e){
+                    if(e.categorytwoName==result[0].categorytwoName){
+                        content+="<option selected='selected' value='"+e.categorytwoId+"'>"+e.categorytwoName+"</option>";
+                    }else{
+                        content+="<option value='"+e.categorytwoId+"'>"+e.categorytwoName+"</option>";
+                    }
+
+                })
+                $("#url_lists2").html(content);
+                Shoptypethree();
+            }
+        })
+    }
+
+    //根据商品属性的二级分类查询三级分类
+    function Shoptypethree(){
+        var parentid=$("#url_lists2").val();
+        $.ajax({
+            url:"../categoryThreeInfo",
+            type:"post",
+            data:{parentId:parentid},
+            dataType:"JSON",
+            success:function(result){
+
+                var content="";
+                $.each(result,function(i,e){
+
+                    content+="<option value='"+e.categorythreeId+"'>"+e.categorythreeName+"</option>";
+                })
+                $("#url_lists3").html(content);
+            }
+        })
+    }
+
+
+
+    function addTypeValue(){
+        var skuTypeArr=getAlreadySetSkuVals2();//获取属性值
+        alert(skuTypeArr);
+        var categoryId=$("#url_lists3").val();
+        if(categoryId==""){
+            alert("请选择三级分类");
+        }else{
+            $.ajax({
+                url:"../addTypeValue",
+                type:"post",
+                data:{skuTypeArr:JSON.stringify(skuTypeArr),categoryId:categoryId},
+                dataType:"JSON",
+                success:function(result){
+                    alert(1);
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+
+</html>
