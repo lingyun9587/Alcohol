@@ -70,7 +70,7 @@ public class ActiveMQ4Config {
         factory.setConcurrency("1");
         //重连间隔时间
         factory.setRecoveryInterval(1000L);
-        factory.setSessionAcknowledgeMode(4);
+        factory.setSessionAcknowledgeMode(1);
         return factory;
     }
 
