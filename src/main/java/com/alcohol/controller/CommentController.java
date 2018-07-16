@@ -8,10 +8,12 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +43,7 @@ public class CommentController {
         List<Comment> clist = commentService.listComment(map);
         for (int i=0;i<clist.size();i++){
             String skuvalueId=clist.get(i).getSku().getSkuvalueId();
-            String[] arr=skuvalueId.split(":");
+            String[] arr=skuvalueId.split(",");
             List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
             SkuValue skuvalue=null;
             for (int j = 0; j < arr.length; j++) {
@@ -66,10 +68,45 @@ public class CommentController {
         return JSON.toJSONString(list);
     }
 
-    @RequestMapping(value="/getSkuBiProductId")
+
+    @RequestMapping(value="/getSkuByProductId")
     @ResponseBody
     public String getSkuBiProductId(String value,HttpServletRequest request){
         Integer productId=(Integer)request.getSession().getAttribute("productId");
         return JSON.toJSONString(skuValueService.getSkuBiProductId(value,productId));
+    }
+    /**
+     * 回复单条用户评价
+     * @param com
+     * @return
+     */
+    @RequestMapping(value = "/getUpdateComment",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public Object getUpdateComment(@Valid Comment com){
+        System.out.println("gwernrtgherg");
+        int a = commentService.upComment(com);
+        if (a>0){
+            return "{\"message\":\"ok\"}";
+        }else {
+            return "{\"message\":\"no\"}";
+        }
+    }
+
+    /**
+     * 批量回复用户评价
+     * @param commentId
+     * @return
+     */
+    @RequestMapping(value = "/getUpdateListComment",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public Object getUpdateListComment(@RequestParam(value = "commentId",required = false) int[] commentId, @RequestParam(value = "reply_conte",required = false) String reply_conte){
+        int a=commentService.upListComment(commentId,reply_conte);
+        String upc=null;
+        if (a>0){
+            upc="{\"message\":\"ok\"}";
+        }else {
+            upc="{\"message\":\"no\"}";
+        }
+        return upc;
     }
 }

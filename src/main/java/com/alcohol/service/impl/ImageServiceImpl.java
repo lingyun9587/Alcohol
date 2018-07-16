@@ -28,4 +28,9 @@ public class ImageServiceImpl implements ImageService {
         }
         return img;
     }
+
+    @Override
+    public List<Image> selProductId(Long productId) {
+        return imageMapper.selImageByProductId(productId);
+    }
 }

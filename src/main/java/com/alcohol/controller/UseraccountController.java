@@ -3,10 +3,11 @@ package com.alcohol.controller;
 import com.alcohol.cache.JedisUtil;
 import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
-import com.alcohol.jms.ConsumerCc;
-import com.alcohol.jms.ProducerCc;
+
+import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 import javax.jms.Queue;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ public class UseraccountController {
 
     @Resource
     private UserAccountService userAccountService;
+    private String phone;
 
 
     /*@Autowired
@@ -38,7 +41,7 @@ public class UseraccountController {
         return "123";
     }*/
     @PostMapping( value="/registerUser")
-    public Object register(@RequestParam(value = "username" , required = false)String username,@RequestParam( value = "password",required = false)String password){
+    public Object register(HttpServletRequest request,@RequestParam(value = "username" , required = false)String username,@RequestParam( value = "password",required = false)String password){
         Map<String,Object> map = new HashMap<String,Object>();
         if(username == null || password == null){
             map.put("success",true);
@@ -48,11 +51,15 @@ public class UseraccountController {
         try{
              userAccountExecution =  userAccountService.register(username,password);
         }catch(Exception e){
+
             map.put("success",false);
             map.put("msg",e.toString());
             return map;
         }
        if(userAccountExecution.getState() == 0){
+           UserAccountExecution  user=null;
+           Md5Hash md5 = new Md5Hash(password);
+           user = userAccountService.login(username,md5.toString(),request);
            map.put("success",true);
            map.put("msg",userAccountExecution.getStateInfo());
        }else{
@@ -70,23 +77,29 @@ public class UseraccountController {
      */
     @PostMapping( value="/user/loginUser")
     public Object login(HttpServletRequest request, @RequestParam( name = "username") String username, @RequestParam( name = "password") String password){
+
         Map<String,Object> map = new HashMap<String,Object>();
         UserAccountExecution  user=null;
         Md5Hash md5 = new Md5Hash(password);
        try{
             user = userAccountService.login(username,md5.toString(),request);
+            if(user.getState() ==0){
+                map.put("success",true);
+                map.put("msg",user.getStateInfo());
+            }else{
+                map.put("success",false);
+                map.put("msg",user.getStateInfo());
+            }
        }catch(UserAccountOperationException e){
            map.put("success",false);
            map.put("msg",e.toString());
-
            return map;
        }
 
         if(user.getState() == 0){
             map.put("success",true);
             map.put("msg", user.getState());
-
-                }else{
+       }else{
             map.put("success",false);
             map.put("msg", user.getState());
         }
@@ -110,7 +123,25 @@ public class UseraccountController {
      * @return
      */
     @RequestMapping( value = "/udai_updateUser")
-    public Object updateInfo(Useraccount useraccount){
+    public Object updateInfo(@RequestParam(value = "membershipName",required = false)String membershipName,
+                             @RequestParam(value = "nickName",required = false)String nickName,
+                             @RequestParam(value = "sex",required = false)char  sex,
+                             @RequestParam(value = "realName",required = false)String  realName,
+                             @RequestParam(value = "email",required = false)String email
+                             ){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount1 = userAccountService.getUserById(userName);
+        Useraccount useraccount=new Useraccount();
+        useraccount.setUserId(useraccount1.getUserId());
+        useraccount.setEmail(email);
+        User user = new User();
+        user.setUserId(useraccount1.getUserId());
+        user.setNickName(nickName);
+      /*  user.setBirthday(birthday);
+                             @RequestParam(value = "birthday",required = false)Date birthday,*/
+        user.setRealName(realName);
+        user.setSex(sex);
+        useraccount.setUser(user);
         Map<String,Object> map = new HashMap<String ,Object>();
         UserAccountExecution userAccountExecution = null;
        try{
@@ -169,6 +200,25 @@ public class UseraccountController {
             map.put("mesage","密码修改失败，请重新输入。");
         }
         return map;
+    }
+
+    /**
+     * 后台登录
+     */
+    @ResponseBody
+    @RequestMapping(value="seldeng",produces = "text/html;charset=utf-8")
+    public String seldeng(Useraccount us){
+        System.out.println(us.getPhone());
+        phone=us.getPhone();
+        System.out.println(phone);
+        int count=userAccountService.seldeng(us);
+        return JSON.toJSONString(count);
+    }
+    @ResponseBody
+    @RequestMapping(value="cha",produces = "text/html;charset=utf-8")
+    public String cha(){
+        System.out.println(phone);
+        return JSON.toJSONString(phone);
     }
 
 }

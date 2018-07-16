@@ -114,6 +114,16 @@
             <li><a href="index.html">首页</a></li>
             <li class="active">商品筛选</li>
         </ol>
+        <div class="all-filter">
+            <div class="filter-value">
+                <div class="filter-title">商品</div>
+
+                <!-- 已选选项 -->
+                <div class="ul_filter">
+                </div>
+                <a class="reset pull-right" href="item_category.html">重置</a>
+            </div>
+        </div>
         <div class="filter-box">
 
             <!--一级-->
@@ -717,6 +727,22 @@
     $(function(){
         getcategory();
         gettypeNameandValue();
+        //点击属性值事件
+        $(".clearfix").on("click","li",function(){
+            var typeName = $(this).parent().parent().siblings().eq(0).text();
+            var typeValue = $(this).text();
+            var typeValueId = $(this).attr("id");
+            var html = "<span class='pull-left' name='"+typeValueId+"'>"+typeName+typeValue+
+                "<a href='javascript:;' class='close'>&times;</a> </span>";
+            $(".ul_filter").append(html);
+            $(this).parent().parent().parent().css("display","none");
+        });
+        //点击属性值事件
+        $(".ul_filter").on("click",".close",function(){
+            var valueId = $(this).parent().attr("name");
+            $("#"+valueId).parent().parent().parent().css("display","block");
+            $(this).parent().remove();
+        });
     });
 
     //得到属性和属性值
@@ -731,12 +757,12 @@
                     content+="<div class=\"filter-prop-item\">\n" +
                         "<span class=\"filter-prop-title\">"+e.typeNameName+"：</span>\n" +
                         "<ul class=\"clearfix\">\n" +
-                        "<a href=\"\">\n" +
-                        "<li class=\"active\">全部</li>\n" +
+                        "<a href=\"javascript:;\">\n" +
+                        "<li class=\"active\" id='0'>全部</li>\n" +
                         "</a>\n";
                     $.each(e.typevalueList,function(i1,e1){
-                        content+="<a href=\"\">\n" +
-                            "<li>"+e1.typeValueName+"</li>\n" +
+                        content+="<a href=\"javascript:;\">\n" +
+                            "<li id='"+e1.typeValueId+"'>"+e1.typeValueName+"</li>\n" +
                             "</a>\n";
                     });
                     content+="</ul>\n" +

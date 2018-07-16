@@ -1,116 +1,135 @@
 <!doctype html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<title>入库记录</title>
+<head>
+	<meta charset="utf-8">
+	<title>入库记录</title>
 
-		<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
-		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+	<link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
+	<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
 
-	</head>
+</head>
 
-	<body>
-		<div class="container">
-			<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>入库记录</h1>
-			<div class="serach">
-				<input type="text" class="textStyle" placeholder="请输入商品名称" style="width: 180px;height: 24px;line-height: 24px;"/>
-				&nbsp;&nbsp;<input type="button" value="搜索" class="button search" onclick="sou()" />
-			</div>
-			<!--搜索区结束-->
-			<div class="info">
-				<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
-					<thead>
-						<tr>
-							<th>&nbsp;</th>
-							<th>编号</th>
-							<th>商品名称</th>
-							<th>规格</th>
-							<th>入库数量</th>
-							<th>库存数量</th>
-							<th>入库时间</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="11"><img src='/images/backstage/loading.gif' /></td>
-						</tr>
-					</tbody>
-				</table>
-				<div class='pageStyle'></div>
-			</div>
+<body>
+<div class="container">
+	<h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>入库记录</h1>
+	<div class="serach">
+		<input type="text" class="textStyle" placeholder="请输入商品名称" style="width: 180px;height: 24px;line-height: 24px;"/>
+		&nbsp;&nbsp;<input type="button" value="搜索" class="button search" onclick="sou(1)" />
+	</div>
+	<!--搜索区结束-->
+	<div class="info">
+		<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
+			<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th>编号</th>
+				<th>商品名称</th>
+				<th>规格</th>
+				<th>入库数量</th>
+				<th>库存数量</th>
+				<th>入库时间</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td colspan="11"><img src='/images/backstage/loading.gif' /></td>
+			</tr>
+			</tbody>
+		</table>
+		<div class='pageStyle'></div>
+	</div>
 
-		</div>
+</div>
 
-		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src="/js/backstage/table.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				list();
-			});
-			function sou(){
-			    var productName=$(".textStyle").val();
-			    alert(productName);
-                $.ajax({
-                    url: "/proc/listSell",
-                    type: "post",
-                    data:{
-                        productName:productName
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        var tbody = $('<tbody></tbody>');
-                        $(data.listRk).each(function(index) {
-                            var tr = $('<tr></tr>');
-                            tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
-                            tr.append("<td>" + this.id + "</td>");
-                            tr.append("<td>" + this.product.productName + "</td>");
-                            tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
-                                tr.append("<td>" + this.number + "</td>");
-                            tr.append("<td>" + this.sku.stock + "</td>");
-                            tr.append("<td>" + this.createTime + "</td>");
-                            tbody.append(tr);
-                        });
-                        $('#tableData tbody').replaceWith(tbody);
-                        showPage(0, 10, 46);
-                    },
-                    error: function() {
-                        alert("出现异常！");
-                    }
+<script src="/js/backstage/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/backstage/table.js"></script>
+<script type="text/javascript">
+	//页面加载事件
+    $(function() {
+        list(1);
+    });
+    //获取页面页码
+    function show(pageNum){
+        sou(pageNum);
+        list(pageNum);
+    }
+    //点击搜索按钮
+    function sou(pageNum){
+        var productName=$(".textStyle").val();
+        $.ajax({
+            url: "/proc/listSell",
+            type: "post",
+            data:{
+                productName:productName,
+                pageNum:pageNum,
+                pageSize:5
+            },
+            dataType: "json",
+            success: function(data) {
+                var tbody = $('<tbody></tbody>');
+                $(data.list).each(function(index) {
+                    var paymentTimes=this.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                    var tr = $('<tr></tr>');
+                    tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                    tr.append("<td>" + this.id + "</td>");
+                    tr.append("<td>" + this.product.productName + "</td>");
+                    tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
+                        tr.append("<td>" + this.number + "</td>");
+                    tr.append("<td>" + this.sku.stock + "</td>");
+                    tr.append("<td>" + times+ "</td>");
+                    tbody.append(tr);
                 });
-			}
-			function list(){
-                $.ajax({
-                    url: "/proc/listSell",
-                    type: "post",
-                    dataType: "json",
-                    success: function(data) {
-                        var tbody = $('<tbody></tbody>');
-                        $(data.listRk).each(function(index) {
-                            var tr = $('<tr></tr>');
-                            tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
-                            tr.append("<td>" + this.id + "</td>");
-                            tr.append("<td>" + this.product.productName + "</td>");
-                            tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
-                                tr.append("<td>" + this.number + "</td>");
-                            tr.append("<td>" + this.sku.stock + "</td>");
-                            tr.append("<td>" + this.createTime + "</td>");
-                            tbody.append(tr);
-                        });
-                        $('#tableData tbody').replaceWith(tbody);
-                        showPage(0, 10, 46);
-                    },
-                    error: function() {
-                        alert("出现异常！");
-                    }
+                $('#tableData tbody').replaceWith(tbody);
+                showPage(pageNum,data.pages,data.total);
+                $(".textStyle").val("");//搜索后值为空
+            },
+            error: function() {
+                alert("出现异常！");
+            }
+        });
+    }
+	//页面加载全部
+    function list(pageNum){
+        $.ajax({
+            url: "/proc/listSell",
+            type: "post",
+            data:{
+                pageNum:pageNum,
+                pageSize:5
+            },
+            dataType: "json",
+            success: function(data) {
+                var tbody = $('<tbody></tbody>');
+                $(data.list).each(function(index) {
+                    var paymentTimes=this.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                    var tr = $('<tr></tr>');
+                    tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                    tr.append("<td>" + this.id + "</td>");
+                    tr.append("<td>" + this.product.productName + "</td>");
+                    tr.append("<td>" + this.skuValue.skuvalueValue + "</td>"); - +
+                        tr.append("<td>" + this.number + "</td>");
+                    tr.append("<td>" + this.sku.stock + "</td>");
+                    tr.append("<td>" + times + "</td>");
+                    tbody.append(tr);
                 });
-			}
+                $('#tableData tbody').replaceWith(tbody);
+                showPage(pageNum,data.pages,data.total);
+            },
+            error: function() {
+                alert("出现异常！");
+            }
+        });
+    }
 
 
-		</script>
-
-	</body>
+</script>
+</body>
 
 </html>

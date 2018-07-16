@@ -9,6 +9,22 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/swiper.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        #div{
+            position:absolute;
+            background-color:white;
+            width:540px;
+            z-index:1000;
+        }
+        #showburrly{
+            background-color:white;
+        }
+        #showburrly li{
+            height:20px;
+            padding:8px;
+        }
+
+    </style>
     <script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
     <script src="js/bootstrap.min.js" charset="UTF-8"></script>
     <script src="js/swiper.min.js" charset="UTF-8"></script>
@@ -40,13 +56,18 @@
         <a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
         <div class="search-box">
             <form class="input-group">
-                <input placeholder="Ta们都在搜U袋网" type="text">
+                <input placeholder="Ta们都在搜U袋网" type="text" class="s_ipt">
                 <span class="input-group-btn">
 						<button type="button">
 							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 						</button>
 					</span>
             </form>
+            <div id="div">
+                <ul id="showburrly">
+
+                </ul>
+            </div>
             <p class="help-block text-nowrap">
                 <a href="">连衣裙</a>
                 <a href="">裤</a>
@@ -468,7 +489,35 @@
         listNotice();
         Image();
         getProduct();
+        //搜索框
+        $(".s_ipt").on("input",function(){
+            var name=$(".s_ipt").val();
+            if(name==""){
+                $("#showburrly").html("");
+            }else{
+                burrly(name);
+            }
+        });
     });
+
+    function burrly(name){
+        $.ajax({
+            url:"/getCategoryByName",
+            data:"textName="+name,
+            dataType:"JSON",
+            type:"post",
+            success:function(result){
+                var str="";
+                $(result).each(function(i,e){
+                    str+="<li><a href=\"TextServlet?jmp=ccc&textName1="+e.mes+"\">"+e.mes+"</a></li>";
+                });
+                $("#showburrly").html(str);
+            },
+            error:function(){
+                alert("模糊查询错误");
+            }
+        });
+    }
 
     //分类
     function getallProduct(){
@@ -634,22 +683,7 @@
             })
 
         });
-
     }
-
-
-    /*$(".input-group input").keydown(function(){
-        var name= $(".input-group input").val();
-        $.ajax({
-            url:"text",
-            data:{name:name},
-            dataType:"text",
-            type:"post",
-            success:function(result){
-                alert(result);
-            }
-        });
-    });*/
 </script>
 
 </html>

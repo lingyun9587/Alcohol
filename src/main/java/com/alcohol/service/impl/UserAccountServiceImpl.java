@@ -52,8 +52,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         User user = new User();
         user.setUserId(userId);
         user.setMembershipName(memId);
-        user.setRealName("骚磊");
-        user.setNickName("傲慢小胖妞");
         user.setFrozen(0L);
         user.setCreateTime(new Date());
         user.setLastTime(new Date());
@@ -127,9 +125,14 @@ public class UserAccountServiceImpl implements UserAccountService {
         int result1 = 0;
 
         try{
-            result = useraccountMapper.updateInfo(useraccount);
+            if(useraccount.getEmail() != null){
+                result = useraccountMapper.updateInfo(useraccount);
+            }
+            if(result <=0 ){
+                return new UserAccountExecution(UserAccountEnum.NOTFAIL);
+            }
             result1 = userMapper.updateInfo(useraccount.getUser());
-            if(result <=0 || result1 <=0){
+            if( result1 <=0){
                 return new UserAccountExecution(UserAccountEnum.NOTFAIL);
             }else{
                 return new UserAccountExecution(UserAccountEnum.SUCCESS);
@@ -142,5 +145,10 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public int updatePwd(Useraccount useraccount) {
         return useraccountMapper.updatePwd(useraccount);
+    }
+
+    @Override
+    public int seldeng(Useraccount ua) {
+        return useraccountMapper.seldeng(ua);
     }
 }

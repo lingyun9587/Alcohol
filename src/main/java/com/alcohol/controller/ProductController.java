@@ -1,9 +1,10 @@
 package com.alcohol.controller;
 
-import com.alcohol.mapper.ImageMapper;
 import com.alcohol.pojo.*;
 import com.alcohol.service.ProductService;
+import com.alcohol.service.SkuValueService;
 import com.alcohol.service.TypeValueService;
+import com.alcohol.service.ImageService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -29,7 +30,9 @@ public class ProductController {
     @Resource
     private TypeValueService typeValueService;
     @Resource
-    private ImageMapper imageMapper;
+    private ImageService imageService;
+    @Resource
+    private SkuValueService skuValueService;
 
     @RequestMapping(value="/getproductbyId")
     @ResponseBody
@@ -37,7 +40,6 @@ public class ProductController {
         Integer productId=(Integer)request.getSession().getAttribute("productId");
         return JSON.toJSONString(productService.getProductbyId(productId));
     }
-
 
     /**
      * 查询全部
@@ -55,9 +57,8 @@ public class ProductController {
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
             imgProductId=pro.getProductId();
-            System.out.println("=======================id====================="+imgProductId);
-            List<Image> listimg=imageMapper.selImageByProductId(imgProductId);
-            System.out.println("=========================集合==================="+listimg.size());
+
+            List<Image> listimg=imageService.selProductId(imgProductId);
             pro.setImageList(listimg);
             String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
@@ -90,7 +91,7 @@ public class ProductController {
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
             imgProductId=pro.getProductId();
-            List<Image> listimg=imageMapper.selImageByProductId(imgProductId);
+            List<Image> listimg=imageService.selProductId(imgProductId);
             pro.setImageList(listimg);
             String[] arr=typevalueId.split(",");
             for (int j = 0; j < arr.length; j++) {
@@ -100,6 +101,8 @@ public class ProductController {
         }
         return JSON.toJSONString(page);
     }
+
+
 
     /**
      * 查询首页的商品
@@ -116,7 +119,7 @@ public class ProductController {
     }
 
     /**
-     * 根据搜索名模糊查询三级分类集合  xcf
+     * 根据搜索名模糊查询三级分类集合
      * @param request 作用域
      * @return 分类集合json字符串
      */
@@ -135,7 +138,7 @@ public class ProductController {
     }
 
     /**
-     * 根据商品名模糊查询商品集合   xcf
+     * 根据商品名模糊查询商品集合
      * @param request 作用域
      * @param pName 搜索框的值
      * @return 查询到的商品集合
@@ -144,6 +147,7 @@ public class ProductController {
     @ResponseBody
     public String getProduct(HttpServletRequest request,String pName,int judge,Integer pageIndex,Integer pageSize){
         //调用service层的方法进行查询 sout
+        System.out.println(pName);
         if(pageIndex==null){
             pageIndex=1;
             pageSize=1;
@@ -156,4 +160,64 @@ public class ProductController {
         //展示json数据
         return json;
     }
+
+    @RequestMapping(value = "/addProduct")
+    @ResponseBody
+    public String addProduct(Product p,HttpServletRequest request){
+        String json="";
+        String  skuTypeArr = request.getParameter("skuTypeArr");//sku属性和属性值
+        String alreadySetSkuVals1 = request.getParameter("alreadySetSkuVals1");
+        List<TempSkuName> list=JSON.parseArray(skuTypeArr,TempSkuName.class);
+        List<TempSku> listSku=JSON.parseArray(alreadySetSkuVals1,TempSku.class);
+        int x=productService.addProduct(p);//第一步新增商品
+        if(x>0){
+            for (TempSkuName temp:list){
+                skuName skuname=new skuName();
+                skuname.setProductId(p.getProductId());//商品编号
+                skuname.setSkunameeValue(temp.getSkuTypeTitle());//属性名称
+                int y=skuValueService.addSkuName(skuname);//新增属性
+                for (TempSkuValue skuvalue:temp.getSkuValues()){
+                    SkuValue value=new SkuValue();
+                    value.setSkuvalueValue(skuvalue.getSkuValueTitle());//属性值
+                    value.setWeight(10L);//权重
+                    value.setSkunameId(skuname.getSkunameId());//属性Id
+                    int z=skuValueService.addSkuValue(value);
+                }
+            }
+            //新增sku
+            for(TempSku sku:listSku) {
+                Sku s=new Sku();
+                s.setProductId(p.getProductId());//商品编号
+                s.setStock(sku.getSkuStock().longValue());//库存
+                s.setPresentPrice(sku.getSkuPrice());//价格
+                s.setOriginalPrice(sku.getSkuPrice()*2);//原价
+                String value = sku.getSkuId();//-2,-3
+                String arr01="";
+                String[] arr = value.split(",");
+                for (int i = 0; i < arr.length; i++) {
+                    Integer valueId = Integer.valueOf(arr[i]);
+                    for (TempSkuName temp : list) {
+                        for (TempSkuValue skuvalue:temp.getSkuValues()) {
+                            if (valueId == skuvalue.getSkuValueId()) {
+                                SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
+                                arr01+=skuvalues.getSkuvalueId()+"";
+                                if(i<arr.length-1){
+                                    arr01+=",";
+                                }
+                            }
+                        }
+                    }
+                }
+                s.setSkuvalueId(arr01);
+                System.out.print(arr01);
+                int y=skuValueService.addSku(s);
+                json="{\"res\":\"yes\",\"mes\":\"商品新增成功\"}";
+            }
+        }else{
+            json="{\"res\":\"no\",\"mes\":\"商品新增失败\"}";
+        }
+        return json;
+    }
+
+
 }

@@ -7,16 +7,24 @@ import com.alcohol.pojo.Sku;
 import com.alcohol.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Resource
     private ProductMapper productMapper;
+
+    @Override
+    public int addProduct(Product p) {
+        return productMapper.addProduct(p);
+    }
+
     @Override
     /**
      * 根据编号获得一条数据
@@ -80,5 +88,39 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductList(String product_name,int judge) {
         return productMapper.getProductList(product_name,judge);
+    }
+
+    /**
+     * 张鹏后台商品列表
+     */
+    public List<Product> listAll(String product_name,int status, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize, true);
+        return productMapper.listAll(product_name,status);
+    }
+    /***
+     *商品下架
+     */
+    public boolean updateStatus(int[] attr) {
+        return productMapper.updateStatus(attr);
+    }
+    /***
+     *商品上架
+     */
+    public boolean updateStatussj(int[] attr) {
+        return productMapper.updateStatussj(attr);
+    }
+
+    /***
+     * 删除商品
+     * @param attr
+     * @return
+     */
+    public boolean deleStatus(int[] attr) {
+        return productMapper.deleStatus(attr);
+    }
+
+    @Override
+    public int updatesales(Long productId, Integer number) {
+        return productMapper.updatesales(productId,number);
     }
 }

@@ -17,6 +17,8 @@
         <association property="user" javaType="User">
             <id column="user_id" property="userId"/>
             <result column="membership_name" property="membershipName"/>
+            <result column="sex" property="sex"/>
+            <result column="nick_name" property="nickName"/>
             <collection property="roles" ofType="Role">
                 <id column="role_id" property="roleId"/>
                 <result column="role_name" property="roleName"/>
@@ -25,7 +27,7 @@
     </resultMap>
     <select id="getUserByUserName" resultMap="info">
         SELECT acc.account_id,acc.phone,acc.email,acc.create_time,acc.last_time,acc.password,
- us.user_id,us.membership_name,
+ us.user_id,us.membership_name,us.nick_name,us.sex,
  role.role_id,role.role_name
          FROM tb_useraccount acc
    INNER JOIN tb_user us ON  acc.user_id = us.user_id
@@ -65,7 +67,8 @@
         us.nick_name,
         us.birthday,
         us.sex,
-        us.status
+        us.status,
+        us.`integral`
          FROM tb_useraccount  ua
         INNER JOIN tb_user us ON ua.user_id = us.user_id
         WHERE ua.phone = #{username} OR ua.email = #{username} OR us.membership_name =  #{username}
@@ -87,4 +90,9 @@
     <update id="updatePwd">
         UPDATE tb_useraccount SET `password`=#{password} WHERE user_id=#{userId}
     </update>
+    <!--后台登录-->
+    <select id="seldeng" resultType="java.lang.Integer">
+      SELECT COUNT(1) FROM tb_useraccount
+      WHERE phone=#{phone} AND PASSWORD=#{password}
+    </select>
 </mapper>

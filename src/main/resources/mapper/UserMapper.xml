@@ -33,6 +33,9 @@
     <update id="updateInfo">
         update tb_user
         <set>
+        <if test="nickName!=null and nickName!=''">
+            nick_name=#{nickName},
+        </if>
             <if test="membershipName != null and membershipName != ''">
                 membership_name =#{memershipName},
             </if>

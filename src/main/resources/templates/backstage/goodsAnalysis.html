@@ -113,8 +113,9 @@
 <script type="text/javascript" src="/js/backstage/table.js"></script>
 <script type="text/javascript">
     $(function() {
-        er();
+        //页面加载
         goodsSales(1);
+        //点击销量
         $('.goodsSales').click(function() {
             goodsSales(1);
             $('.goodsSalesTh').show();
@@ -122,6 +123,7 @@
             $('.purchaseRateTh').hide();
             $("#sel").show();
         });
+        //点击点击率
         $('.clickRate').click(function() {
             clickRate(1);
             $('.goodsSalesTh').hide();
@@ -130,15 +132,13 @@
             $("#sel").show();
         });
     });
-    function er(){
-        for (var i=1;i<10;i++){
-        }
-    }
+    //获取页码
     function show(pageNum){
         goodsSales(pageNum);
         clickRate(pageNum);
         selName(pageNum);
     }
+    //点击搜索
     function selName(pageNum){
         var bianshi=$("#biaoshi").val();
         var pan= $("#sel").val()
@@ -169,17 +169,19 @@
                     if(bianshi==0){
                         tr+="</div></label></td><td>"+e.sales+"   </td><td>"+(i+1)+"</td></tr>";
                     }else if(bianshi==1){
-                        tr+="</div></label></td><td>"+e.looknumber+"   </td><td>"+(i+1)+"</td></tr>";
+                        tr+="</div></label></td><td>"+e.spare_one+"   </td><td>"+(i+1)+"</td></tr>";
                     }
                 });
                 $("#tbody").html(tr);
                 showPage(pageNum,data.pages,data.total);
+                $("[name=selName]").val("");//搜索后值为空
             },
             error: function() {
                 alert("出现异常！");
             }
         });
     }
+    //页面加载数据方法
     function goodsSales(pageNum) {
         $("#biaoshi").val(0);
         $.ajax({
@@ -212,7 +214,7 @@
             }
         });
     }
-
+    //单击点击数
     function clickRate(pageNum) {
         $("#biaoshi").val(1);
         var pan= $("#sel").val()
@@ -239,7 +241,7 @@
                     $(e.typeList).each(function(i2,e2){
                         tr+="<div class='format'>"+e2.typeValueName+"</div>";
                     });
-                    tr+="</div></label></td><td>"+e.looknumber+"   </td><td>"+(i+1)+"</td></tr>";
+                    tr+="</div></label></td><td>"+e.spare_one+"   </td><td>"+(i+1)+"</td></tr>";
                 });
                 $("#tbody").html(tr);
                 showPage(pageNum,data.pages,data.total);

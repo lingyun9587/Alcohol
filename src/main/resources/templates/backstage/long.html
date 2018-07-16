@@ -17,7 +17,7 @@
 				<div class="titleText">
 					<h1>DecentUI框架</h1></div>
 				<div class="user">
-					<form class="formSheet" action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
+					<form class="formSheet" action="#" method="post" enctype="multipart/form-data" >
 						<dl>
 							<dd>
 								<div>
@@ -28,22 +28,14 @@
 						<dl>
 							<dd>
 								<div>
-									<input type="password" class="pwdStyle" style="width:380px;height: 40px;" placeholder="请输入密码" />
+									<input type="password" class="pwdStyle" id="password" style="width:380px;height: 40px;" placeholder="请输入密码" />
 								</div>
 							</dd>
 						</dl>
-						<div><span class="red">&nbsp;</span></div>
-						<div>
-							<div class="loglogin"><input class="checkedStyle" type="checkbox" name="login" /></div>
-							<div class="loginTxt">
-								<a href="#">十天内免登录</a>
-							</div>
-							<div class="loginTxt">
-								<a href="#">忘记密码?</a>
-							</div>
-						</div>
+						<div><p id="red" style="text-align: center;color: red"></p><span class="red">&nbsp;</span></div>
+						<br/>
 						<div class="btnLogin">
-							<input type="submit" value="登录" class="button" />
+							<input type="button" value="登录" class="button" onclick="deng()"/>
 
 						</div>
 
@@ -55,24 +47,33 @@
 		<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
 		<script type="text/javascript" src="/js/backstage/global.js"></script>
 		<script type="text/javascript">
-			//表单验证   注意：文本提示的信息应在开始的时候全部写在placeholder中
-			function checkForm() {
-				var name = checkUserName();
-				return name;
-			}
-			//验证姓名   
-			function checkUserName() {
-				var username = $("#userName");
-				var tsInfo = $(".red");
-				if(username.val() == "") {
-					username.addClass("err");
-					tsInfo.css("display", "block");
-					tsInfo.text("用户名输入有误，请重新输入")
-					return false;
-				} else {
-					username.removeClass("err");
-					return true;
+			function deng(){
+			    $("#red").text("");
+			    var username=$("#userName").val();
+			    var password=$("#password").val();
+			    if(username==""||username==null||password==""||password==null){
+			        $("#red").text("用户名或密码不得为空!");
+
+				}else{
+
+                    $.ajax({
+                        url:"../seldeng",
+                        type:"post",
+                        data:{"phone":username,"password":password},
+                        dataType:"JSON",
+                        success:function(result){
+                            alert(result);
+                            if(result>0){
+                                location.href="/backstage/index.html";
+							}else{
+                                $("#red").text("用户名或密码错误!");
+							}
+                        },error:function (e) {
+							alert("服务异常！");
+                        }
+                    })
 				}
+
 			}
 		</script>
 

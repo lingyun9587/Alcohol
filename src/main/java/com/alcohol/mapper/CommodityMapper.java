@@ -2,6 +2,7 @@ package com.alcohol.mapper;
 
 import com.alcohol.controller.CommonController;
 import com.alcohol.pojo.Commodity;
+import com.alcohol.pojo.Order;
 import com.alcohol.vo.OrderstatusVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public interface CommodityMapper {
 
 
+    List<OrderstatusVo> listVoByUserId(Long id);
     /**
      * 修改订单商品信息
      * @param commodity
@@ -33,7 +35,8 @@ public interface CommodityMapper {
      */
      int insertInfo(Commodity commodity );
 
-    /**
+    /**     List<OrderstatusVo> listVoByUserId(Integer id);
+
      * 删除订单信息
      * @param commodityId
      * @return
@@ -51,12 +54,30 @@ public interface CommodityMapper {
      * @param id
      * @return
      */
-     List<OrderstatusVo> listVoByUserId(Integer id);
 
     /**
      * 查询所有用户的订单信息
      * @param id
      * @return
      */
-     List<Commodity> listCommodityInfo(@Param("id")Integer id, @Param("status")Integer status);
+     List<Commodity> listCommodityInfo(@Param("id")Long id, @Param("status")Integer status);
+
+    /**
+     * 获取所有 超时订单信息
+     * @return
+     */
+     List<Commodity> listCommoditySail(List<Order> list);
+    /**
+     * 批量删除订单超时信息
+     * @param list
+     */
+    void deleteSailDaily(List<Order> list);
+
+
+    /**
+     * 根据订单编号修改状态
+     * @param
+     * @return
+     */
+    int updateCommodityStatusByOrderId(@Param("orderId") Long orderId,@Param("status") Integer status);
 }

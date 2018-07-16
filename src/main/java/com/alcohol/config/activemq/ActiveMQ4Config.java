@@ -34,7 +34,7 @@ public class ActiveMQ4Config {
         //第一次失败后重新发送之前等待500毫秒,第二次失败再等待500 * 2毫秒,这里的2就是value
         redeliveryPolicy.setBackOffMultiplier(2);
         //是否避免消息碰撞
-        redeliveryPolicy.setUseCollisionAvoidance(false);
+        redeliveryPolicy.setUseCollisionAvoidance(true);
         //设置重发最大拖延时间-1 表示没有拖延只有UseExponentialBackOff(true)为true时生效
         redeliveryPolicy.setMaximumRedeliveryDelay(-1);
         return redeliveryPolicy;
@@ -50,7 +50,7 @@ public class ActiveMQ4Config {
         return activeMQConnectionFactory;
     }
 
-    @Bean
+    /*@Bean
     public JmsTemplate jmsTemplate(ActiveMQConnectionFactory activeMQConnectionFactory, Queue queue){
         JmsTemplate jmsTemplate=new JmsTemplate();
         jmsTemplate.setDeliveryMode(2);//进行持久化配置 1表示非持久化，2表示持久化
@@ -58,7 +58,7 @@ public class ActiveMQ4Config {
         jmsTemplate.setDefaultDestination(queue); //此处可不设置默认，在发送消息时也可设置队列
         jmsTemplate.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);//客户端签收模式
         return jmsTemplate;
-    }
+    }*/
 
     //定义一个消息监听器连接工厂，这里定义的是点对点模式的监听器连接工厂
     @Bean(name = "jmsQueueListener")
@@ -67,10 +67,10 @@ public class ActiveMQ4Config {
                 new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(activeMQConnectionFactory);
         //设置连接数
-        factory.setConcurrency("1-10");
+        factory.setConcurrency("1");
         //重连间隔时间
         factory.setRecoveryInterval(1000L);
-        factory.setSessionAcknowledgeMode(4);
+        factory.setSessionAcknowledgeMode(1);
         return factory;
     }
 

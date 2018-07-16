@@ -48,10 +48,14 @@
         <div class="user-content__box clearfix bgf">
             <div class="title">购物车-确认支付</div>
             <div class="shop-title">收货地址</div>
-            <form action="" class="shopcart-form__box">
-                <input type="hidden" name="orderId"/>
-                <input type="hidden" name="address"/>
-                <input type="hidden" name="shoppingInfo"/>
+            <form action="alipaySum" class="shopcart-form__box">
+                <input type="hidden" name="WIDout_trade_no"/>
+                <input type="hidden" name="WIDtotal_amount"/>
+                <input type="hidden" name="WIDbody"/>
+                <input type="hidden" name="WIDsubject"/>
+                <input type="hidden" name="status">
+                <input type="hidden" name="skuId"/>
+                <input type="hidden" name="number"/>
                 <div class="addr-radio">
                     <div class="radio-line radio-box active">
                         <label class="radio-label ep"
@@ -163,10 +167,10 @@
                     <div class="pull-left text-left">
                         <div class="info-line text-nowrap">购买时间：<span class="c6"><label id="time">2017年09月14日 17:31:05</label></span></div>
                         <div class="info-line text-nowrap">交易类型：<span class="c6">担保交易</span></div>
-                        <div class="info-line text-nowrap">交易号：<span class="c6"><label id="batch"> 1001001830267490496</label></span></div>
+                        <div class="info-line text-nowrap">交易号：<span class="c6"><label id="batch"> </label></span></div>
                     </div>
                     <div class="pull-right text-right">
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="coupon" class="control-label">优惠券使用：</label>
                             <select id="coupon">
                                 <option value="-1" selected>- 请选择可使用的优惠券 -</option>
@@ -182,43 +186,46 @@
                             $('#coupon').bind('change', function () {
                                 console.log($(this).val());
                             })
-                        </script>
+                        </script>-->
                         <div class="info-line">优惠活动：<span class="c6">无</span></div>
                         <div class="info-line">运费：<span class="c6">¥0.00</span></div>
-                        <div class="info-line"><span class="favour-value">已优惠 ¥2.0</span>合计：<b class="fz18 cr">¥<label class="money"> 18.0</label></b>
+                        <div class="info-line"><span class="favour-value">已优惠 ¥0.0</span>合计：<b class="fz18 cr">¥<label class="money"> 18.0</label></b>
                         </div>
                         <div class="info-line fz12 c9">（可获 <span class="c6">20</span> 积分）</div>
+                        <div class="info-line">
+                            <textarea name="desc" rows="5" cols="10"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="shop-title">确认订单</div>
                 <div class="pay-mode__box">
-                    <div class="radio-line radio-box">
+                   <!-- <div class="radio-line radio-box">
                         <label class="radio-label ep">
                             <input name="pay-mode" value="1" autocomplete="off" type="radio"><i
                                 class="iconfont icon-radio"></i>
                             <span class="fz16">余额支付</span><span class="fz14">（可用余额：¥88.0）</span>
                         </label>
                         <div class="pay-value">支付<b class="fz16 cr"><label class="money">18.00</label></b>元</div>
-                    </div>
+                    </div>-->
                     <div class="radio-line radio-box">
                         <label class="radio-label ep">
-                            <input name="pay-mode" value="2" autocomplete="off" type="radio"><i
+                            <input name="pay-mode" value="2" autocomplete="off" type="radio" checked="checked" /><i
                                 class="iconfont icon-radio"></i>
                             <img src="images/icons/alipay.png" alt="支付宝支付">
                         </label>
                         <div class="pay-value">支付<b class="fz16 cr"><label class="money">18.00</label></b>元</div>
                     </div>
-                    <div class="radio-line radio-box">
+                   <!-- <div class="radio-line radio-box">
                         <label class="radio-label ep">
                             <input name="pay-mode" value="3" autocomplete="off" type="radio"><i
                                 class="iconfont icon-radio"></i>
                             <img src="images/icons/paywechat.png" alt="微信支付">
                         </label>
                         <div class="pay-value">支付<b class="fz16 cr"><label class="money">18.00</label></b>元</div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="user-form-group shopcart-submit">
-                    <button type="button" class="btn">继续支付</button>
+                    <button type="submit" class="btn">继续支付</button>
                 </div>
                 <script>
                     $(document).ready(function () {
@@ -367,20 +374,18 @@
        $(function(){
            init();
            init1();
-           $(".btn").click(function () {
-               $("[name='address']").val();
-               var orderId =   $("[name='orderId']").val();
-               var shoopingInfo =  $("[name='shoppingInfo']").val();
-               var addressInfo = $("[name='addr']").val();
-               alert(orderId);
-               alert(shoopingInfo);
-           })
        })
        function init(){
            var id = getUrlParam("id");
            var context = "";
            var contextShopping  =  "";
            var money =0;
+           //立即购买
+           var skuId=getUrlParam("skuId");
+           var number =getUrlParam("number");
+
+           if(id != null){
+               $("[name='status']").val(0);
            $.ajax({
                url:"getByIdOrderInfo",
                type:"get",
@@ -390,10 +395,10 @@
                dataType:"json",
                success:function (data) {
                    $.each(data.commodities,function (i,e) {
-                       contextShopping +=e.sku.product.productName+":"+e.number+"/n";
+                       contextShopping +=e.sku.product.productName+":"+e.number+"\n";
                        context += "<tr>\n" +
                            "                            <th scope=\"row\"><a href=\"item_show.html\">\n" +
-                           "                                <div class=\"img\"><img src=\"images/temp/M-003.jpg\" alt=\"\" class=\"cover\"></div>\n" +
+                           "                                <div class=\"img\"><img src=\""+e.sku.product.imageList[0].imagePath+"\" alt=\"\" class=\"cover\"></div>\n" +
                            "                            </a></th>\n" +
                            "                            <td>\n" +
                            "                                <div class=\"name ep3\">"+e.sku.product.productName+"</div>\n" +
@@ -417,14 +422,99 @@
                    $("#time").html(data.createTime);
                    $("#batch").html(data.batch);
                    $(".money").html(money);
-                   $("[name='orderId']").val(data.orderId);
-
-                   $("[name='shoppingInfo']").val(contextShopping);
+                   $("[name='WIDout_trade_no']").val(data.orderId);
+                   $("[name='WIDtotal_amount']").val(money);
+                   $("[name='WIDsubject']").val(contextShopping);
                },
                error:function () {
                    alert("请求失败");
                }
            })
+           }else if(skuId != null){  //立即购买
+               $("[name='status']").val(1);
+               $("[name='skuId']").val(skuId);
+               $("[name='number']").val(number);
+               $.ajax({
+                   url:"getByIdskuInfo",
+                   type:"get",
+                   data:{
+                       "id":skuId
+                   },
+                   dataType:"json",
+                   success:function (data) {
+                       context+=" <tr>\n" +
+                           "                            <th scope=\"row\"><a href=\"item_show.html\">\n" +
+                           "                                <div class=\"img\"><img src=\""+data.product.imageList[0].imagePath+"\" alt=\"\" class=\"cover\"></div>\n" +
+                           "                            </a></th>\n" +
+                           "                            <td>\n" +
+                           "                                <div class=\"name ep3\">"+data.product.productName+"</div>\n" +
+                           "                                <div class=\"type c9\">" ;
+                       $.each(data.product.skunameList,function(i,e){
+                           context+=e.skunameeValue+":";
+                           $.each(e.skuValueList,function(i1,e1){
+                               context+=e1.skuvalueValue+"、";
+                           })
+                       })
+                       context+=  "                            </td>\n" +
+                           "                            <td>¥"+data.presentPrice+"</td>\n" +
+                           "                            <td>"+number+"</td>\n" +
+                           "                            <td>¥0.0</td>\n" +
+                           "                            <td>¥"+(data.presentPrice*number)+"</td>\n" +
+                           "                        </tr>";
+                       money=data.presentPrice*number;
+                       contextShopping = data.product.productName+":"+number;
+                       $("tbody").html(context);
+                       $("#time").html("");
+                       $("#batch").html(data.batch);
+                       $(".money").html(money);
+                       $("[name='WIDout_trade_no']").val(data.orderId);
+                       $("[name='WIDtotal_amount']").val(money);
+                       $("[name='WIDsubject']").val(contextShopping);
+                   },error:function () {
+                       alert("立即购买信息加载失败");
+                   }
+               })
+           }else{   //购物车购买
+               $("[name='status']").val(2);
+               $.ajax({
+                   url:"listSkuOrderInfo",
+                   type:"get",
+                   dataType:"json",
+                   success:function (data) {
+                       $.each(data,function(i,e){
+                           context+=" <tr>\n" +
+                               "                            <th scope=\"row\"><a href=\"item_show.html\">\n" +
+                               "                                <div class=\"img\"><img src=\""+e.sku.product.imageList[0].imagePath+"\" alt=\"\" class=\"cover\"></div>\n" +
+                               "                            </a></th>\n" +
+                               "                            <td>\n" +
+                               "                                <div class=\"name ep3\">"+e.sku.product.productName+"</div>\n" +
+                               "                                <div class=\"type c9\">" ;
+                           $.each(e.product.skunameList,function(i1,e1){
+                               context+=e1.skunameeValue+":";
+                               $.each(e1.skuValueList,function(i2,e2){
+                                   context+=e2.skuvalueValue+"、";
+                               })
+                           })
+                           context+="</div>\n" +
+                               "                            </td>\n" +
+                               "                            <td>¥"+e.sku.presentPrice+"</td>\n" +
+                               "                            <td>"+e.number+"</td>\n" +
+                               "                            <td>¥0.0</td>\n" +
+                               "                            <td>¥"+(e.sku.presentPrice*e.number)+"</td>\n" +
+                               "                        </tr>";
+                       })
+                       $("tbody").html(context);
+                       $("#time").html(data.createTime);
+                       $("#batch").html(data.batch);
+                       $(".money").html(money);
+                       $("[name='WIDout_trade_no']").val(data.orderId);
+                       $("[name='WIDtotal_amount']").val(money);
+                       $("[name='WIDsubject']").val(contextShopping);
+                   },error:function () {
+                       alert("购物车购买信息加载失败");
+                   }
+               })
+           }
        }
 
        function init1(){
@@ -458,8 +548,6 @@
                             "                        <a href=\"udai_address_edit.html\" class=\"edit\">修改</a>\n" +
                             "                    </div>";
                     }
-
-
                 })
                    $(".addr-radio").html(context);
                },

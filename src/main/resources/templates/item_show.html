@@ -9,6 +9,21 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/swiper.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .Info{
+            color:orangered;
+            margin-left: 70px;
+            margin-bottom: 10px;
+        }
+
+        .cat-list__box {
+            display: none;
+        }
+
+        .all-cat:hover > .cat-list__box {
+            display: block;
+        }
+    </style>
     <script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
     <script src="js/bootstrap.min.js" charset="UTF-8"></script>
     <script src="js/swiper.min.js" charset="UTF-8"></script>
@@ -69,6 +84,10 @@
     <div class="nav-box inner">
         <div class="all-cat">
             <div class="title"><i class="iconfont icon-menu"></i> 全部分类</div>
+            <div class="cat-list__box">
+
+
+            </div>
         </div>
         <ul class="nva-list">
             <a href="index.html">
@@ -745,8 +764,10 @@
         getCommentByProductid(null,1);
         getCommentCountById();
         getProductById();
+        getcategory();
     });
-    var valueId="";
+
+
     //根据商品编号获取商品
     function getProductById() {
         $.ajax({
@@ -756,7 +777,7 @@
             success: function (data) {
                 var number=$(".badge").eq(0).html();
                 //图片的
-                var imageList = "<div class=\"small-box\"><input type='hidden' class='skuId' value='"+data.skuList[0].skuId+"'/>\n" +
+                var imageList = "<div class=\"small-box\"><input type='hidden' class='skuId' value='0'/>\n" +
                     " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">\n" +
                     "<span class=\"hover\"></span>\n" +
                     "</div>\n" +
@@ -779,74 +800,69 @@
                     "<div class=\"big-box\" style='display: none'><img src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\"></div>\n";
                 //内容的
                 var content = "\n" +
-                    "\t\t\t\t\t<div class=\"item-title\">\n" +
-                    "\t\t\t\t\t\t<div class=\"name ep2\">" + data.productName + "</div>\n" +
+                    "<div class=\"item-title\">\n" +
+                    "<div class=\"name ep2\">" + data.productName + "</div>\n" +
                     /* "\t\t\t\t\t\t<div class=\"sale cr\">优惠活动：该商品享受8折优惠</div>\n" +*/
-                    "\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t<div class=\"item-price bgf5\">\n" +
-                    "\t\t\t\t\t\t<div class=\"price-box clearfix\">\n" +
-                    "\t\t\t\t\t\t\t<div class=\"price-panel pull-left\">\n" +
-                    "\t\t\t\t\t\t\t\t售价：<span class=\"price\">￥" + data.skuList[0].presentPrice + " <s class=\"fz16 c9\">￥" + data.skuList[0].originalPrice + "</s></span>\n" +
-                    "\t\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t\t</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"item-price bgf5\">\n" +
+                    "<div class=\"price-box clearfix\">\n" +
+                    "<div class=\"price-panel pull-left\">\n" +
+                    "售价：<span class=\"price\">￥" + data.skuList[0].presentPrice + " <s class=\"fz16 c9\">￥" + data.skuList[0].originalPrice + "</s></span>\n" +
+                    "</div>\n" +
+                    "</div>\n" +
                     /*"\t\t\t\t\t\t<div class=\"c6\">普通会员限购 2 件，想要<u class=\"cr\"><a href=\"\">购买更多</a></u>？</div>\n" +*/
-                    "\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t<ul class=\"item-ind-panel clearfix\">\n" +
-                    "\t\t\t\t\t\t<li class=\"item-ind-item\">\n" +
-                    "\t\t\t\t\t\t\t<span class=\"ind-label c9\">累计销量</span>\n" +
-                    "\t\t\t\t\t\t\t<span class=\"ind-count cr\">" + data.sales + "</span>\n" +
-                    "\t\t\t\t\t\t</li>\n" +
-                    "\t\t\t\t\t\t<li class=\"item-ind-item\">\n" +
-                    "\t\t\t\t\t\t\t<a href=\"\"><span class=\"ind-label c9\">累计评论</span>\n" +
-                    "\t\t\t\t\t\t\t<span class=\"ind-count cr\">"+number+"</span></a>\n" +
-                    "\t\t\t\t\t\t</li>\n" +
-                    "\t\t\t\t\t\t<li class=\"item-ind-item\">\n" +
-                    "\t\t\t\t\t\t\t<a href=\"\"><span class=\"ind-label c9\">赠送积分</span>\n" +
-                    "\t\t\t\t\t\t\t<span class=\"ind-count cg\">" + data.longegral + "</span></a>\n" +
-                    "\t\t\t\t\t\t</li>\n" +
-                    "\t\t\t\t\t</ul>\n" +
-                    "\t\t\t\t\t<div class=\"item-key\">\n" +
-                    "\t\t\t\t\t\t<div class=\"item-sku\">\n";
+                    "</div>\n" +
+                    "<ul class=\"item-ind-panel clearfix\">\n" +
+                    "<li class=\"item-ind-item\">\n" +
+                    "<span class=\"ind-label c9\">累计销量</span>\n" +
+                    "<span class=\"ind-count cr\">" + data.sales + "</span>\n" +
+                    "</li>\n" +
+                    "<li class=\"item-ind-item\">\n" +
+                    "<a href=\"\"><span class=\"ind-label c9\">累计评论</span>\n" +
+                    "<span class=\"ind-count cr\">"+number+"</span></a>\n" +
+                    "</li>\n" +
+                    "<li class=\"item-ind-item\">\n" +
+                    "<a href=\"\"><span class=\"ind-label c9\">赠送积分</span>\n" +
+                    "<span class=\"ind-count cg\">" + data.longegral + "</span></a>\n" +
+                    "</li>\n" +
+                    "</ul>\n" +
+                    "<div class=\"item-key\">\n" +
+                    "<div class=\"item-sku\">\n";
                 $.each(data.skunameList, function (i, e) {
-                    content += "\t\t\t\t\t\t\t<dl class=\"item-prop clearfix\">\n" +
-                        "\t\t\t\t\t\t\t\t<dt class=\"item-metatit\">" + e.skunameeValue + ":</dt>\n" +
-                        "\t\t\t\t\t\t\t\t<dd><ul data-property=\"" + e.skunameeValue + "\" class=\"clearfix\">\n"+
-                        "\t\t\t\t\t\t\t\t\t<li onclick='addColor(this)'><a  class=\"on\" href=\"javascript:;\" role=\"button\" data-value=\"" + e.skuValueList[0].skuvalueValue.skuvalueValue + "\" aria-disabled=\"true\">\n"+
-                        "\t\t\t\t\t\t\t\t\t\t<span>" + e.skuValueList[0].skuvalueValue + "</span>\n" +
-                        "\t\t\t\t\t\t\t\t\t</a></li>\n";
+                    content += "<dl class=\"item-prop clearfix\">\n" +
+                        "<dt class=\"item-metatit\">" + e.skunameeValue + ":</dt>\n" +
+                        "<dd><ul data-property=\"" + e.skunameeValue + "\" class=\"clearfix\">\n";
                     $.each(e.skuValueList, function (i1, e1) {
-                        if(i1>0){
-                            content += "\t\t\t\t\t\t\t\t\t<li onclick='addColor(this)'><a href=\"javascript:;\" role=\"button\" data-value=\"" + e1.skuvalueValue + "\" aria-disabled=\"true\">\n" +
-                                "\t\t\t\t\t\t\t\t\t\t<span>" + e1.skuvalueValue + "</span><input type='hidden' class='skuvalueId' value='"+e1.skuvalueId+"'/>\n" +
-                                "\t\t\t\t\t\t\t\t\t</a></li>\n";
-                        }
+                            content += "<li onclick='addColor(this)'><a href=\"javascript:;\" role=\"button\" data-value=\"" + e1.skuvalueValue + "\" aria-disabled=\"true\">\n" +
+                                "<span>" + e1.skuvalueValue + "</span><input type='hidden' class='skuvalueId' value='"+e1.skuvalueId+"'/>\n" +
+                                "</a></li>\n";
                     });
-                    content += "\t\t\t\t\t\t\t\t</ul></dd>\n" +
-                        "\t\t\t\t\t\t\t</dl>\n";
+                    content += "</ul></dd>\n" +
+                        "</dl>\n";
                 });
-                content += "\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t\t<div class=\"item-amount clearfix bgf5\">\n" +
-                    "\t\t\t\t\t\t\t<div class=\"item-metatit\">数量：</div>\n" +
-                    "\t\t\t\t\t\t\t<div class=\"amount-box\">\n" +
-                    "\t\t\t\t\t\t\t\t<div class=\"amount-widget\">\n" +
-                    "\t\t\t\t\t\t\t\t\t<input class=\"amount-input\" value=\"1\" maxlength=\"8\" title=\"请输入购买量\" type=\"text\">\n" +
-                    "\t\t\t\t\t\t\t\t\t<div class=\"amount-btn\">\n" +
-                    "\t\t\t\t\t\t\t\t\t\t<a class=\"amount-but add\"></a>\n" +
-                    "\t\t\t\t\t\t\t\t\t\t<a class=\"amount-but sub\"></a>\n" +
-                    "\t\t\t\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t\t\t\t<div class=\"item-stock\"><span style=\"margin-left: 10px;\">库存 <b id=\"Stock\">" + data.skuList[0].stock + "</b> 件</span></div>\n" +
-                    "\t\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t\t</div>\n" +
-                    "<div style='color:orangered;display: none;margin-left: 70px;margin-bottom: 10px;'>请勾选您要的商品信息！</div>"+
-                    "\t\t\t\t\t\t<div class=\"item-action clearfix bgf5\">\n" +
-                    "\t\t\t\t\t\t\t<a href=\"javascript:;\" rel=\"nofollow\" data-addfastbuy=\"true\" title=\"点击此按钮，到下一步确认购买信息。\"\n" +
-                    "\t\t\t\t\t\t\t   role=\"button\" class=\"item-action__buy\">立即购买</a>\n" +
-                    "\t\t\t\t\t\t\t<a href=\"javascript:;\" rel=\"nofollow\" data-addfastbuy=\"true\" role=\"button\" class=\"item-action__basket\">\n" +
-                    "\t\t\t\t\t\t\t\t<i class=\"iconfont icon-shopcart\"></i> 加入购物车\n" +
-                    "\t\t\t\t\t\t\t</a>\n" +
-                    "\t\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t\t</div>\n";
+                content += "</div>\n" +
+                    "<div class=\"item-amount clearfix bgf5\">\n" +
+                    "<div class=\"item-metatit\">数量：</div>\n" +
+                    "<div class=\"amount-box\">\n" +
+                    "<div class=\"amount-widget\">\n" +
+                    "<input class=\"amount-input\" value=\"1\" maxlength=\"8\" title=\"请输入购买量\" type=\"text\">\n" +
+                    "<div class=\"amount-btn\">\n" +
+                    "<a class=\"amount-but add\" onclick='addOrSubNum(1)'></a>\n" +
+                    "<a class=\"amount-but sub\" onclick='addOrSubNum(0)'></a>\n" +
+                    "</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"item-stock\"><span style=\"margin-left: 10px;\">库存 <b id=\"Stock\">" + data.skuList[0].stock + "</b> 件</span></div>\n" +
+                    "</div>\n" +
+                    "</div>\n" +
+                    "<div class='Info'>请勾选您要的商品信息！</div>"+
+                    "<div class=\"item-action clearfix bgf5\">\n" +
+                    "<a href=\"javascript:;\" rel=\"nofollow\" data-addfastbuy=\"true\" title=\"点击此按钮，到下一步确认购买信息。\"\n" +
+                    "role=\"button\" class=\"item-action__buy\" onclick='buy1()'>立即购买</a>\n" +
+                    "<a href=\"javascript:;\" onclick='buy()' rel=\"nofollow\" data-addfastbuy=\"true\" role=\"button\" class=\"item-action__basket\">\n" +
+                    "<i class=\"iconfont icon-shopcart\"></i> 加入购物车\n" +
+                    "</a>\n" +
+                    "</div>\n" +
+                    "</div>\n";
                 //商品名称
                 $(".breadcrumb .active").html(data.productName);
                 //商品图片
@@ -855,9 +871,73 @@
                 $(".item-info__box").html(content);
                 //商品详情
                 $("#detail").html(data.productDetails);
+                $(".Info").hide();
+                if(data.skunameList==""||data.skunameList==null){
+                    $(".skuId").val(data.skuList[0].skuId);
+                }
             },
             error: function () {
                 alert("网络延迟,请稍后重试");
+            }
+        });
+    }
+
+    //数量加减
+    function addOrSubNum(num){
+        var n=$(".amount-input").val();
+        var stock=$("#stock").html();
+        if(num==1){
+            if(n<stock){
+                n++;
+            }else{
+                alert("不能超过最大库存");
+            }
+        }else{
+            if(n>1){
+                n--;
+            }else{
+                alert("不能再减了");
+            }
+        }
+        $(".amount-input").val(n);
+    }
+    //绑定大分类
+    function getcategory(){
+        var content = "";
+        $.ajax({
+            url: "lisOne",
+            type: "post",
+            dataType: "JSON",
+            success: function (result) {
+                $.each(result, function (i, e) {
+                    var content01 = "";
+                    content += " <div class=\"cat-box\">\n" +
+                        "<div class=\"title\">\n" +
+                        "<i class=\"iconfont icon-skirt ce\">" + e.categoryontName + "</i>" +
+                        "</div>" +
+                        "<ul class=\"cat-list clearfix\">\n";
+                    $.each(e.categorytwoList, function (index, item) {
+                        if(index<2){
+                            content += "<li>" + item.categorytwoName + "</li>";
+                        }
+                        content01 += "<div class=\"genre-box clearfix\">" +
+                            "<span class=\"title\">" + item.categorytwoName + "：</span>" +
+                            "<div class=\"genre-list\">";
+                        $.each(item.categorythreeList, function (index1, item1) {
+                            content01 +="<a href=\"/item_category.html?categoryId="+item1.categorythreeId+"\">" + item1.categorythreeName + "</a>";
+                        })
+                        content01 += "</div>" +
+                            "</div>";
+                    })
+                    content += "</ul>" +
+                        "<div class=\"cat-list__deploy\">" +
+                        "<div class=\"deploy-box\">" +
+                        ""+content01+"" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>";
+                })
+                $(".cat-list__box").html(content);
             }
         });
     }
@@ -901,10 +981,13 @@
                         contents +=e.skuName.skunameeValue+":"+
                                 e.skuvalueValue+"&nbsp;&nbsp;&nbsp;";
                     });
-                    contents +="</div>"+
+                    contents+="</div>"+
+                        "<div class=\"eval-replay-content\">\n" +
+                        "卖家回复:"+item.reply_conte+""+
+                        "</div>"+
                         "</div>"+
                     "</div>";
-                    var btn ="  <div class=\"page text-center clearfix\">";
+                    var btn ="<div class=\"page text-center clearfix\">";
                     if(pageNum== 1){
                         btn+=" <a class=\"disabled\">上一页</a>\n" ;
                     }else{
@@ -927,6 +1010,7 @@
                     $("#good").html(contents+btn);
                     $("#normal").html(contents+btn);
                     $("#bad").html(contents+btn);
+
                 });
             },
             error:function () {
@@ -937,7 +1021,6 @@
 
     //分页
     function show(spareOne,pageNum){
-        alert(spareOne+"\t\t"+pageNum);
         getCommentByProductid(spareOne,pageNum);
     }
 
@@ -968,8 +1051,82 @@
     function addColor(obj){
         $(obj).parent().find("a").removeClass("on");
         $(obj).find("a").addClass("on");
-        valueId+=$(obj).find("input").val()+":";
-        alert(valueId);
+        var arr=[];//定义数组存储sku值的编号
+        $(".item-prop").each(function(i,e){
+           var value=$(this).find(".on input").val();
+           if(value!=undefined){
+               arr[i]=value;
+           }
+        });
+        var value=arr.toString();//将数组换砖成string类型
+        $(".Info").hide();
+       $.ajax({
+            url:"/getSkuByProductId",
+            dataType:"JSON",
+            data:{value:value},
+            type:"post",
+            success:function(result){
+                if(result!=null && result!=''){
+                    $(".skuId").val(result.skuId);
+                    $(".price").html("￥"+result.presentPrice+"<s class=\"fz16 c9\">￥"+result.originalPrice+"</s>");
+                    $("#Stock").html(result.stock);
+                }
+            },error:function(){
+                alert("sku获取失败");
+            }
+        });
+
+    }
+
+    //加入购物车
+    function buy(){
+        var skuId=$(".skuId").val();
+        var number=$('.amount-input').val();
+        alert(skuId);
+        if(skuId==0){
+            $(".Info").show();
+            return;
+        }
+        else{
+            alert(skuId);
+            $.ajax({
+                url:"/shop/addShopCart",
+                data:{skuid:skuId,num:number},
+                dataType:"JSON",
+                type:"post",
+                success:function(result){
+                    alert("加入购物车成功");
+                },error:function(){
+                    alert("加入购物车失败");
+                }
+            });
+        }
+    }
+    //立即购买
+    function buy1(){
+        var skuId=$(".skuId").val();
+        var number=$('.amount-input').val();
+        alert(skuId);
+        if(skuId==0){
+            $(".Info").show();
+            return;
+        }
+        else{
+            $.ajax({
+                url:"/getUserInfo",
+                dataType:"JSON",
+                type:"post",
+                success:function(result){
+                    if(result == null){
+                        alert("用户未登录");
+                    }else{
+                        location.href="udai_shopcart_pay.html?skuId="+skuId+"&number="+number;
+                    }
+                },error:function(){
+
+                }
+            });
+        }
     }
 </script>
 
@@ -1004,10 +1161,10 @@
     });
 </script>
 
-<!--商品图片效果-->
 <script src="js/jquery.magnifier.js"></script>
 <script>
     $(function () {
         $('#magnifier').magnifier();
     });
 </script>
+<!--商品图片效果-->
