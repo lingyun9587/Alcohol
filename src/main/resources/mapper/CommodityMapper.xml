@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alcohol.mapper.CommodityMapper">
+
+
+    <insert id="insertInfo">
+        insert into `tb_commodity`(commodity_id,order_id,sku_id,number,orderstatus_id)
+        value(#{commodityId},#{orderId},#{skuId},#{number},#{orderstatusId})
+    </insert>
+
+
+
+  <select id="listVoByUserId" resultType="com.alcohol.vo.OrderstatusVo">
+      SELECT comm.orderstatus_id,tbo.`orderStatus_name`,SUM(comm.number) AS number FROM `tb_commodity`  comm
+    LEFT JOIN `tb_orderstatus` tbo ON comm.`orderstatus_id`=tbo.`orderStatus_id`
+    WHERE order_id =(SELECT order_id FROM tb_order WHERE user_id =#{id})
+    GROUP BY tbo.`orderStatus_id`
+  </select>
+
+    <resultMap id="info" type="Commodity">
+        <id column="commodity_id" property="commodityId"></id>
+        <result column="order_id" property="orderId"/>
+        <result column="number" property="number"/>
+        <association property="sku" javaType="Sku">
+           <id column="sku_id" property="skuId"/>
+            <result column="present_price" property="presentPrice"/>
+            <association property="product" javaType="Product">
+                <id column="product_id" property="productId"/>
+                <result property="productName" column="product_name"/>
+                <collection property="imageList" ofType="Image">
+                    <id column="image_id" property="imageId"/>
+                    <result column="image_path" property="imagePath"/>
+                </collection>
+                <collection property="skunameList" ofType="skuName">
+                    <id column="skuname_id" property="skunameId"/>
+                    <result column="skuname_name" property="skunameeValue"/>
+                     <collection property="skuValueList" ofType="SkuValue">
+                         <id column="skuvalue_id" property="skuvalueId"/>
+                         <result column="skuvalue_value" property="skuvalueValue"/>
+                     </collection>
+                </collection>
+            </association>
+        </association>
+        <association property="orderstatus" javaType="Orderstatus">
+             <id column="orderStatus_id" property="orderStatus_id"></id>
+            <result column="orderStatus_name" property="orderStatus_name"/>
+        </association>
+        <association property="order" javaType="Order">
+            <id column="ordeId" property="orderId"/>
+            <result column="create_time" property="createTime"/>
+        </association>
+    </resultMap>
+    <select id="listCommodityInfo" resultMap="info">
+
+        SELECT comm.commodity_id,comm.order_id,comm.number,
+        orde.order_id AS ordeId,orde.create_time,
+        sku.sku_id,sku.present_price,
+        pro.product_id,pro.product_name,
+        statu.orderStatus_id,statu.orderStatus_name,
+        img.image_id,img.image_path,
+        skuname.skuname_id,skuname.skuname_name,
+        skuvalue.skuvalue_id,skuvalue.skuvalue_value
+         FROM `tb_commodity`  comm
+        INNER JOIN tb_sku sku ON comm.sku_id=sku.sku_id
+        INNER JOIN tb_product pro ON sku.product_id=pro.product_id
+        INNER JOIN tb_order orde ON comm.order_id=orde.order_id
+        INNER JOIN `tb_orderstatus` statu ON  statu.orderStatus_id=comm.orderstatus_id
+        INNER JOIN `tb_skuname` skuname ON skuname.product_id=pro.product_id
+        INNER JOIN `tb_skuvalue` skuvalue  ON skuname.skuname_id=skuvalue.skuname_id
+        LEFT JOIN `tb_image` img ON pro.product_id = img.product_id
+        WHERE skuvalue.`skuvalue_id` IN (
+        SELECT SUBSTRING_INDEX(skuvalue_id, ':', 1) FROM tb_sku   WHERE tb_sku.sku_id=comm.sku_id
+        )
+        and orde.user_id =#{id}
+        <if test="status!=null and status !=''">
+            and comm.orderstatus_id=#{status}
+        </if>
+    </select>
+
+    <delete id="removeById">
+           DELETE FROM `tb_commodity` WHERE `commodity_id`=#{commodityId}
+    </delete>
+
+    <select id="selectByOrderId" resultType="Integer">
+         SELECT COUNT(1) FROM `tb_commodity` WHERE order_id=#{userId}
+    </select>
+
+    <select id="listCommoditySail" resultType="Commodity">
+        SELECT sku_id,number FROM tb_commodity where order_id in
+        <foreach collection="list" item="order" separator="," open="(" close=")">
+            #{order.orderId}
+        </foreach>
+    </select>
+    <delete id="deleteSailDaily">
+        UPDATE    `tb_commodity` SET `orderstatus_id`=8 WHERE order_id IN
+          <foreach collection="list" item="order" separator="," open="(" close=")">
+              #{order.orderId}
+          </foreach>
+    </delete>
+
+    <update id="updateCommodityStatusByOrderId">
+         UPDATE `tb_commodity` SET `orderstatus_id`=#{status} where order_id=#{orderId}
+    </update>
+</mapper>

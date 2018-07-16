@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.beans.Transient;
 import java.util.Date;
 
 @Service("userAccountService")
@@ -56,7 +55,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         user.setCreateTime(new Date());
         user.setLastTime(new Date());
         user.setIntegral(0L);
-        user.setStatus(0L);
+        user.setFrozen(0L);
 
         Useraccount useraccount = new Useraccount();
         Md5Hash md5 = new Md5Hash(password);

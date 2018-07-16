@@ -5,13 +5,12 @@ import com.alcohol.service.UserService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.sound.midi.Soundbank;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,15 +22,14 @@ public class UserController {
 
     private List<User> listUser;
 
-
     @RequestMapping(value ="/backstage/userListInfo.html")
     private String userList(){
         return "/backstage/userList";
     }
 
     @ResponseBody
-    @RequestMapping(value = "/listUser",method = RequestMethod.GET, produces = "text/html;charset=utf-8")
-    public String listUser(User user,
+    @RequestMapping(value = "/listUser",method = RequestMethod.GET)
+    public Object listUser(User user,
                            @RequestParam(value="nickName",required = false)String nickName,
                            @RequestParam(value = "pageNum", required = false) Integer pageNum,
                            @RequestParam(value = "pageSize", required = false) Integer pageSize
@@ -47,11 +45,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value="/updateStatus")
     private Object updateStatus(@RequestParam(value = "userId", required = false)Long userId,
-                                @RequestParam(value = "status", required = false)Long status){
+                                @RequestParam(value = "frozen", required = false)Long frozen){
         Map<String,Object> map = new HashMap<>();
         System.out.println("userId:"+userId);
-        System.out.println("status:"+status);
-            int result=userService.updStatus(userId,status);
+        System.out.println("frozen:"+frozen);
+            int result=userService.updStatus(userId,frozen);
             if(result>0){
                 map.put("success",true);
                 map.put("mess","操作成功！");

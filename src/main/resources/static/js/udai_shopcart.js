@@ -81,12 +81,13 @@ new Vue({
             var productOrders=new Array();
             this.productList.forEach(function (item, index) {
                 if (item.checked) {
+
                     productOrders.push(item.sku.skuId);
                 }
             });
-
+            alert(JSON.stringify(productOrders));
             if(productOrders.length!=0){
-                this.$http.get("/shop/transferToOrder",{"productOrders":productOrders}).then(function(json){
+                this.$http.get("/shop/transferToOrder",{"productorders":JSON.stringify(productOrders)}).then(function(json){
                     //alert(json.data);
                     //location.href="/shop/transferToOrder?productOrders="+productOrders;
                     location.href="udai_shopcart_pay.html";
