@@ -336,7 +336,14 @@ public class CommonController {
     @GetMapping("/udai_shopcart_pay.html")
     public String udai_shopcart_pay() { return "/udai_shopcart_pay"; }
 
-
+    /**
+     * 结账成功
+     * @return
+     */
+    @RequestMapping(value = "checkOut.html")
+    public String checkOut(){
+        return "checkOut";
+    }
     /**
      * 联系客服
      * @return

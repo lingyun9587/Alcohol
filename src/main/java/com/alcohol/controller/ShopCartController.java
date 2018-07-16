@@ -102,6 +102,7 @@ public class ShopCartController {
                  }
                  //走到这证明没有在现有cookie中找到同样的商品，所以添加到cookie
                  Cookie cc=new Cookie("c7",str1);
+                 cc.setPath("/");
                  response.addCookie(cc);
              }
             return JSON.toJSONString("添加成功");//方法结束cookie添加
@@ -293,8 +294,10 @@ public class ShopCartController {
      * 向订单模块传输所需数据
      * @return
      */
-    @RequestMapping(value = "/transferToOrder")
-    public String transferToOrder(@RequestParam(value = "productOrders",required = false)Long[] productOrders){
+    @GetMapping(value = "/transferToOrder")
+    @ResponseBody
+    public String transferToOrder(@RequestParam(value = "productorders",required = false)String productorders){
+        List<Long> productOrders=JSON.parseArray(productorders,Long.class);
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);
         // 定义jackson数据转换操作类
@@ -303,13 +306,12 @@ public class ShopCartController {
         String dateKey=new Date().toString();
         String keymapmap=u.getUserId().toString()+dateKey;
         //查出redis的现有数据
-        Map<String,String> pp= jedisHashs.hgetAll(u.getUserId().toString());
+       Map<String,String> pp= jedisHashs.hgetAll(u.getUserId().toString());
 
         //保存要提交订单的购物车上牌信息
         Map<String,String> mmm=new HashMap<String,String>();
-        for (int i=0;i<productOrders.length;i++){
-            if(productOrders[i]!=null){
-
+        for (Long ll:productOrders) {
+            if(ll!=null){
                 Iterator<String> it=pp.keySet().iterator();
                 while(it.hasNext()){
                     String key=it.next();
@@ -320,14 +322,14 @@ public class ShopCartController {
                     String jss=JSON.toJSONString(mk.get("sku"));
                     Sku kk=new Sku();
                     kk=gson.fromJson(jss,kk.getClass());
-                    if(kk.getSkuId()==productOrders[i]){
+                    if(kk.getSkuId()==ll){
                         mmm.put(key,pp.get(key));
                         it.remove();
                     }
                 }
-
             }
         }
+
         String orderKey=u.getUserId().toString()+"order";
         //jedisHashs.hdel(u.getUserId().toString());
         jedisHashs.hmset(orderKey,mmm);//保存到redis
