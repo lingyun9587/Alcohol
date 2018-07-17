@@ -11,6 +11,10 @@
 		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
 		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
 
+		<!--<link rel="stylesheet" href="/css/backstage/custom.css">-->
+
+		<link rel="stylesheet" href="/css/backstage/iosOverlay.css">
+
 		<style>
 
 		</style>
@@ -135,7 +139,7 @@
 			</div>
 			<button type="hidden" id="notId" value=""></button>
 			<div class="pfooter">
-				<input type="button" value="修改" class="button up" />
+				<input type="button" value="修改" class="button up" id="checkMark" />
 				<input type="button" value="取消" class="button delete" />
 			</div>
 		</div>
@@ -143,6 +147,10 @@
 		<script type="text/javascript" src="/js/backstage/global.js"></script>
 		<script type="text/javascript" src="/js/backstage/table.js"></script>
 		<script type="text/javascript" src="/js/backstage/popup.js"></script>
+
+		<script src="/js/backstage/iosOverlay.js"></script>
+
+		<script src="/js/backstage/custom.js"></script>
 		<script type="text/javascript">
 			$(function() {
                 var $thr = $('table thead tr');
@@ -308,6 +316,11 @@
                             $("[name='content']").val("");
                             fy(1);
                             closeMask('stuInfo');
+                            iosOverlay({
+                                text: "回复成功!",
+                                duration: 2e3,
+                                //icon: "img/check.png"
+                            });
                         }else {
                             alert(data.mesage);
                         }
@@ -333,6 +346,7 @@
                         success: function (data) {
                             if (data.ers == "yes") {
                                 fy(1);
+
                             } else {
                                 alert(data.mesage);
                             }

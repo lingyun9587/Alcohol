@@ -77,12 +77,12 @@
 	<div class="serach">
 		<input type="text" class="textStyle" placeholder="请输入商品名称" style="width: 180px;height: 24px;line-height: 24px;" name="selName"/>
 		<input type="hidden"  value="0" id="biaoshi"/>
-		<input type="button" value="搜索" class="button search" onclick="selName(1)"/>
-		<select id="sel">
+		<select id="sel" class="selectStyle" style="width: 105px;">
 			<option selected value="0">从高到低</option>
 			<option value="1">从低到高</option>
 		</select>
-	</div>
+		<input type="button" value="搜索" class="button search" onclick="selName(1)"/>
+</div>
 	<!--搜索区结束-->
 	<div class="info">
 		<table cellpadding="0" cellspacing="0" border="0" class="selectTable" id="tableData">
@@ -115,6 +115,7 @@
     $(function() {
         //页面加载
         goodsSales(1);
+        $("#sel").show();
         //点击销量
         $('.goodsSales').click(function() {
             goodsSales(1);
@@ -159,7 +160,8 @@
                 $(data.list).each(function(i,e) {
                     $(e.imageList).each(function(i3,e3){
                         if(i3==1){
-                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
+                            tr+="<tr class='order-item'>" +
+								"<td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
                         }
                     });
                     tr+="<div class='card'><div class='name ep2'>"+e.productName+"</div>";
