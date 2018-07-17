@@ -3,17 +3,12 @@ package com.alcohol.controller;
 import com.alcohol.cache.JedisUtil;
 import com.alcohol.dto.UserAccountExecution;
 import com.alcohol.exceptions.UserAccountOperationException;
-//import com.alcohol.jms.ConsumerCc;
-//import com.alcohol.jms.ProducerCc;
-import com.alcohol.pojo.ShopCart;
-import com.alcohol.pojo.Sku;
+
 import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.jms.Queue;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +29,7 @@ public class UseraccountController {
     private UserAccountService userAccountService;
     private String phone;
 
-    @Resource
-    private JedisUtil.Hash jedisHashs;
+
     /*@Autowired
     Queue queue;
     @Autowired
@@ -86,7 +76,7 @@ public class UseraccountController {
      * @return
      */
     @PostMapping( value="/user/loginUser")
-    public Object login(HttpServletRequest request, @RequestParam( name = "username") String username, @RequestParam( name = "password") String password,HttpServletResponse response, HttpSession session){
+    public Object login(HttpServletRequest request, @RequestParam( name = "username") String username, @RequestParam( name = "password") String password){
 
         Map<String,Object> map = new HashMap<String,Object>();
         UserAccountExecution  user=null;
@@ -113,77 +103,6 @@ public class UseraccountController {
             map.put("success",false);
             map.put("msg", user.getState());
         }
-        String userName=(String)SecurityUtils.getSubject().getPrincipal();
-        Useraccount useraccount = userAccountService.getUserById(userName);
-        User u=null;
-        if(useraccount!=null){
-            u=useraccount.getUser();
-        }
-        // 定义jackson数据转换操作类
-        ObjectMapper mapper = new ObjectMapper();
-        Cookie[] c=request.getCookies();//获取cookie的所有数据
-        String dateKey=new Date().toString().replace(":","").replace(" ","");
-        String keymapmap=u.getUserId().toString()+dateKey;
-        if(c!=null){
-            //遍历cookie
-            label:for (Cookie cookie:c) {
-                if (cookie.getName().equals("JSESSIONID")) {
-                    continue;
-                }
-                //解码
-                String strdecode = null;
-                try {
-                    strdecode = URLDecoder.decode(cookie.getValue(), "utf-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                Gson gson = new Gson();
-                ShopCart scart = new ShopCart();
-                scart = gson.fromJson(strdecode, scart.getClass());
-                //查出redis的现有数据
-                Map<String, String> pp = jedisHashs.hgetAll(u.getUserId().toString());
-                for (String str : pp.keySet()) {
-                    String obj = pp.get(str);
-                    Gson gs = new Gson();
-                    Map<String, Object> mk = new HashMap<String, Object>();
-                    mk = gson.fromJson(obj, mk.getClass());
-                    String jss = JSON.toJSONString(mk.get("sku"));
-                    String jsss = JSON.toJSONString(mk.get("num"));
-                    String i = new String();
-                    i = gson.fromJson(jsss, i.getClass());
-                    float ii = Float.parseFloat(i);
-                    int iii = (int) ii;
-                    Sku kk = new Sku();
-                    kk = gson.fromJson(jss, kk.getClass());
-                    if (kk.getSkuId() == scart.getSku().getSkuId()) {
-                        int iiii = iii + scart.getNum();
-                        mk.put("num", iiii);
-                        try {
-                            pp.put(str, mapper.writeValueAsString(mk));
-                        } catch (JsonProcessingException e) {
-                            e.printStackTrace();
-                        }
-                        jedisHashs.hmset(u.getUserId().toString(), pp);//保存到redis
-                        cookie.setMaxAge(0);
-                        cookie.setPath("/");
-                        response.addCookie(cookie);
-                        continue label;
-                    }
-                }
-                /////////////
-                Map<String,Object> mapm=new HashMap<String,Object>();
-                mapm.put("sku",scart.getSku());//商品信息
-                mapm.put("num",scart.getNum());//用户选择商品的数量
-                mapm.put("img",scart.getImage());
-                Map<String,String> mapmap=new HashMap<String,String>();
-                try {
-                    mapmap.put(keymapmap,mapper.writeValueAsString(mapm));
-                } catch (JsonProcessingException e) {
-                    e.printStackTrace();
-                }
-                jedisHashs.hmset(u.getUserId().toString(),mapmap);//保存到redis
-            }
-        }
         return map;
     }
 
@@ -195,7 +114,6 @@ public class UseraccountController {
     private Object getUserId(){
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);
-
         return useraccount;
     }
 

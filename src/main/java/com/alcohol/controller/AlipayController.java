@@ -85,6 +85,7 @@ public class AlipayController {
             Long orderId =Long.valueOf(out_trade_no);
             Order order = new Order();
             order.setOrderId(orderId);
+            order.setDesc(desc);
             order.setStatus(1); //待发货
             orderService.updateOrderStatus(order);
         }else if(status.equals("1")){  //立即购买
@@ -98,6 +99,7 @@ public class AlipayController {
             order1.setCreateTime(new Date());  //设置订单创建时间
             order1.setUserId(useraccount.getUserId());  //设值用户
             order1.setStatus(1);   //设置订单状态
+            order1.setDesc(desc);
             order1.setAddressId(Long.valueOf(addr));  //设置地址id  测试
             List<Commodity> commodities = new ArrayList<>();  //商铺下的商品
             //添加订单商品信息
@@ -124,6 +126,7 @@ public class AlipayController {
             order1.setOrderId(orderId);  //设置订单id
             order1.setCreateTime(new Date());  //设置订单创建时间
             order1.setUserId(useraccount.getUserId());  //设值用户
+            order1.setDesc(desc);
             order1.setStatus(1);   //设置订单状态
             order1.setAddressId(Long.valueOf(addr));  //设置地址id  测试
             Map<String,String> mapshopping= jedisHashs.hgetAll(useraccount.getUserId()+"order");

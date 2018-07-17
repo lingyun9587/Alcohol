@@ -3,6 +3,7 @@ var customPropValId = -1;//自定义属性值id
 $(function(){
 	//克隆SKU模板生成自定义sku
 	$(document).on("click" , ".cloneSku" , function(){
+
 		var cloneSource = $("#skuCloneModel");//要克隆的sku模板
 		var cloneNode = cloneSource.clone(true);//克隆出来的节点
 		cloneNode.css("display","block");//显示元素

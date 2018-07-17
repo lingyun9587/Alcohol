@@ -46,7 +46,7 @@
     <!--添加一级分类-->
     <insert id="addCategoryOne">
          INSERT INTO tb_categoryone
-      VALUES (NULL,#{categoryontName},0,NULL,NULL,NULL,NULL,NULL)
+      VALUES (NULL,#{categoryontName},0,0,NULL,NULL,NULL,NULL)
     </insert>
 
     <resultMap id="listcategorys" type="Categoryone">

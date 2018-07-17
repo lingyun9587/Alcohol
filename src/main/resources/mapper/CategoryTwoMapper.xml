@@ -20,7 +20,7 @@
     <!--新增二级分类-->
     <insert id="addCategoryTwo">
         INSERT INTO tb_categorytwo
-       VALUES (NULL,#{categorytwoName},#{parentId},0)
+       VALUES (NULL,#{categorytwoName},#{parentId},0,0)
     </insert>
 
     <!--查询二级分类下是否有三级分类-->
