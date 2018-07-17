@@ -54,9 +54,9 @@ public class OrderServiceImpl implements OrderService {
         }catch (OrderOperationException e){
             throw  new OrderOperationException(e.toString());
         }
-        /*if(orderExecution.getState() == 0){ //执行消息队列
+        if(orderExecution.getState() == 0){ //执行消息队列
             producerCc.sendMessage(JSON.toJSONString(order.getCommodities()));
-        }*/
+        }
         return orderExecution;
     }
 
