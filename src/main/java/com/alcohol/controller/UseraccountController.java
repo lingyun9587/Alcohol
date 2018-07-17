@@ -114,7 +114,6 @@ public class UseraccountController {
     private Object getUserId(){
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);
-       // System.out.println("Nicheng"+useraccount.getUser().getMembershipName());
         return useraccount;
     }
 

@@ -67,6 +67,7 @@
         us.nick_name,
         us.birthday,
         us.sex,
+        us.status,
         us.`integral`
          FROM tb_useraccount  ua
         INNER JOIN tb_user us ON ua.user_id = us.user_id
