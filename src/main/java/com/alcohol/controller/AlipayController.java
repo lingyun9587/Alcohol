@@ -85,6 +85,7 @@ public class AlipayController {
             Long orderId =Long.valueOf(out_trade_no);
             Order order = new Order();
             order.setOrderId(orderId);
+            order.setDesc(desc);
             order.setStatus(1); //待发货
             orderService.updateOrderStatus(order);
         }else if(status.equals("1")){  //立即购买
@@ -98,6 +99,7 @@ public class AlipayController {
             order1.setCreateTime(new Date());  //设置订单创建时间
             order1.setUserId(useraccount.getUserId());  //设值用户
             order1.setStatus(1);   //设置订单状态
+            order1.setDesc(desc);
             order1.setAddressId(Long.valueOf(addr));  //设置地址id  测试
             List<Commodity> commodities = new ArrayList<>();  //商铺下的商品
             //添加订单商品信息
@@ -116,6 +118,7 @@ public class AlipayController {
             orderService.insertInfo(order1);//发送消息队列进行修改库存
         }else if(status.equals("2")){ //购物车
 
+
             Long orderId = IDUtil.SnowflakeIdWorker();
             out_trade_no=orderId.toString();
             //创建订单对象
@@ -123,13 +126,40 @@ public class AlipayController {
             order1.setOrderId(orderId);  //设置订单id
             order1.setCreateTime(new Date());  //设置订单创建时间
             order1.setUserId(useraccount.getUserId());  //设值用户
+            order1.setDesc(desc);
             order1.setStatus(1);   //设置订单状态
             order1.setAddressId(Long.valueOf(addr));  //设置地址id  测试
             Map<String,String> mapshopping= jedisHashs.hgetAll(useraccount.getUserId()+"order");
+
+            //开始清空redis中所购买的商品/////////////
+            //查出redis的现有数据
+            Map<String,String> allRedisByUserID= jedisHashs.hgetAll(useraccount.getUserId().toString());
+            Iterator<String> it=allRedisByUserID.keySet().iterator();
+            //结束清空redis中所购买的商品//////////////
+
+
+
+
             int number = 0;  //总数数量
             double money = 0;  //总金额
             List<Commodity> commodities = new ArrayList<>();  //商铺下的商品
+            //开始////////////////////
+
+
+
+            //结束////////////////////
+        while(it.hasNext()){
+            String key=it.next();
+            String obj=allRedisByUserID.get(key);
+            Gson gs=new Gson();
+            Map<String,Object> mk=new HashMap<String,Object>();
+            mk=gs.fromJson(obj,mk.getClass());
+            Sku kk=new Sku();
+            kk=gs.fromJson(JSON.toJSONString(mk.get("sku")),kk.getClass());
+
             for (String str: mapshopping.keySet()) {
+
+
                 String so =  mapshopping.get(str);
                 Gson gson = new Gson();
                 Map<String,Object> map12 = new HashMap<>();
@@ -141,6 +171,14 @@ public class AlipayController {
                 int num = (int)f;   //获取到数量
                 Sku sku = new Sku(); //获取sku对象
                 sku = gson.fromJson(JSON.toJSONString(map12.get("sku")),sku.getClass());
+                if(kk.getSkuId()==sku.getSkuId()){
+                    it.remove();
+                }else{
+                    continue;
+                }
+
+
+
                 //添加订单商品信息
                 long commodityID = IDUtil.SnowflakeIdWorker();
                 Commodity commodity = new Commodity();
@@ -156,12 +194,17 @@ public class AlipayController {
               //  skuService.updateInfo(sku.getSkuId(),number,3); //修改库存
 
             }
+        }
+            //开始//////////////////////////////
+            jedisHashs.hdel(useraccount.getUserId().toString());
+            jedisHashs.hmset(useraccount.getUserId().toString(),allRedisByUserID);//保存到redis
+            //结束/////////////////////////////
+
             order1.setCommodities(commodities);  //设置订单的商品详情集合
             order1.setGoodsCount(number);  //设置总数量
             order1.setMoney(money);    //设置总金额
             orderService.insertInfo(order1);//发送消息队列进行修改库存
         }
-
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","
                 + "\"subject\":\""+ subject +"\","
