@@ -16,9 +16,10 @@
     <select id="list" resultType="java.lang.Integer">
       SELECT MAX(typeName_id) FROM tb_typename where isdel=0
     </select>
-    <insert id="addTypeName">
-       INSERT INTO tb_typename VALUES
-        (NULL,#{typeNameName},#{categoryId},null,null,null,null,null)
+    <!--新增属性-->
+    <insert id="addTypeName" useGeneratedKeys="true" keyColumn="typeName_id" keyProperty="typeNameId">
+      INSERT INTO tb_typename
+      VALUES(NULL,#{typeNameName},#{categoryId},0,NULL,NULL,NULL,NULL)
     </insert>
     <!--修改属性-->
     <update id="modifyTypeName">
