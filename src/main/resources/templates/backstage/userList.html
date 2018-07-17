@@ -81,20 +81,34 @@
             success: function (data) {
                 var tbody = $('<tbody></tbody>');
                 $.each(data.list, function (i, e) {
+
                     var paymentTimes=this.createTime;
                     var d = new Date(paymentTimes);
                     var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+                    var paymentTimes1=this.birthday;
+                    var d1 = new Date(paymentTimes1);
+                    var times1=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+
                     var tr = $('<tr></tr>');
                     tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
                     tr.append("<td width='5%'>" + e.userId + "</td>");
                     tr.append("<td width='10%'>" + e.membershipName + "</td>");
+                    if(e.nickName==null){
+                        tr.append("<td width='15%'>未命名</td>");
+                    }else {
+                        tr.append("<td width='15%'>" + e.nickName + "</td>");
+                    }
 
-                    tr.append("<td width='15%'>" + e.nickName + "</td>");
-                    tr.append("<td width='5%'>" + e.sex + "</td>");
-                    tr.append("<td width='15%'>" + e.birthday + "</td>");
-                    tr.append("<td width='15%'>" + e.times + "</td>");
+                    if(e.sex == 0){
+                        tr.append("<td width='5%'>男</td>");
+                    }else{
+                        tr.append("<td width='5%'>女</td>");
+                    }
+                    tr.append("<td width='15%'>" +times1 + "</td>");
+                    tr.append("<td width='15%'>" + times + "</td>");
                     tr.append("<td width='5%'>" + e.integral + "</td>");
-                    if (e.frozen == 0) {
+                    if (e.status == 0) {
                         tr.append("<td width='10%'><a onclick='updatestate(1,this)'>禁用</a></td>");
                     } else {
                         tr.append("<td width='10%'><a onclick='updatestate(0,this)'>启用</a></td>");
@@ -118,12 +132,12 @@
      * @param frozen
      * @param jia
      */
-    function updatestate(frozen, jia) {
+    function updatestate(status, jia) {
         var userId=$(jia).parent().parent().find("td").eq(1).html();
         var obj = $(jia);
         $.ajax({
             url: "/updateStatus",
-            data: {userId: userId, frozen: frozen},
+            data: {userId: userId, status: status},
             dataType: "json",
             type: "post",
             success: function (data) {
