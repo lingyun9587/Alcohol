@@ -1082,13 +1082,11 @@
     function buy(){
         var skuId=$(".skuId").val();
         var number=$('.amount-input').val();
-        alert(skuId);
         if(skuId==0){
             $(".Info").show();
             return;
         }
         else{
-            alert(skuId);
             $.ajax({
                 url:"/shop/addShopCart",
                 data:{skuid:skuId,num:number},

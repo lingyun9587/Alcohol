@@ -27,7 +27,7 @@ public class Order {
     private  Integer goodsCount;  //订单中的商品数量
     private  Integer status;  //状态
     private  Double money; //金额
-
+    private  String desc; //描述
     private Orderstatus orderstatus; //订单状态
     //private Set<OrderShop> orderShops;  //订单商铺id
     private List<Commodity> commodities; //订单信息

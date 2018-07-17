@@ -52,7 +52,7 @@
          <result column="nick_name" property="nickName"/>
          <result column="birthday" property="birthday"/>
          <result  column="sex" property="sex"/>
-         <result column="frozen" property="frozen"/>
+         <result column="status" property="status"/>
      </association>
     </resultMap>
     <select id="getUserById" resultMap="userInfo">
@@ -67,7 +67,7 @@
         us.nick_name,
         us.birthday,
         us.sex,
-        us.frozen,
+        us.status,
         us.`integral`
          FROM tb_useraccount  ua
         INNER JOIN tb_user us ON ua.user_id = us.user_id
