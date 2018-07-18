@@ -35,4 +35,8 @@
     <update id="updateCategorytwo">
         UPDATE tb_categorytwo SET categorytwo_name=#{categorytwoName} where categorytwo_id=#{categorytwoId}
     </update>
+    <!--查询二级分类下是否有三级分类-->
+    <select id="seltwoisthree" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM tb_categorythree WHERE parentId=#{parent} AND isdel=0
+    </select>
 </mapper>

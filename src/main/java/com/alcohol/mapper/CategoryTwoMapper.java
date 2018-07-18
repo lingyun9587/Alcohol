@@ -58,4 +58,11 @@ public interface CategoryTwoMapper {
      * @return
      */
     int delCategorytwo(Categorytwo two);
+
+    /**
+     * 查询二级分类下是否有三级分类
+     * @param parent
+     * @return
+     */
+    int seltwoisthree(Integer parent);
 }

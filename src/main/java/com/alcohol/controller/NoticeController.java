@@ -19,6 +19,18 @@ import java.util.List;
 public class NoticeController {
     @Resource
     private NoticeService noticeService;
+
+    /**
+     * 查询所有的咨询
+     * @return
+     */
+    @RequestMapping(value="IndexlistNotice",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String IndexlistNotice(){
+        List<Notice> lis=noticeService.list();
+        return JSON.toJSONString(lis);
+    }
+
     /**
      * 查询所有的咨询
      * @return

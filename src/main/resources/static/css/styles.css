@@ -1038,12 +1038,26 @@ body {overflow-y: scroll}
 .look_price {
 	line-height: 20px;
 	position: absolute;
-	left: 0;right: 0;bottom: 0;
+	left: 0;right: 0;bottom:20px;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99ffffff, endColorstr=#99ffffff);
 	background-color: rgba(255,255,255,.8);
 	text-align: center;
 }
-.picked-item:hover .look_price {
+.look_name{
+	line-height: 20px;
+	position: absolute;
+	left: 0;right: 0;bottom: 0;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99ffffff, endColorstr=#99ffffff);
+	background-color:rgba(255,255,255,.8);
+	text-align: center;
+}
+.picked-item:hover .look_price{
+	color: #fff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99b31e22, endColorstr=#99b31e22);
+	background-color: rgba(179,30,34,.8);
+}
+
+.picked-item:hover  .look_name{
 	color: #fff;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99b31e22, endColorstr=#99b31e22);
 	background-color: rgba(179,30,34,.8);

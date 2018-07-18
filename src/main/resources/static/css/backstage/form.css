@@ -141,6 +141,20 @@
 	padding: 0px 20px 0px 20px;
 
 }
+
+.cloneSkuVal:hover{
+	/*cursor: pointer;
+	background-color: #2277da;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #fff;
+	font-size: 12px;
+	border: 0px;
+	border-radius: 3px;
+	padding: 0px 20px 0px 20px;*/
+	background-color: #006ba2;
+}
 .button:hover{
 	background-color: #006ba2;
 }
