@@ -123,10 +123,8 @@ public class ProductController {
     @RequestMapping(value = "getSearch")
     @ResponseBody
     public String getSearch(HttpServletRequest request,String pName){
-        //获取前台搜索框的值
-        String pName1 = (String)request.getSession().getAttribute("pName");
         //调用service层的方法进行查询
-        List<Categorythree> typeList = productService.getCategorythree(pName1);
+        List<Categorythree> typeList = productService.getCategorythree(pName);
         //把分类集合转换为json字符串
         String json = JSON.toJSONString(typeList);
         //返回参数
