@@ -85,4 +85,9 @@ public class CategoryThreeServiceImpl implements CategoryThreeService {
             throw e;
         }
     }
+
+    @Override
+    public int selthreeisshu(Integer parent) {
+        return cm.selthreeisshu(parent);
+    }
 }
