@@ -59,7 +59,7 @@
         where user_id =#{userId}
     </update>
     <!--查询用户-->
-    <select id="listUser" resultType="User">
+    <select id="listUser" resultType="com.alcohol.pojo.User">
         SELECT user_id,membership_name,nick_name,sex,birthday,create_time,integral,`status` FROM tb_user
         WHERE 1=1
         <if test="nickName!=null and nickName!=''">

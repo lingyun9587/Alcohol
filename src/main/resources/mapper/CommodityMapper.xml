@@ -19,28 +19,28 @@
     GROUP BY tbo.`orderStatus_id`
   </select>
 
-    <resultMap id="info" type="Commodity">
+    <resultMap id="info" type="com.alcohol.pojo.Commodity">
         <id column="commodity_id" property="commodityId"></id>
         <result column="order_id" property="orderId"/>
         <result column="number" property="number"/>
-        <association property="sku" javaType="Sku">
+        <association property="sku" javaType="com.alcohol.pojo.Sku">
            <id column="sku_id" property="skuId"/>
             <result column="present_price" property="presentPrice"/>
             <result column="skuvalue_id" property="skuvalueId"/>
-            <association property="product" javaType="Product">
+            <association property="product" javaType="com.alcohol.pojo.Product">
                 <id column="product_id" property="productId"/>
                 <result property="productName" column="product_name"/>
-                <collection property="imageList" ofType="Image">
+                <collection property="imageList" ofType="com.alcohol.pojo.Image">
                     <id column="image_id" property="imageId"/>
                     <result column="image_path" property="imagePath"/>
                 </collection>
             </association>
         </association>
-        <association property="orderstatus" javaType="Orderstatus">
+        <association property="orderstatus" javaType="com.alcohol.pojo.Orderstatus">
              <id column="orderStatus_id" property="orderStatus_id"></id>
             <result column="orderStatus_name" property="orderStatus_name"/>
         </association>
-        <association property="order" javaType="Order">
+        <association property="order" javaType="com.alcohol.pojo.Order">
             <id column="ordeId" property="orderId"/>
             <result column="create_time" property="createTime"/>
         </association>
@@ -74,7 +74,7 @@
          SELECT COUNT(1) FROM `tb_commodity` WHERE order_id=#{userId}
     </select>
 
-    <select id="listCommoditySail" resultType="Commodity">
+    <select id="listCommoditySail" resultType="com.alcohol.pojo.Commodity">
         SELECT sku_id,number FROM tb_commodity where order_id in
         <foreach collection="list" item="order" separator="," open="(" close=")">
             #{order.orderId}

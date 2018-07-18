@@ -14,12 +14,12 @@
         <result column="phone" property="phone"/>
         <result column="email" property="email"/>
         <result column="password" property="password" />
-        <association property="user" javaType="User">
+        <association property="user" javaType="com.alcohol.pojo.User">
             <id column="user_id" property="userId"/>
             <result column="membership_name" property="membershipName"/>
             <result column="sex" property="sex"/>
             <result column="nick_name" property="nickName"/>
-            <collection property="roles" ofType="Role">
+            <collection property="roles" ofType="com.alcohol.pojo.Role">
                 <id column="role_id" property="roleId"/>
                 <result column="role_name" property="roleName"/>
             </collection>

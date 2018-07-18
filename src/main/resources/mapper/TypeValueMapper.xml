@@ -7,7 +7,7 @@
     <select id="selIdType" resultType="com.alcohol.pojo.Typevalue">
         SELECT typeValue_id,typeValue_name FROM `tb_typevalue` WHERE typeValue_id=#{typeValueId}
     </select>
-    <select id="getTypeValuefy" resultType="Typevalue">
+    <select id="getTypeValuefy" resultType="com.alcohol.pojo.Typevalue">
         SELECT typevalue_id,typeValue_name,typeName_id FROM tb_typevalue WHERE typeName_id=#{typeNameId} and isdel=0
     </select>
 

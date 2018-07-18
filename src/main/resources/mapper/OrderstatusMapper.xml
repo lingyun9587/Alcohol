@@ -19,7 +19,6 @@
    ON statu.`orderStatus_id`=comm1.`orderstatus_id`
    WHERE  statu.`orderStatus_id` IN (1,2,3,9)
   GROUP BY statu.`orderStatus_id`
-
     </select>
 
 </mapper>

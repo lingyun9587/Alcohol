@@ -22,22 +22,22 @@
          </if>
         ORDER BY create_time DESC
     </select>
-    <resultMap id="resultMap01" type="Comment">
+    <resultMap id="resultMap01" type="com.alcohol.pojo.Comment">
         <id column="comment_id" property="commentId"/>
         <result column="create_time" property="createTime"/>
         <result column="content" property="content"/>
         <result column="spare_one" property="spareOne"/>
         <result column="review" property="review"/>
         <result column="reply_conte" property="reply_conte"/>
-        <association property="sku" javaType="Sku">
+        <association property="sku" javaType="com.alcohol.pojo.Sku">
             <id column="sku_id" property="skuId"/>
             <result column="skuvalue_id" property="skuvalueId"/>
         </association>
-        <association property="product" javaType="Product">
+        <association property="product" javaType="com.alcohol.pojo.Product">
             <id column="product_id" property="productId"/>
             <result column="product_name" property="productName"/>
         </association>
-        <association property="user" javaType="User">
+        <association property="user" javaType="com.alcohol.pojo.User">
             <id column="user_id" property="userId"/>
             <result column="nick_name" property="nickName"/>
         </association>
