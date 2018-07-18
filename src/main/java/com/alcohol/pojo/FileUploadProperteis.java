@@ -1,5 +1,6 @@
 package com.alcohol.pojo;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @ConfigurationProperties(prefix = "file")
+@Data
 public class FileUploadProperteis {
 
 
@@ -20,51 +22,11 @@ public class FileUploadProperteis {
     //文件上传目录商品图片
     private String uploadFolder ;
 
-
     private String uploadProduct;
-
-    public String getUploadComment() {
-        return uploadComment;
-    }
-
-    public void setUploadComment(String uploadComment) {
-        this.uploadComment = uploadComment;
-    }
 
     //评论
     private String uploadComment;
 
     private String staticCommentPath;
 
-    public void setStaticAccessPath(String staticAccessPath) {
-        this.staticAccessPath = staticAccessPath;
-    }
-
-    public void setStaticProductPath(String staticProductPath) {
-        this.staticProductPath = staticProductPath;
-    }
-
-    public void setUploadFolder(String uploadFolder) {
-        this.uploadFolder = uploadFolder;
-    }
-
-    public void setUploadProduct(String uploadProduct) {
-        this.uploadProduct = uploadProduct;
-    }
-
-    public String getStaticAccessPath() {
-        return staticAccessPath;
-    }
-
-    public String getStaticProductPath() {
-        return staticProductPath;
-    }
-
-    public String getUploadFolder() {
-        return uploadFolder;
-    }
-
-    public String getUploadProduct() {
-        return uploadProduct;
-    }
 }

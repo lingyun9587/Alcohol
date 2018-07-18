@@ -164,10 +164,22 @@ public class ProductController {
         String json="";
         String  skuTypeArr = request.getParameter("skuTypeArr");//sku属性和属性值
         String alreadySetSkuVals1 = request.getParameter("alreadySetSkuVals1");
+        String  image = request.getParameter("image");//商品
+        String weight = request.getParameter("weightList");//权重
+        String [] imageList=image.split(",");
+        String [] weightList=weight.split(",");
         List<TempSkuName> list=JSON.parseArray(skuTypeArr,TempSkuName.class);
         List<TempSku> listSku=JSON.parseArray(alreadySetSkuVals1,TempSku.class);
         int x=productService.addProduct(p);//第一步新增商品
         if(x>0){
+            for(int i=0;i<imageList.length;i++){
+                Image img=new Image();
+                img.setImageType("0");
+                img.setWeight(Long.parseLong(weightList[i]));//权重
+                img.setProductId(p.getProductId());
+                img.setImagePath(imageList[i]);//路径
+                imageService.addImage(img);
+            }
             for (TempSkuName temp:list){
                 skuName skuname=new skuName();
                 skuname.setProductId(p.getProductId());//商品编号
@@ -190,23 +202,24 @@ public class ProductController {
                 s.setOriginalPrice(sku.getSkuPrice()*2);//原价
                 String value = sku.getSkuId();//-2,-3
                 String arr01="";
-                String[] arr = value.split(",");
-                for (int i = 0; i < arr.length; i++) {
-                    Integer valueId = Integer.valueOf(arr[i]);
-                    for (TempSkuName temp : list) {
-                        for (TempSkuValue skuvalue:temp.getSkuValues()) {
-                            if (valueId == skuvalue.getSkuValueId()) {
-                                SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
-                                arr01+=skuvalues.getSkuvalueId()+"";
-                                if(i<arr.length-1){
-                                    arr01+=",";
+                if(value!="propvalids"&&!"propvalids".equals(value)){
+                    String[] arr = value.split(",");
+                    for (int i = 0; i < arr.length; i++) {
+                        Integer valueId = Integer.valueOf(arr[i]);
+                        for (TempSkuName temp : list) {
+                            for (TempSkuValue skuvalue:temp.getSkuValues()) {
+                                if (valueId == skuvalue.getSkuValueId()) {
+                                    SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
+                                    arr01+=skuvalues.getSkuvalueId()+"";
+                                    if(i<arr.length-1){
+                                        arr01+=",";
+                                    }
                                 }
                             }
                         }
                     }
                 }
                 s.setSkuvalueId(arr01);
-                System.out.print(arr01);
                 int y=skuValueService.addSku(s);
                 json="{\"res\":\"yes\",\"mes\":\"商品新增成功\"}";
             }
@@ -215,6 +228,28 @@ public class ProductController {
         }
         return json;
     }
+
+
+    /**
+     * 看了又看
+     * @param categorythreeId
+     * @return
+     */
+    @RequestMapping(value = "/getProductByCategorythreeId")
+    @ResponseBody
+    public Object getProductByCategorythreeId(Integer pageIndex,Integer pageSize,Integer categorythreeId){
+        PageHelper.startPage(pageIndex,pageSize,true,true);
+        List<Product> list=productService.getProductByCategorythreeId(categorythreeId);
+        for (int i=0;i<list.size();i++){
+            if(list.get(i).getProductName().length()>10){
+                String  productName=list.get(i).getProductName().substring(0,10);
+                list.get(i).setProductName(productName);
+            }
+        }
+        PageInfo<Product> page=new PageInfo<Product>(list);
+        return page;
+    }
+
     /***
      * 后台商品列表
      */
@@ -274,4 +309,25 @@ public class ProductController {
         return jso;
     }
 
+
+    /**
+     * 根据商品名跳转页面传值
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getrequest")
+    @ResponseBody
+    public String getrequest(HttpServletRequest request){
+        String JSON="";
+        String pid="";
+        String weight="";
+        if(request.getSession().getAttribute("pName")!=null){
+            JSON="{\"pid\":\""+request.getSession().getAttribute("pName")+"\"}";
+        }
+        if(request.getSession().getAttribute("weight")!=null){
+            weight=request.getSession().getAttribute("weight").toString();
+            JSON="{\"weight\":\""+weight+"\"}";
+        }
+        return JSON;
+    }
 }

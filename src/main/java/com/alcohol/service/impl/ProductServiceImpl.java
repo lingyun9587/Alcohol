@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ProductServiceImpl  implements ProductService {
+public class ProductServiceImpl   implements ProductService {
 
     @Resource
     private ProductMapper productMapper;
@@ -131,5 +131,10 @@ public class ProductServiceImpl  implements ProductService {
      */
     public boolean deleStatus(int[] attr) {
         return productMapper.deleStatus(attr);
+    }
+
+    @Override
+    public int updatesales(Long productId, Integer number) {
+        return productMapper.updatesales(productId,number);
     }
 }

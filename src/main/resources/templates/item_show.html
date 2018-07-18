@@ -520,21 +520,19 @@
     $(function() {
         getCommentByProductid(null,1);
         getCommentCountById();
-      //  getProductById();
+       getProductById();
         getcategory();
     });
 
 
     //根据商品编号获取商品
     function getProductById() {
-
         $.ajax({
             url: "/product/getproductbyId",
             dataType: "json",
             type: "post",
             success: function (data) {
                 var number=$(".badge").eq(0).html();
-
                 //图片的
                 var imageList = "<div class=\"small-box\">" +
                     " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">" +
@@ -557,8 +555,6 @@
                     "<a href=\"javascript:;\" class=\"btn btn-default btn-next\"></a>" +
                     "</div>" +
                     "<div class=\"big-box\" ><img src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\"></div>";
-
-
                 //内容的
                 var content = "\n" +
                     "<div class=\"item-title\">\n" +
@@ -629,7 +625,7 @@
                 $(".breadcrumb .active").html(data.productName);
                 //商品图片
                 console.log(imageList);
-                //$("#magnifier").html(imageList);
+                $("#magnifier").html(imageList);
                 //商品内容
                 $(".item-info__box").html(content);
                 //商品详情
