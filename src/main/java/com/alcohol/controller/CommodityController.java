@@ -1,10 +1,9 @@
 package com.alcohol.controller;
 
 import com.alcohol.dto.CommodityExecution;
-import com.alcohol.pojo.Commodity;
-import com.alcohol.pojo.Orderstatus;
-import com.alcohol.pojo.Useraccount;
+import com.alcohol.pojo.*;
 import com.alcohol.service.CommodityService;
+import com.alcohol.service.SkuValueService;
 import com.alcohol.service.UserAccountService;
 import com.alcohol.vo.OrderstatusVo;
 import com.github.pagehelper.PageHelper;
@@ -30,6 +29,8 @@ public class CommodityController {
     private UserAccountService userAccountService;
     @Resource
     private CommodityService commodityService;
+    @Resource
+    private SkuValueService skuValueService;
     /**
      * 获取用户订单信息
      * @return
@@ -48,11 +49,19 @@ public class CommodityController {
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);//从作用域中获取对象编号
         Long userId = useraccount.getUserId();  //从作用域中获取对象编号
-
         //Integer index=Integer.parseInt(pageIndex);
         //PageHelper.startPage(index,2,true,true);
-        List<Commodity> list = commodityService.listCommodityInfo(userId,status);
         PageHelper.startPage(pageIndex == null?1:pageIndex,pageSize);
+        List<Commodity> list = commodityService.listCommodityInfo(userId,status);
+        for (Commodity commodity: list) {
+            Sku sku = commodity.getSku();
+           String typevalueId=sku.getSkuvalueId();
+           String [] arr = typevalueId.split(",");
+            for (String str:arr) {
+                SkuValue skuvalue=skuValueService.getSkuById(Integer.parseInt(str));
+                commodity.getSku().getProduct().getSkuValues().add(skuvalue);
+            }
+        }
         System.out.println("======================="+list.size());
         PageInfo<Commodity>  pageInfo = new PageInfo<>(list);
         System.out.println(":::::"+pageInfo.getList());

@@ -795,11 +795,9 @@
                                 "                                                                          class=\"cover\"></div>\n" +
                                 "                                                    <div class=\"name ep2\">" + e.sku.product.productName + "</div>\n" +
                                 "                                                    <div class=\"format\">";
-                            $.each(e.sku.product.skunameList, function (i1, e1) {
-                                context += e1.skunameeValue + ":";
-                                $.each(e1.skuValueList, function (i2, e2) {
-                                    context += e2.skuvalueValue;
-                                });
+                            $.each(e.sku.product.skuValues, function (i1, e1) {
+                                context += e1.skuName.skunameeValue + ":"+e1.skuvalueValue+"、";
+
                             });
                             context += "</div>\n" +
                                 "                                                    <div class=\"favour\"></div>\n" +
@@ -965,7 +963,7 @@
                         alert(data.msg);
                         if(data.success){
                             init();
-                            $(obj).parent().parent().parent().parent().remove();
+                            pageInfo(1,null);
                         }
                     },
                     error:function () {
