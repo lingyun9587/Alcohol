@@ -60,13 +60,13 @@ public class CommentController {
      * 得到每个商品好评,中评,差评的个数
      * @return
      */
-    @RequestMapping(value = "/getCommentCountById",produces = "text/html;charset=utf-8")
+    /*@RequestMapping(value = "/getCommentCountById",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String getCommentCountById(HttpServletRequest request){
         Integer productId=(Integer)request.getSession().getAttribute("productId");
         List<Integer> list=commentService.getCommentCountById(productId);
         return JSON.toJSONString(list);
-    }
+    }*/
 
 
     @RequestMapping(value="/getSkuByProductId")
@@ -83,7 +83,7 @@ public class CommentController {
     @RequestMapping(value = "/getUpdateComment",produces = "text/html;charset=utf-8")
     @ResponseBody
     public Object getUpdateComment(@Valid Comment com){
-        System.out.println("gwernrtgherg");
+        //System.out.println("gwernrtgherg");
         int a = commentService.upComment(com);
         if (a>0){
             return "{\"message\":\"ok\"}";

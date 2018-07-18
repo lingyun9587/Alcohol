@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <title>表单</title>
-    <link rel="stylesheet" href="/css/backstage/sku_style.css" />
-    <link rel="stylesheet" type="/text/css" href="css/backstage/global.css">
-    <link rel="stylesheet" type="/text/css" href="css/backstage/form.css" />
-    <link rel="stylesheet" type="/text/css" href="css/backstage/add.css" />
-    <link rel="stylesheet" type="/text/css" href="css/backstage/layout.css" />
-    <link rel="stylesheet" type="/text/css" href="css/backstage/popup.css" />
-    <link rel="stylesheet" type="/text/css" href="css/backstage/upload.css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/backstage/sku_style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage/add.css" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage/layout.css" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage/upload.css" />
 </head>
 
 <body>
 <div class="container">
-    <h1 class="tabTitle"><span onclick="NewPage('tab.html')"><img src="/css/images/backstage/xjt.png"/></span>新增分类</h1>
+    <h1 class="tabTitle">新增分类</h1>
     <div class="info">
         <form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="formSheet">
             <dl>
@@ -30,22 +31,21 @@
                         </div>
                         <div style="width: 100%;height: 40px;">
                             <a>二级分类:</a>
-
                            <!-- <input type="text" list="url_list" class="textStyle" style="width:200px;  margin-left: 10px;" />-->
-                            <select id="url_list" style="height: 29px;width: 220px;margin-left: 14px">
+                            <select id="url_list" class="selectStyle" style="height: 29px;width: 220px;margin-left: 14px">
 
                             </select>
                             <input type="text" class="textStyle" id="userName1" name="userName" style="width:200px; margin-left: 10px;" placeholder="请输入二级名称" />
                             <input type="button" style="margin-left: 10px;" value="保存" class="button save" onclick="twoClassinfo()" />
-                            <span class="tstwo" style="color: red"></span>
+                            <span id ="tstwo"  style="color: red"></span>
                         </div>
                         <div style="width: 100%;height: 40px;">
                             <a>三级分类:</a>
-                            <select id="url_lists" style="height: 29px;width: 220px;margin-left: 14px" onchange="sh()">
+                            <select id="url_lists" class="selectStyle" style="height: 29px;width: 220px;margin-left: 14px" onchange="sh()">
 
                             </select>
 
-                            <select id="url_list3" style="height: 29px;width: 220px;margin-left: 14px">
+                            <select id="url_list3" class="selectStyle" style="height: 29px;width: 220px;margin-left: 14px">
 
                             </select>
                             <input type="text" class="textStyle" id="userName2" name="userName" style="width:200px; margin-left: 10px;" placeholder="请输入三级名称" />
@@ -58,10 +58,10 @@
 
             <dl>
                 <dt><span >商品属性:</span>
-                    <select id="url_lists1" style="height: 29px;width: 220px;margin-left: 14px" onchange="Shoptype()"> </select>
-                    <select id="url_lists2" style="height: 29px;width: 220px;margin-left: 14px" onchange="Shoptypethree()"> </select>
-                    <select id="url_lists3" style="height: 29px;width: 220px;margin-left: 14px" > </select>
                 </dt>
+                <select id="url_lists1" class="selectStyle" style="height: 29px;width: 220px;margin-left: 14px" onchange="Shoptype()"> </select>
+                <select id="url_lists2" class="selectStyle" style="height: 29px;width: 220px;margin-left: 14px" onchange="Shoptypethree()"> </select>
+                <select id="url_lists3" class="selectStyle" style="height: 29px;width: 220px;margin-left: 14px" > </select>
                 <dd>
                     <div class="fbox" >
                         <button class="cloneSku">添加sku属性</button>
@@ -235,7 +235,7 @@
 
 
         if(userName1==""){
-            $(".tstwo").html("请输入分类名");
+            $("#tstwo").html("请输入分类名");
         }else(
 
             $.ajax({

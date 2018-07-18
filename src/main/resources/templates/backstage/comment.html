@@ -10,6 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
 	<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
 	<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
+	<!--<link rel="stylesheet" type="text/css" href="/css/backstage/custom.css" />-->
+	<link rel="stylesheet" type="text/css" href="/css/backstage/iosOverlay.css" />
 
 	<style type="text/css">
 
@@ -59,7 +61,7 @@
 		<div class="pInfo">
 			<form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" class="addForm">
 				<dl>
-					<input type="hidden" class="commentId"/>
+					<input type="hidden" class="commentIds"/>
 					<dt><span>评论</span></dt>
 					<dd>
 						<div class="fbox" >
@@ -80,7 +82,7 @@
 
 		</div>
 		<div class="pfooter">
-			<input type="button" value="回复" class="button save" id="hui" onclick="update1()"/>
+			<input type="button" value="回复" class="button save" id="checkMarks" onclick="update1()"/>
 			<input type="button" value="取消" class="button delete" onclick="closeMask('stuInfo')"/>
 		</div>
 	</div>
@@ -108,6 +110,8 @@
 <script type="text/javascript" src="/js/backstage/pagetion.js"></script>
 <script type="text/javascript" src="/js/backstage/table.js"></script>
 <script type="text/javascript" src="/js/backstage/popup.js"></script>
+<script type="text/javascript" src="/js/backstage/custom.js"></script>
+<script type="text/javascript" src="/js/backstage/iosOverlay.js"></script>
 
 <script type="text/javascript">
     var pagesize = 10; //页显示多少条记录
@@ -163,6 +167,7 @@
     function tableInit(pageNum,spareOne) {
         var content="";
         var spare="";
+        var con="";
         //绑定表格数据
         $.ajax({
             url: "/listComment",
@@ -181,20 +186,50 @@
                     if (item.spareOne==3){
                         spare="差评";
                     }
-                    content+="<tr>\n" +
+                   /* if(item.reply_conte!=""||item.reply_conte!=null){
+						con=item.reply_conte;
+					}*/
+					if(item.reply_conte!=null&&item.reply_conte.length!=0){
+                        content+="<tr>\n" +
+                            "<th><!--<input type='checkbox' name='checkItem' class='checknum' value='"+item.commentId+"'/>--></th>\n" +
+                            "<th>"+spare+"</th>\n" +
+                            "<th>"+item.content+"</th>\n" +
+                            "<th>"+item.user.nickName+"</th>\n" +
+                            "<th >"+item.product.productName+"</th>\n" +
+                            "<th id='con'>"+item.reply_conte+"</th>\n" +
+                            "<th><button type='button' id='butnss' class='button_Disable' style='text-align: center;' onclick=''>已回复</button><!--<a href='#' onclick='hf(this)'>回复</a>--></th>\n" +
+                            "</tr>";
+					}else{
+                        content+="<tr>\n" +
+                            "<th><input type='checkbox' name='checkItem' class='checknum' value='"+item.commentId+"'/></th>\n" +
+                            "<th>"+spare+"</th>\n" +
+                            "<th>"+item.content+"</th>\n" +
+                            "<th>"+item.user.nickName+"</th>\n" +
+                            "<th >"+item.product.productName+"</th>\n" +
+                            "<th id='con'>"+con+"</th>\n" +
+                            "<th><button type='button' id='butnss' class='button save' style='text-align: center;' onclick='hf(this)'>回复</button><!--<a href='#' onclick='hf(this)'>回复</a>--></th>\n" +
+                            "</tr>";
+					}
+                    /*content+="<tr>\n" +
                         "<th><input type='checkbox' name='checkItem' class='checknum' value='"+item.commentId+"'/></th>\n" +
                         "<th>"+spare+"</th>\n" +
                         "<th>"+item.content+"</th>\n" +
                         "<th>"+item.user.nickName+"</th>\n" +
-                        "<th>"+item.product.productName+"</th>\n" +
-                        "<th>"+item.reply_conte+"</th>\n" +
-                        "<th><a href='#' onclick='hf(this)'>回复</a></th>\n" +
-                        "</tr>";
-
+                        "<th >"+item.product.productName+"</th>\n" +
+                        "<th id='con'>"+con+"</th>\n" +
+                        "<th><button type='button' id='butnss' class='button save' style='text-align: center;' onclick='hf(this)'>回复</button><!--<a href='#' onclick='hf(this)'>回复</a>--></th>\n" +
+                        "</tr>";*/
+                   /* if (con!=null||con!=""){
+                        alert(con);
+                        $("#butnss").removeClass("button");
+                        $("#butnss").removeClass("save");
+                        $("#butnss").addClass("button_Disable");
+                        $("#butnss").attr("onclick","");
+                    }*/
                         });
-
                 $("#dab").html(content);
                 showPage(pageNum,data.pages,data.total);
+
             },
             error:function () {
                 alert("服务器打小差了……稍后再试吧~~~");
@@ -232,13 +267,13 @@
     function hf(obj) {
         mask(560, 418, true, "stuInfo");
         var gg= $(obj).parent().parent().find("th").eq(2).html();
-        var id= $(obj).parent().parent().find("th").eq(1).html();
+        var id= $(obj).parent().parent().find("th").eq(0).find("input").val();
         $("#contentU").val(gg);
-        $(".commentId").val(id);
+        $(".commentIds").val(id);
     }
     //回复单条用户评价
     function update1() {
-        var id = $(".commentId").val();
+        var id = $(".commentIds").val();
         var conte=$(".reploy_content").val();
         if(conte==""||conte==null){
             alert("请输入回复内容");
@@ -250,9 +285,14 @@
                 dataType:"JSON",
                 success:function(data){
                     if(data.message=="ok"){
-                        tableInit(1, null);
                         closeMask('stuInfo');
-                        alert("回复成功");
+                        tableInit(1, null);
+                        iosOverlay({
+                            text: "回复成功!",
+                            duration: 2e3,
+                            //icon: "img/check.png"
+                        });
+                        $(".reploy_content").val("");
                     }else{
                         alert("数据游玩中……请稍后再试~~~");
                     }
@@ -284,7 +324,11 @@
                 if (data.message == "ok") {
                     tableInit(1,null);
                     closeMask('stuInfos');
-                    alert("回复成功");
+                    iosOverlay({
+                        text: "回复成功!",
+                        //duration: 2e3,
+                        //icon: "img/check.png"
+                    });
                 } else {
                     alert(data.message);
                 }

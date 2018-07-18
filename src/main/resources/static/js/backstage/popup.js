@@ -14,11 +14,9 @@ function showWebAlert(title) {
 	setTimeout("hideWebAlert()", 1000);
 	$(".saveAlert").css("left", saveAlertWidth / 2 - 135);
 	$(".saveAlert").css("top", saveAlertHeight / 2 - 40);
-
 }
 
 function hideWebAlert() {
-
 	$(".saveAlert").fadeOut(1000);
 
 }
