@@ -457,4 +457,37 @@ public class ShopCartController {
         jedisHashs.expire(orderKey,180);
        return JSON.toJSONString(1);
     }
+    /**
+     * 获取购物车商品数量
+     * @return
+     */
+    @RequestMapping(value = "/getShopCartNum")
+    @ResponseBody
+    public String getShopCartNum(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+        int shopCartNum=0;
+        //判断是否登录，否：cookie数量，是：redis数量
+        if(useraccount==null){
+            //查询cookie
+            Cookie[] c=request.getCookies();//获取cookie的所有数据
+            if(c!=null){
+                for (Cookie cc: c) {
+                    if(cc.getName().equals("JSESSIONID")){
+                        continue;
+                    }
+                    shopCartNum++;
+                }
+            }
+        }else{
+            User u=null;
+            u=useraccount.getUser();
+            //查询redis
+            Map<String,String> pp= jedisHashs.hgetAll(u.getUserId().toString());
+            if(pp!=null){
+                shopCartNum=pp.size();
+            }
+        }
+        return JSON.toJSONString(shopCartNum);
+    }
 }
