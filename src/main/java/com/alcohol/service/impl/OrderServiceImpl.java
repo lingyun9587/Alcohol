@@ -21,8 +21,8 @@ import java.util.Map;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
-    @Resource
-    private ProducerCc producerCc;
+    /*@Resource
+    private ProducerCc producerCc;*/
     @Resource
     private OrderMapper orderMapper;
     @Resource
@@ -54,9 +54,9 @@ public class OrderServiceImpl implements OrderService {
         }catch (OrderOperationException e){
             throw  new OrderOperationException(e.toString());
         }
-       /* if(orderExecution.getState() == 0){ //执行消息队列
-            producerCc.sendMessage(JSON.toJSONString(order.getCommodities()));
-        }*/
+        if(orderExecution.getState() == 0){ //执行消息队列
+            /*producerCc.sendMessage(JSON.toJSONString(order.getCommodities()));*/
+        }
         return orderExecution;
     }
 
@@ -108,5 +108,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getLastOrderInfo(Long userId) {
         return orderMapper.getLastOrderInfo(userId);
+    }
+
+    @Override
+    public List<Order> yearmoney(int year) {
+        return orderMapper.yearmoney(year);
     }
 }

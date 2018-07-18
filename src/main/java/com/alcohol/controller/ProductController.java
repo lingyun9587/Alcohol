@@ -10,10 +10,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -125,10 +123,8 @@ public class ProductController {
     @RequestMapping(value = "getSearch")
     @ResponseBody
     public String getSearch(HttpServletRequest request,String pName){
-        //获取前台搜索框的值
-        String pName1 = (String)request.getSession().getAttribute("pName");
         //调用service层的方法进行查询
-        List<Categorythree> typeList = productService.getCategorythree(pName1);
+        List<Categorythree> typeList = productService.getCategorythree(pName);
         //把分类集合转换为json字符串
         String json = JSON.toJSONString(typeList);
         //返回参数
@@ -166,10 +162,22 @@ public class ProductController {
         String json="";
         String  skuTypeArr = request.getParameter("skuTypeArr");//sku属性和属性值
         String alreadySetSkuVals1 = request.getParameter("alreadySetSkuVals1");
+        String  image = request.getParameter("image");//商品
+        String weight = request.getParameter("weightList");//权重
+        String [] imageList=image.split(",");
+        String [] weightList=weight.split(",");
         List<TempSkuName> list=JSON.parseArray(skuTypeArr,TempSkuName.class);
         List<TempSku> listSku=JSON.parseArray(alreadySetSkuVals1,TempSku.class);
         int x=productService.addProduct(p);//第一步新增商品
         if(x>0){
+            for(int i=0;i<imageList.length;i++){
+                Image img=new Image();
+                img.setImageType("0");
+                img.setWeight(Long.parseLong(weightList[i]));//权重
+                img.setProductId(p.getProductId());
+                img.setImagePath(imageList[i]);//路径
+                imageService.addImage(img);
+            }
             for (TempSkuName temp:list){
                 skuName skuname=new skuName();
                 skuname.setProductId(p.getProductId());//商品编号
@@ -192,23 +200,24 @@ public class ProductController {
                 s.setOriginalPrice(sku.getSkuPrice()*2);//原价
                 String value = sku.getSkuId();//-2,-3
                 String arr01="";
-                String[] arr = value.split(",");
-                for (int i = 0; i < arr.length; i++) {
-                    Integer valueId = Integer.valueOf(arr[i]);
-                    for (TempSkuName temp : list) {
-                        for (TempSkuValue skuvalue:temp.getSkuValues()) {
-                            if (valueId == skuvalue.getSkuValueId()) {
-                                SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
-                                arr01+=skuvalues.getSkuvalueId()+"";
-                                if(i<arr.length-1){
-                                    arr01+=",";
+                if(value!="propvalids"&&!"propvalids".equals(value)){
+                    String[] arr = value.split(",");
+                    for (int i = 0; i < arr.length; i++) {
+                        Integer valueId = Integer.valueOf(arr[i]);
+                        for (TempSkuName temp : list) {
+                            for (TempSkuValue skuvalue:temp.getSkuValues()) {
+                                if (valueId == skuvalue.getSkuValueId()) {
+                                    SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
+                                    arr01+=skuvalues.getSkuvalueId()+"";
+                                    if(i<arr.length-1){
+                                        arr01+=",";
+                                    }
                                 }
                             }
                         }
                     }
                 }
                 s.setSkuvalueId(arr01);
-                System.out.print(arr01);
                 int y=skuValueService.addSku(s);
                 json="{\"res\":\"yes\",\"mes\":\"商品新增成功\"}";
             }
@@ -219,4 +228,104 @@ public class ProductController {
     }
 
 
+    /**
+     * 看了又看
+     * @param categorythreeId
+     * @return
+     */
+    @RequestMapping(value = "/getProductByCategorythreeId")
+    @ResponseBody
+    public Object getProductByCategorythreeId(Integer pageIndex,Integer pageSize,Integer categorythreeId){
+        PageHelper.startPage(pageIndex,pageSize,true,true);
+        List<Product> list=productService.getProductByCategorythreeId(categorythreeId);
+        for (int i=0;i<list.size();i++){
+            if(list.get(i).getProductName().length()>10){
+                String  productName=list.get(i).getProductName().substring(0,10);
+                list.get(i).setProductName(productName);
+            }
+        }
+        PageInfo<Product> page=new PageInfo<Product>(list);
+        return page;
+    }
+
+    /***
+     * 后台商品列表
+     */
+    @RequestMapping(value="backpro",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String listAll(@RequestParam(value = "product_name",required = false) String product_name,
+                          @RequestParam(value = "status",required = false) int status,
+                          @RequestParam(value = "pageIndex",required = false) int pageIndex,
+                          @RequestParam(value = "pageSize",required = false) int  pageSize){
+        List<Product> bu=productService.listAll(product_name,status,pageIndex,pageSize);
+        PageInfo<Product> pa=new PageInfo<Product>(bu);
+        return JSON.toJSONString(pa);
+    }
+    /***
+     * 批量下架
+     */
+    @RequestMapping(value = "backsxj")
+    @ResponseBody
+    public String updataStat(@RequestParam(value = "product_id",required = false) int[] noticeId){
+        boolean bu=productService.updateStatus(noticeId);
+        String jso=null;
+        if (bu){
+            jso="{\"ers\":\"yes\",\"mesage\":\"下架成功\"}";
+        }else {
+            jso="{\"ers\":\"no\",\"mesage\":\"下架失败\"}";
+        }
+        return jso;
+    }
+    /***
+     * 批量上架
+     */
+    @RequestMapping(value = "backsxjsj")
+    @ResponseBody
+    public String updataStatsj(@RequestParam(value = "product_id",required = false) int[] noticeId){
+        boolean bu=productService.updateStatussj(noticeId);
+        String jso=null;
+        if (bu){
+            jso="{\"ers\":\"yes\",\"mesage\":\"上架成功\"}";
+        }else {
+            jso="{\"ers\":\"no\",\"mesage\":\"上架失败\"}";
+        }
+        return jso;
+    }
+    /***
+     * 批量删除
+     */
+    @RequestMapping(value = "backdele")
+    @ResponseBody
+    public String deleStat(@RequestParam(value = "product_id",required = false) int[] noticeId){
+        boolean bu=productService.deleStatus(noticeId);
+        String jso=null;
+        if (bu){
+            jso="{\"ers\":\"yes\",\"mesage\":\"删除成功\"}";
+        }else {
+            jso="{\"ers\":\"no\",\"mesage\":\"删除失败\"}";
+        }
+        return jso;
+    }
+
+
+    /**
+     * 根据商品名跳转页面传值
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getrequest")
+    @ResponseBody
+    public String getrequest(HttpServletRequest request){
+        String JSON="";
+        String pid="";
+        String weight="";
+        if(request.getSession().getAttribute("pName")!=null){
+            JSON="{\"pid\":\""+request.getSession().getAttribute("pName")+"\"}";
+        }
+        if(request.getSession().getAttribute("weight")!=null){
+            weight=request.getSession().getAttribute("weight").toString();
+            JSON="{\"weight\":\""+weight+"\"}";
+        }
+        return JSON;
+    }
 }

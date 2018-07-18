@@ -135,17 +135,52 @@
         <div class="pull-right">
             <div class="user-content__box clearfix bgf">
                 <div class="title">账户信息-物流查询</div>
-                <form action="" class="user-addr__form form-horizontal" role="form">
+
+               <!-- <tr>
+                    <th><h4>物流公司：</h4></th>
+                    <td>
+                        <select id="wlGs"  class="form-controla" style="width: 100px; clear: both;">
+                            <option value="0">请选择</option>
+                            <option value="ZTO">中通快递</option>
+                            <option value="YTO">圆通快递</option>
+                            <option value="YD">韵达快递</option>
+                            <option value="EMS">EMS</option>
+                            <option value="JD">京东物流</option>
+                            <option value="DBL">德邦快递</option>
+                        </select>
+                    </td>
+                    <th><h4>物流运单号：</h4></th>
+                    <td><input type="text" name="wlNumber" class="form-controla"  style="width: 100px; clear: both;"/></td>
+                    <td><input type="button" value="查询" onclick="QueryWl()" class="btn btn-primary"/></td>
+                </tr>
+                <tr>
+                    <th>时间</th>
+                    <th>物流轨迹</th>
+                </tr>-->
+
+               <form action="" class="user-addr__form form-horizontal" role="form">
+                   <div class="input-group col-sm-6">
+                       <span>快递公司</span>
+                       <select id="wlGs" class="form-control">
+                           <option value="0">请选择</option>
+                           <option value="ZTO">中通快递</option>
+                           <option value="YTO">圆通快递</option>
+                           <option value="YD">韵达快递</option>
+                           <option value="EMS">EMS</option>
+                           <option value="JD">京东物流</option>
+                           <option value="DBL">德邦快递</option>
+                       </select>
+                   </div>
                     <div class="input-group col-sm-6">
-                        <input class="form-control" placeholder="快递单号" type="text">
-                        <span class="input-group-btn">
-								<button class="btn btn-primary" type="button">查询</button>
-							</span>
+                        <span>快递单号</span>
+                        <input class="form-control" name="wlNumber" placeholder="例如，您可以输入：40105060123" type="text">
+                        <span class="input-group-btn" style=" padding-top: 20px;">
+								<button class="btn btn-primary" type="button" onclick="QueryWl()" >查询</button>
+                        </span>
                     </div>
-                    <div class="help-block">例如，您可以输入：<span class="cr">40105060123</span></div>
-                    <div class="query-result__box"></div>
+                    <div class="query-result__box" style="width: 1000px;margin-bottom: 10px;"></div>
                     <script>
-                        $(document).ready(function () {
+                       /* $(document).ready(function () {
                             // 模拟查询请求
                             $('.btn-primary').on('click', function () {
                                 if ($('.form-control').val() == '40105060123') {
@@ -159,7 +194,39 @@
 										`);
                                 }
                             });
-                        });
+                        });*/
+                       function QueryWl(){
+                           var wlGs=$("#wlGs").val();//获取物流公司编码
+                           var wlnumber=$("input[name='wlNumber']").val();//获取物流单号
+                           $.ajax({
+                               url:"/LogisticsSelect",
+                               type:"post",
+                               data:{"wlnumber":wlnumber,"wlGs":wlGs},
+                               dataType:"json",
+                               success:function(data){
+                                   var tr="<tr>\n" +
+                                       "                            <th style=\"width: 200px;height:25px;\">时间</th>\n" +
+                                       "                            <th style=\"width: 700px;height:25px;\">物流轨迹</th>\n" +
+                                       "                        </tr>";
+                                   $.each(data.Traces,function(i,e){
+                                       tr+="<tr>"+
+                                           "<td style=\"width: 200px;height:25px;\">"+e.AcceptTime+"</td>"+
+                                           "<td style=\"width: 700px;height:25px;\">"+e.AcceptStation+"</td>"+
+                                           "</tr>";
+                                   });
+                                   if(data.Traces.length==0){
+                                       $('.query-result__box').html(`
+											<div class="no-date">
+												<p class="cr">很抱歉，您的快递单号暂时没有查询结果！</p>
+												<p class="fz12 c6">您可以检查下快递单号是否正确</p>
+											</div>
+										`);
+                                   }else{
+                                       $('.query-result__box').html(tr);
+                                   }
+                               }
+                           });
+                       }
                     </script>
                 </form>
             </div>

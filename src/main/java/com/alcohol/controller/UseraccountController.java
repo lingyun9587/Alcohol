@@ -7,6 +7,7 @@ import com.alcohol.exceptions.UserAccountOperationException;
 import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
+import com.alcohol.service.jms.ProducerCc;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.SecurityUtils;
@@ -33,9 +34,9 @@ public class UseraccountController {
     /*@Autowired
     Queue queue;
     @Autowired
-    private ProducerCc producerCc;
+    private ProducerCc producerCc;*/
 
-    @RequestMapping("/rest")
+    /*@RequestMapping("/rest")
     public  String index(){
         producerCc.sendMessage("123");
         return "123";

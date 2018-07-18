@@ -60,13 +60,13 @@ public class CommentController {
      * 得到每个商品好评,中评,差评的个数
      * @return
      */
-    /*@RequestMapping(value = "/getCommentCountById",produces = "text/html;charset=utf-8")
+    @RequestMapping(value = "/getCommentCountById",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String getCommentCountById(HttpServletRequest request){
         Integer productId=(Integer)request.getSession().getAttribute("productId");
         List<Integer> list=commentService.getCommentCountById(productId);
         return JSON.toJSONString(list);
-    }*/
+    }
 
 
     @RequestMapping(value="/getSkuByProductId")

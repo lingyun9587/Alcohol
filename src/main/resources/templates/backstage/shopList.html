@@ -173,7 +173,7 @@
                             var paymentTimes1=e.createTime;
                             var d1 = new Date(paymentTimes1);
                             var times1=d1.getFullYear() + '-' + (d1.getMonth() + 1) + '-' + d1.getDate() + ' ' + d1.getHours() + ':' + d1.getMinutes() + ':' + d1.getSeconds();
-                            tr+="<tr><td><input type='checkbox' name='checkItem' class='checknum' value='"+e.productId+"'/></td><td><img src="+e.imagePath+" width='58px' hight='58px'>"+e.productName+"</td><td>"+e.countId+"</td><td>"+e.sales+"</td><td>"+e.spare_one+"</td><td>"+times+"</td><td>"+times1+"</td><td>"+price+"</td><td><button onclick='sid("+e.product_id+")'>修改</button>&nbsp;&nbsp;<button onclick='insert("+e.product_id+")'>新增库存</button></td></tr>";
+                            tr+="<tr><td><input type='checkbox' name='checkItem' class='checknum' value='"+e.productId+"'/></td><td><img src="+e.imagePath+" width='58px' hight='58px'>"+e.productName+"</td><td>"+e.countId+"</td><td>"+e.sales+"</td><td>"+e.spare_one+"</td><td>"+times+"</td><td>"+times1+"</td><td>"+price+"</td><td><button onclick='insert("+e.product_id+")'>新增库存</button></td></tr>";
                         });
                         $('#dg tbody').html(tr);
                         showPage(pageIndex, data.pages, data.total);

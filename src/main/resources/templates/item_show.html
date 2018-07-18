@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/swiper.min.css">
     <link rel="stylesheet" href="css/styles.css">
+
+    <script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
+    <script src="js/bootstrap.min.js" charset="UTF-8"></script>
+    <script src="js/swiper.min.js" charset="UTF-8"></script>
+    <script src="js/global.js" charset="UTF-8"></script>
+    <script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
     <style>
         .Info{
             color:orangered;
@@ -24,11 +30,7 @@
             display: block;
         }
     </style>
-    <script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
-    <script src="js/bootstrap.min.js" charset="UTF-8"></script>
-    <script src="js/swiper.min.js" charset="UTF-8"></script>
-    <script src="js/global.js" charset="UTF-8"></script>
-    <script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+
     <title>U袋网</title>
 </head>
 <body>
@@ -55,7 +57,7 @@
         <a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
         <div class="search-box">
             <form class="input-group">
-                <input placeholder="Ta们都在搜U袋网" type="text">
+                <input placeholder="" type="text" class="s_ipt">
                 <span class="input-group-btn">
 						<button type="button">
 							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -117,9 +119,8 @@
 <div class="content inner">
     <section class="item-show__div item-show__head clearfix">
         <div class="pull-left">
-            <ol class="breadcrumb">
-                <li><a href="index.html">首页</a></li>
-                <li><a href="item_sale_page.html">爆款推荐</a></li>
+           <ol class="breadcrumb">
+                <li><a href="index.html">商品详情</a></li>
                 <li class="active">原创设计日常汉服女款绣花长褙子吊带改良宋裤春夏</li>
             </ol>
             <!--图片开始-->
@@ -127,6 +128,13 @@
 
 
             </div>
+            <script src="js/jquery.magnifier.js"></script>
+            <script>
+                $(function () {
+                    $('#magnifier').magnifier();
+                });
+            </script>
+            <!--商品图片效果-->
             <!--图片结束-->
 
             <!--商品展示开始-->
@@ -138,84 +146,14 @@
         </div>
         <div class="pull-right picked-div">
             <div class="lace-title">
-                <span class="c6">爆款推荐</span>
+                <span class="c6">看了又看</span>
             </div>
             <div class="swiper-container picked-swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-1_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-2_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-3_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-4_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-6_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-7_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-8_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-9_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-10_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-1_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-2_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-3_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-4_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                        <a class="picked-item" href="">
-                            <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                            <div class="look_price">¥134.99</div>
-                        </a>
-                    </div>
+
                 </div>
             </div>
-            <div class="picked-button-prev"></div>
-            <div class="picked-button-next"></div>
+
             <script>
                 $(document).ready(function () {
                     // 顶部banner轮播
@@ -333,129 +271,6 @@
                     </div>
                 </div>
             </div>
-            <div class="recommends">
-                <div class="lace-title type-2">
-                    <span class="cr">爆款推荐</span>
-                </div>
-                <div class="swiper-container recommends-swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-1_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-2_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-3_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-4_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-1_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-2_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-3_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-4_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-1_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-2_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-3_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-4_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-1_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-2_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-3_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-4_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-3_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-4_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" alt="" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                    $(document).ready(function () {
-                        var recommends = new Swiper('.recommends-swiper', {
-                            spaceBetween: 40,
-                            autoplay: 5000,
-                        });
-                    });
-                </script>
-            </div>
         </div>
         <div class="pull-right">
             <div class="tab-content" id="descCate">
@@ -476,64 +291,6 @@
                         <dd class="dc-idsItem">
                             <a href="#desc-module-5"><i class="iconfont"></i> 常见问题</a>
                         </dd>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="evaluate-tab" aria-labelledby="evaluate-tab">
-                    <div class="descCate-content posr bgf5">
-                        <div class="lace-title">
-                            <span class="c6">相关推荐</span>
-                        </div>
-                        <div class="picked-box">
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-1_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-2_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-3_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-4_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="service-tab" aria-labelledby="service-tab">
-                    <div class="descCate-content posr bgf5">
-                        <div class="lace-title">
-                            <span class="c6">最近浏览</span>
-                        </div>
-                        <div class="picked-box">
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-1_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-2_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-3_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-4_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                            <a class="picked-item" href="">
-                                <img src="images/temp/S-001-5_s.jpg" class="cover">
-                                <div class="look_price">¥134.99</div>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -760,10 +517,10 @@
 </body>
 </html>
 <script>
-    $(function () {
+    $(function() {
         getCommentByProductid(null,1);
         getCommentCountById();
-        getProductById();
+       getProductById();
         getcategory();
     });
 
@@ -777,27 +534,27 @@
             success: function (data) {
                 var number=$(".badge").eq(0).html();
                 //图片的
-                var imageList = "<div class=\"small-box\"><input type='hidden' class='skuId' value='0'/>\n" +
-                    " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">\n" +
-                    "<span class=\"hover\"></span>\n" +
-                    "</div>\n" +
-                    " <div class=\"thumbnail-box\">\n" +
-                    " <a href=\"javascript:;\" class=\"btn btn-default btn-prev\"></a>\n" +
-                    "<div class=\"thumb-list\">\n" +
-                    "<ul class=\"wrapper clearfix\">\n"+
+                var imageList = "<div class=\"small-box\">" +
+                    " <img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\">" +
+                    "<span class=\"hover\"></span>" +
+                    "</div>" +
+                    " <div class=\"thumbnail-box\">" +
+                    " <a href=\"javascript:;\" class=\"btn btn-default btn-prev\"></a>" +
+                    "<div class=\"thumb-list\">" +
+                    "<ul class=\"wrapper clearfix\">"+
                     "<li class=\"item active\" data-src=\""+data.imageList[0].imagePath+"\">"+
-                    "<img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\"商品预览图\"></li>\n";
+                    "<img class=\"cover\" src=\""+data.imageList[0].imagePath+"\" alt=\"商品预览图\"></li>";
                 /*"<video  src=\""+data.imageList[0].imagePath+"\" poster=\""+data.imageList[0].imagePath+"\" autoplay=\"autoplay\"></video></li>";*/
                 $.each(data.imageList, function (item, temp) {
                     if(item!=0){
-                        imageList +="<li class=\"item\" data-src=\""+temp.imagePath+"\"><img class=\"cover\" src=\""+temp.imagePath+"\" alt=\"商品预览图\"></li>\n";
+                        imageList +="<li class=\"item\" data-src=\""+temp.imagePath+"\"><img class=\"cover\" src=\""+temp.imagePath+"\" alt=\"商品预览图\"></li>";
                     }
                 });
-                imageList += "</ul>\n" +
-                    "</div>\n" +
-                    "<a href=\"javascript:;\" class=\"btn btn-default btn-next\"></a>\n" +
-                    "</div>\n" +
-                    "<div class=\"big-box\" style='display: none'><img src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\"></div>\n";
+                imageList += "</ul>" +
+                    "</div>" +
+                    "<a href=\"javascript:;\" class=\"btn btn-default btn-next\"></a>" +
+                    "</div>" +
+                    "<div class=\"big-box\" ><img src=\""+data.imageList[0].imagePath+"\" alt=\""+data.productName+"\"></div>";
                 //内容的
                 var content = "\n" +
                     "<div class=\"item-title\">\n" +
@@ -827,7 +584,8 @@
                     "</li>\n" +
                     "</ul>\n" +
                     "<div class=\"item-key\">\n" +
-                    "<div class=\"item-sku\">\n";
+                    "<div class=\"item-sku\"><input type='hidden' class='skuId' value='0'/>\n";
+
                 $.each(data.skunameList, function (i, e) {
                     content += "<dl class=\"item-prop clearfix\">\n" +
                         "<dt class=\"item-metatit\">" + e.skunameeValue + ":</dt>\n" +
@@ -857,7 +615,7 @@
                     "<div class='Info'>请勾选您要的商品信息！</div>"+
                     "<div class=\"item-action clearfix bgf5\">\n" +
                     "<a href=\"javascript:;\" rel=\"nofollow\" data-addfastbuy=\"true\" title=\"点击此按钮，到下一步确认购买信息。\"\n" +
-                    "role=\"button\" class=\"item-action__buy\" onclick='buy1()'>立即购买</a>\n" +
+                    "role=\"button\" class=\"item-action__buy\" onclick='buy()'>立即购买</a>\n" +
                     "<a href=\"javascript:;\" onclick='buy()' rel=\"nofollow\" data-addfastbuy=\"true\" role=\"button\" class=\"item-action__basket\">\n" +
                     "<i class=\"iconfont icon-shopcart\"></i> 加入购物车\n" +
                     "</a>\n" +
@@ -866,15 +624,17 @@
                 //商品名称
                 $(".breadcrumb .active").html(data.productName);
                 //商品图片
+                console.log(imageList);
                 $("#magnifier").html(imageList);
                 //商品内容
                 $(".item-info__box").html(content);
                 //商品详情
                 $("#detail").html(data.productDetails);
                 $(".Info").hide();
-                if(data.skunameList==""||data.skunameList==null){
-                    $(".skuId").val(data.skuList[0].skuId);
+                if(data.skunameList.length==0){
+                    $(".skuId").val("空");
                 }
+                klyk(1,data.categoryThree);//看了又看
             },
             error: function () {
                 alert("网络延迟,请稍后重试");
@@ -901,6 +661,7 @@
         }
         $(".amount-input").val(n);
     }
+
     //绑定大分类
     function getcategory(){
         var content = "";
@@ -987,17 +748,28 @@
                         "</div>"+
                         "</div>"+
                     "</div>";
+                    var iqishi = 1;
+                    if(data.pages >= 8) {
+                        if((pageNum + 4) >= data.pages) {
+                            iqishi = data.pages - 8;
+                        } else if(pageNum >= 5) {
+                            iqishi = pageNum - 4;
+                        }
+                    }
                     var btn ="<div class=\"page text-center clearfix\">";
                     if(pageNum== 1){
                         btn+=" <a class=\"disabled\">上一页</a>\n" ;
                     }else{
                         btn+=" <a onclick='show("+spareOne+","+(pageNum-1)+")'>上一页</ a>\n" ;
                     }
-                    for(var i = 1; i<=data.pages; i++){
-                        if(i == data.pageNum){
+                    for(var i = iqishi; i <= iqishi + 8; i++) {
+                        if(i == pageNum){
                             btn+=" <a class=\"select\">"+i+"</a>";
                         }else{
                             btn+=" <a onclick='show("+spareOne+","+i+")'>"+i+"</a>";
+                        }
+                        if(i > data.pages - 1) {
+                            break;
                         }
                     }
                     if(data.pages == pageNum){
@@ -1010,7 +782,6 @@
                     $("#good").html(contents+btn);
                     $("#normal").html(contents+btn);
                     $("#bad").html(contents+btn);
-
                 });
             },
             error:function () {
@@ -1075,7 +846,6 @@
                 alert("sku获取失败");
             }
         });
-
     }
 
     //加入购物车
@@ -1088,8 +858,8 @@
         }
         else{
             $.ajax({
-                url:"/shop/addShopCart",
-                data:{skuid:skuId,num:number},
+                url:"/addShopCart",
+                data:{skuId:skuId},
                 dataType:"JSON",
                 type:"post",
                 success:function(result){
@@ -1100,32 +870,43 @@
             });
         }
     }
-    //立即购买
-    function buy1(){
-        var skuId=$(".skuId").val();
-        var number=$('.amount-input').val();
-        alert(skuId);
-        if(skuId==0){
-            $(".Info").show();
-            return;
-        }
-        else{
-            $.ajax({
-                url:"/getUserInfo",
-                dataType:"JSON",
-                type:"post",
-                success:function(result){
-                    if(result == null){
-                        alert("用户未登录");
-                    }else{
-                        location.href="udai_shopcart_pay.html?skuId="+skuId+"&number="+number;
-                    }
-                },error:function(){
 
-                }
-            });
-        }
+    //看了又看
+    function klyk(pageIndex,categorythreeId){
+        $.ajax({
+            url:"/product/getProductByCategorythreeId",
+            data:{categorythreeId:categorythreeId,pageIndex:pageIndex,pageSize:3},
+            dataType:"json",
+            type:"post",
+            success:function(result){
+                var content="<div class=\"swiper-slide\">\n";
+                $.each(result.list,function(i,e){
+                    content+="<a class=\"picked-item\" href=\"item_show.html?productId="+e.productId+"\">"+
+                        "<img src=\""+e.imageList[0].imagePath+"\" alt=\"\" class=\"cover\">" +
+                        "<div class=\"look_price\">¥"+e.skuList[0].presentPrice+"</div>" +
+                        " <div class=\"look_name\">"+e.productName+"...</div>" +
+                        "</a>";
+                });
+                content+="</div>";
+                    var page=pageIndex-1;
+                    var page01=pageIndex+1;
+                    if(page==0){
+                        page=result.pages;
+                    }
+                    if(page01==result.pages){
+                        page01=1;
+                    }
+                var btn="";
+                    btn+="<div class=\"picked-button-prev\" onclick='klyk("+(page)+","+categorythreeId+")'></div>";
+                    btn+="<div class=\"picked-button-next\" onclick='klyk("+(page01)+","+categorythreeId+")'></div>";
+                $(".swiper-container .swiper-wrapper").eq(0).html(content);
+                $(".swiper-container").eq(0).after(btn);
+            },error:function(result){
+                alert("看了又看失败");
+            }
+        });
     }
+
 </script>
 
 <!--购物车加减-->
@@ -1159,10 +940,4 @@
     });
 </script>
 
-<script src="js/jquery.magnifier.js"></script>
-<script>
-    $(function () {
-        $('#magnifier').magnifier();
-    });
-</script>
-<!--商品图片效果-->
+

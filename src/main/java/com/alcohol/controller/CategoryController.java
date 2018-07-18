@@ -289,6 +289,18 @@ public class CategoryController {
     }
 
     /**
+     * 判断一级分类下是否有二级分类
+     *
+     */
+    @ResponseBody
+    @RequestMapping(value="seloneistwo",produces="text/html;charset=utf-8")
+    public String seloneistwo(@RequestParam("ct") Integer ct){
+        int count=categoryOneService.seloneistwo(ct);
+        return JSON.toJSONString(count);
+
+
+    }
+    /**
      * 王磊
      * 后台查询一级分类下的二级分类
      * @return
@@ -296,11 +308,26 @@ public class CategoryController {
     @ResponseBody
     @RequestMapping(value="getCategoryTwoInfofy",produces="text/html;charset=utf-8")
     public String getCategoryTwoInfofy(Categorytwo ct,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize){
-        List<Categorytwo> lis=categoryTwoService.getCategoryTwoInfofy(ct,pageNum,pageSize);
-        PageInfo<Categorytwo> apps=new PageInfo<Categorytwo>(lis);
-        return JSON.toJSONString(apps);
+
+            List<Categorytwo> lis=categoryTwoService.getCategoryTwoInfofy(ct,pageNum,pageSize);
+            PageInfo<Categorytwo> apps=new PageInfo<Categorytwo>(lis);
+            return JSON.toJSONString(apps);
+
+
     }
 
+    /**
+     * 判断二级分类下是否有三级分类
+     *
+     */
+    @ResponseBody
+    @RequestMapping(value="seltwoisthree",produces="text/html;charset=utf-8")
+    public String seltwoisthree(@RequestParam("parent") Integer parent){
+        int count=categoryTwoService.seltwoisthree(parent);
+        return JSON.toJSONString(count);
+
+
+    }
     /**
      * 查询二级下的三级分类
      * @param ct
@@ -319,6 +346,18 @@ public class CategoryController {
     }
 
     /**
+     * 查询三级分类下是否有属性
+     * @param parent
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="selthreeisshu",produces="text/html;charset=utf-8")
+    public String selthreeisshu(@RequestParam("parent") Integer parent){
+        int count=categoryThreeService.selthreeisshu(parent);
+        return JSON.toJSONString(count);
+    }
+
+    /**
      * 查询三级下的属性
      * @param tn
      * @param pageNum
@@ -331,6 +370,17 @@ public class CategoryController {
         List<TypeName> lists=typeNameService.getTypeNamefy(tn,pageNum,pageSize);
         PageInfo<TypeName> apps=new PageInfo<TypeName>(lists);
         return JSON.toJSONString(apps);
+    }
+
+    /**
+     * 查询属性下是否有属性值
+     */
+
+    @ResponseBody
+    @RequestMapping(value="selshuisshuxing",produces="text/html;charset=utf-8")
+    public String selshuisshuxing(@RequestParam("parent") Integer parent){
+        int count=typeNameService.selshuisshuxing(parent);
+        return JSON.toJSONString(count);
     }
 
     /**

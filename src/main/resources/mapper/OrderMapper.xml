@@ -199,4 +199,9 @@
 order_id,address_id,create_time,batch,user_id,goodsCount,`status`
   FROM `tb_order` WHERE user_id=#{userId} order by create_time desc limit 0,1
     </select>
+    <!--统计图-->
+    <select id="yearmoney" resultType="com.alcohol.vo.OrderAnalysisVo">
+       SELECT tim.`timeId`,SUM(tb.money) AS `count` FROM `tb_time` tim LEFT JOIN (SELECT `money`,
+MONTH(`create_time`) AS tim1,`create_time` FROM `tb_order` WHERE YEAR(create_time)=#{year}) tb ON tim.`timeId`=tb.tim1 GROUP BY tim.`timeId`
+    </select>
 </mapper>

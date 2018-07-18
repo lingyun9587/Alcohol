@@ -19,4 +19,11 @@ public interface ImageMapper {
      * @return
      */
     List<Image> selImageByProductId(Long productId);
+
+    /**
+     * 商品图片/评论图片
+     * @param image
+     * @return
+     */
+    int addImage(Image image);
 }

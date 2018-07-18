@@ -174,9 +174,20 @@ $(function(){
 				$(".tab-header .inner .pull-right a").eq(0).html(data.user.membershipName);
                 $(".tab-header .inner .pull-right a").eq(0).attr("href","javascript:void(0)");
                 $(".tab-header .inner .pull-right a").eq(1).hide();
+
+
+
 			}
 		},
 		error:function(){
+		}
+	});
+	$.ajax({
+		url:"/shop/getShopCartNum",
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			$(".cart-but").html("<i class=\'iconfont icon-shopcart cr fz16\'></i> 购物车"+data+"件");
 		}
 	})
 })

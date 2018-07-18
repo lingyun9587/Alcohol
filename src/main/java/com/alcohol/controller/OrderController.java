@@ -128,62 +128,6 @@ public class OrderController{
       return order;
     }
 
-    /**
-     * 查看订单 韩庆林
-     * @param pageNum
-     * @param pageSize
-     * @param batch
-     * @param orderStatus
-     * @return
-     */
-    @RequestMapping(value="/backstage/order")
-    @ResponseBody
-    public  Object order(@RequestParam(value = "pageNum",required = false) Integer pageNum,
-                         @RequestParam(value = "pageSize",required = false) Integer pageSize,
-                         @RequestParam(value = "batch",required = false) String batch,
-                         @RequestParam(value = "orderStatus",required = false) Integer orderStatus){
-
-        Map<String,Object> map=new HashMap<String,Object>();
-        map.put("batch",batch);
-        map.put("pageNum",pageNum);
-        map.put("pageSize",pageSize);
-        map.put("orderStatus",orderStatus);
-        List<Order> list=orderService.order(map);
-        PageInfo<Order> page=new PageInfo<Order>(list);
-        System.out.println(page.getTotal());
-        System.out.println(list);
-        return page;
-    }
-
-    /**
-     * 查看订单详情 韩庆林
-     * @param order_id
-     * @return
-     */
-    @RequestMapping(value="/backstage/cha")
-    @ResponseBody
-    public  Object cha(@RequestParam(value = "order_id",required = false) Integer order_id){
-        Order order=orderService.cha(order_id);
-        return JSON.toJSONString(order);
-    }
-
-    /**
-     * 点击退款中，改变状态，变为已退款  韩庆林
-     * @param order_id
-     * @return
-     */
-    @RequestMapping(value ="/backstage/status")
-    @ResponseBody
-    public  String   status(int order_id){
-        int x=orderService.status(order_id);
-        String json="";
-        if(x>0){
-            json="{\"result\":\"yes\",\"mes\":\"退款成功！\"}";
-        }else{
-            json="{\"result\":\"no\",\"mes\":\"退款失败！\"}";
-        }
-        return  json;
-    }
 
 
     @RequestMapping(value = "/updateOrderStatus")
@@ -246,5 +190,16 @@ public class OrderController{
           map.put("success",false);
       }
         return map;
+    }
+    /***
+     * 销售额折线图
+     * @param year
+     * @return
+     */
+    @RequestMapping(value="yearMoney",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String yearMoney(@RequestParam(value = "year",required = false) int year){
+        List<Order> qian=orderService.yearmoney(year);
+        return JSON.toJSONString(qian);
     }
 }

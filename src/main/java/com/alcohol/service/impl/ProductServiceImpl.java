@@ -7,18 +7,21 @@ import com.alcohol.pojo.Sku;
 import com.alcohol.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl   implements ProductService {
 
     @Resource
     private ProductMapper productMapper;
+
+    @Override
+    public List<Product> getProductByCategorythreeId(Integer categorythreeId) {
+        return productMapper.getProductByCategorythreeId(categorythreeId);
+    }
 
     @Override
     public int addProduct(Product p) {
@@ -88,6 +91,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductList(String product_name,int judge) {
         return productMapper.getProductList(product_name,judge);
+    }
+
+    /**
+     * 根据分类属性值的id查询商品  xcf
+     * @param typevalueArray  分类属性值
+     * @param judge  排序类型
+     * @return  商品集合
+     */
+    @Override
+    public List<Product> getTypeProductList(int categoryThree,String[] typevalueArray, int judge) {
+        return productMapper.getTypeProductList(categoryThree,typevalueArray,judge);
     }
 
     /**
