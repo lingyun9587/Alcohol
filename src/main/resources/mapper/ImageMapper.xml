@@ -23,4 +23,9 @@
     <select id="selImageByProductId" resultType="Image">
         SELECT image_id,image_path,product_id,image_type,weight FROM tb_image WHERE product_id=#{productId}
     </select>
+
+    <insert id="addImage">
+         INSERT INTO tb_image(image_id,image_path,product_id,image_type,weight)
+         VALUES(NULL,#{imagePath},#{productId},#{imageType},#{weight});
+    </insert>
 </mapper>

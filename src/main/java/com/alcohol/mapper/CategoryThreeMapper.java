@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public interface CategoryThreeMapper {
 
+
     /**
      * 点击三级分类,显示属性和属性值,商品
      * @param id

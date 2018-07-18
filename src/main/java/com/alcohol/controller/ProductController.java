@@ -14,8 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +40,7 @@ public class ProductController {
     private ImageService imageService;
     @Resource
     private SkuValueService skuValueService;
+
 
     @RequestMapping(value="/getproductbyId")
     @ResponseBody
@@ -119,17 +127,14 @@ public class ProductController {
     }
 
     /**
-     * 根据搜索名模糊查询三级分类集合
-     * @param request 作用域
+     * 根据搜索名模糊查询三级分类集合   xcf
      * @return 分类集合json字符串
      */
     @RequestMapping(value = "getSearch")
     @ResponseBody
-    public String getSearch(HttpServletRequest request,String pName){
-        //获取前台搜索框的值
-        String pName1 = (String)request.getSession().getAttribute("pName");
+    public String getSearch(String pName){
         //调用service层的方法进行查询
-        List<Categorythree> typeList = productService.getCategorythree(pName1);
+        List<Categorythree> typeList = productService.getCategorythree(pName);
         //把分类集合转换为json字符串
         String json = JSON.toJSONString(typeList);
         //返回参数
@@ -138,7 +143,7 @@ public class ProductController {
     }
 
     /**
-     * 根据商品名模糊查询商品集合
+     * 根据商品名模糊查询商品集合   xcf
      * @param request 作用域
      * @param pName 搜索框的值
      * @return 查询到的商品集合
@@ -147,7 +152,6 @@ public class ProductController {
     @ResponseBody
     public String getProduct(HttpServletRequest request,String pName,int judge,Integer pageIndex,Integer pageSize){
         //调用service层的方法进行查询 sout
-        System.out.println(pName);
         if(pageIndex==null){
             pageIndex=1;
             pageSize=1;
@@ -161,16 +165,73 @@ public class ProductController {
         return json;
     }
 
+    /**
+     * 根据分类属性值模糊查询商品集合   xcf
+     * @param request 作用域
+     * @param typeValueId 分类属性值
+     * @return 查询到的商品集合
+     */
+    @RequestMapping(value = "getTypeProductList")
+    @ResponseBody
+    public String getTypeProductList(HttpServletRequest request,String typeValueId, int judge, Integer pageIndex, Integer pageSize){
+        //调用service层的方法进行查询 sout
+        int categoryThree = (int) request.getSession().getAttribute("categoryId");
+        String[] typeValueArray = null;
+        if(!typeValueId.equals("-1")){
+            typeValueArray = typeValueId.split(",");
+        }
+        if(pageIndex==null){
+            pageIndex=1;
+            pageSize=1;
+        }
+        PageHelper.startPage(pageIndex,pageSize,true);
+        List<Product> pList = productService.getTypeProductList(categoryThree,typeValueArray,judge);
+        System.out.println("集合"+pList.size());
+        PageInfo<Product> page=new PageInfo<Product>(pList);
+        //把分类集合转换为json字符串
+        String json = JSON.toJSONString(page);
+        //展示json数据
+        return json;
+    }
+
+    @RequestMapping(value = "/getrequest")
+    @ResponseBody
+    public String getrequest(HttpServletRequest request){
+        String JSON="";
+        String pid="";
+        String weight="";
+        if(request.getSession().getAttribute("pName")!=null){
+            JSON="{\"pid\":\""+request.getSession().getAttribute("pName")+"\"}";
+        }
+        if(request.getSession().getAttribute("weight")!=null){
+            weight=request.getSession().getAttribute("weight").toString();
+            JSON="{\"weight\":\""+weight+"\"}";
+        }
+        return JSON;
+    }
+
     @RequestMapping(value = "/addProduct")
     @ResponseBody
     public String addProduct(Product p,HttpServletRequest request){
         String json="";
         String  skuTypeArr = request.getParameter("skuTypeArr");//sku属性和属性值
         String alreadySetSkuVals1 = request.getParameter("alreadySetSkuVals1");
+        String  image = request.getParameter("image");//商品
+        String weight = request.getParameter("weightList");//权重
+        String [] imageList=image.split(",");
+        String [] weightList=weight.split(",");
         List<TempSkuName> list=JSON.parseArray(skuTypeArr,TempSkuName.class);
         List<TempSku> listSku=JSON.parseArray(alreadySetSkuVals1,TempSku.class);
         int x=productService.addProduct(p);//第一步新增商品
         if(x>0){
+            for(int i=0;i<imageList.length;i++){
+                Image img=new Image();
+                img.setImageType("0");
+                img.setWeight(Long.parseLong(weightList[i]));//权重
+                img.setProductId(p.getProductId());
+                img.setImagePath(imageList[i]);//路径
+                imageService.addImage(img);
+            }
             for (TempSkuName temp:list){
                 skuName skuname=new skuName();
                 skuname.setProductId(p.getProductId());//商品编号
@@ -193,23 +254,24 @@ public class ProductController {
                 s.setOriginalPrice(sku.getSkuPrice()*2);//原价
                 String value = sku.getSkuId();//-2,-3
                 String arr01="";
-                String[] arr = value.split(",");
-                for (int i = 0; i < arr.length; i++) {
-                    Integer valueId = Integer.valueOf(arr[i]);
-                    for (TempSkuName temp : list) {
-                        for (TempSkuValue skuvalue:temp.getSkuValues()) {
-                            if (valueId == skuvalue.getSkuValueId()) {
-                                SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
-                                arr01+=skuvalues.getSkuvalueId()+"";
-                                if(i<arr.length-1){
-                                    arr01+=",";
+                if(value!="propvalids"&&!"propvalids".equals(value)){
+                    String[] arr = value.split(",");
+                    for (int i = 0; i < arr.length; i++) {
+                        Integer valueId = Integer.valueOf(arr[i]);
+                        for (TempSkuName temp : list) {
+                            for (TempSkuValue skuvalue:temp.getSkuValues()) {
+                                if (valueId == skuvalue.getSkuValueId()) {
+                                    SkuValue skuvalues=skuValueService.getSkuValueIdByname(p.getProductId(),skuvalue.getSkuValueTitle());
+                                    arr01+=skuvalues.getSkuvalueId()+"";
+                                    if(i<arr.length-1){
+                                        arr01+=",";
+                                    }
                                 }
                             }
                         }
                     }
                 }
                 s.setSkuvalueId(arr01);
-                System.out.print(arr01);
                 int y=skuValueService.addSku(s);
                 json="{\"res\":\"yes\",\"mes\":\"商品新增成功\"}";
             }
@@ -219,5 +281,25 @@ public class ProductController {
         return json;
     }
 
+
+    /**
+     * 看了又看
+     * @param categorythreeId
+     * @return
+     */
+    @RequestMapping(value = "/getProductByCategorythreeId")
+    @ResponseBody
+    public Object getProductByCategorythreeId(Integer pageIndex,Integer pageSize,Integer categorythreeId){
+        PageHelper.startPage(pageIndex,pageSize,true,true);
+        List<Product> list=productService.getProductByCategorythreeId(categorythreeId);
+        for (int i=0;i<list.size();i++){
+            if(list.get(i).getProductName().length()>10){
+                String  productName=list.get(i).getProductName().substring(0,10);
+                list.get(i).setProductName(productName);
+            }
+        }
+        PageInfo<Product> page=new PageInfo<Product>(list);
+        return page;
+    }
 
 }

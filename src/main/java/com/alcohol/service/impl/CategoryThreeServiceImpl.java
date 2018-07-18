@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Service("categoryThreeService")
 @Transactional
-public class CategoryThreeServiceImpl implements CategoryThreeService {
+public class CategoryThreeServiceImpl  implements CategoryThreeService {
 
     @Resource
     private CategoryThreeMapper cm;

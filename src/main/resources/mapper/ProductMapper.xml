@@ -12,8 +12,8 @@
         #{categoryTow},#{categoryThree},#{typevalueId},#{weight})
     </insert>
 
-        <select id="getProductbyId" resultMap="resultMap01">
-        SELECT tb_product.product_id,tb_product.`product_name`,tb_product.product_details,tb_product.sales,tb_product.`longegral`,
+    <select id="getProductbyId" resultMap="resultMap01">
+        SELECT tb_product.product_id,tb_product.`category_three`,tb_product.`product_name`,tb_product.product_details,tb_product.sales,tb_product.`longegral`,
           tb_skuname.skuname_id,tb_skuname.`skuname_name`,tb_skuvalue.skuvalue_id,tb_skuvalue.`skuvalue_value`,
           tb_sku.sku_id,tb_sku.stock,tb_sku.original_price,tb_sku.present_price,
           tb_image.image_id,tb_image.image_path
@@ -24,9 +24,11 @@
           INNER JOIN (SELECT * FROM tb_image WHERE `image_type`=0) AS tb_image ON tb_image.`product_id`=tb_product.`product_id`
           WHERE tb_product.product_id=#{productid}
     </select>
+
     <select id="selTypeVlue" resultType="Product">
         SELECT typevalue_id FROM tb_product
     </select>
+
     <select id="selAllDESC" resultMap="Productlist">
         SELECT product_id,product_name,sales,typevalue_id,spare_one FROM tb_product
         <where>
@@ -53,6 +55,7 @@
         </where>
         ORDER BY sales
     </select>
+
     <resultMap id="Productlist" type="Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
@@ -60,6 +63,7 @@
         <result column="spare_one" property="spare_one"/>
         <result column="typevalue_id" property="typevalueId"/>
     </resultMap>
+
     <resultMap id="resultMap01" type="Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
@@ -67,6 +71,7 @@
         <result column="product_details" property="productDetails"/>
         <result column="sales" property="sales"/>
         <result column="longegral" property="longegral"/>
+        <result column="category_three" property="categoryThree"/>
         <collection property="imageList" ofType="Image">
             <id column="image_id" property="imageId"/>
             <result column="image_path" property="imagePath"/>
@@ -103,6 +108,7 @@
             AND tb_product.`category_one`=#{categoryOne}
         </if>
         GROUP BY tb_product.`product_id`
+        ORDER BY tb_product.`weight` DESC
     </select>
 
     <resultMap id="getProductBySkuIdAndProductId" type="com.alcohol.pojo.Sku">
@@ -123,6 +129,7 @@
             <result column="skuvalue_value" property="skuvalueValue"/>
         </collection>
     </resultMap>
+
     <select id="selectProductBySkuIdAndProductId" resultMap="getProductBySkuIdAndProductId">
         SELECT s.sku_id,s.product_id,s.stock,s.original_price,s.present_price,
         p.product_id,p.product_name,p.product_desc,p.product_details,p.sales,p.longegral,
@@ -180,12 +187,60 @@
         </if>
     </select>
     <!--根据名字模糊查询三级分类   xcf-->
-    <select id="getCategorythree" >
+    <select id="getCategorythree" resultType="Categorythree">
         SELECT categorythree_id ,categorythree_name
         FROM tb_categorythree
         WHERE categorythree_name
-        LIKE concat('%'#{pName}'%') ORDER BY weight;
+        LIKE concat('%',#{categorythree_name},'%') AND  isdel=0 ORDER BY weight;
     </select>
+
+    <!--根据分类属性值的id查询商品    xcf-->
+    <select id="getTypeProductList" resultType="Product">
+        SELECT tbpr.product_id,
+        tbpr.product_name,
+        tbpr.sales,
+        tbpr.spare_one,
+        tbimg.image_path,
+        tbsku.present_price,
+        tbcomm.countid
+        FROM tb_product tbpr
+        LEFT JOIN tb_Image tbimg
+        ON tbpr.product_id = tbimg.product_id
+
+        LEFT JOIN (SELECT sku.product_id,sku.present_price FROM (SELECT * FROM tb_sku ORDER BY present_price) sku  GROUP BY product_id) tbsku
+        ON tbsku.product_id = tbpr.product_id
+
+        LEFT JOIN (SELECT tb_sku.product_id pid,COUNT(tb_comment.comment_id) countid FROM tb_sku  LEFT JOIN tb_comment ON tb_sku.sku_id =tb_comment.sku_id GROUP BY tb_sku.product_id) tbcomm
+        ON  tbcomm.pid = tbpr.`product_id`
+        <where>
+            and tbpr.category_three = #{categoryThree}
+            <if test="typevalueArray!=null">
+                <foreach item="typevalueid" collection="typevalueArray">
+                    and FIND_IN_SET(#{typevalueid},typevalue_id)
+                </foreach>
+            </if>
+        </where>
+        GROUP BY tbpr.product_id
+        <if test="judge==1">      <!--销量正序-->
+            ORDER BY tbpr.sales
+        </if>
+        <if test="judge==2">      <!--销量倒叙-->
+            ORDER BY tbpr.sales DESC
+        </if>
+        <if test="judge==3">      <!--评论正序-->
+            ORDER BY tbcomm.countid
+        </if>
+        <if test="judge==4">      <!--评论倒叙-->
+            ORDER BY tbcomm.countid DESC
+        </if>
+        <if test="judge==5">      <!--价格正序-->
+            ORDER BY tbsku.present_price
+        </if>
+        <if test="judge==6">      <!--价格倒叙-->
+            ORDER BY tbsku.present_price DESC
+        </if>
+    </select>
+
     <!--张鹏商品后台列表-->
     <select id="listAll" resultType="Product">
         SELECT tbpr.product_id,
@@ -220,6 +275,7 @@
             #{arr}
         </foreach>
     </update>
+
     <!--张鹏商品上架-->
     <update id="updateStatussj" parameterType="int[]">
         update tb_product set status =2,down_time=NOW() where product_id in
@@ -228,6 +284,7 @@
             #{arr}
         </foreach>
     </update>
+
     <!--张鹏商品删除-->
     <update id="deleStatus" parameterType="int[]">
         update tb_product set status =3,down_time=NOW() where product_id in
@@ -236,4 +293,16 @@
             #{arr}
         </foreach>
     </update>
+
+    <!--看了又看-->
+   <select id="getProductByCategorythreeId" resultMap="resultMap01">
+       SELECT tb_product.`product_id`,tb_product.`product_name`,tb_sku.`sku_id`,
+        tb_sku.`present_price`,tb_image.`image_id`,
+        tb_image.`image_path` FROM tb_product
+        INNER JOIN tb_sku ON tb_product.`product_id`=tb_sku.`product_id`
+        INNER JOIN (SELECT * FROM tb_image WHERE `image_type`=0) AS tb_image ON tb_image.`product_id`=tb_product.`product_id`
+        WHERE tb_product.category_three=#{categorythreeId}
+        GROUP BY tb_product.`product_id`
+        ORDER BY tb_product.weight DESC
+   </select>
 </mapper>

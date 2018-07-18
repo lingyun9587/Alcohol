@@ -31,6 +31,15 @@ public class BackstageController {
      */
     @GetMapping("/backstage/commodityAdd.html")
     public String commodityAdd() { return "/backstage/commodityAdd"; }
+
+
+    /**
+     *
+     * @return
+     */
+    @GetMapping("/commodityAdd.html")
+    public String commodityAdd1() { return "/commodityAdd"; }
+
     /**
      *
      * @return

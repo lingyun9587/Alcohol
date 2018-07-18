@@ -9,6 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
+
+    /**
+     * 看了又看
+     * @param categorythreeId
+     * @return
+     */
+    public List<Product> getProductByCategorythreeId(Integer categorythreeId);
+
     /**
      * 新增商品
      * @param p
@@ -67,6 +75,15 @@ public interface ProductService {
      * @return
      */
     public List<Product> getProductList(String product_name,int judge);
+
+    /**
+     * 根据分类属性值的id查询商品   xcf
+     * @param typevalueArray  分类属性值
+     * @param judge  排序类型
+     * @return  商品集合
+     */
+    public List<Product> getTypeProductList(int categoryThree,String[] typevalueArray,int judge);
+
     /**
      * 张鹏后台商品列表
      */
