@@ -176,8 +176,8 @@
         GROUP BY o.`order_id`
     </select>
     <select id="cha" resultMap="rOrder">
-          SELECT o.`order_id`,o.`payment_time`,o.`create_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`,o.desc, adress.`consignee`,adress.`phone`,adress.`code`,adress.`comaddress`,
-	    orderstatus.`orderStatus_id`,orderstatus.orderStatus_name,commodity.`number`,sku.`present_price`,
+         SELECT o.`order_id`,o.`payment_time`,o.`create_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`,o.desc, adress.`consignee`,adress.`phone`,adress.`code`,adress.`comaddress`,
+	    orderstatus.`orderStatus_id`,orderstatus.orderStatus_name,commodity.`commodity_id`,commodity.`number`,commodity.`orderShop_id`,commodity.`sku_id`,commodity.`orderstatus_id`,sku.`present_price`,
          product.`product_name`,skuvalue.`skuvalue_value`,
          image.`image_path`
          FROM tb_order o
