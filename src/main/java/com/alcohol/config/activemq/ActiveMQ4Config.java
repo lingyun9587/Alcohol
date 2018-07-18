@@ -17,6 +17,7 @@ import javax.jms.Session;
 @Configuration
 public class ActiveMQ4Config {
 
+
     @Bean
     public Queue queue(){
         return new ActiveMQQueue("queue1");
@@ -50,7 +51,8 @@ public class ActiveMQ4Config {
         return activeMQConnectionFactory;
     }
 
-    /*@Bean
+
+/*@Bean
     public JmsTemplate jmsTemplate(ActiveMQConnectionFactory activeMQConnectionFactory, Queue queue){
         JmsTemplate jmsTemplate=new JmsTemplate();
         jmsTemplate.setDeliveryMode(2);//进行持久化配置 1表示非持久化，2表示持久化
@@ -59,6 +61,7 @@ public class ActiveMQ4Config {
         jmsTemplate.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);//客户端签收模式
         return jmsTemplate;
     }*/
+
 
     //定义一个消息监听器连接工厂，这里定义的是点对点模式的监听器连接工厂
     @Bean(name = "jmsQueueListener")
@@ -73,5 +76,6 @@ public class ActiveMQ4Config {
         factory.setSessionAcknowledgeMode(2);
         return factory;
     }
+
 
 }
