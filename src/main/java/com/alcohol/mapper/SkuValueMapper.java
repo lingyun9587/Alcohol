@@ -6,6 +6,8 @@ import com.alcohol.pojo.skuName;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * skuvalue表
  */
@@ -49,4 +51,15 @@ public interface SkuValueMapper {
      * @return
      */
     Sku getSkuBiProductId(@Param("value") String value, @Param("id") Integer id);
+    /***
+     * 修改库存
+     */
+    int upgStock(@Param("skuId")Integer skuId, @Param("number")Integer number);
+
+    /***
+     * 获取商品sku规格
+     * @param ProductId
+     * @return
+     */
+    List<Sku> getSkuByProduct(Integer ProductId);
 }

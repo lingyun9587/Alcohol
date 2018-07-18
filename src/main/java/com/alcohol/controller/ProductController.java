@@ -100,7 +100,34 @@ public class ProductController {
     }
 
 
-
+    /**
+     * 根据分类属性值模糊查询商品集合   xcf
+     * @param request 作用域
+     * @param typeValueId 分类属性值
+     * @return 查询到的商品集合
+     */
+    @RequestMapping(value = "getTypeProductList")
+    @ResponseBody
+    public String getTypeProductList(HttpServletRequest request,String typeValueId, int judge, Integer pageIndex, Integer pageSize){
+        //调用service层的方法进行查询 sout
+        int categoryThree = (int) request.getSession().getAttribute("categoryId");
+        String[] typeValueArray = null;
+        if(!typeValueId.equals("-1")){
+            typeValueArray = typeValueId.split(",");
+        }
+        if(pageIndex==null){
+            pageIndex=1;
+            pageSize=1;
+        }
+        PageHelper.startPage(pageIndex,pageSize,true);
+        List<Product> pList = productService.getTypeProductList(categoryThree,typeValueArray,judge);
+        System.out.println("集合"+pList.size());
+        PageInfo<Product> page=new PageInfo<Product>(pList);
+        //把分类集合转换为json字符串
+        String json = JSON.toJSONString(page);
+        //展示json数据
+        return json;
+    }
     /**
      * 查询首页的商品
      * @return
@@ -327,5 +354,24 @@ public class ProductController {
             JSON="{\"weight\":\""+weight+"\"}";
         }
         return JSON;
+    }
+    @RequestMapping(value="getSkuByProductId",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String getSkuByProductId(Integer id){
+        List<Sku> list=skuValueService.getSkuByProduct(id);
+        for(int i=0;i<list.size();i++){
+            String valueId=list.get(i).getSkuvalueId();
+            if(valueId!=null){
+                String[] arr=valueId.split(",");
+                List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
+                SkuValue skuvalue=null;
+                for (int j = 0; j < arr.length; j++) {
+                    skuvalue=skuValueService.getSkuById(Integer.valueOf(arr[j]));
+                    SkuValueList.add(skuvalue);
+                }
+                list.get(i).setSkuValueList(SkuValueList);
+            }
+        }
+        return JSON.toJSONString(list);
     }
 }
