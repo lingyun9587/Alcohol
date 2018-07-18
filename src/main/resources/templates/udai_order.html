@@ -780,12 +780,15 @@
                             "                                    </tr>";
                     }else {
                         $.each(data.list, function (i, e) {
+                            var paymentTimes=e.order.createTime;
+                            var d = new Date(paymentTimes);
+                            var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
                             context += " <tr class=\"order-item\">\n" +
                                 "                                        <td>\n" +
                                 "                                            <label>\n" +
                                 "                                                <a href=\"udai_order_detail.html\" class=\"num\">\n" +
-                                "                                                    " + e.order.createTime + " 订单号: " + e.orderId + "\n" +
+                                "                                                    " + times + " 订单号: " + e.orderId + "\n" +
                                 "                                                </a>\n" +
                                 "                                                <div class=\"card\">\n" +
                                 "                                                    <div class=\"img\"><img src=\"images/temp/item-img_1.jpg\" alt=\"\"\n" +
