@@ -11,7 +11,7 @@ $(function() {
 $(document).on("click", "#checkMark", function(e) {
 	iosOverlay({
 		text: "回复成功!",
-		//duration: 2e3,
+		duration: 2e3,
 		//icon: "img/check.png"
 	});
 	return false;

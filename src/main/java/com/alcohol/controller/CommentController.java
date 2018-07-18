@@ -109,4 +109,17 @@ public class CommentController {
         }
         return upc;
     }
+    @RequestMapping(value = "/upgStock",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String upgStock(Integer skuId,Integer number){
+        String json="";
+        int x=skuValueService.upgStock(skuId,number);
+        if(x>0){
+            json="{\"mes\":\"修改成功\"}";
+        }else{
+            json="{\"mes\":\"修改失败\"}";
+        }
+
+        return JSON.toJSONString(json);
+    }
 }
