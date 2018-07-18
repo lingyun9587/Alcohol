@@ -30,7 +30,7 @@ public class UseraccountController {
     private String phone;
 
 
-    /*@Autowired
+    @Autowired
     Queue queue;
     @Autowired
     private ProducerCc producerCc;
@@ -39,7 +39,7 @@ public class UseraccountController {
     public  String index(){
         producerCc.sendMessage("123");
         return "123";
-    }*/
+    }
     @PostMapping( value="/registerUser")
     public Object register(HttpServletRequest request,@RequestParam(value = "username" , required = false)String username,@RequestParam( value = "password",required = false)String password){
         Map<String,Object> map = new HashMap<String,Object>();
