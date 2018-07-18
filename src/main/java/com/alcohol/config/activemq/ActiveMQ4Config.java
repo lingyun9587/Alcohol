@@ -73,5 +73,4 @@ public class ActiveMQ4Config {
         factory.setSessionAcknowledgeMode(2);
         return factory;
     }
-
 }
