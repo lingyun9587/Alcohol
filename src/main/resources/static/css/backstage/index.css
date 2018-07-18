@@ -20,6 +20,7 @@
 	line-height: 43px;
 	float: left;
 	margin: 0px 16px;
+	list-style: none;
 }
 
 .head ul li:hover {
@@ -28,6 +29,7 @@
 
 .hav_li {
 	color: #e0e0e0;
+	list-style: none;
 }
 
 .line {
@@ -190,12 +192,14 @@
 	padding: 10px 0px;
 	display: none;
 	background-color: #262626;
+	list-style: none;
 }
 
 .second li {
 	padding-left: 30px;
 	height: 30px;
 	line-height: 30px;
+	list-style: none;
 }
 
 .second li:hover {

@@ -49,7 +49,7 @@
                     <thead>
                     <tr>
                         <th width="150">
-                            <label class="checked-label"><input type="checkbox" class="check-all"><i></i> 全选</label>
+                            <!--<label class="checked-label"><input type="checkbox" class="check-all"><i></i> 全选</label>-->
                         </th>
                         <th width="300">商品信息</th>
                         <th width="150">单价</th>
@@ -96,7 +96,8 @@
                     </tbody>
                 </table>
                 <div class="user-form-group tags-box shopcart-submit pull-right">
-                    <button class="btn" @click="submitOrder()">提交订单</button>
+                    <input type="button" class="btn" @click="submitOrder()" value="提交订单">
+                    <!--<button class="btn" @click="submitOrder()">提交订单</button>-->
                 </div>
                 <div class="checkbox shopcart-total">
                     <!-- 全选-->
@@ -281,7 +282,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 
 <script src="/js/lib/vue-resource.js"></script>
-
+<script src="https://unpkg.com/vue-router@2.0.0/dist/vue-router.js"></script>
 <script src="/js/udai_shopcart.js"></script>
 </body>
 </html>

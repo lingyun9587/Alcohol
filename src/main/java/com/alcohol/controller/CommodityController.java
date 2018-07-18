@@ -1,12 +1,14 @@
 package com.alcohol.controller;
 
 import com.alcohol.dto.CommodityExecution;
-import com.alcohol.pojo.Commodity;
-import com.alcohol.pojo.Orderstatus;
+import com.alcohol.pojo.*;
 import com.alcohol.service.CommodityService;
+import com.alcohol.service.SkuValueService;
+import com.alcohol.service.UserAccountService;
 import com.alcohol.vo.OrderstatusVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,28 +25,46 @@ import java.util.Map;
 @RestController
 public class CommodityController {
 
-
+    @Resource
+    private UserAccountService userAccountService;
     @Resource
     private CommodityService commodityService;
+    @Resource
+    private SkuValueService skuValueService;
     /**
      * 获取用户订单信息
      * @return
      */
     @GetMapping(value = "/getUserOrderInfo")
     public  Object listVoByUser(){
-        Integer userId = 1;  //从作用域中获取对象编号
-        List<OrderstatusVo> list = commodityService.listVoByUserId(userId);
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);//从作用域中获取对象编号
+        List<OrderstatusVo> list = commodityService.listVoByUserId(useraccount.getUserId());
         return list;
     }
-
     @GetMapping( value = "/listCommodityInfo")
-    public Object listCommodityInfo(@RequestParam( value = "pageIndex",required = false)Integer pageIndex,
+    public Object listCommodityInfo(@RequestParam(defaultValue = "1",value = "pageIndex",required = false)Integer pageIndex,
                                     @RequestParam( value = "pageSize",required = false)Integer pageSize,
                                      @RequestParam(value = "status",required = false)Integer status){
-        Integer userId = 1;  //从作用域中获取对象编号
-        PageHelper.startPage(1,pageSize);
-        List<Commodity> list = commodityService.listCommodityInfo(pageIndex == null?1:pageIndex,status);
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);//从作用域中获取对象编号
+        Long userId = useraccount.getUserId();  //从作用域中获取对象编号
+        //Integer index=Integer.parseInt(pageIndex);
+        //PageHelper.startPage(index,2,true,true);
+        PageHelper.startPage(pageIndex == null?1:pageIndex,pageSize);
+        List<Commodity> list = commodityService.listCommodityInfo(userId,status);
+        for (Commodity commodity: list) {
+            Sku sku = commodity.getSku();
+           String typevalueId=sku.getSkuvalueId();
+           String [] arr = typevalueId.split(",");
+            for (String str:arr) {
+                SkuValue skuvalue=skuValueService.getSkuById(Integer.parseInt(str));
+                commodity.getSku().getProduct().getSkuValues().add(skuvalue);
+            }
+        }
+        System.out.println("======================="+list.size());
         PageInfo<Commodity>  pageInfo = new PageInfo<>(list);
+        System.out.println(":::::"+pageInfo.getList());
         System.out.println(list);
         return pageInfo;
     }

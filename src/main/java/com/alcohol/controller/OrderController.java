@@ -3,12 +3,16 @@ package com.alcohol.controller;
 import com.alcohol.dto.OrderExecution;
 import com.alcohol.pojo.*;
 import com.alcohol.service.OrderService;
+import com.alcohol.service.ProductService;
+import com.alcohol.service.SkuService;
+import com.alcohol.service.UserAccountService;
 import com.alcohol.util.IDUtil;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.domain.InteligentGeneralMerchantPromo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,21 +28,26 @@ public class OrderController{
 
     @Resource
     private OrderService orderService;
-
+    @Resource
+    private UserAccountService userAccountService;
+    @Resource
+    private ProductService productService;
+    @Resource
+    private SkuService skuService;
     /**
      * 添加订单信息
      * @return
      */
     @RequestMapping(value="/insertOrderInfo")
     public Object insertInfo(Order order)throws  Exception{
-        User user = new User();   //订单对象
-        user.setUserId(1L);
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
         Long orderId = IDUtil.SnowflakeIdWorker();
         //创建订单对象
         Order order1 = new Order();
         order1.setOrderId(orderId);  //设置订单id
         order1.setCreateTime(new Date());  //设置订单创建时间
-        order1.setUserId(user.getUserId());  //设值用户
+        order1.setUserId(useraccount.getUser().getUserId());  //设值用户
         order1.setStatus(1);   //设置订单状态
         order1.setAddressId(1L);  //设置地址id  测试
         //接收商品信息
@@ -197,6 +206,45 @@ public class OrderController{
             map.put("success",false);
             map.put("msg",e.toString());
         }
+        return map;
+    }
+
+    /**
+     * 结账处理
+     * @return
+     */
+    @PostMapping(value = "/checkOutHandle")
+    public Object checkOutHandle(){
+        boolean flag = false;
+        Map<String,Object> map = new HashMap<>();
+        int result=0;
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName); //获取用户登陆信息
+        Order order = orderService.getLastOrderInfo(useraccount.getUserId()); //获取单个订单信息
+        order  = orderService.getById(order.getOrderId()); //获取订单中包含的全部信息
+        order.setStatus(2);  //设置订单代发货
+       try{
+        orderService.updateOrderStatus(order);  //修改订单状态，同时修改销量'
+        for (Commodity commodity:order.getCommodities()) {  //循环修改销量
+             result =     productService.updatesales(commodity.getSku().getSkuId(),commodity.getNumber());  //修改销量
+            skuService.updateInfo(commodity.getSku().getSkuId(),commodity.getNumber(),2); //删除锁定库存
+            if(result>0){
+                flag = true;
+                continue;
+            }else{
+                flag = false;
+                break;
+            }
+        }
+       }catch (Exception e){
+           map.put("success",false);
+
+       }
+      if(flag){
+           map.put("success",true);
+      }else{
+          map.put("success",false);
+      }
         return map;
     }
 }

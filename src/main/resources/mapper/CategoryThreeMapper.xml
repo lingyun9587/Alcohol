@@ -43,7 +43,7 @@
     <!--新增三级分类-->
     <insert id="addCategoryThree">
         INSERT INTO tb_categorythree
-          VALUE (NULL,#{categorythreeName},#{parentId},0,null,null,null,null,null)
+          VALUE (NULL,#{categorythreeName},#{parentId},0,0,null,null,null,null)
     </insert>
     <!--判断三级分类下是否有属性-->
     <select id="delisthree" resultType="java.lang.Integer">

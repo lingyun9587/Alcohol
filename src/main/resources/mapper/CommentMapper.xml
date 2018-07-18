@@ -43,7 +43,7 @@
         </association>
     </resultMap>
     <update id="upComment">
-        UPDATE tb_comment SET reply_conte= reply_Conte WHERE comment_id=commentId
+        UPDATE tb_comment SET reply_conte= #{reply_conte} WHERE comment_id=#{commentId}
     </update>
 
     <select id="getCommentCountById" resultType="java.lang.Integer">

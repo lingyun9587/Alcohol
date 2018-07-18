@@ -64,7 +64,7 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
-            <version>4.1.1</version>
+            <version>4.2.1</version>
         </dependency>
         <!-- 配置freemarker 模板 -->
         <dependency>

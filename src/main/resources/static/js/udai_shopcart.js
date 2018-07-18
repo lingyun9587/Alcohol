@@ -85,7 +85,16 @@ new Vue({
                 }
             });
             if(productOrders.length!=0){
-                location.href="/shop/transferToOrder?productOrders="+productOrders;
+                this.$http.get("/shop/transferToOrder",{"productorders":JSON.stringify(productOrders)}).then(function(json){
+                    alert(json.data);
+                    if(json.data==0){
+                        alert("要登录才能提交订单哦~");
+                    }else{
+                        location.href="udai_shopcart_pay.html";
+                    }
+
+                });
+
             }else{
                 alert("请至少选择一件商品提交订单！");
             }

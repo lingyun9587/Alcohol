@@ -3,22 +3,17 @@ package com.alcohol.service.impl;
 import com.alcohol.dto.OrderExecution;
 import com.alcohol.enums.OrderEnum;
 import com.alcohol.exceptions.OrderOperationException;
-import com.alcohol.jms.ProducerCc;
+import com.alcohol.service.jms.ProducerCc;
 import com.alcohol.mapper.CommodityMapper;
 import com.alcohol.mapper.OrderMapper;
 import com.alcohol.pojo.Commodity;
 import com.alcohol.pojo.Order;
 import com.alcohol.service.OrderService;
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.jms.Destination;
-import javax.management.Query;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -59,9 +54,9 @@ public class OrderServiceImpl implements OrderService {
         }catch (OrderOperationException e){
             throw  new OrderOperationException(e.toString());
         }
-        if(orderExecution.getState() == 0){ //执行消息队列
+       /* if(orderExecution.getState() == 0){ //执行消息队列
             producerCc.sendMessage(JSON.toJSONString(order.getCommodities()));
-        }
+        }*/
         return orderExecution;
     }
 
@@ -90,30 +85,28 @@ public class OrderServiceImpl implements OrderService {
         return orderExecution;
     }
 
-    /**
-     * 订单查看
-     * @param map
-     * @return
-     */
     @Override
     public List<Order> order(Map<String, Object> map) {
-        PageHelper.startPage((Integer) map.get("pageNum"), (Integer) map.get("pageSize"), true, true);
-        return orderMapper.order(map);
+        return null;
     }
 
-    /**
-     * 查看订单详情
-     * @param
-     * @return
-     */
     @Override
-    public Order cha(@Param("order_id") int order_id) {
-        return  orderMapper.cha(order_id);
+    public Order cha(int order_id) {
+        return null;
     }
 
     @Override
     public int status(int order_id) {
-        return orderMapper.status(order_id);
+        return 0;
     }
 
+    @Override
+    public OrderExecution updateOrder(Order order) {
+        return null;
+    }
+
+    @Override
+    public Order getLastOrderInfo(Long userId) {
+        return orderMapper.getLastOrderInfo(userId);
+    }
 }

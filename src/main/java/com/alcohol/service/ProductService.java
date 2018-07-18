@@ -100,4 +100,12 @@ public interface ProductService {
      *商品删除
      */
     public boolean deleStatus(int [] attr);
+
+    /**
+     * 修改销量
+     * @param productId
+     * @param number
+     * @return
+     */
+    int updatesales(@Param("productId") Long productId,@Param("number") Integer number);
 }

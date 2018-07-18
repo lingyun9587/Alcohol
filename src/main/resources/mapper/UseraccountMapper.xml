@@ -67,7 +67,8 @@
         us.nick_name,
         us.birthday,
         us.sex,
-        us.status
+        us.status,
+        us.`integral`
          FROM tb_useraccount  ua
         INNER JOIN tb_user us ON ua.user_id = us.user_id
         WHERE ua.phone = #{username} OR ua.email = #{username} OR us.membership_name =  #{username}
@@ -89,4 +90,9 @@
     <update id="updatePwd">
         UPDATE tb_useraccount SET `password`=#{password} WHERE user_id=#{userId}
     </update>
+    <!--后台登录-->
+    <select id="seldeng" resultType="java.lang.Integer">
+      SELECT COUNT(1) FROM tb_useraccount
+      WHERE phone=#{phone} AND PASSWORD=#{password}
+    </select>
 </mapper>

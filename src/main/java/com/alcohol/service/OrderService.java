@@ -41,4 +41,16 @@ public interface OrderService {
 
 
 
+    /**
+     * 进行下订单
+     * @param order
+     * @return
+     */
+    OrderExecution updateOrder(Order order);
+
+    /**
+     * 获取最后一个订单
+     * @return
+     */
+    Order getLastOrderInfo(Long userId);
 }
