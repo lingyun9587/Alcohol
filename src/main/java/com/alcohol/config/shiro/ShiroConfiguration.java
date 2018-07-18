@@ -54,6 +54,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/udai_address.html", "roles[用户]");
       filterChainDefinitionMap.put("/udai_welcome.html", "roles[用户]");  //我的信息
       filterChainDefinitionMap.put("/udai_order.html", "roles[用户]");  //我的订单
+      filterChainDefinitionMap.put("/udai_collction.html", "roles[用户]");  //我的订单
       filterChainDefinitionMap.put("/udai_integral.html", "roles[用户]");  //积分平台
       filterChainDefinitionMap.put("/temp_article/udai_article4.html", "roles[用户]");  //帮助中心
 

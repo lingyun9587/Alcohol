@@ -46,9 +46,13 @@ public class CommodityController {
     public Object listCommodityInfo(@RequestParam(defaultValue = "1",value = "pageIndex",required = false)Integer pageIndex,
                                     @RequestParam( value = "pageSize",required = false)Integer pageSize,
                                      @RequestParam(value = "status",required = false)Integer status){
+        System.out.println(111);
+        System.out.println(status);
         String userName=(String)SecurityUtils.getSubject().getPrincipal();
         Useraccount useraccount = userAccountService.getUserById(userName);//从作用域中获取对象编号
         Long userId = useraccount.getUserId();  //从作用域中获取对象编号
+        System.out.println(userId);
+        System.out.println(123);
         //Integer index=Integer.parseInt(pageIndex);
         //PageHelper.startPage(index,2,true,true);
         PageHelper.startPage(pageIndex == null?1:pageIndex,pageSize);

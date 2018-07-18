@@ -23,6 +23,10 @@ public class CommonController {
         mv.setViewName("index");
         return mv;
     }
+    @GetMapping("/udai_ping.html")
+    public String s(){
+        return "udai_ping";
+    }
 
     /**
      * 付款成功
