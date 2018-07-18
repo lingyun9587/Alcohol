@@ -44,9 +44,9 @@ public interface UserMapper {
  /**
   * 禁用启用用户
   * @param userId
-  * @param frozen
+  * @param status
   * @return
   */
- public int updStatus(@Param("userId") Long userId,@Param("frozen") Long frozen);
+ public int updStatus(@Param("userId") Long userId,@Param("status") Long status);
 
 }

@@ -45,11 +45,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value="/updateStatus")
     private Object updateStatus(@RequestParam(value = "userId", required = false)Long userId,
-                                @RequestParam(value = "frozen", required = false)Long frozen){
+                                @RequestParam(value = "status", required = false)Long status){
         Map<String,Object> map = new HashMap<>();
         System.out.println("userId:"+userId);
-        System.out.println("frozen:"+frozen);
-            int result=userService.updStatus(userId,frozen);
+        System.out.println("frozen:"+status);
+            int result=userService.updStatus(userId,status);
             if(result>0){
                 map.put("success",true);
                 map.put("mess","操作成功！");
