@@ -150,7 +150,7 @@
 
 		<script src="/js/backstage/iosOverlay.js"></script>
 
-		<script src="/js/backstage/custom.js"></script>
+		<!--<script src="/js/backstage/custom.js"></script>-->
 		<script type="text/javascript">
 			$(function() {
                 var $thr = $('table thead tr');
@@ -317,7 +317,7 @@
                             fy(1);
                             closeMask('stuInfo');
                             iosOverlay({
-                                text: "回复成功!",
+                                text: "添加成功!",
                                 duration: 2e3,
                                 //icon: "img/check.png"
                             });
@@ -346,7 +346,11 @@
                         success: function (data) {
                             if (data.ers == "yes") {
                                 fy(1);
-
+                                iosOverlay({
+                                    text: "删除成功!",
+                                    duration: 2e3,
+                                    //icon: "img/check.png"
+                                });
                             } else {
                                 alert(data.mesage);
                             }

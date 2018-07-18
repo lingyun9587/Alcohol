@@ -146,12 +146,12 @@
     function insOne(){
         //获取一级分类名字
         var categoryontName=$("#userName").val();
-        alert(categoryontName);
+
         if(categoryontName.length==0){
             $(".tsone").html("一级分类不得为空");
 
         }else{
-            alert(categoryontName);
+
             $.ajax({
                 url:"../insOne",
                 type:"post",

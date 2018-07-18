@@ -86,7 +86,6 @@ new Vue({
             });
             if(productOrders.length!=0){
                 this.$http.get("/shop/transferToOrder",{"productorders":JSON.stringify(productOrders)}).then(function(json){
-                    alert(json.data);
                     if(json.data==0){
                         alert("要登录才能提交订单哦~");
                     }else{
