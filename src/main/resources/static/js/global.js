@@ -1,7 +1,7 @@
 /* Author: VIPArcher */
 // Add new jQuery function
 (function($){
-	// browser info
+	// browser info  browser info
 	"use strict";
 	$.browser = (function() {
 		var
