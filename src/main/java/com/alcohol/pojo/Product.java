@@ -14,9 +14,10 @@ import java.util.List;
 public class Product {
 
     //图片
-    private List<Image> imageList;
+    private List<Image> imageList ;
     //sku属性
-    private List<skuName> skunameList;
+    private List<skuName> skunameList = new ArrayList<skuName>();
+    private  List<SkuValue> skuValues = new ArrayList<SkuValue>();
     //sku配合
     private List<Sku> skuList;
 

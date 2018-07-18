@@ -37,5 +37,6 @@ public class User {
     private Long integral;//积分
     private Long paymentPassword;//支付密码
 
+    private Integer status;
     private List<Role> roles; //角色集合
 }
