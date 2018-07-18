@@ -76,4 +76,6 @@ public interface OrderMapper {
      * @return
      */
     Order getLastOrderInfo(Long userId);
+    //查询销售额
+    List<Order> yearmoney(int year);
 }

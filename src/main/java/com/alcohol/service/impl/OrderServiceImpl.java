@@ -109,4 +109,9 @@ public class OrderServiceImpl implements OrderService {
     public Order getLastOrderInfo(Long userId) {
         return orderMapper.getLastOrderInfo(userId);
     }
+
+    @Override
+    public List<Order> yearmoney(int year) {
+        return orderMapper.yearmoney(year);
+    }
 }

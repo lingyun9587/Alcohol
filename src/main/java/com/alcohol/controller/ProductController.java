@@ -10,10 +10,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -217,6 +215,63 @@ public class ProductController {
         }
         return json;
     }
-
+    /***
+     * 后台商品列表
+     */
+    @RequestMapping(value="backpro",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @ResponseBody
+    public String listAll(@RequestParam(value = "product_name",required = false) String product_name,
+                          @RequestParam(value = "status",required = false) int status,
+                          @RequestParam(value = "pageIndex",required = false) int pageIndex,
+                          @RequestParam(value = "pageSize",required = false) int  pageSize){
+        List<Product> bu=productService.listAll(product_name,status,pageIndex,pageSize);
+        PageInfo<Product> pa=new PageInfo<Product>(bu);
+        return JSON.toJSONString(pa);
+    }
+    /***
+     * 批量下架
+     */
+    @RequestMapping(value = "backsxj")
+    @ResponseBody
+    public String updataStat(@RequestParam(value = "product_id",required = false) int[] noticeId){
+        boolean bu=productService.updateStatus(noticeId);
+        String jso=null;
+        if (bu){
+            jso="{\"ers\":\"yes\",\"mesage\":\"下架成功\"}";
+        }else {
+            jso="{\"ers\":\"no\",\"mesage\":\"下架失败\"}";
+        }
+        return jso;
+    }
+    /***
+     * 批量上架
+     */
+    @RequestMapping(value = "backsxjsj")
+    @ResponseBody
+    public String updataStatsj(@RequestParam(value = "product_id",required = false) int[] noticeId){
+        boolean bu=productService.updateStatussj(noticeId);
+        String jso=null;
+        if (bu){
+            jso="{\"ers\":\"yes\",\"mesage\":\"上架成功\"}";
+        }else {
+            jso="{\"ers\":\"no\",\"mesage\":\"上架失败\"}";
+        }
+        return jso;
+    }
+    /***
+     * 批量删除
+     */
+    @RequestMapping(value = "backdele")
+    @ResponseBody
+    public String deleStat(@RequestParam(value = "product_id",required = false) int[] noticeId){
+        boolean bu=productService.deleStatus(noticeId);
+        String jso=null;
+        if (bu){
+            jso="{\"ers\":\"yes\",\"mesage\":\"删除成功\"}";
+        }else {
+            jso="{\"ers\":\"no\",\"mesage\":\"删除失败\"}";
+        }
+        return jso;
+    }
 
 }
