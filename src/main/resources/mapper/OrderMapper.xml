@@ -197,7 +197,7 @@
          ON image.`product_id`=product.`product_id`
          WHERE
          o.`order_id`=#{order_id}
-         GROUP BY o.`order_id`
+
     </select>
 
     <update id="status" >

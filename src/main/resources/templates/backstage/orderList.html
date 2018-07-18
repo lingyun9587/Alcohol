@@ -287,6 +287,7 @@
 
     //查看订单
     function cha(pageNum,orderStatus){
+
         status1=orderStatus;
         var textStyle=$(".textStyle").val();
         var context="";
@@ -351,7 +352,7 @@
                         content+="<td>￥" + e.money + "</td>";
                         content+="<td id='status1'>" + status +"</td>";
                         if(ie==0){
-                            content+="<td><a href='javascript:void(0);' onclick='update("+e.orderId+",\""+ping+"\")' id='open'>详情</a>"+"&nbsp"+as+fa1+"</td>";
+                            content+="<td><a href='javascript:void(0);' onclick='update(\""+e.orderId+"\",\""+ping+"\")' id='open'>详情</a>"+"&nbsp"+as+fa1+"</td>";
                         }
                     });
                     content+="</tr>";
@@ -374,12 +375,11 @@
 
     //查看订单详情
     function update(orderId,ping) {
-        var orid=orderId.toFixed();
         $.ajax({
             url:"/backstage/cha",
             type:"post",
             data:{
-                "orderId":orid
+                "orderId":orderId
             },
             dataType:"json",
             success:function(data){
@@ -392,7 +392,7 @@
                 }else{
                     bei=data.desc;
                 }
-
+                var id=data.orderId.toFixed();
                 $.each(data.commodities,function (i,e) {
                     var tr = $('<tr></tr>');
                     var tr1 = $('<tr></tr>');
@@ -416,7 +416,7 @@
                     tr3.append("<td class='tdWidth'>创建时间:</td>");
                     tr3.append("<td>"+times+"</td>");
                     tr3.append("<td class='tdWidth'>订单号：</td>");
-                    tr3.append("<td>"+data.orderId+"</td>");
+                    tr3.append("<td>"+id+"</td>");
                     tr4.append("<td class='tdWidth'>单价：</td>");
                     tr4.append("<td>"+e.sk.presentPrice+"</td>");
                     tr4.append("<td class='tdWidth'>数量：</td>");
