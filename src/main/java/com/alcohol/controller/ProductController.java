@@ -57,7 +57,6 @@ public class ProductController {
             pro=proslist.get(i);
             typevalueId=pro.getTypevalueId();
             imgProductId=pro.getProductId();
-
             List<Image> listimg=imageService.selProductId(imgProductId);
             pro.setImageList(listimg);
             String[] arr=typevalueId.split(",");

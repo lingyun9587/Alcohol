@@ -1,7 +1,7 @@
 /* Author: VIPArcher */
 // Add new jQuery function
 (function($){
-	// browser info
+	// browser info  browser info
 	"use strict";
 	$.browser = (function() {
 		var
@@ -169,11 +169,11 @@ $(function(){
 		url:"getUserInfo",
 		type:"post",
 		success:function(data){
-			if(data != null && data != ""){
+			if(data != null && data != ""  ){
 
 				$(".tab-header .inner .pull-right a").eq(0).html(data.user.membershipName);
                 $(".tab-header .inner .pull-right a").eq(0).attr("href","javascript:void(0)");
-
+                $(".tab-header .inner .pull-right a").eq(1).hide();
 			}
 		},
 		error:function(){

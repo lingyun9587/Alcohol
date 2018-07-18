@@ -17,7 +17,7 @@
 
 <body>
 <div class="container">
-    <h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/images/backstage/xjt.png"/></span>用户管理</h1>
+    <h1 class="tabTitle"><span onclick="NewPage('table.html')"><img src="/upload/backstage/xjt.png"/></span>用户管理</h1>
     <div class="serach">
         <input type="text" class="textStyle" placeholder="请输入搜索内容"
                style="width: 180px;height: 24px;line-height: 24px;"/>
@@ -41,7 +41,7 @@
             </thead>
             <tbody>
             <tr>
-                <td cols pan="11"><img src='/images/backstage/loading.gif'/></td>
+                <td cols pan="11"><img src='/upload/backstage/loading.gif'/></td>
             </tr>
             <tr>
 
@@ -65,9 +65,7 @@
         });
     });
 
-    function show(pageNum){
-        pageOne(pageNum);
-    }
+
 
     /**
      * 按昵称分页查询所有用户
@@ -83,20 +81,37 @@
             success: function (data) {
                 var tbody = $('<tbody></tbody>');
                 $.each(data.list, function (i, e) {
+
+                    var paymentTimes=this.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+                    var paymentTimes1=this.birthday;
+                    var d1 = new Date(paymentTimes1);
+                    var times1=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+
                     var tr = $('<tr></tr>');
                     tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
                     tr.append("<td width='5%'>" + e.userId + "</td>");
                     tr.append("<td width='10%'>" + e.membershipName + "</td>");
+                    if(e.nickName==null){
+                        tr.append("<td width='15%'>未命名</td>");
+                    }else {
+                        tr.append("<td width='15%'>" + e.nickName + "</td>");
+                    }
 
-                    tr.append("<td width='15%'>" + e.nickName + "</td>");
-                    tr.append("<td width='5%'>" + e.sex + "</td>");
-                    tr.append("<td width='15%'>" + e.birthday + "</td>");
-                    tr.append("<td width='15%'>" + e.createTime + "</td>");
+                    if(e.sex == 0){
+                        tr.append("<td width='5%'>男</td>");
+                    }else{
+                        tr.append("<td width='5%'>女</td>");
+                    }
+                    tr.append("<td width='15%'>" +times1 + "</td>");
+                    tr.append("<td width='15%'>" + times + "</td>");
                     tr.append("<td width='5%'>" + e.integral + "</td>");
                     if (e.status == 0) {
-                        tr.append("<td width='10%'><a onclick='updatestate(" + e.userId + ",1,this)'>禁用</a></td>");
+                        tr.append("<td width='10%'><a onclick='updatestate(1,this)'>禁用</a></td>");
                     } else {
-                        tr.append("<td width='10%'><a onclick='updatestate(" + e.userId + ",0,this)'>启用</a></td>");
+                        tr.append("<td width='10%'><a onclick='updatestate(0,this)'>启用</a></td>");
                     }
 
                     tbody.append(tr);
@@ -114,10 +129,11 @@
     /**
      * 禁用启用
      * @param userId
-     * @param status
+     * @param frozen
      * @param jia
      */
-    function updatestate(userId, status, jia) {
+    function updatestate(status, jia) {
+        var userId=$(jia).parent().parent().find("td").eq(1).html();
         var obj = $(jia);
         $.ajax({
             url: "/updateStatus",
@@ -128,20 +144,24 @@
                 if (data.success) {
                     if (obj.text() == "启用") {
                         obj.text("禁用");
+                        pageOne(null,1);
                     } else {
                         obj.text("启用");
+                        pageOne(null,1);
                     }
                 } else {
                     alert(data.mess);
                 }
-                /* pageOne(1);*/
+                /!* pageOne(1);*!/
             },
             error: function () {
                 alert("出现异常！");
             }
         })
     }
-
+    function show(pageNum){
+        pageOne(null,pageNum);
+    }
 
 </script>
 </body>

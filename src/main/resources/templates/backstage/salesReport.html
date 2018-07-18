@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/backstage/table.css">
 		<link rel="stylesheet" type="text/css" href="/css/backstage/page.css">
 		<link rel="stylesheet" type="text/css" href="/css/backstage/form.css" />
+
 		<style>
 			* {
 				margin: 0;
@@ -43,7 +44,7 @@
 
 				<div class="right">
 					<div class="chart-container " style="height:450px; width:400px;">
-						<input type="date" class="dateStyle" style="width:200px;margin-right: 10px;margin-top: 20px;" />
+						<input type="month" class="dateStyle" id="custom1" style="width:200px;margin-right: 10px;margin-top: 20px;" />
 						<input type="button" value="搜索" class="button search" /><br/>
 						<canvas id="myChart1"></canvas>
 					</div>
@@ -57,8 +58,9 @@
 		<script src="/js/backstage/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="/js/backstage/table.js"></script>
 		<script type="text/javascript">
+
 			$(function() {
-				myChart();
+                myChart();
 				myChart1();
 			});
 
@@ -104,13 +106,14 @@
 
 			function myChart1() {
 				var ctx1 = document.getElementById("myChart1").getContext('2d');
+				var one =120;
 				var myChart = new Chart(ctx1, {
 					type: 'bar',
 					data: {
 						labels: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
 						datasets: [{
 							label: '销售额',
-							data: [120,190,300, 700,250,300,100,170,400, 200,150,500],
+							data: [one,190,300, 700,250,300,100,170,400, 200,150,500],
 							backgroundColor: [
 								'rgba(255, 99, 132, 0.2)',
 								'rgba(54, 162, 235, 0.2)',

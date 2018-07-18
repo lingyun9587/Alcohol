@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 public class ConsumerCc {
 
-   /* private final static Logger logger = LoggerFactory
+  /* private final static Logger logger = LoggerFactory
             .getLogger(ConsumerCc.class);
     @Resource
     private SkuMapper skuMapper;
@@ -43,7 +43,7 @@ public class ConsumerCc {
                     if(commodity.getOrderstatusId() == 1){ //待付款
                         skuMapper.updateInfo(commodity.getSkuId(),commodity.getNumber(),0);
                     } else if(commodity.getOrderstatusId() == 7){
-                        skuMapper.updateInfo(commodity.getSkuId(),commodity.getNumber(),3);
+                        skuMapper.updateInfo(commodity.getSkuId(),commodity.getNumber(),2);
                     }
                 }
                 falg=false;
@@ -54,6 +54,6 @@ public class ConsumerCc {
         } catch (Exception e) {
             session.recover();// 此不可省略 重发信息使用
         }
-        session.commit();
+       // session.commit();
     }*/
 }

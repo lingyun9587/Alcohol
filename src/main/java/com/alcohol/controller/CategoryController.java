@@ -80,6 +80,7 @@ public class CategoryController {
         //0失败1成功2已存在
         //查询是否存在
         con=categoryOneService.getCategoryone(name);
+        System.out.println(con);
         if(con>0){
             con=2;
         }else{
