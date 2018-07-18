@@ -1,6 +1,14 @@
 ;(function ($, window, document, undefined) {
 
+
+
+
+
+
+
+
   var Magnifier = function (elem) {
+
     var self = this;
     this.$elem = elem;
     this.$smallBox = this.$elem.find('.small-box');

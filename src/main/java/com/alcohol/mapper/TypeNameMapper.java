@@ -65,4 +65,10 @@ public interface TypeNameMapper {
      */
     int list();
 
+    /**
+     * 查询属性下是否有属性值
+     * @param parent
+     * @return
+     */
+    int selshuisshuxing(Integer parent);
 }

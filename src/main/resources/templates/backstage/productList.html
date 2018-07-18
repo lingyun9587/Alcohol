@@ -61,7 +61,7 @@
 
 				</div>
 				<div class="pfooter">
-					<input type="button" value="保存" class="btnupd" style="background-color: #2277da;color: #fff;padding: 6px 15px 5px 30px;" onclick="upds()" />
+					<input type="button" value="保存" class="button" style='text-align: center;width:30px;height: 30px;padding-left: 20px;padding-right: 45px' onclick="upds()" />
 					<input type="button" value="取消" onclick="closeMask('stuInfo')" class="button delete" />
 				</div>
 			</div>
@@ -87,32 +87,6 @@
                 function show(pageindex) {
                     tableInit(pageindex, pagesize);
                 }
-                //根据operations扩展的自定义方法
-                function delete1(id) {
-                    //alert(id)
-                }
-                function update1(id) {
-                    //alert(id)
-                }
-                /*$(function() {
-                    //绑定行单击事件开始
-                    $("#dg").on("click", "tr", function() {
-                        //单击从表格上取id值
-                        var _trId = $(this).children("td:eq(1)").html();
-
-                    });
-                    //绑定行单击事件结束
-
-                    /!*绑定行双击事件开始*!/
-                    $("#dg").on("dblclick", "tr", function() {
-                        var _trId = $(this).children("td:eq(1)").html();
-
-                    });
-
-
-                    /!*绑定行双击事件结束*!/
-                })*/
-
                 //查询一级分类分页
                 function tableInit(pageindex, pagesize) {
 
@@ -125,7 +99,7 @@
                             var content="";
 							if(result.apps!=null||result.apps!=""){
                                 $.each(result.list,function(i,e){
-                                    content+="<tr><td>"+e.categoryoneId+"</td><td>"+e.categoryontName+"</td>\<td>一级分类</td><td><input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看子分类' class='butupd' onclick='listTwos("+e.categoryoneId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;cursor:pointer;width: 40px;height: 30px' value='修改' class='butupd' onclick='upd(this)'/></td></tr>";
+                                    content+="<tr><td>"+e.categoryoneId+"</td><td>"+e.categoryontName+"</td>\<td>一级分类</td><td><input type='button'  value='查看子分类' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 80px' class='button save' onclick='listTwos("+e.categoryoneId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button'  value='修改'style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' class='button' onclick='upd(this)'/></td></tr>";
                                 })
 							}
 
@@ -137,105 +111,155 @@
                 }
                 //查询一级分类下的二级分类
                 function listTwos(categoryoneId,pageindex,pagesize) {
+                    //线判断是否存在二级分类，如果存在查询一级分类下的二级分类
                     $.ajax({
-                        url:"../getCategoryTwoInfofy",
-                        type:"post",
-                        data:{parentId:categoryoneId,pageNum:pageindex,pageSize:pagesize},
-                        dataType:"JSON",
-                        success:function(result){
-                            var content="";
+						url:"../seloneistwo",
+						type:"post",
+						data:{ct:categoryoneId},
+						dataType:"JSON",
+						success:function(result){
+						    if(result==0){
+						        alert("该分类下没有子分类");
+							}else{
+                                $.ajax({
+                                    url:"../getCategoryTwoInfofy",
+                                    type:"post",
+                                    data:{parentId:categoryoneId,pageNum:pageindex,pageSize:pagesize},
+                                    dataType:"JSON",
+                                    success:function(result){
+                                        var content="";
 
-                            if(result.apps!=null||result.apps!=""){
-                                $.each(result.list,function(i,e){
-                                    content+="<tr><td>"+e.categorytwoId+"</td><td>"+e.categorytwoName+"</td>\<td>二级分类</td><td><input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看子分类' class='butupd' onclick='listThree("+e.categorytwoId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看父级' class='butupd' onclick='tableInit(1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;cursor:pointer;width: 50px;height: 30px' value='修改' class='butupd' onclick='upd2(this)'/>&nbsp;&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='删除' class='butupd' onclick='deltwo("+e.categorytwoId+")'/></td></tr>";
+                                        if(result.apps!=null||result.apps!=""){
+                                            $.each(result.list,function(i,e){
+                                                content+="<tr><td>"+e.categorytwoId+"</td><td>"+e.categorytwoName+"</td>\<td>二级分类</td><td><input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 80px' value='查看子分类' class='button' onclick='listThree("+e.categorytwoId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 65px' value='查看父级' class='button' onclick='tableInit(1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px'' value='修改' class='button' onclick='upd2(this)'/>&nbsp;&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' value='删除' class='button' onclick='deltwo("+e.categorytwoId+")'/></td></tr>";
+                                            })
+                                        }else{
+                                            content="暂无数据";
+                                        }
+                                        showPage(pageindex,result.pages,result.total);
+                                        one=categoryoneId;
+                                        $(".show").html(content);
+                                    }
+
                                 })
-                            }else{
-                                content="暂无数据";
-                            }
-                            showPage(pageindex,result.pages,result.total);
-                            one=categoryoneId;
-                            $(".show").html(content);
-                        }
+							}
+						}
+					})
 
-                    })
 
                 }
                 <!--查询二级分类下的三级分类-->
 				function listThree(categorytwoId,pageindex,pagesize){
                     $.ajax({
-                        url:"../getCategoryThreeInfofy",
+                        url:"../seltwoisthree",
                         type:"post",
-                        data:{parentId:categorytwoId,pageNum:pageindex,pageSize:pagesize},
+                        data:{parent:categorytwoId},
                         dataType:"JSON",
                         success:function(result){
-                            var content="";
-                            $.each(result.list,function(i,e){
-                                content+="<tr><td>"+e.categorythreeId+"</td><td>"+e.categorythreeName+"</td>\<td>三级分类</td><td><input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看子分类' class='butupd' onclick='listshu("+e.categorythreeId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看父级' class='butupd' onclick='seltwo()'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;cursor:pointer;width: 50px;height: 30px' value='修改' class='butupd' onclick='upd3(this)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 50px;cursor:pointer;height: 30px' value='删除' class='butupd' onclick='delthree("+e.categorythreeId+")'/></td></tr>";
-                            })
-                            showPage(pageindex,result.pages,result.total);
-							two=categorytwoId;
-                            $(".show").html(content);
+                            if(result==0){
+                                alert("该分类下没有子分类");
+                            }else{
+                                $.ajax({
+                                    url:"../getCategoryThreeInfofy",
+                                    type:"post",
+                                    data:{parentId:categorytwoId,pageNum:pageindex,pageSize:pagesize},
+                                    dataType:"JSON",
+                                    success:function(result){
+                                        var content="";
+                                        $.each(result.list,function(i,e){
+                                            content+="<tr><td>"+e.categorythreeId+"</td><td>"+e.categorythreeName+"</td>\<td>三级分类</td><td><input type='button'  value='查看子分类' class='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 80px' onclick='listshu("+e.categorythreeId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 65px' value='查看父级' class='button' onclick='seltwo()'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' value='修改' class='button' onclick='upd3(this)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' value='删除' class='button' onclick='delthree("+e.categorythreeId+")'/></td></tr>";
+                                        })
+                                        showPage(pageindex,result.pages,result.total);
+                                        two=categorytwoId;
+                                        $(".show").html(content);
+                                    }
+                                })
+                            }
                         }
                     })
+
 				}
 				<!--查询三级下的属性-->
 				function listshu(categorythreeId,pageindex,pagesize){
                     $.ajax({
-                        url:"../getTypeNamefy",
-                        type:"post",
-                        data:{categoryId:categorythreeId,pageNum:pageindex,pageSize:pagesize},
-                        dataType:"JSON",
-                        success:function(result){
-                            var content="";
-                            $.each(result.list,function(i,e){
-                                content+="<tr><td>"+e.typeNameId+"</td><td>"+e.typeNameName+"</td>\<td>分类属性</td><td><input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看属性值' class='butupd' onclick='listshuzhi("+e.typeNameId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看父级' class='butupd' onclick='selthree()'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 50px;cursor:pointer;height: 30px' value='修改' class='butupd' onclick='upd4(this)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 50px;cursor:pointer;height: 30px' value='删除' class='butupd' onclick='delshu("+e.typeNameId+")'/></td></tr>";
-                            })
-                            showPage(pageindex,result.pages,result.total);
-							three=categorythreeId;
-                            $(".show").html(content);
-                        }
-                    })
+						url:"../selthreeisshu",
+						type:"post",
+						data:{parent:categorythreeId},
+						dataType:"JSON",
+						success:function(result){
+							if(result==0){
+							    alert("该分类下没有属性值");
+							}else{
+                                $.ajax({
+                                    url:"../getTypeNamefy",
+                                    type:"post",
+                                    data:{categoryId:categorythreeId,pageNum:pageindex,pageSize:pagesize},
+                                    dataType:"JSON",
+                                    success:function(result){
+                                        var content="";
+                                        $.each(result.list,function(i,e){
+                                            content+="<tr><td>"+e.typeNameId+"</td><td>"+e.typeNameName+"</td><td>属性</td><td><input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 80px' value='查看属性值' class='button' onclick='listshuzhi("+e.typeNameId+",1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 65px' value='查看父级' class='button' onclick='selthree()'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' value='修改' class='button' onclick='upd4(this)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' value='删除' class='button' onclick='delshu("+e.typeNameId+")'/></td></tr>";
+                                        })
+                                        showPage(pageindex,result.pages,result.total);
+                                        three=categorythreeId;
+                                        $(".show").html(content);
+                                    }
+                                })
+							}
+						}
+					})
+
 				}
 				<!--查询属性下的属性值-->
 				function listshuzhi(typeNameId,pageindex,pagesize){
                     $.ajax({
-                        url:"../getTypeValuefy",
-                        type:"post",
-                        data:{typeNameId:typeNameId,pageNum:pageindex,pageSize:pagesize},
-                        dataType:"JSON",
-                        success:function(result){
-                            var content="";
-                            if(result==null){
-
+						url:"../selshuisshuxing",
+						type:"post",
+						data:{parent:typeNameId},
+						dataType:"JSON",
+						success:function(result){
+							if(result==0){
+							    alert("该属性下没有属性值");
+							}else{
+                                $.ajax({
+                                    url:"../getTypeValuefy",
+                                    type:"post",
+                                    data:{typeNameId:typeNameId,pageNum:pageindex,pageSize:pagesize},
+                                    dataType:"JSON",
+                                    success:function(result){
+                                        var content="";
+                                        $.each(result.list,function(i,e){
+                                            content+="<tr><td>"+e.typeValueId+"</td><td>"+e.typeValueName+"</td>\<td>属性值</td><td><input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 65px' value='查看父级' class='button' onclick='selshu(1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' value='修改' class='button' onclick='upd5(this)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='text-align: center;width:30px;height: 35px;padding-left: 20px;padding-right: 45px' value='删除' class='button' onclick='delshuxing("+e.typeValueId+")'/></td></tr>";
+                                        })
+                                        showPage(pageindex,result.pages,result.total);
+                                        shu=typeNameId;
+                                        $(".show").html(content);
+                                    }
+                                })
 							}
-                            $.each(result.list,function(i,e){
-                                content+="<tr><td>"+e.typeValueId+"</td><td>"+e.typeValueName+"</td>\<td>分类属性</td><td><input type='button' style='background-color: #2277da;color: #fff;width: 80px;cursor:pointer;height: 30px' value='查看父级' class='butupd' onclick='selshu(1,10)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 50px;cursor:pointer;height: 30px' value='修改' class='butupd' onclick='upd5(this)'/>&nbsp;&nbsp;&nbsp;<input type='button' style='background-color: #2277da;color: #fff;width: 50px;cursor:pointer;height: 30px' value='删除' class='butupd' onclick='delshuxing("+e.typeValueId+")'/></td></tr>";
-                            })
-                            showPage(pageindex,result.pages,result.total);
-							shu=typeNameId;
-                            $(".show").html(content);
-                        }
-                    })
+						}
+					})
+
 				}
 				<!--根据一级分类的id查询对应的二级分类(查看三级查看二级父类的时候)-->
 				function seltwo(){
 					//获取所选一级分类的编号
 					//调用一级分类查询二级分类
-                    listTwos(one,1);
+                    listTwos(one,1,10);
 				}
 				<!--根据二级分类的id查询对应的三级分类(查看属性的三级分类)-->
 				function selthree(){
                     //调用二级分类查询三级分类
-                    listThree(two);
+                    listThree(two,1,10);
 				}
 				<!--根据三级分类的id查询对应的属性（查看属性值的属性）-->
 				function selshu(){
                     //调用三级分类查询属性
-					listshu(three);
+					listshu(three,1,10);
 				}
 				<!--查询属性值-->
 				function selshuxing(){
-                    listshuzhi(shu);
+                    listshuzhi(shu,1,10);
 				}
                 <!--删除二级分类-->
 				function deltwo(categorytwoId){
@@ -253,7 +277,7 @@
                             }else if(result==3){
                                 alert("删除失败");
                             }else{
-                                alert("数据去游玩了~~~");
+                                alert("数据游玩中……请稍后再试~~~");
                             }
                             //调用属性值，重新查询
                             seltwo();
@@ -275,7 +299,7 @@
                             }else if(result==3){
                                 alert("删除失败");
                             }else{
-                                alert("数据去游玩了~~~");
+                                alert("数据游玩中……请稍后再试~~~");
                             }
                             //调用属性值，重新查询
                             selthree();
@@ -302,7 +326,7 @@
                             }else if(result==3){
                                 alert("删除失败");
                             }else{
-                                alert("数据去游玩了~~~");
+                                alert("数据游玩中……请稍后再试~~~");
                             }
                             //调用属性值，重新查询
                             selshu();
@@ -310,6 +334,7 @@
                     })
 				}
                 <!--删除属性值-->
+                /*deleteShowAlert('删除提示', '确定要删除吗？', '确定', '取消', delshuxing());*/
                 function delshuxing(shuxing){
 
                     //判断属性值下是否有商品
@@ -329,7 +354,7 @@
                             }else if(result==3){
                                 alert("删除失败");
                             }else{
-                                alert("数据去游玩了~~~");
+                                alert("数据游玩中……请稍后再试~~~");
                             }
                             //调用属性值，重新查询
                             selshuxing();
@@ -429,7 +454,7 @@
                                 }else if(result==3){
                                     alert("分类已存在请重新输入！");
                                 }else{
-                                    alert("数据游玩中，请稍后再试~~~");
+                                    alert("数据游玩中……请稍后再试~~~");
                                 }
                             }
                         })
@@ -453,7 +478,7 @@
                                     alert("修改成功");
                                     $(".updonename").val("");
                                     $(".updid").val("");
-                                    listTwos(one,1);
+                                    listTwos(one,1,10);
                                     closeMask('stuInfo');
                                 }else if(result==2){
                                     alert("修改有误");
@@ -483,7 +508,7 @@
                                     alert("修改成功");
                                     $(".updonename").val("");
                                     $(".updid").val("");
-                                    listThree(two);
+                                    listThree(two,1,10);
                                     closeMask('stuInfo');
                                 }else if(result==2){
                                     alert("修改有误");
@@ -513,7 +538,7 @@
                                     alert("修改成功");
                                     $(".updonename").val("");
                                     $(".updid").val("");
-                                    listshu(three);
+                                    listshu(three,1,10);
                                     closeMask('stuInfo');
                                 }else if(result==2){
                                     alert("修改有误");
@@ -543,7 +568,7 @@
                                     alert("修改成功");
                                     $(".updonename").val("");
                                     $(".updid").val("");
-                                    listshuzhi(shu);
+                                    listshuzhi(shu,1,10);
                                     closeMask('stuInfo');
                                 }else if(result==2){
                                     alert("修改有误");

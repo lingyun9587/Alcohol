@@ -382,9 +382,21 @@
                     //订单支付交易号
                     $("#batch").text(data.batch);
                     //创建时间
-                    $("#createTime").text(data.createTime);
+                    var paymentTimes=e.order.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                    var paymentTimes=data.createTime;
+                    var d = new Date(paymentTimes);
+                    var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+                    $("#createTime").text(times);
+
+                    var paymentTimes1=data.paymentTime;
+                    var d1 = new Date(paymentTimes1);
+                    var times1=d1.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
                     //支付时间
-                    $(".paymentTime").text(data.paymentTime);
+                    $(".paymentTime").text(times1);
                     var context = "";
                     $.each(data.commodities,function(i,e){
 

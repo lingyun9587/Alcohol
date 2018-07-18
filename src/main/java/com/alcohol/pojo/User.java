@@ -36,6 +36,6 @@ public class User {
     private Date lastTime;//修改时间
     private Long integral;//积分
     private Long paymentPassword;//支付密码
-
+    private Integer status; //状态 未启用
     private List<Role> roles; //角色集合
 }

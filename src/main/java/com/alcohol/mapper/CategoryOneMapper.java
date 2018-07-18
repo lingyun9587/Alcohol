@@ -2,6 +2,7 @@ package com.alcohol.mapper;
 
 
 import com.alcohol.pojo.Categoryone;
+import com.alcohol.pojo.Categorytwo;
 
 import java.util.List;
 
@@ -59,4 +60,10 @@ public interface CategoryOneMapper {
      *后台查询分类
      */
     public List<Categoryone> listCategory();
+
+    /**
+     * 查询一级分类下是否有二级分类
+     * @return
+     */
+    int seloneistwo(Integer two);
 }

@@ -43,7 +43,7 @@ $(function() {
 
 });
 /*分页*/
-function showPage(pageNum, pages, total) {
+function   showPage(pageNum, pages, total) {
     $(".pageStyle").empty();
     var pageInfo = "";
     pageInfo += "<div class='pagecentent'>" +

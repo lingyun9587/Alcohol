@@ -11,6 +11,180 @@
 		<link rel="stylesheet" type="text/css" href="/css/backstage/layout.css" />
 		<link rel="stylesheet" type="text/css" href="/css/backstage/popup.css" />
 		<link rel="stylesheet" type="text/css" href="/css/backstage/upload.css" />
+		<script charset="utf-8" src="/kindeditor-4.1.10/kindeditor.js"></script>
+		<script charset="utf-8" src="/kindeditor-4.1.10/lang/zh-CN.js"></script>
+		<script charset="utf-8" src="/kindeditor-4.1.10/plugins/code/prettify.js"></script>
+		<script>
+            KindEditor.ready(function(K) {
+                var content="";
+                window.editor=K.create('#editor', {
+                    cssPath : '/kindeditor-4.1.10/plugins/code/prettify.css',
+                    uploadJson : '/fileUpload',
+                   /* fileManagerJson : '/fileManager',*/
+                    allowFileManager : true,
+                    filterMode : false, //HTML特殊代码过滤
+					urlType:'domin',
+					resizeType:0,
+                    allowFlashUpload:true,
+                    /*afterCreate:function(){
+                        alert($("#editor").html());
+					},
+                    afterBlur: function(){
+                        this.sync();
+					},*/
+                    afterUpload : function(url,data,name) { //上传文件后执行的回调函数，必须为3个参数
+                            var img = new Image();
+                            img.src = url;
+                            img.onload = function () { //图片必须加载完成才能获取尺寸
+                                if (img.width > 750) {
+                                    content+="<img src=\"" + url + "\" width=\"790px\"/>";
+                                }
+                                else {
+                                    content+="<img src=\"" + url + "\"/>";
+                                }
+                               /* $("#editor").html(content);
+*/
+                            }
+                    }
+
+                });
+
+                window.editorProduct=K.create('#editorProduct', {
+                    cssPath : '/kindeditor-4.1.10/plugins/code/prettify.css',
+                    uploadJson : '/fileUploadProduct',
+                   /* fileManagerJson : '/fileManager',*/
+                    allowFileManager : true,
+                    urlType:'domin'
+                });
+
+                //宝贝主图
+                $('.divImage ul').on("click",".ztphoto",function(){
+                    editorProduct.loadPlugin('multiimage', function() {
+                        editorProduct.plugin.multiImageDialog({
+                            clickFn : function(urlList) {
+                                var li ="";
+                                K.each(urlList, function(i, data) {
+                                    li+='<img width="100px" height="100px" weight="100" src="'+data.url+'" alt="商品图片" title="宝贝主图"/>';
+                                });
+                                $(".divImage ul li").eq(0).html(li);
+                                editorProduct.hideDialog();
+                            }
+                        });
+                    });
+                });
+
+                //宝贝图片
+                $('.divImage ul').on("click",".photo",function(){
+                    var j=$(".divImage .fbox ul li").index($(this));
+                    var id=$(this).attr("id");
+                    editorProduct.loadPlugin('multiimage', function() {
+                        editorProduct.plugin.multiImageDialog({
+                            clickFn : function(urlList) {
+                                var li ="";
+                                K.each(urlList, function(i, data) {
+                                    if(id==1){
+                                        li+='<li id="0" class="photo"><img width="100px" height="100px" weight="10" src="'+data.url+'" alt="商品图片" title="宝贝主图"/></li>';
+                                    }else{
+                                        $(".divImage ul li").eq(j).find("img").attr("src",data.url);
+									}
+                                });
+                                $(".divImage ul li").eq(j).before(li);
+                                editorProduct.hideDialog();
+                            }
+                        });
+                    });
+                });
+
+
+
+            });
+		</script>
+		<style>
+			button{
+				width: 100px;
+				height: 30px;
+				border-radius: 5px;
+			}
+			.save{
+				width: 100px;
+				height: 40px;
+				border-radius: 5px;
+			}
+			.fbox ul li{
+				width: 100px;
+				height: 100px;
+				background-color: #E3E3E3;
+				float: left;
+				list-style: none;
+			}
+			#skuTable table{
+				font-size:14px;
+				color:#333333;
+				border-width: 1px;
+				border-color: #ddd;
+				margin:30px;
+				border-collapse: collapse;
+			}
+
+			#skuTable table th{
+				border-width: 1px;
+				padding: 10px 10px;
+				border-style: solid;
+				border-color: #ddd;
+				color:#666;
+				background-color: #ededed;
+			}
+
+			#skuTable table tr td {
+				border-width: 1px;
+				padding: 5px 10px;
+				border-style: solid;
+				border-color: #ddd;
+				background-color: #ffffff;
+				color:#777;
+				widows: auto;
+				text-align: center;
+				font-size: 12px;
+			}
+
+			#skuTable table tr td input{
+				width:150px;
+				height: 30px;
+				border:none;
+				font-size:14px;
+				padding:0;
+				margin:0;
+				color:#666;
+				text-align: center;
+			}
+
+			input[type="text"]{
+				height: 24px;
+				display: inline-block;
+				padding: 2px 12px;
+				font-size: 14px;
+				line-height: 24px;
+				color: #555;
+				background-color: #fff;
+				background-image: none;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+				-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+				-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+				transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+			}
+			input[type="text"]:focus {
+				border-color: #66afe9;
+				outline: 0;
+				-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+			}
+			.fileImg{
+				display:none;
+			}
+		</style>
 
 	</head>
 
@@ -43,14 +217,10 @@
 						<div style=" width: 100%;">
 							<ul class="SKU_TYPEproduct">
 								<!-- propid 是属性id   sku-type-name属性名称  is_required 是否是必选SKU 0：不是；1：是-->
-
 							</ul>
 							<ul>
 								<li><label><input type="checkbox" class="sku_value1" propvalid='11' value="阿迪达斯" />阿迪达斯</label></li>
-
 								<div class="clear"></div>
-
-
 							</ul>
 							<div class="clear"></div>
 						</div>
@@ -81,17 +251,29 @@
 					<dd>
 					<dt><span>赠送积分</span></dt>
 					<div class="fbox" style="width: 30%;float: left;margin-left: 8px;margin-top: 8px;">
-						<input type="text" class="textStyle" id="longegral" name="userName" style="width:360px;" value="-1"/>
+						<input type="text" class="textStyle" id="longegral" name="userName" style="width:360px;" value="请输入积分"/>
 					</div>
-					<span id="userNameText" class="txtInfo" style="float: none;margin-top: 50px;margin-left: 122px;font-size: 12px;">购买该商品时赠送等级积分数,-1表示按商品价格赠送</span>
+
+					<!--<span id="userNameText" class="txtInfo" style="float: none;margin-top: 50px;margin-left: 122px;font-size: 12px;">购买该商品时赠送等级积分数,-1表示按商品价格赠送</span>
+					-->
 					</dd>
 				</dl>
 
 				<dl>
-					<dt><span >商品属性</span></dt>
+					<dt><span >商品属性</span>
+						<button type="button" class="cloneSku">添加商品属性</button>
+						<div id="skuTable">
+							<table class='skuTable'>
+								<tr><th>价格</th><th>库存</th></tr>
+								<tr propvalids="propvalids" propids="propIdArr.toString()" propvalnames="vpropvalnameArr.join(';')"  propnames="propNameArr.join(';')" class="sku_table_tr">
+									<td><input type="text" class="setting_sku_price" value=""/></td>
+									<td><input type="text" class="setting_sku_stock" value=""/></td>
+								</tr>
+							</table>
+						</div>
+						</dt>
 					<dd>
 						<div class="fbox" >
-							<button type="button" class="cloneSku">添加sku属性</button>
 							<!--sku模板,用于克隆,生成自定义sku-->
 							<div id="skuCloneModel" class="sku" style="display: none;height: 30px; width: 1000px;" >
 								<div class="clear"></div>
@@ -111,6 +293,7 @@
 									</ul>
 								</div>
 								<div class="clear"></div>
+
 							</div>
 							<!--单个sku值克隆模板-->
 							<li style="display: none;" id="onlySkuValCloneModel">
@@ -119,48 +302,47 @@
 								<a href="javascript:void(0);" class="delCusSkuVal">删除</a>
 							</li>
 							<div class="clear"></div>
-							<div id="skuTable"></div>
+
 						</div>
+
 
 					</dd>
 				</dl>
 
-				<dl>
-					<dt><span>上传图片</span></dt>
+				<dl class="divImage">
+					<dt><span>商品图片</span></dt>
 					<dd>
 						<div class="fbox">
-							<img src="/images/backstage/cat.png" width="150px" height="150px" style="padding-top: 20px;">
-							<input type="button" class="button" value="上传" id="upload"/>
+								<ul id="ul">
+									<li class="ztphoto"><img width="100px" height="100px" weight="100" src="/images/backstage/uploadz.png" alt="商品图片" title="宝贝主图"></li>
+									<li class="photo" id="1"><img width="100px" height="100px" weight="10" src="/images/backstage/upload.png" alt="商品图片" title="宝贝图片"></li>
+								</ul>
 						</div>
 						<span class="txtInfo" id="uptxt"></span>
 					</dd>
 				</dl>
 
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-10" style="margin-top: 20px;">
+					<span style="float: left; margin-left: 35px; margin-right: 15px;">商品详情</span>
+                    <textarea id="editor" name="content" style="float: left; height: 1000px;width: 800px;">
+
+                    </textarea>
+					</div>
+				</div>
 				<dl>
 					<dt>&nbsp;</dt>
 					<dd>
 						<input type="button" id="submit" value="保存" class="button save" />
 					</dd>
 				</dl>
-
+				<textarea id="editorProduct" name="content" style="display:none;">
+                </textarea>
 			</form>
 		</div>
 	</div>
 
-	<!--上传弹出框开始    "mb_"后面的值与里面的div名称必须保持一致-->
-	<div id="mb_upfile">&nbsp;</div>
-	<div class="popup" id="upfile">
-		<h1>上传文件<span class="closeX" onclick="closeMask('upfile')">X</span></h1>
-		<div class="pInfo">
-			<form action="#">
-				<div class='uploadfile' id="uploadfile"></div>
-			</form>
-		</div>
-		<div class="pfooter">
-			<input type="button" class="button" value="上传" multiple id="upload" onclick="uploadFile()" multiple="multiple" />
-		</div>
-	</div>
-	<!--蒙板结束-->
+
 
 	<script type="text/javascript" src='/js/backstage/jquery-3.3.1.min.js'></script>
 	<script type="text/javascript" src="/js/backstage/global.js"></script>
@@ -181,199 +363,158 @@
             //加载一级分类
             oneClassinfo();
 
-            //保存按钮
-            $(".button").click(function () {
-
-        	});
-
-        $(".type").on("click","[name='check']",function(){
-            var tag = $(this).attr("checked");
-            if(tag!=undefined) {
-                // 之前已选中，设置为未选中
-                $(this).attr("checked", false);
-            }else{
-                $(this).attr("checked", true);
-            }
-        });
-
-        });
-
-        jQuery(function() {
-            $("#upload").click(function() {
-                //参数false代表文件不是图片
-                up_load(true);
-                //弹框
-                mask(420, 270, true, "upfile");
+            $(".type").on("click", "[name='check']", function () {
+                var tag = $(this).attr("checked");
+                if (tag != undefined) {
+                    // 之前已选中，设置为未选中
+                    $(this).attr("checked", false);
+                } else {
+                    $(this).attr("checked", true);
+                }
             });
-            var file;
-            /*for (var i = 0;document.getElementById("file").files.length;i++) {
-                file = document.getElementById("file").files[i];
-                alert(file.name);
-            }*/
-
         });
 
-       //新增sku表
-		function addsku(){
-			//新增sku属性
-            $(".cusSkuTypeInput").each(function(i,e){
-                var value=$(this).val();
-                alert(value);
-
-                //新增sku属性值
-                $(".cusSkuValInput").each(function(i,e){
-                    var value=$(this).val();
+            //新增sku表
+            function addsku() {
+                //新增sku属性
+                $(".cusSkuTypeInput").each(function (i, e) {
+                    var value = $(this).val();
                     alert(value);
-                });
-            });
-		}
 
-        //加载一级分类
-        function oneClassinfo(){
-            //加载一级分类
-            $.ajax({
-                url:"../getCategoryOneInfo",
-                type:"post",
-                dataType:"JSON",
-                success:function(result){
-                    var jsonFirst=result[0].categoryontName;
-                    var content="<option selected='selected'>请选择:</option>";
-                    $.each(result,function(i,e){
-                        if(e.categoryontName==result[0].categoryontName){
-                            content+="<option  value='"+e.categoryoneId+"'>"+e.categoryontName+"</option>"
-                        }else{
-                            content+="<option value='"+e.categoryoneId+"'>"+e.categoryontName+"</option>"
-                        }
-                    })
-                    $("#url_list").html(content);
-                    $("#url_lists").html(content);
-                    $("#url_lists1").html(content);
-                }
-            })
-        }
-
-        //根据一级分类查询二级分类
-        function sh(){
-            var parentid=$("#url_lists").val();
-            alert(parentid);
-            $.ajax({
-                url:"../getCategoryTwoInfo",
-                type:"post",
-                data:{parentId:parentid},
-                datatype:"JSON",
-                success:function(result){
-                    var json=JSON.parse(result);
-                    var content="";
-                    $.each(json,function(i,e){
-                        content+="<option value='"+e.categorytwoId+"'>"+e.categorytwoName+"</option>";
-                    })
-                    $("#url_list3").html(content);
-                }
-            })
-        }
-
-        //根据商品属性的一级分类查询二级分类
-        function Shoptype(){
-            var parentid=$("#url_lists1").val();
-            if(parentid=="请选择"){
-				alert("请选择分类");
-			}
-            $.ajax({
-                url:"../getCategoryTwoInfo",
-                type:"post",
-                data:{parentId:parentid},
-                datatype:"JSON",
-                success:function(result){
-                    var json=JSON.parse(result);
-                    var content="<option>请选择:</option>";
-                    $.each(json,function(i,e){
-                        if(e.categorytwoName==result[0].categorytwoName){
-                            content+="<option selected='selected' value='"+e.categorytwoId+"'>"+e.categorytwoName+"</option>";
-                        }else{
-                            content+="<option value='"+e.categorytwoId+"'>"+e.categorytwoName+"</option>";
-                        }
-
-                    })
-                    $("#url_lists2").html(content);
-                }
-            })
-        }
-
-
-        //根据商品属性的二级分类查询三级分类
-        function Shoptypethree(){
-            var parentid=$("#url_lists2").val();
-            if(parentid=="请选择"){
-                alert("请选择分类");
-            }
-            $.ajax({
-                url:"../categoryThreeInfo",
-                type:"post",
-                data:{parentId:parentid},
-                dataType:"JSON",
-                success:function(result){
-                    var content="<option>请选择:</option>";
-                    $.each(result,function(i,e){
-
-                        content+="<option value='"+e.categorythreeId+"'>"+e.categorythreeName+"</option>";
-                    })
-                    $("#url_lists3").html(content);
-                }
-            })
-        }
-
-        //根据三级分类加载属性
-        function listName(){
-            var productId=$("#url_lists3").val();
-            $.ajax({
-                url:"/getCategorythreeById",
-                data:{id:productId},
-                dataType:"JSON",
-                type:"post",
-                success:function(data){
-                    var content=" <a style=\"margin-left: -7px; font-weight: bold; font-size: 20px; \">属性:</a>";
-                    $.each(data.typeNameList,function(i,e){
-                        content+=" <div style=\" width: 100%;\">\n" +
-                            "<ul class=\"SKU_TYPEproduct\">\n" +
-                            "<li is_required='0' propid='"+e.typeNameId+"' sku-type-name=\""+e.typeNameName+"\"><em></em>"+e.typeNameName+"：</li>\n" +
-                            "</ul>\n" +
-                            "<ul class=\"SKU_TYPEValue\">";
-                        $.each(e.typevalueList,function(i1,e1){
-                            content+=" <li><label><input type=\"checkbox\" propvalid='"+e1.typeValueId+"' name=\"check\" value=\""+ e1.typeValueId+"\" />"+ e1.typeValueName+"</label></li>";
-                        });
-                        content+="</ul>"+
-                            "<div class=\"clear\"></div>"+
-                            "</div>";
-                        $(".type").show();
+                    //新增sku属性值
+                    $(".cusSkuValInput").each(function (i, e) {
+                        var value = $(this).val();
+                        alert(value);
                     });
-                    $(".type").html(content);
-                },error:function(){
-                    alert("访问服务器异常");
-                }
-            });
-        }
-
-
-        //表单验证   注意：文本提示的信息应在开始的时候全部写在placeholder中
-        function checkForm() {
-            var name = checkUserName();
-            return name;
-        }
-
-        //验证姓名
-        function checkUserName() {
-            var username = $("#userName");
-            var usernameText=$("#userNameText");
-            if(username.val() == "") {
-                username.addClass("err");
-                usernameText.text("姓名输入不能超过四个字符")
-                usernameText.addClass("red");
-                return false;
-            } else {
-                username.removeClass("err");
-                return true;
+                });
             }
-        }
+
+            //加载一级分类
+            function oneClassinfo() {
+                //加载一级分类
+                $.ajax({
+                    url: "../getCategoryOneInfo",
+                    type: "post",
+                    dataType: "JSON",
+                    success: function (result) {
+                        var jsonFirst = result[0].categoryontName;
+                        var content = "<option selected='selected'>请选择:</option>";
+                        $.each(result, function (i, e) {
+                            if (e.categoryontName == result[0].categoryontName) {
+                                content += "<option  value='" + e.categoryoneId + "'>" + e.categoryontName + "</option>"
+                            } else {
+                                content += "<option value='" + e.categoryoneId + "'>" + e.categoryontName + "</option>"
+                            }
+                        })
+                        $("#url_list").html(content);
+                        $("#url_lists").html(content);
+                        $("#url_lists1").html(content);
+                    }
+                })
+            }
+
+            //根据一级分类查询二级分类
+            function sh() {
+                var parentid = $("#url_lists").val();
+                alert(parentid);
+                $.ajax({
+                    url: "../getCategoryTwoInfo",
+                    type: "post",
+                    data: {parentId: parentid},
+                    datatype: "JSON",
+                    success: function (result) {
+                        var json = JSON.parse(result);
+                        var content = "";
+                        $.each(json, function (i, e) {
+                            content += "<option value='" + e.categorytwoId + "'>" + e.categorytwoName + "</option>";
+                        })
+                        $("#url_list3").html(content);
+                    }
+                })
+            }
+
+            //根据商品属性的一级分类查询二级分类
+            function Shoptype() {
+                var parentid = $("#url_lists1").val();
+                if (parentid == "请选择") {
+                    alert("请选择分类");
+                }
+                $.ajax({
+                    url: "../getCategoryTwoInfo",
+                    type: "post",
+                    data: {parentId: parentid},
+                    datatype: "JSON",
+                    success: function (result) {
+                        var json = JSON.parse(result);
+                        var content = "<option>请选择:</option>";
+                        $.each(json, function (i, e) {
+                            if (e.categorytwoName == result[0].categorytwoName) {
+                                content += "<option selected='selected' value='" + e.categorytwoId + "'>" + e.categorytwoName + "</option>";
+                            } else {
+                                content += "<option value='" + e.categorytwoId + "'>" + e.categorytwoName + "</option>";
+                            }
+
+                        })
+                        $("#url_lists2").html(content);
+                    }
+                })
+            }
+
+
+            //根据商品属性的二级分类查询三级分类
+            function Shoptypethree() {
+                var parentid = $("#url_lists2").val();
+                if (parentid == "请选择") {
+                    alert("请选择分类");
+                }
+                $.ajax({
+                    url: "../categoryThreeInfo",
+                    type: "post",
+                    data: {parentId: parentid},
+                    dataType: "JSON",
+                    success: function (result) {
+                        var content = "<option>请选择:</option>";
+                        $.each(result, function (i, e) {
+
+                            content += "<option value='" + e.categorythreeId + "'>" + e.categorythreeName + "</option>";
+                        })
+                        $("#url_lists3").html(content);
+                    }
+                })
+            }
+
+            //根据三级分类加载属性
+            function listName() {
+                var productId = $("#url_lists3").val();
+                $.ajax({
+                    url: "/getCategorythreeById",
+                    data: {id: productId},
+                    dataType: "JSON",
+                    type: "post",
+                    success: function (data) {
+                        var content = " <a style=\"margin-left: -7px; font-weight: bold; font-size: 20px; \">属性:</a>";
+                        $.each(data.typeNameList, function (i, e) {
+                            content += " <div style=\" width: 100%;\">\n" +
+                                "<ul class=\"SKU_TYPEproduct\">\n" +
+                                "<li is_required='0' propid='" + e.typeNameId + "' sku-type-name=\"" + e.typeNameName + "\"><em></em>" + e.typeNameName + "：</li>\n" +
+                                "</ul>\n" +
+                                "<ul class=\"SKU_TYPEValue\">";
+                            $.each(e.typevalueList, function (i1, e1) {
+                                content += " <li><label><input type=\"checkbox\" propvalid='" + e1.typeValueId + "' name=\"check\" value=\"" + e1.typeValueId + "\" />" + e1.typeValueName + "</label></li>";
+                            });
+                            content += "</ul>" +
+                                "<div class=\"clear\"></div>" +
+                                "</div>";
+                            $(".type").show();
+                        });
+                        $(".type").html(content);
+                    }, error: function () {
+                        alert("访问服务器异常");
+                    }
+                });
+            }
+
+
 	</script>
 	</body>
 

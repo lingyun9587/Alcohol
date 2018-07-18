@@ -82,4 +82,9 @@ public class CategoryTwoServiceImpl implements CategoryTwoService {
             throw e;
         }
     }
+
+    @Override
+    public int seltwoisthree(Integer parent) {
+        return cm.seltwoisthree(parent);
+    }
 }

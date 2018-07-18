@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 @Service
-public class ImageServiceImpl implements ImageService {
+public class ImageServiceImpl  implements ImageService {
     @Resource
     private ImageMapper imageMapper;
     @Override
@@ -32,5 +32,10 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<Image> selProductId(Long productId) {
         return imageMapper.selImageByProductId(productId);
+    }
+
+    @Override
+    public int addImage(Image image) {
+        return imageMapper.addImage(image);
     }
 }

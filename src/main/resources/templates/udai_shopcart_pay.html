@@ -374,6 +374,12 @@
        $(function(){
            init();
            init1();
+           $("form").submit(function () {
+               var addr = $("[name='addr']");
+               if(addr == null ){
+                   return false;
+               }
+           });
        })
        function init(){
            var id = getUrlParam("id");
@@ -419,7 +425,11 @@
                        money +=e.number*e.sku.presentPrice;
                    })
                    $("tbody").html(context);
-                   $("#time").html(data.createTime);
+                   var paymentTimes=data.createTime;
+                   var d = new Date(paymentTimes);
+                   var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+                   $("#time").html(times);
                    $("#batch").html(data.batch);
                    $(".money").html(money);
                    $("[name='WIDout_trade_no']").val(data.orderId);
@@ -503,8 +513,11 @@
                                "                            <td>¥"+(e.sku.presentPrice*e.number)+"</td>\n" +
                                "                        </tr>";
                        })
+                       var paymentTimes=data.createTime;
+                       var d = new Date(paymentTimes);
+                       var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                        $("tbody").html(context);
-                       $("#time").html(data.createTime);
+                       $("#time").html(times);
                        $("#batch").html(data.batch);
                        $(".money").html(money);
                        $("[name='WIDout_trade_no']").val(data.orderId);

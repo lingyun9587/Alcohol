@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.NoticeMapper">
     <select id="list" resultType="Notice">
-        SELECT * FROM tb_notice
+        SELECT notice_id,title,link,content,create_time,type FROM tb_notice where spare_one =1 order by create_time desc
     </select>
     <select id="listall" resultType="Notice">
         SELECT notice_id,title,link,content,create_time,type FROM tb_notice where spare_one =1 order by create_time desc
