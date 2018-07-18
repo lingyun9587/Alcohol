@@ -15,6 +15,7 @@
     <script src="/js/global.js" charset="UTF-8"></script>
     <script src="/js/login.js" charset="UTF-8"></script>
     <script src="/js/jquery.idcode.js" charset="UTF-8"></script>
+    <script src="/js/plug-in.js" charset="UTF-8"></script>
     <title>U袋网 - 登录 / 注册</title>
 </head>
 <body>
@@ -370,7 +371,7 @@
                             if (result.success) {
                                 location.href = "/";
                             } else{
-                                alert(result.msg);
+                                $.Pop('账号不存在',{Animation:'showSweetAlert'});
                             }
                         }, error: function () {
                             alert("链接服务器失败！");
