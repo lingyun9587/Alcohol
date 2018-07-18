@@ -1,6 +1,7 @@
 package com.alcohol.service;
 
 import com.alcohol.pojo.Categoryone;
+import com.alcohol.pojo.Categorytwo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -51,4 +52,10 @@ public interface CategoryOneService {
      *后台查询分类
      */
     public List<Categoryone> getCategoryOneInfofy(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+
+    /**
+     * 查询一级分类下是否有二级分类
+     * @return
+     */
+    int seloneistwo(Integer two);
 }

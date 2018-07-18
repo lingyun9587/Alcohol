@@ -14,6 +14,13 @@ import java.util.Map;
 public interface ProductMapper {
 
     /**
+     * 看了又看
+     * @param categorythreeId
+     * @return
+     */
+    public List<Product> getProductByCategorythreeId(Integer categorythreeId);
+
+    /**
      * 新增商品
      * @param p
      * @return
@@ -79,6 +86,14 @@ public interface ProductMapper {
      * @return
      */
     public List<Product> getProductList(@Param("product_name")String product_name,@Param("judge")int judge);
+
+    /**
+     * 根据分类属性值的id查询商品   xcf
+     * @param typevalueArray  分类属性值
+     * @param judge  排序类型
+     * @return  商品集合
+     */
+    public List<Product> getTypeProductList(@Param("categoryThree")int categoryThree,@Param("typevalueArray")String[] typevalueArray,@Param("judge")int judge);
 
     /**
      * 张鹏后台商品列表

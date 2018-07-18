@@ -57,5 +57,7 @@
     <update id="updateCategorythree">
         UPDATE tb_categorythree SET categorythree_name=#{categorythreeName} where categorythree_id=#{categorythreeId}
     </update>
-
+    <select id="selthreeisshu" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM tb_typename WHERE category_id=#{parent} AND isdel=0
+    </select>
 </mapper>

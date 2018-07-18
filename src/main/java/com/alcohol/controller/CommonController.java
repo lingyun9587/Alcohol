@@ -377,8 +377,13 @@ public class CommonController {
      * 热卖专场
      * @return
      */
-    @GetMapping("/item_sale_page.html")
-    public String item_sale_page() { return "/item_sale_page"; }
+    @RequestMapping("/item_sale_page.html")
+    public String item_sale_page(HttpServletRequest request) {
+        if(request.getParameterValues("s_ipt")!=null){
+            String pname=request.getParameterValues("s_ipt")[0];
+            request.getSession().setAttribute("pName",pname);
+        }
+        return "/item_sale_page"; }
 
     /**
      * 平台公告

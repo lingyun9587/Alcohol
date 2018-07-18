@@ -65,4 +65,10 @@ public interface CategoryThreeService {
      */
     int delCategorythree(Categorythree three);
 
+    /**
+     * 判断三级分类下是否存在属性
+     * @param parent
+     * @return
+     */
+    int selthreeisshu(Integer parent);
 }

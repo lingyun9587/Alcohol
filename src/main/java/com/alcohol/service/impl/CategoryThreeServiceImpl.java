@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Service("categoryThreeService")
 @Transactional
-public class CategoryThreeServiceImpl implements CategoryThreeService {
+public class CategoryThreeServiceImpl  implements CategoryThreeService {
 
     @Resource
     private CategoryThreeMapper cm;
@@ -84,5 +84,10 @@ public class CategoryThreeServiceImpl implements CategoryThreeService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    @Override
+    public int selthreeisshu(Integer parent) {
+        return cm.selthreeisshu(parent);
     }
 }

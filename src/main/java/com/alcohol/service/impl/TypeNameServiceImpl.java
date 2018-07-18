@@ -84,4 +84,9 @@ public class TypeNameServiceImpl implements TypeNameService {
     public int list() {
         return tm.list();
     }
+
+    @Override
+    public int selshuisshuxing(Integer parent) {
+        return tm.selshuisshuxing(parent);
+    }
 }

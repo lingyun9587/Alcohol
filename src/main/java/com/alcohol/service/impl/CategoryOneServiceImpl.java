@@ -2,6 +2,7 @@ package com.alcohol.service.impl;
 
 import com.alcohol.mapper.CategoryOneMapper;
 import com.alcohol.pojo.Categoryone;
+import com.alcohol.pojo.Categorytwo;
 import com.alcohol.service.CategoryOneService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
@@ -78,5 +79,10 @@ public class CategoryOneServiceImpl implements CategoryOneService {
         PageHelper.startPage(pageNum,pageSize,true,true);
         List<Categoryone> news=cm.getCategoryOneInfofy();
         return news;
+    }
+
+    @Override
+    public int seloneistwo(Integer two) {
+        return cm.seloneistwo(two);
     }
 }
