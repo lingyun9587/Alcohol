@@ -54,4 +54,13 @@
       INSERT INTO tb_sku (sku_id,`product_id`,`skuvalue_id`,`stock`,`original_price`,`present_price`)
       VALUES(NULL,#{productId},#{skuvalueId},#{stock},#{originalPrice},#{presentPrice})
     </insert>
+    <!--获取sku-->
+    <select id="getSkuByProduct" resultType="Sku">
+    SELECT tb_sku.`sku_id`,tb_sku.`skuvalue_id` FROM tb_sku
+ WHERE tb_sku.`product_id`=#{productId}
+</select>
+
+    <update id="upgStock">
+      UPDATE tb_sku SET stock=stock+#{number} WHERE sku_id=#{skuId}
+</update>
 </mapper>

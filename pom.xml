@@ -122,11 +122,11 @@
             <version>0.4.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.penggle/kaptcha -->
-        <dependency>
+      <!--  <dependency>
             <groupId>com.google.code.kaptcha</groupId>
             <artifactId>kaptcha</artifactId>
             <version>2.3</version>
-        </dependency>
+        </dependency>-->
         <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -219,10 +219,10 @@
             <version>1.6.1</version>
         </dependency>
         <!-- 微信支付依赖 -->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.xmlpull</groupId>
             <artifactId>xmlpull</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.ning</groupId>
             <artifactId>async-http-client</artifactId>
@@ -236,10 +236,10 @@
             <version>3.1.0</version>
         </dependency>
         <!-- 阿里云 短信 依赖 -->
-        <dependency>
+       <!-- <dependency>
             <groupId>taobao</groupId>
             <artifactId>taobao</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -266,6 +266,20 @@
             <artifactId>shiro-web</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <!-- shiro+redis缓存插件 -->
+        <!-- https://mvnrepository.com/artifact/org.crazycake/shiro-redis -->
+        <dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>2.4.2.1-RELEASE</version>
+        </dependency>
+
+
         <!--自动生成id-->
         <dependency>
             <groupId>pro.mickey</groupId>
@@ -273,11 +287,11 @@
             <version>1.0.0</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.sdk4j</groupId>
             <artifactId>sdk4j</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency>-->
         <!---消息队列-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

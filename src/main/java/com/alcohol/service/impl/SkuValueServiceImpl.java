@@ -8,6 +8,7 @@ import com.alcohol.service.SkuValueService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class SkuValueServiceImpl  implements SkuValueService {
@@ -44,5 +45,15 @@ public class SkuValueServiceImpl  implements SkuValueService {
     @Override
     public Sku getSkuBiProductId(String value, Integer id){
         return skuValueMapper.getSkuBiProductId(value,id);
+    }
+
+    @Override
+    public int upgStock(Integer skuId, Integer number) {
+        return skuValueMapper.upgStock(skuId,number);
+    }
+
+    @Override
+    public List<Sku> getSkuByProduct(Integer ProductId) {
+        return skuValueMapper.getSkuByProduct(ProductId);
     }
 }

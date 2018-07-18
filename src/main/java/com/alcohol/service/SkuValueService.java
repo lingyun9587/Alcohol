@@ -5,6 +5,8 @@ import com.alcohol.pojo.SkuValue;
 import com.alcohol.pojo.skuName;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * skuvalue表
  */
@@ -49,4 +51,19 @@ public interface SkuValueService {
     SkuValue getSkuById(Integer id);
 
     Sku getSkuBiProductId(String value,Integer id);
+
+    /***
+     * 修改库存
+     * @param skuId
+     * @param number
+     * @return
+     */
+    int upgStock(@Param("skuId")Integer skuId, @Param("number")Integer number);
+
+    /***
+     * 获取商品sku规格
+     * @param ProductId
+     * @return
+     */
+    List<Sku> getSkuByProduct(Integer ProductId);
 }

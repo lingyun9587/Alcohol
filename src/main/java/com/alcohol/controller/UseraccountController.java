@@ -93,16 +93,16 @@ public class UseraccountController {
             }
        }catch(UserAccountOperationException e){
            map.put("success",false);
-           map.put("msg",e.toString());
+           map.put("msg","登陆失败！");
            return map;
        }
 
         if(user.getState() == 0){
             map.put("success",true);
-            map.put("msg", user.getState());
+            map.put("msg", user.getStateInfo());
        }else{
             map.put("success",false);
-            map.put("msg", user.getState());
+            map.put("msg", user.getStateInfo());
         }
         return map;
     }
@@ -120,7 +120,7 @@ public class UseraccountController {
 
     /**
      * 修改用户信息
-     * @param useraccount
+     * @param
      * @return
      */
     @RequestMapping( value = "/udai_updateUser")

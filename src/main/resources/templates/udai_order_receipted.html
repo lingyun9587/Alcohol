@@ -574,8 +574,7 @@
                             "                                <div class=\"ep2\">快递<br>¥0.00</div>\n" +
                             "                            </div>\n" +
                             "                        </div>";
-                    })
-
+                    });
 $(".step-flow-box  .step-flow__bd").html(conte);
                     $(".order-item__list").html(context);
                     $("#orderId").html(data.orderId);
@@ -589,11 +588,9 @@ $(".step-flow-box  .step-flow__bd").html(conte);
                 }
             })
         }
-
         $(function(){
             var id = getUrlParam("id");
             getOrderId(id);
-
             $(".but").click(function () {
                 var  orderId =$("#orderIdInfo").text();
                 $.ajax({
@@ -608,6 +605,7 @@ $(".step-flow-box  .step-flow__bd").html(conte);
                         alert(data.msg);
                         if(data.success){
                          $(".modify_div").hide();
+                            getOrderId(orderId)
                         }
                     },
                     error:function () {
