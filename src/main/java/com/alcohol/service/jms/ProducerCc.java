@@ -12,8 +12,8 @@ import javax.jms.*;
  */
 @Component
 public class ProducerCc {
-
-    /*@Autowired
+/*
+    @Autowired
     private JmsTemplate jmsTemplate;
     *//**
      * 发送消息，estination是发送到的队列，message是待发送的消息

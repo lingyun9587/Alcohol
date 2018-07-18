@@ -25,6 +25,14 @@ public class CommonController {
     }
 
     /**
+     * 付款成功
+     * @return
+     */
+    @RequestMapping(value = "udai_order_success.html")
+    public  String udai_order_success(){
+        return "udai_order_success";
+    }
+    /**
      * 登录
      * @return
      */

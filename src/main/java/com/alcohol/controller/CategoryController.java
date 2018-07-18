@@ -80,6 +80,7 @@ public class CategoryController {
         //0失败1成功2已存在
         //查询是否存在
         con=categoryOneService.getCategoryone(name);
+        System.out.println(con);
         if(con>0){
             con=2;
         }else{
@@ -155,13 +156,12 @@ public class CategoryController {
         return JSON.toJSONString(categorythreeList);
     }
     /**
-     * 获取属性名与属性值
+     * 新增属性
      */
     @ResponseBody
     @RequestMapping(value="cout",produces = "text/html;charset=utf-8")
     public String cout(TypeName typeName){
         int type=0;//1.存在2.不存在3.新增属性成功4.新增属性失败5.新增属性值成功6.新增属性值失败
-        System.out.println(111);
         //判断属性是否存在
         int count=typeNameService.seltnId(typeName);
         if(count>0){
@@ -180,10 +180,87 @@ public class CategoryController {
                 type=4;
             }
         }
-
-
         return JSON.toJSONString(type);
     }
+
+    /**
+     * 新增属性值
+     */
+    @ResponseBody
+    @RequestMapping(value="coutzhi",produces = "text/html;charset=utf-8")
+    public String coutzhi(Typevalue tv){
+        int type=0;//1.存在2.不存在3.新增属性成功4.新增属性失败5.新增属性值成功6.新增属性值失败
+        //判断属性值是否存在
+        int count=typeValueService.updissel(tv);
+        if(count>0){
+            //属性值存在
+            type=1;
+            System.out.println("属性已存在");
+        }else{
+            System.out.println("属性不存在");
+            //新增属性值
+            int instype=typeValueService.addTypeValue(tv);
+            if(instype>0){
+                //新增属性值成功
+                type=3;
+            }else{
+                //新增属性值失败
+                type=4;
+            }
+        }
+        return JSON.toJSONString(type);
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping(value="addTypeValue",produces = "text/html;charset=utf-8")
+    public String addTypeValue(Long categoryId,HttpServletRequest request){
+        int type=0;
+        String  skuTypeArr = request.getParameter("skuTypeArr");
+        List<TempSkuName> list=JSON.parseArray(skuTypeArr,TempSkuName.class);
+        for (TempSkuName temp:list){
+            TypeName typename=new TypeName();
+            typename.setCategoryId(categoryId);
+            typename.setTypeNameName(temp.getSkuTypeTitle());
+            //判断属性是否存在
+            int count=typeNameService.seltnId(typename);
+            if(count>0){
+                //属性存在
+                type=1;
+                System.out.println("属性已存在");
+            }else{
+                int instype=typeNameService.addTypeName(typename);//新增属性
+                if(instype>0){
+                    //新增属性成功
+                    type=3;
+                }else{
+                    //新增属性失败
+                    type=4;
+                }
+                for(TempSkuValue value:temp.getSkuValues()){
+                    Typevalue typevalue=new Typevalue();
+                    typevalue.setTypeNameId(typename.getTypeNameId());//属性id
+                    typevalue.setTypeValueName(temp.getSkuTypeTitle());//属性值
+                    System.out.println(123);
+                    System.out.println(typename.getTypeNameId());
+                    //判断属性值是否存在
+                    int typevaluecount=typeValueService.updissel(typevalue);
+                    if(typevaluecount>0){
+                        //属性值存在
+                        type=1;
+                        System.out.println("属性已存在");
+                    }else{
+                        //新增属性值
+                        int instypevalue=typeValueService.addTypeValue(typevalue);
+                    }
+                }
+            }
+        }
+        return "";
+    }
+
+
 
     /**
      * 王磊
@@ -219,11 +296,7 @@ public class CategoryController {
     @ResponseBody
     @RequestMapping(value="getCategoryTwoInfofy",produces="text/html;charset=utf-8")
     public String getCategoryTwoInfofy(Categorytwo ct,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize){
-
         List<Categorytwo> lis=categoryTwoService.getCategoryTwoInfofy(ct,pageNum,pageSize);
-
-
-        pageNum=(pageNum-1)*pageSize;
         PageInfo<Categorytwo> apps=new PageInfo<Categorytwo>(lis);
         return JSON.toJSONString(apps);
     }
@@ -269,7 +342,7 @@ public class CategoryController {
      */
     @ResponseBody
     @RequestMapping(value="getTypeValuefy",produces = "text/html;charset=utf-8")
-    public String getTypeValuefy(Typevalue tv,Integer pageNum,Integer pageSize){
+    public String getTypeValuefy(Typevalue tv,@RequestParam("pageNum") Integer pageNum,@RequestParam("pageSize") Integer pageSize){
 
         List<Typevalue> lists=typeValueService.getTypeValuefy(tv,pageNum,pageSize);
         PageInfo<Typevalue> apps=new PageInfo<Typevalue>(lists);

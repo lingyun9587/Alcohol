@@ -4,7 +4,6 @@ import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
     public boolean ZhuCe(Useraccount useraccount);
@@ -17,8 +16,8 @@ public interface UserService {
     /**
      * 禁用启用用户
      * @param userId
-     * @param status
+     * @param frozen
      * @return
      */
-    public int updStatus(Long userId,Long status);
+    public int updStatus(Long userId,Long frozen);
 }

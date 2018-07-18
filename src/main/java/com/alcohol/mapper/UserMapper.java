@@ -1,11 +1,9 @@
 package com.alcohol.mapper;
 
 import com.alcohol.pojo.User;
-import com.alcohol.pojo.Useraccount;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserMapper {
 
@@ -46,9 +44,9 @@ public interface UserMapper {
  /**
   * 禁用启用用户
   * @param userId
-  * @param status
+  * @param frozen
   * @return
   */
- public int updStatus(@Param("userId") Long userId,@Param("status") Long status);
+ public int updStatus(@Param("userId") Long userId,@Param("frozen") Long frozen);
 
 }

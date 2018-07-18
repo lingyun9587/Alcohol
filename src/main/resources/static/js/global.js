@@ -169,7 +169,7 @@ $(function(){
 		url:"getUserInfo",
 		type:"post",
 		success:function(data){
-			if(data != null && data != ""){
+			if(data != null && data != ""  ){
 
 				$(".tab-header .inner .pull-right a").eq(0).html(data.user.membershipName);
                 $(".tab-header .inner .pull-right a").eq(0).attr("href","javascript:void(0)");
