@@ -154,7 +154,7 @@ public class UseraccountController {
                         int iii = (int) ii;
                         Sku kk = new Sku();
                         kk = gson.fromJson(jss, kk.getClass());
-                        if (kk.getSkuId() == scart.getSku().getSkuId()) {
+                        if (kk.getSkuId() == scart.getSku().getSkuId() || kk.getSkuId().equals(scart.getSku().getSkuId())) {
                             int iiii = iii + scart.getNum();
                             mk.put("num", iiii);
                             try {
