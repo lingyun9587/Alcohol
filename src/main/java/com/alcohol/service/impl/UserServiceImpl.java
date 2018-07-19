@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public int updStatus(Long userId, Long frozen) {
-        return userMapper.updStatus(userId, frozen);
+    public int updStatus(Long userId, Long status) {
+        return userMapper.updStatus(userId, status);
     }
 }

@@ -16,8 +16,8 @@ public interface UserService {
     /**
      * 禁用启用用户
      * @param userId
-     * @param frozen
+     * @param status
      * @return
      */
-    public int updStatus(Long userId,Long frozen);
+    public int updStatus(Long userId,Long status);
 }

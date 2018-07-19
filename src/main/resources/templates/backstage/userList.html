@@ -72,6 +72,7 @@
      * @param pageNum
      */
     function pageOne(nickName,pageNum) {
+
         $.ajax({
             url: "/listUser",
             data: {pageNum: pageNum, pageSize: 10,nickName:nickName},
@@ -81,7 +82,7 @@
             success: function (data) {
                 var tbody = $('<tbody></tbody>');
                 $.each(data.list, function (i, e) {
-
+                    var userId=e.userId.toFixed();
                     var paymentTimes=this.createTime;
                     var d = new Date(paymentTimes);
                     var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
@@ -92,7 +93,8 @@
 
                     var tr = $('<tr></tr>');
                     tr.append("<td width='2%'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
-                    tr.append("<td width='5%'>" + e.userId + "</td>");
+
+                    tr.append("<td width='5%'>" + userId+ "</td>");
                     tr.append("<td width='10%'>" + e.membershipName + "</td>");
                     if(e.nickName==null){
                         tr.append("<td width='15%'>未命名</td>");

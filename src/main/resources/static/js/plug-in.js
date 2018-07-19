@@ -20,7 +20,7 @@
 		}};
 	var IType = Type ? Type instanceof Object ? Type : PopType[Type] || {} : {};	
 	var Config = $.extend(true, {
-		Title:"来自Pop插件的通知",
+		Title:"系统通知",
 		Close:true,
 		Animation:"layerFadeIn",
 		BoxBg:true,

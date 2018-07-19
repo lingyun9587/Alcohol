@@ -2,10 +2,7 @@ package com.alcohol.controller;
 
 import com.alcohol.dto.OrderExecution;
 import com.alcohol.pojo.*;
-import com.alcohol.service.OrderService;
-import com.alcohol.service.ProductService;
-import com.alcohol.service.SkuService;
-import com.alcohol.service.UserAccountService;
+import com.alcohol.service.*;
 import com.alcohol.util.IDUtil;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.domain.InteligentGeneralMerchantPromo;
@@ -34,6 +31,8 @@ public class OrderController{
     private ProductService productService;
     @Resource
     private SkuService skuService;
+    @Resource
+    private SkuValueService skuValueService;
     /**
      * 添加订单信息
      * @return
@@ -201,5 +200,94 @@ public class OrderController{
     public String yearMoney(@RequestParam(value = "year",required = false) int year){
         List<Order> qian=orderService.yearmoney(year);
         return JSON.toJSONString(qian);
+    }
+
+    /**
+     * 查看订单 韩庆林
+     * @param pageNum
+     * @param pageSize
+     * @param batch
+     * @param orderStatus
+     * @return
+     */
+    @RequestMapping(value="/backstage/order")
+    @ResponseBody
+    public  Object order(@RequestParam(value = "pageNum",required = false) Integer pageNum,
+                         @RequestParam(value = "pageSize",required = false) Integer pageSize,
+                         @RequestParam(value = "batch",required = false) String batch,
+                         @RequestParam(value = "product_name",required = false) String product_name,
+                         @RequestParam(value = "phone",required = false) String phone,
+                         @RequestParam(value = "orderStatus",required = false) Integer orderStatus) {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("batch", batch);
+        map.put("product_name", product_name);
+        map.put("phone", phone);
+        map.put("pageNum", pageNum);
+        map.put("pageSize", pageSize);
+        map.put("orderStatus", orderStatus);
+        List<Order> list = orderService.order(map);
+        for (int i = 0; i < list.size(); i++) {
+            List<Commodity> commodity = list.get(i).getCommodities();//三个订单详情
+            for (int j = 0; j < commodity.size(); j++) {//循环订单详情
+                String skuvalueId = list.get(i).getCommodities().get(j).getSk().getSkuvalueId();//订单详情中的sku的value_id 3,5,6
+                String[] arr = skuvalueId.split(",");
+                SkuValue skuvalue = null;
+                List<SkuValue> SkuValueList = new ArrayList<SkuValue>();
+                for (int x = 0; x < arr.length; x++) {
+                    skuvalue = skuValueService.getSkuById(Integer.valueOf(arr[x]));
+                    SkuValueList.add(skuvalue);
+                }
+                list.get(i).getCommodities().get(j).getSk().setSkuValueList(SkuValueList);
+            }
+        }
+        PageInfo<Order> page = new PageInfo<Order>(list);
+        System.out.println(page.getTotal());
+        System.out.println(list);
+        return page;
+    }
+
+
+    /**
+     * 查看订单详情 韩庆林
+     * @param
+     * @return
+     */
+    @RequestMapping(value="/backstage/cha")
+    @ResponseBody
+    public  Object cha(@RequestParam("orderId") Long orderId){
+        Order order=orderService.cha(orderId);
+        return JSON.toJSONString(order);
+    }
+
+    /**
+     * 点击退款中，改变状态，变为已退款  韩庆林
+     * @param order_id
+     * @return
+     */
+    @RequestMapping(value ="/backstage/status")
+    @ResponseBody
+    public  String   status(Long order_id){
+        int x=orderService.status(order_id);
+        String json="";
+        if(x>0){
+            json="{\"result\":\"yes\",\"mes\":\"退款成功！\"}";
+        }else{
+            json="{\"result\":\"no\",\"mes\":\"退款失败！\"}";
+        }
+        return  json;
+    }
+
+    @RequestMapping(value ="/backstage/fa")
+    @ResponseBody
+    public  String   fa(Long orderid){
+        int x=orderService.fa(orderid);
+        String json="";
+        if(x>0){
+            json="{\"result\":\"yes\",\"mes\":\"发货成功！\"}";
+        }else{
+            json="{\"result\":\"no\",\"mes\":\"发货失败！\"}";
+        }
+        return  json;
     }
 }

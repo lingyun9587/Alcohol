@@ -65,6 +65,7 @@ public class ShiroConfiguration {
       filterChainDefinitionMap.put("/udai_collction.html", "roles[用户]");  //我的订单
       filterChainDefinitionMap.put("/udai_integral.html", "roles[用户]");  //积分平台
       filterChainDefinitionMap.put("/temp_article/udai_article4.html", "roles[用户]");  //帮助中心
+      filterChainDefinitionMap.put("/udai_shopcart_pay.html", "roles[用户]");
 
 
         //filterChainDefinitionMap.put("/udai_paypwd_modify.html", "roles[管理员]");
@@ -152,11 +153,11 @@ public class ShiroConfiguration {
      */
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
-        redisManager.setHost("192.168.111.132");
+        redisManager.setHost("192.168.159.128");
         redisManager.setPort(6379);
         redisManager.setExpire(1800);// 配置缓存过期时间
         redisManager.setTimeout(0);
-        // redisManager.setPassword(password);
+       // redisManager.setPassword(null);
         return redisManager;
     }
     /**

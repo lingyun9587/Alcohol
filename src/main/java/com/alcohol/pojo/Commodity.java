@@ -28,6 +28,7 @@ public class Commodity implements Serializable {
     private Order order; //订单对象
     private Sku sku; //Sku对象
     private Orderstatus orderstatus; //订单状态
+    private Sku sk;//Sku对象
 
 
 }

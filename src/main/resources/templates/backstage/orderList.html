@@ -87,14 +87,14 @@
 	</div>
 	<div class="serach">
 		<input type="button" value="全部" class="button search" onclick="cha(1,null)"/>
-		<input type="button" value="未付款" class="button search" onclick="cha(1,4)"/>
-		<input type="button" value="已付款" class="button search"  onclick="cha(1,3)" />
-		<input type="button" value="未发货" class="button search"  onclick="cha(1,2)" />
-		<input type="button" value="已发货" class="button search"  onclick="cha(1,1)" />
-		<input type="button" value="未评价" class="button search"  onclick="cha(1,6)" />
-		<input type="button" value="已评价" class="button search"  onclick="cha(1,5)" />
-		<input type="button" value="退款中" class="button search"  onclick="cha(1,7)" />
-		<input type="button" value="已退款" class="button search"  onclick="cha(1,8)" />
+		<input type="button" value="待付款" class="button search" onclick="cha(1,1)"/>
+		<input type="button" value="已付款" class="button search"  onclick="cha(1,11)" />
+		<input type="button" value="待发货" class="button search"  onclick="cha(1,2)" />
+		<input type="button" value="已发货" class="button search"  onclick="cha(1,10)" />
+		<input type="button" value="未评价" class="button search"  onclick="cha(1,15)" />
+		<input type="button" value="已评价" class="button search"  onclick="cha(1,14)" />
+		<input type="button" value="退款中" class="button search"  onclick="cha(1,4)" />
+		<input type="button" value="已退款" class="button search"  onclick="cha(1,16)" />
 	</div>
 
 	<!--搜索区结束-->
@@ -287,6 +287,7 @@
 
     //查看订单
     function cha(pageNum,orderStatus){
+
         status1=orderStatus;
         var textStyle=$(".textStyle").val();
         var context="";
@@ -297,70 +298,68 @@
                 "pageNum":pageNum,
                 "pageSize":4,
                 "batch":textStyle,
-                //orderStatus:status1!=null&&orderStatus!=null?status1:orderStatus
+                "product_name":textStyle,
+                "phone":textStyle,
                 orderStatus:orderStatus
             },
             dataType:"json",
             success:function(data){
                 var tbody = $('<tbody></tbody>');
+                var content="";
                 $.each(data.list,function(i,e){
-                    var paymentTimes=e.paymentTime;
-                    var d = new Date(paymentTimes);
+                    var createTime=e.createTime;
+                    var d = new Date(createTime);
                     var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
-
-                    var tr = $('<tr class="order-item"></tr>');
-                    tr.append("<td width='40'><input type='checkbox' name='CheckBox' value='pro1'/></td>");
+                    content+="<tr class=\"order-item\">";
+                    content+="<td width='40'><input type='checkbox' name='CheckBox' value='pro1'/></td>";
+                    content+="<td><label><a class='num'>"+ times +"&nbsp;&nbsp;订单号:" +e.orderId+ "</a>";
                     var x="";
                     var x1="";
                     var status="";
                     var tu="";
                     var ping="";
+                    var as="";
+                    var fa1="";
+                    if(orderStatus==4){
+                        as="<a href='javascript:void(0);' onclick='dianji("+e.orderId+")'>确认退款</a>";
+                    }
+                    if(orderStatus==2){
+                        fa1="<a href='javascript:void(0);' onclick='fa("+e.orderId+")'>确认退货</a>";
+                    }
                     $.each(e.orderstatus1,function(i,e1){
                         status=e1.orderStatus_name;
                     });
-                    $.each(e.shoppingdetails,function(i,e1){
-                        $.each(e1.sku,function(i,e2){
-                            x1=e2.presentPrice;
-                            $.each(e2.products,function(i,e3){
-                                x=e3.productName;
-                                $.each(e3.images,function(i,e4){
-                                    tu=e4.imagePath;
-                                });
-                            });
-                            $.each(e2.skuValue1,function(i,e5){
-                                ping=e5.skuvalueValue;
+                    $.each(e.commodities,function(ie,e1){
+                        x1=e1.sk.presentPrice;
+                        $.each(e1.sk.products,function(i,e3){
+                            x=e3.productName;
+                            $.each(e3.images,function(i,e4){
+                                tu=e4.imagePath;
                             });
                         });
-                    });
-                    if(orderStatus==7){
-                        tr.append("<td><label><a class='num'>"+"&nbsp"+times+"&nbsp"+"订单号："+e.batch+"</a><div class='card'>" +
-                            "<div class='img'><img src='"+tu+"' height='78' width='78' alt='' class='cover'></div>" +
-                            "<div class='name ep2'>"+x+"</div>" +
-                            "<div class='format'> 商品规格："+ping+"</div>" +
-                            "</div></label></td>");
-                        tr.append("<td> ￥"+x1+"</td>");
-                        tr.append("<td>"+e.goodsCount+"</td>");
-                        tr.append("<td> ￥"+e.money+"</td>");
-                        tr.append("<td id='status1'>"+status+"</td>");
-                        tr.append("<td><a href='javascript:void(0);' onclick='update("+e.orderId+")'  id='open'>详情</a>"+"&nbsp&nbsp"+"<a href='javascript:void(0);' onclick='dianji("+e.orderId+")'>确认退款</a>"+"</td>");
-                        tbody.append(tr);
-                    }else {
-                        tr.append("<td><label><a class='num'>" + "&nbsp" + times + "&nbsp" + "订单号：" + e.batch + "</a><div class='card'>" +
+
+                        $.each(e1.sk.skuValueList,function(i1,ee){
+                            ping+=ee.skuName.skunameeValue+":"+ee.skuvalueValue+"&nbsp;&nbsp;&nbsp;&nbsp;";
+                        })
+
+                        content+="<div class='card'>"+
                             "<div class='img'><img src='" + tu + "' height='78' width='78' alt='' class='cover'></div>" +
                             "<div class='name ep2'>" + x + "</div>" +
-                            "<div class='format'> 商品规格：" + ping + "</div>" +
-                            "</div></label></td>");
-                        tr.append("<td>￥" + x1 + "</td>");
-                        tr.append("<td>" + e.goodsCount + "</td>");
-                        tr.append("<td>￥" + e.money + "</td>");
-                        tr.append("<td id='status1'>" + status + "</td>");
-                        tr.append("<td><a href='javascript:void(0);' onclick='update("+e.orderId+")' id='open'>详情</a></td>");
-                        tbody.append(tr);
-                    }
+                            "<div class='format'>" + ping + "</div>" +
+                            "</div></label></td>";
+                        content+="<td>￥"+x1+"</td>";
+                        content+="<td>" + e.goodsCount + "</td>";
+                        content+="<td>￥" + e.money + "</td>";
+                        content+="<td id='status1'>" + status +"</td>";
+                        if(ie==0){
+                            content+="<td><a href='javascript:void(0);' onclick='update(\""+e.orderId+"\",\""+ping+"\")' id='open'>详情</a>"+"&nbsp"+as+fa1+"</td>";
+                        }
+                    });
+                    content+="</tr>";
                 });
-                //$("tbody").html(tr);
+                $("tbody").html(content);
                 //showPage(data.index, data.pageCount, data.totalCount);
-                $('#tableData tbody').replaceWith(tbody);
+                /* $('#tableData tbody').replaceWith(tbody);*/
                 showPage(pageNum,data.pages,data.total,orderStatus);
 
             },error:function(data){
@@ -375,55 +374,70 @@
     }
 
     //查看订单详情
-    function update(order_id) {
+    function update(orderId,ping) {
         $.ajax({
             url:"/backstage/cha",
             type:"post",
             data:{
-                "order_id":order_id
+                "orderId":orderId
             },
             dataType:"json",
             success:function(data){
-                var paymentTimes=data.paymentTime;
-                var d = new Date(paymentTimes);
+                var createTime=data.createTime;
+                var d = new Date(createTime);
                 var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
-                //alert(data.shoppingdetails[0].sku[0].presentPrice);
                 var table = $('<table cellpadding="0" cellspacing="0" border="0" class="showTable" id="dg"></table>');
-                var tr = $('<tr></tr>');
-                var tr1 = $('<tr></tr>');
-                var tr2 = $('<tr></tr>');
-                var tr3 = $('<tr></tr>');
-                var tr4 = $('<tr></tr>');
-                var tr5 = $('<tr></tr>');
-                tr.append("<td class='tdWidth'>收货人：</td>");
-                tr.append("<td>"+data.address.consignee+"&nbsp&nbsp&nbsp&nbsp86-"+data.address.phone+"</td>");
-                tr.append("<td class='tdWidth'>收货地址：</td>");
-                tr.append("<td>"+data.address.comaddress+"</td>");
-                tr1.append("<td class='tdWidth'>商品名称：</td>");
-                tr1.append("<td colspan='5'>"+data.shoppingdetails[0].sku[0].products[0].productName+"</td>");
-                tr2.append("<td class='tdWidth'>商品图片：</td>");
-                tr2.append("<td><img src='"+data.shoppingdetails[0].sku[0].products[0].images[0].imagePath+"' height='78' width='78'></td>");
-                tr2.append("<td class='tdWidth'>商品规格：</td>");
-                tr2.append("<td>"+times+"</td>");
-                tr3.append("<td class='tdWidth'>创建时间:</td>");
-                tr3.append("<td>"+times+"</td>");
-                tr3.append("<td class='tdWidth'>订单号：</td>");
-                tr3.append("<td>"+data.batch+"</td>");
-                tr4.append("<td class='tdWidth'>单价：</td>");
-                tr4.append("<td>"+data.shoppingdetails[0].sku[0].presentPrice+"</td>");
-                tr4.append("<td class='tdWidth'>数量：</td>");
-                tr4.append("<td>"+data.goodsCount+"</td>");
-                tr5.append("<td class='tdWidth'>实付款：</td>");
-                tr5.append("<td>"+data.money+"</td>");
-                tr5.append("<td class='tdWidth'>交易状态：</td>");
-                tr5.append("<td>"+data.orderstatus1[0].orderStatus_name+"</td>");
-                table.append(tr);
-                table.append(tr1);
-                table.append(tr2);
-                table.append(tr3);
-                table.append(tr4);
-                table.append(tr5);
-                var pinfo= $(".pInfo").append(table);
+                if(data.desc==null||data.desc==""){
+                    bei="";
+                }else{
+                    bei=data.desc;
+                }
+                var id=data.orderId.toFixed();
+                $.each(data.commodities,function (i,e) {
+                    var tr = $('<tr></tr>');
+                    var tr1 = $('<tr></tr>');
+                    var tr2 = $('<tr></tr>');
+                    var tr3 = $('<tr></tr>');
+                    var tr4= $('<tr></tr>');
+                    var tr5= $('<tr></tr>');
+                    var tr6= $('<tr></tr>');
+                    var tr7= $('<tr></tr>');
+                    var bei="";
+                    tr.append("<td class='tdWidth'>收货人：</td>");
+                    tr.append("<td>"+data.address.consignee+"</td>");
+                    tr.append("<td class='tdWidth'>联系电话：</td>");
+                    tr.append("<td>"+data.address.phone+"</td>");
+                    tr1.append("<td class='tdWidth'>收货地址：</td>");
+                    tr1.append("<td colspan='4'>"+data.address.comaddress+"</td>");
+                    tr2.append("<td class='tdWidth'>商品图片：</td>");
+                    tr2.append("<td><img src='"+e.sk.products[0].images[0].imagePath+"' height='78' width='78'></td>");
+                    tr2.append("<td class='tdWidth'>商品规格：</td>");
+                    tr2.append("<td>"+ping+"</td>");
+                    tr3.append("<td class='tdWidth'>创建时间:</td>");
+                    tr3.append("<td>"+times+"</td>");
+                    tr3.append("<td class='tdWidth'>订单号：</td>");
+                    tr3.append("<td>"+id+"</td>");
+                    tr4.append("<td class='tdWidth'>单价：</td>");
+                    tr4.append("<td>"+e.sk.presentPrice+"</td>");
+                    tr4.append("<td class='tdWidth'>数量：</td>");
+                    tr4.append("<td>"+data.goodsCount+"</td>");
+                    tr5.append("<td class='tdWidth'>实付款：</td>");
+                    tr5.append("<td>"+data.money+"</td>");
+                    tr5.append("<td class='tdWidth'>备注：</td>");
+                    tr5.append("<td>"+bei+"</td>");
+                    tr6.append("<td class='tdWidth'>交易状态：</td>");
+                    tr6.append("<td>"+data.orderstatus1[0].orderStatus_name+"</td>");
+                    tr7.append("<td colspan='5'>---------------------------------------------------------------------------------------</td>");
+                    table.append(tr);
+                    table.append(tr1);
+                    table.append(tr2);
+                    table.append(tr3);
+                    table.append(tr4);
+                    table.append(tr5);
+                    table.append(tr6);
+                    table.append(tr7);
+                });
+                var pinfo= $(".pInfo").html(table);
                 $("#popup").append(pinfo);
             },error:function (data) {
                 alert("错误11111");
@@ -436,17 +450,40 @@
 
     //点击退款中，退款成功，变为已退款
     function dianji(order_id) {
+        var cont=order_id.toFixed();
+        // alert(cont);
         $.ajax({
             url:"/backstage/status",
             type:"post",
             data:{
-                order_id:order_id
+                order_id:cont
             },
             dataType:"json",
             success:function (data) {
                 if(data.result=="yes"){
                     cha(1,status1);
                 }else{
+                }
+            }
+        });
+    }
+
+
+    //点击未发货，发货成功，变为已发货
+    function fa(orderid) {
+        var cont=orderid.toFixed();
+        $.ajax({
+            url:"/backstage/fa",
+            type:"post",
+            data:{
+                orderid:cont
+            },
+            dataType:"json",
+            success:function (data) {
+                if(data.result=="yes"){
+                    cha(1,status1);
+                }else{
+
                 }
             }
         });

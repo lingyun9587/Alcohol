@@ -191,7 +191,7 @@
                         <div class="info-line">运费：<span class="c6">¥0.00</span></div>
                         <div class="info-line"><span class="favour-value">已优惠 ¥0.0</span>合计：<b class="fz18 cr">¥<label class="money"> 18.0</label></b>
                         </div>
-                        <div class="info-line fz12 c9">（可获 <span class="c6">20</span> 积分）</div>
+                        <div class="info-line fz12 c9">（可获 <span class="c6">0</span> 积分）</div>
                         <div class="info-line">
                             <textarea name="desc" rows="5" cols="10"></textarea>
                         </div>
@@ -370,6 +370,9 @@
         </p>
     </div>
    <script type="text/javascript">
+       var paymentTimes=new Date();
+       var d = new Date(paymentTimes);
+       var myDate=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
 
        $(function(){
            init();
@@ -474,7 +477,7 @@
                        money=data.presentPrice*number;
                        contextShopping = data.product.productName+":"+number;
                        $("tbody").html(context);
-                       $("#time").html("");
+                       $("#time").html(myDate);
                        $("#batch").html(data.batch);
                        $(".money").html(money);
                        $("[name='WIDout_trade_no']").val(data.orderId);
@@ -499,12 +502,12 @@
                                "                            <td>\n" +
                                "                                <div class=\"name ep3\">"+e.sku.product.productName+"</div>\n" +
                                "                                <div class=\"type c9\">" ;
-                           $.each(e.product.skunameList,function(i1,e1){
+                         /*  $.each(e.product.skunameList,function(i1,e1){
                                context+=e1.skunameeValue+":";
                                $.each(e1.skuValueList,function(i2,e2){
                                    context+=e2.skuvalueValue+"、";
                                })
-                           })
+                           })*/
                            context+="</div>\n" +
                                "                            </td>\n" +
                                "                            <td>¥"+e.sku.presentPrice+"</td>\n" +
@@ -517,7 +520,7 @@
                        var d = new Date(paymentTimes);
                        var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                        $("tbody").html(context);
-                       $("#time").html(times);
+                       $("#time").html(myDate);
                        $("#batch").html(data.batch);
                        $(".money").html(money);
                        $("[name='WIDout_trade_no']").val(data.orderId);

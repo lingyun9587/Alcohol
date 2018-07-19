@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.SkuValueMapper">
 
-    <select id="getSkuValueIdByname" resultType="SkuValue">
+    <select id="getSkuValueIdByname" resultType="com.alcohol.pojo.SkuValue">
       SELECT tb_skuvalue.`skuvalue_id` FROM `tb_skuvalue`
       LEFT JOIN tb_skuname ON tb_skuname.`skuname_id`=tb_skuvalue.`skuname_id`
       WHERE tb_skuname.`product_id`=#{productId} AND tb_skuvalue.`skuvalue_value`=#{name}
@@ -19,16 +19,16 @@
         WHERE skuvalue_id=#{id}
     </select>
 
-    <resultMap id="resultMap01" type="SkuValue">
+    <resultMap id="resultMap01" type="com.alcohol.pojo.SkuValue">
         <id column="skuvalue_id" property="skuvalueId"/>
         <result column="skuvalue_value" property="skuvalueValue"/>
-        <association property="skuName" javaType="skuName">
+        <association property="skuName" javaType="com.alcohol.pojo.skuName">
             <id column="skuname_id" property="skunameId"/>
             <result column="skuname_name" property="skunameeValue"/>
         </association>
     </resultMap>
 
-    <select id="getSkuBiProductId" resultType="Sku">
+    <select id="getSkuBiProductId" resultType="com.alcohol.pojo.Sku">
         SELECT sku_id,skuvalue_id,stock,original_price,present_price
         FROM tb_sku WHERE  skuvalue_id =#{value}  AND product_id=#{id}
     </select>
@@ -55,7 +55,7 @@
       VALUES(NULL,#{productId},#{skuvalueId},#{stock},#{originalPrice},#{presentPrice})
     </insert>
     <!--获取sku-->
-    <select id="getSkuByProduct" resultType="Sku">
+    <select id="getSkuByProduct" resultType="com.alcohol.pojo.Sku">
     SELECT tb_sku.`sku_id`,tb_sku.`skuvalue_id` FROM tb_sku
  WHERE tb_sku.`product_id`=#{productId}
 </select>

@@ -3,17 +3,17 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.alcohol.mapper.RktableMapper">
-        <resultMap id="listCha" type="Rktable">
+        <resultMap id="listCha" type="com.alcohol.pojo.Rktable">
                 <id column="id" property="id"/>
                 <result column="number" property="number"/>
                 <result column="create_time" property="createTime"/>
-                <association property="sku" javaType="Sku">
+                <association property="sku" javaType="com.alcohol.pojo.Sku">
                         <result column="stock" property="stock"/>
                 </association>
-                <association property="skuValue" javaType="SkuValue">
+                <association property="skuValue" javaType="com.alcohol.pojo.SkuValue">
                         <result column="skuvalue_value" property="skuvalueValue"/>
                 </association>
-                <association property="product" javaType="Product">
+                <association property="product" javaType="com.alcohol.pojo.Product">
                         <result column="product_name" property="productName"/>
                 </association>
         </resultMap>

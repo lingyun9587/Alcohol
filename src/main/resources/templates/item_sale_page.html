@@ -40,10 +40,11 @@
                 success:function(result){
                     if(result.pid!=undefined){
                         $("#search").val(result.pid);
+                        pLise(1,1);
                     }
                 }
             });
-            pLise(1,1);
+
             //先判断浏览器是不是万恶的IE，没办法，写的东西也有IE使用者  item_sale_page.html
             /*  var bind_name = 'input';
               if (navigator.userAgent.indexOf("MSIE") != -1){

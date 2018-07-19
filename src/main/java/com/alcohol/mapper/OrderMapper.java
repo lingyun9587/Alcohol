@@ -66,10 +66,12 @@ public interface OrderMapper {
     //查询订单后台韩庆林
     List<Order>  order(Map<String,Object> map);
     //查看订单详情
-    Order cha(@Param("order_id") int order_id);
-
+    Order cha(Long orderId);
     //修改退款状态
-    int status(int order_id);
+    int status(Long order_id);
+    //修改未发货的状态
+    int fa(Long orderid);
+
 
     /**
      * 获取最后一个订单

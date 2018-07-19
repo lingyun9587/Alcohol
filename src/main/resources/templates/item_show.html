@@ -615,7 +615,7 @@
                     "<div class='Info'>请勾选您要的商品信息！</div>"+
                     "<div class=\"item-action clearfix bgf5\">\n" +
                     "<a href=\"javascript:;\" rel=\"nofollow\" data-addfastbuy=\"true\" title=\"点击此按钮，到下一步确认购买信息。\"\n" +
-                    "role=\"button\" class=\"item-action__buy\" onclick='buy()'>立即购买</a>\n" +
+                    "role=\"button\" class=\"item-action__buy\" onclick='buy1()'>立即购买</a>\n" +
                     "<a href=\"javascript:;\" onclick='buy()' rel=\"nofollow\" data-addfastbuy=\"true\" role=\"button\" class=\"item-action__basket\">\n" +
                     "<i class=\"iconfont icon-shopcart\"></i> 加入购物车\n" +
                     "</a>\n" +
@@ -858,8 +858,8 @@
         }
         else{
             $.ajax({
-                url:"/addShopCart",
-                data:{skuId:skuId},
+                url:"/shop/addShopCart",
+                data:{skuid:skuId,num:number},
                 dataType:"JSON",
                 type:"post",
                 success:function(result){
@@ -870,7 +870,31 @@
             });
         }
     }
+    //立即购买
+    function buy1(){
+        var skuId=$(".skuId").val();
+        var number=$('.amount-input').val();
+        if(skuId==0){
+            $(".Info").show();
+            return;
+        }
+        else{
+            $.ajax({
+                url:"/getUserInfo",
+                dataType:"JSON",
+                type:"post",
+                success:function(result){
+                    if(result == null){
+                        alert("用户未登录");
+                    }else{
+                        location.href="udai_shopcart_pay.html?skuId="+skuId+"&number="+number;
+                    }
+                },error:function(){
 
+                }
+            });
+        }
+    }
     //看了又看
     function klyk(pageIndex,categorythreeId){
         $.ajax({
