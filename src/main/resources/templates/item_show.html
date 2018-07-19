@@ -811,6 +811,7 @@
             dataType:"JSON",
             data:{value:value},
             type:"post",
+           global:false,
             success:function(result){
                 if(result!=null && result!=''){
                     $(".skuId").val(result.skuId);
