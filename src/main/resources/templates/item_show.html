@@ -498,7 +498,7 @@
 
     $(function() {
         getCommentByProductid(null,1);
-        getCommentCountById();
+       getCommentCountById();
         getcategory();
     });
 
@@ -619,7 +619,7 @@
                 $("#detail").html(data.productDetails);
                 $(".Info").hide();
                 if(data.skunameList.length==0){
-                    $(".skuId").val("空");
+                    $(".skuId").val(data.skuList[0].skuId);
                 }
                 klyk(1,data.categoryThree);//看了又看
             },
@@ -698,14 +698,13 @@
                     "<div class='eval-text'>"+
                     ""+item.content+""+
                     "</div>"+
-                    "<div class='eval-imgs'>"+
-                    "<div class='img-temp'><img src='images/temp/S-001-1_s.jpg'"+
-                    "data-src='images/temp/S-001-1_b.jpg'"+
-                    "data-action='zoom' class='cover'></div>"+
-                    "<div class='img-temp'><img src='images/temp/S-001-2_s.jpg'"+
-                    "data-src='images/temp/S-001-2_b.jpg'"+
-                        "data-action='zoom' class='cover'></div>"+
-                    "</div>"+
+                    "<div class='eval-imgs'>";
+                    $.each(item.imageList,function(i,e){
+                        contents+="<div class='img-temp'><img src='"+e.imagePath+"'"+
+                        "data-src='"+e.imagePath+"'"+
+                        "data-action='zoom' class='cover'></div>";
+                    })
+                    contents+= "</div>"+
                     "<div class='eval-time'>"+
                     ""+item.createTime+"&nbsp;&nbsp;&nbsp;";<!--时间-->
                         if(item.sku.skuValueList!=undefined){
@@ -811,6 +810,7 @@
             dataType:"JSON",
             data:{value:value},
             type:"post",
+           global:false,
             success:function(result){
                 if(result!=null && result!=''){
                     $(".skuId").val(result.skuId);

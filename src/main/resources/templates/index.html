@@ -51,10 +51,10 @@
     <div class="inner">
         <a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
         <div class="search-box">
-            <form class="input-group" action="#" method="post">
+            <form class="input-group" action="/item_sale_page.html" method="post">
                 <input placeholder="" type="text" class="s_ipt" name="s_ipt">
                 <span class="input-group-btn">
-						<button>
+						<button type="submit">
 							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 						</button>
 					</span>
@@ -450,7 +450,7 @@
 <script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
 <script>
     $(function () {
-        getallProduct();
+
         listNotice();
         /*Image();*/
         getProduct();
@@ -471,6 +471,7 @@
             data:{pName:name},
             dataType:"JSON",
             type:"post",
+            global:false,
             success:function(result){
                 var str="";
                 $(result).each(function(i,e){
@@ -493,7 +494,7 @@
             type: "post",
             dataType: "JSON",
             success: function (result) {
-                getProduct01(result);
+
                 $.each(result, function (i,e) {
                     var content01 = "";
                     if(i<5){
@@ -525,7 +526,7 @@
                     }
                 })
                 $(".cat-list__box").html(content);
-
+                getProduct01(result);
 
             }
         });
@@ -545,10 +546,6 @@
                     if(e.type==0){
                         type="咨询";
                     }
-                    content += "<a class='swiper-slide ep' href='udai_notice.html' style='height: 24px;'>["+type+"]&nbsp;&nbsp;" + e.title + "</a>";
-
-                    content += "<a class='swiper-slide ep' href='udai_notice.html' style='height: 24px;'>["+type+"]&nbsp;&nbsp;" + e.title + "</a>";
-
                     content += "<a class='swiper-slide ep' href='udai_notice.html' style='height: 24px;'>["+type+"]&nbsp;&nbsp;" + e.title + "</a>";
 
                     content += "<a class='swiper-slide ep' href='udai_notice.html' style='height: 24px;'>["+type+"]&nbsp;&nbsp;" + e.title + "</a>";
@@ -585,8 +582,6 @@
                         "</div>";
                 });
                 $(".swiper-wrapper").eq(0).html(content);
-
-
             }
         })
     }
@@ -599,6 +594,7 @@
             data:{weight:90,categoryOne:0,pageSize:6},
             type: "post",
             dataType: "JSON",
+            global:false,
             success: function (result) {
                 $.each(result,function(i,e){
                     content+="<a href=\"item_show.html?productId="+e.productId+"\" class=\"floor-item\">\n" +
@@ -617,6 +613,7 @@
                         "</a>\n";
                 });
                 $(".right-box").html(content);
+                getallProduct();
             }
         })
     }
@@ -632,44 +629,47 @@
                 dataType: "JSON",
                 async: false,
                 success: function (result) {
-                    content+="<section class=\"scroll-floor floor-"+(e.categoryoneId+1)+"\">\n" +
+                    content += "<section class=\"scroll-floor floor-" + (e.categoryoneId + 1) + "\">\n" +
                         "<div class=\"floor-title\">\n" +
-                        "<i class=\"iconfont icon-skirt fz16\"></i>"+e.categoryontName+"\n" +
+                        "<i class=\"iconfont icon-skirt fz16\"></i>" + e.categoryontName + "\n" +
                         "<div class=\"case-list fz0 pull-right\">\n";
                     $.each(e.categorytwoList, function (index, item) {
                         $.each(item.categorythreeList, function (index1, item1) {
-                            if(index1<1){
-                                content+= "<a href=\"item_category.html?categoryId="+item1.categorythreeId+"\">"+item1.categorythreeName +"</a>\n";
+                            if (index1 < 1) {
+                                content += "<a href=\"item_category.html?categoryId=" + item1.categorythreeId + "\">" + item1.categorythreeName + "</a>\n";
                             }
                         });
                     });
-                    content+= "</div>\n" +
+                    content += "</div>\n" +
                         "</div>\n" +
                         "<div class=\"con-box\">\n" +
                         "<a class=\"left-img hot-img\" href=\"\">\n" +
-                        "<img src=\"images/floor_"+(e.categoryoneId+1)+".jpg\" alt=\"\" class=\"cover\">\n" +
+                        "<img src=\"images/floor_" + (e.categoryoneId + 1) + ".jpg\" class=\"cover\">\n" +
                         "</a>\n" +
                         "<div class=\"right-box\">";
-                    $.each(result,function(i1,e1){
-                        content+="<a href=\"item_show.html?productId="+e1.productId+"\" class=\"floor-item\">\n" +
-                            "<div class=\"item-img hot-img\">\n";
-                        $.each(e1.imageList,function(i2,e2){
-                            content+="<img src=\""+e2.imagePath+"\" alt=\""+e2.productName+"\" class=\"cover\">\n";
-                        })
-                        content+="</div>\n" +
-                            "<div class=\"price clearfix\">\n";
-                        $.each(e1.skuList,function(i3,e3){
-                            content+="<span class=\"pull-left cr fz16\">￥"+e3.presentPrice+"</span>\n";
-                        })
-                        content+="<span class=\"pull-right c6\">售价</span>\n" +
-                            "</div>\n" +
-                            "<div class=\"name ep\" title=\""+e1.productName+"\">"+e1.productName+"</div>\n" +
-                            "</a>\n";
-                    });
-                    content+="</div>\n" +
+                    if(result!=""){
+                        $.each(result, function (i1, e1) {
+                            content += "<a href=\"item_show.html?productId=" + e1.productId + "\" class=\"floor-item\">\n" +
+                                "<div class=\"item-img hot-img\">\n";
+                            $.each(e1.imageList, function (i2, e2) {
+                                content += "<img src=\"" + e2.imagePath + "\" alt=\"" + e1.productName + "\" class=\"cover\">\n";
+                            })
+                            content += "</div>\n" +
+                                "<div class=\"price clearfix\">\n";
+                            $.each(e1.skuList, function (i3, e3) {
+                                content += "<span class=\"pull-left cr fz16\">￥" + e3.presentPrice + "</span>\n";
+                            })
+                            content += "<span class=\"pull-right c6\">售价</span>\n" +
+                                "</div>\n" +
+                                "<div class=\"name ep\" title=\"" + e1.productName + "\">" + e1.productName + "</div>\n" +
+                                "</a>\n";
+                        });
+                    }
+                    content += "</div>\n" +
                         "        </div>\n" +
                         "    </section>";
-                    $(".floor-"+(e.categoryoneId)+"").after(content);
+                    $(".floor-" + (e.categoryoneId) + "").after(content);
+
                 }
             })
 

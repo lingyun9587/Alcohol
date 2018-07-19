@@ -127,7 +127,7 @@
                     $.each(result.list,function(index,i){
                         html +="<div class='item-card'>\n" +
                             "<a href='item_show.html?productId="+i.productId+"' class='photo'>\n" +
-                            "<img src='"+i.productName+"' alt='"+i.productName+"' class='cover'>\n" +
+                            "<img src='"+i.imagePath+"' alt='"+i.productName+"' class='cover'>\n" +
                             "<div class='name'>"+i.productName+"</div>\n" +
                             "</a>\n" +
                             "<div class='middle'>\n" +
@@ -179,6 +179,26 @@
                     $(".sort-total").html("共"+result.total+"件商品");
                 }
             })
+        }
+
+        //看了又看
+        function klyk(pageIndex,categorythreeId){
+            $.ajax({
+                url:"/product/getProductByCategorythreeId",
+                data:{categorythreeId:categorythreeId,pageIndex:pageIndex,pageSize:10},
+                dataType:"json",
+                type:"post",
+                success:function(result){
+                    var content="";
+                    $.each(result.list,function(i,e){
+                        content+="<a href=\"\" class=\"picked-item\"><img src=\""+e.imageList[0].imagePath+"\" alt=\"\" class=\"cover\"><span\n" +
+                            "class=\"look_price\">¥"+e.skuList[0].presentPrice+"</span></a>";
+                    });
+                    $(".picked-box").html(content);
+                },error:function(){
+                    alert("看了又看失败");
+                }
+            });
         }
     </script>
     <title>U袋网</title>
@@ -678,29 +698,10 @@
 
             <div class="desc-segments__content">
                 <div class="lace-title">
-                    <span class="c6">爆款推荐</span>
+                    <span class="c6">看了又看</span>
                 </div>
                 <div class="picked-box">
-                    <a href="" class="picked-item"><img src="images/temp/S-001.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-002.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-003.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-004.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-005.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-006.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-007.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-008.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-009.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
-                    <a href="" class="picked-item"><img src="images/temp/S-010.jpg" alt="" class="cover"><span
-                            class="look_price">¥134.99</span></a>
+
                 </div>
             </div>
         </div>

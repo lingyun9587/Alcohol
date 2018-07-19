@@ -57,6 +57,7 @@ public class ProductServiceImpl   implements ProductService {
 
     @Override
     public List<Product> getProductByCategory(Map<String, Object> map) {
+        PageHelper.startPage(1,Integer.valueOf(map.get("pageSize").toString()),true,true);
         return productMapper.getProductByCategory(map);
     }
     /**

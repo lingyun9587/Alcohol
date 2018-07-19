@@ -160,8 +160,9 @@
                 $(data.list).each(function(i,e) {
                     $(e.imageList).each(function(i3,e3){
                         if(i3==1){
+                            alert(e3.imagePath)
                             tr+="<tr class='order-item'>" +
-								"<td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
+								"<td><label><div class='card'><div class='img'><img src='"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
                         }
                     });
                     tr+="<div class='card'><div class='name ep2'>"+e.productName+"</div>";
@@ -199,7 +200,7 @@
                 $(data.list).each(function(i,e) {
                     $(e.imageList).each(function(i3,e3){
                         if(i3==1){
-                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
+                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
                         }
                     });
                     tr+="<div class='card'><div class='name ep2'>"+e.productName+"</div>";
@@ -236,7 +237,7 @@
                 $(data.list).each(function(i,e) {
                     $(e.imageList).each(function(i3,e3){
                         if(i3==1){
-                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='/"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
+                            tr+="<tr class='order-item'><td><label><div class='card'><div class='img'><img src='"+e3.imagePath+"' height='78' width='78' alt='' class='cover'></div>";
                         }
                     });
                     tr+="<div class='card'><div class='name ep2'>"+e.productName+"</div>";
