@@ -269,23 +269,7 @@
         <div class="pull-right">
             <div class="tab-content" id="descCate">
                 <div role="tabpanel" class="tab-pane fade in active" id="detail-tab" aria-labelledby="detail-tab">
-                    <div class="descCate-content bgf5">
-                        <dd class="dc-idsItem selected">
-                            <a href="#desc-module-1"><i class="iconfont icon-dot"></i> 产品图</a>
-                        </dd>
-                        <dd class="dc-idsItem">
-                            <a href="#desc-module-2"><i class="iconfont icon-selected"></i> 细节图</a>
-                        </dd>
-                        <dd class="dc-idsItem">
-                            <a href="#desc-module-3"><i class="iconfont"></i> 尺寸及试穿</a>
-                        </dd>
-                        <dd class="dc-idsItem">
-                            <a href="#desc-module-4"><i class="iconfont"></i> 模特效果图</a>
-                        </dd>
-                        <dd class="dc-idsItem">
-                            <a href="#desc-module-5"><i class="iconfont"></i> 常见问题</a>
-                        </dd>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -518,12 +502,12 @@
         getcategory();
     });
 
-    ({
-        init : function(){
-        getProductById();
-        alert("init");
-        }
-    }).init();
+    // ({
+    //     init : function(){
+    //     getProductById();
+    //     alert("init");
+    //     }
+    // }).init();
 
 
     //根据商品编号获取商品
@@ -532,6 +516,7 @@
             url: "/product/getproductbyId",
             dataType: "json",
             type: "post",
+            async: false,
             success: function (data) {
                 var number=$(".badge").eq(0).html();
                 //图片的
@@ -642,6 +627,7 @@
                 alert("网络延迟,请稍后重试");
             }
         });
+        $('#magnifier').magnifier();
     }
 
 
@@ -722,16 +708,21 @@
                     "</div>"+
                     "<div class='eval-time'>"+
                     ""+item.createTime+"&nbsp;&nbsp;&nbsp;";<!--时间-->
-                    $.each(item.sku.skuValueList,function (i,e) {
-                        contents +=e.skuName.skunameeValue+":"+
-                                e.skuvalueValue+"&nbsp;&nbsp;&nbsp;";
-                    });
-                    contents+="</div>"+
-                        "<div class=\"eval-replay-content\">\n" +
-                        "卖家回复:"+item.reply_conte+""+
-                        "</div>"+
-                        "</div>"+
-                    "</div>";
+                        if(item.sku.skuValueList!=undefined){
+                            $.each(item.sku.skuValueList,function (i,e) {
+                                contents +=e.skuName.skunameeValue+":"+
+                                    e.skuvalueValue+"&nbsp;&nbsp;&nbsp;";
+                            });
+                        }
+                    if(item.reply_conte!=undefined){
+                        contents+="</div>"+
+                            "<div class=\"eval-replay-content\">\n" +
+                            "卖家回复:"+item.reply_conte+"";
+                    }
+                    contents+= "</div>"+
+                            "</div>"+
+                            "</div>";
+
                     var iqishi = 1;
                     if(data.pages >= 8) {
                         if((pageNum + 4) >= data.pages) {
@@ -979,7 +970,9 @@
 <script src="js/jquery.magnifier.js"></script>
 <script>
     $(function () {
-        $('#magnifier').magnifier();
+        getProductById();
+
+        //$('#magnifier').magnifier();
     });
 </script>
 <!--商品图片效果-->
