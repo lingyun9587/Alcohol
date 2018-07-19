@@ -167,12 +167,6 @@
 <div class="swiper-container banner-box">
     <div class="swiper-wrapper lunbo">
 
-        <div class="swiper-slide"><a href="item_show.html"><img src="images/temp/banner_1.jpg" class="cover"></a></div>
-        <div class="swiper-slide"><a href="item_show.html"><img src="images/temp/banner_2.jpg" class="cover"></a></div>
-        <div class="swiper-slide"><a href="item_category.html"><img src="images/temp/banner_3.jpg" class="cover"></a></div>
-        <div class="swiper-slide"><a href="item_show.html"><img src="images/temp/banner_4.jpg" class="cover"></a></div>
-        <div class="swiper-slide"><a href="item_sale_page.html"><img src="images/temp/banner_5.jpg" class="cover"></a></div>
-
     </div>
     <div class="swiper-pagination">
 
@@ -435,6 +429,9 @@
 <script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
 <script>
     $(function () {
+      /*if(lunbo.length==0){
+          location.href="/";
+      }*/
         listNotice();
        /* Image();*/
         getProduct();
@@ -447,6 +444,7 @@
                 burrly(name);
             }
         });
+
     });
 
     function burrly(name){
@@ -653,6 +651,12 @@
                         "        </div>\n" +
                         "    </section>";
                     $(".floor-" + (e.categoryoneId) + "").after(content);
+                    var html = "<div class=\"swiper-slide\"><a href=\"item_show.html\"><img src=\"images/temp/banner_1.jpg\" class=\"cover\"></a></div>\n" +
+                        "        <div class=\"swiper-slide\"><a href=\"item_show.html\"><img src=\"images/temp/banner_2.jpg\" class=\"cover\"></a></div>\n" +
+                        "        <div class=\"swiper-slide\"><a href=\"item_category.html\"><img src=\"images/temp/banner_3.jpg\" class=\"cover\"></a></div>\n" +
+                        "        <div class=\"swiper-slide\"><a href=\"item_show.html\"><img src=\"images/temp/banner_4.jpg\" class=\"cover\"></a></div>\n" +
+                        "        <div class=\"swiper-slide\"><a href=\"item_sale_page.html\"><img src=\"images/temp/banner_5.jpg\" class=\"cover\"></a></div>\n";
+                    $(".lunbo").html(html);
 
                 }
             })
