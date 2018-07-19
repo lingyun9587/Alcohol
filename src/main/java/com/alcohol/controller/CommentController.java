@@ -146,10 +146,15 @@ public class CommentController {
         String[] arr=skuvalueId.split(",");
         List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
         SkuValue skuvalue=null;
+        if(arr.length >0&&skuvalueId!=null&&!"".equals(skuvalueId)){
         for (int j = 0; j < arr.length; j++) {
             skuvalue=skuValueService.getSkuById(Integer.valueOf(arr[j]));
-            SkuValueList.add(skuvalue);
+            if(skuvalue !=null){
+                SkuValueList.add(skuvalue);
+            }
         }
+        }
+
         order.getCommodities().get(0).getSk().setSkuValueList(SkuValueList);
         return JSON.toJSONString(order);
     }
@@ -193,7 +198,7 @@ public class CommentController {
             String orderId=request.getParameter("orderId");
             order.setOrderId(Long.valueOf(orderId));
             order.setStatus(14);
-            OrderExecution result13 =  orderService.updateOrder(order);
+            OrderExecution result13 =  orderService.updateOrderStatus(order);
            // System.out.println(result13.getState());
         }else{
             map.put("mes","失败");
