@@ -74,6 +74,7 @@ public class OrderServiceImpl implements OrderService {
         OrderExecution orderExecution =null;
         try{
             int result = orderMapper.updateOrderState(order);
+            System.out.println("askjdf====================================="+result);
             if(result>0){
                 commodityMapper.updateCommodityStatusByOrderId(order.getOrderId(),order.getStatus());
                 orderExecution = new OrderExecution(OrderEnum.SUCCESS);
@@ -126,5 +127,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> yearmoney(int year) {
         return orderMapper.yearmoney(year);
+    }
+
+    @Override
+    public Order getOeder(Long commoditiesId) {
+        return orderMapper.getOeder(commoditiesId);
     }
 }

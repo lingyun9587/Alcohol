@@ -215,10 +215,12 @@ public class CategoryController {
 
     @ResponseBody
     @RequestMapping(value="addTypeValue",produces = "text/html;charset=utf-8")
-    public String addTypeValue(Long categoryId,HttpServletRequest request){
-        int type=0;
+    public Object addTypeValue(Long categoryId,HttpServletRequest request){
+        String json="";
+        int type=0;//1.存在2.不存在3.新增属性成功4.新增属性失败5.新增属性值成功6.新增属性值失败
         String  skuTypeArr = request.getParameter("skuTypeArr");
         List<TempSkuName> list=JSON.parseArray(skuTypeArr,TempSkuName.class);
+        boolean flag=true;
         for (TempSkuName temp:list){
             TypeName typename=new TypeName();
             typename.setCategoryId(categoryId);
@@ -226,38 +228,41 @@ public class CategoryController {
             //判断属性是否存在
             int count=typeNameService.seltnId(typename);
             if(count>0){
-                //属性存在
-                type=1;
-                System.out.println("属性已存在");
-            }else{
+                flag=false;
+                break;
+            }
+        }
+        if(flag){
+            for (TempSkuName temp:list){
+                TypeName typename=new TypeName();
+                typename.setCategoryId(categoryId);
+                typename.setTypeNameName(temp.getSkuTypeTitle());
                 int instype=typeNameService.addTypeName(typename);//新增属性
                 if(instype>0){
-                    //新增属性成功
-                    type=3;
-                }else{
-                    //新增属性失败
-                    type=4;
-                }
-                for(TempSkuValue value:temp.getSkuValues()){
-                    Typevalue typevalue=new Typevalue();
-                    typevalue.setTypeNameId(typename.getTypeNameId());//属性id
-                    typevalue.setTypeValueName(temp.getSkuTypeTitle());//属性值
-                    System.out.println(123);
-                    System.out.println(typename.getTypeNameId());
-                    //判断属性值是否存在
-                    int typevaluecount=typeValueService.updissel(typevalue);
-                    if(typevaluecount>0){
-                        //属性值存在
-                        type=1;
-                        System.out.println("属性已存在");
-                    }else{
+                    for(TempSkuValue value:temp.getSkuValues()){
+                        Typevalue typevalue=new Typevalue();
+                        typevalue.setTypeNameId(typename.getTypeNameId());//属性id
+                        typevalue.setTypeValueName(value.getSkuValueTitle());//属性值
+                        System.out.println(typename.getTypeNameId());
                         //新增属性值
                         int instypevalue=typeValueService.addTypeValue(typevalue);
+                        if(instypevalue>0){
+                            flag=true;
+                            json="yes";
+                            continue;
+                        }else{
+                            flag=false;
+                            json="no";
+                            break;
+                        }
                     }
+                }else{
+                    flag=false;
+                    break;
                 }
             }
         }
-        return "";
+        return json;
     }
 
 

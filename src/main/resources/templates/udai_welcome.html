@@ -76,10 +76,10 @@
                 <a href="udai_order.html">
                     <dd>我的订单</dd>
                 </a>
-                <!--<a href="udai_collection.html">
-                    <dd>我的收藏</dd>
+                <a href="udai_collection.html">
+                    <dd>我的评论</dd>
                 </a>
-                <a href="udai_refund.html">
+               <!-- <a href="udai_refund.html">
                     <dd>退款/退货</dd>
                 </a>-->
             </dl>
@@ -936,7 +936,7 @@
                         } else if (e.orderstatus.orderStatus_id == 8) {
                             context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "订单已失效";
                         } else if (e.orderstatus.orderStatus_id == 9) {
-                            context += " <a href='udai_order_comment.html?id="+e.orderId+"' class=\"but but-link\">"+"评价";
+                            context += " <a href='udai_order_comment.html?commodityId="+e.commodityId+"' class=\"but but-link\">"+"评价";
                         }
 
 

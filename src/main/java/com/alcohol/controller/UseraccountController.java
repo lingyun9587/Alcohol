@@ -10,6 +10,7 @@ import com.alcohol.pojo.User;
 import com.alcohol.pojo.Useraccount;
 import com.alcohol.service.UserAccountService;
 import com.alcohol.service.jms.ProducerCc;
+import com.alcohol.util.IDUtil;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -115,14 +116,16 @@ public class UseraccountController {
             if(useraccount!=null){
                 u=useraccount.getUser();
             }
+            Map<String,String> mapmap=new HashMap<String,String>();
             // 定义jackson数据转换操作类
             ObjectMapper mapper = new ObjectMapper();
             Cookie[] c=request.getCookies();//获取cookie的所有数据
-            String dateKey=new Date().toString().replace(":","").replace(" ","");
-            String keymapmap=u.getUserId().toString()+dateKey;
+
             if(c!=null){
                 //遍历cookie
                 label:for (Cookie cookie:c) {
+                    String dateKey=new Date().toString().replace(":","").replace(" ","");
+                    String keymapmap=u.getUserId().toString()+dateKey+IDUtil.getBianHao().toString();
                     if (cookie.getName().equals("JSESSIONID")) {
                         continue;
                     }
@@ -172,7 +175,7 @@ public class UseraccountController {
                     mapm.put("sku",scart.getSku());//商品信息
                     mapm.put("num",scart.getNum());//用户选择商品的数量
                     mapm.put("img",scart.getImage());
-                    Map<String,String> mapmap=new HashMap<String,String>();
+
 
                     try {
                         mapmap.put(keymapmap,mapper.writeValueAsString(mapm));
@@ -180,8 +183,12 @@ public class UseraccountController {
                         e.printStackTrace();
                     }
 
+
+                }
+                if(mapmap.size()!=0){
                     jedisHashs.hmset(u.getUserId().toString(),mapmap);//保存到redis
                 }
+
             }
        }else{
             map.put("success",false);

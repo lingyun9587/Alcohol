@@ -69,17 +69,17 @@
                         <div id="skuCloneModel" style="display: none;height: 30px; width: 1000px;" >
                             <div class="clear"></div>
                             <div style="margin-left: 50px;">
-                                <ul class="SKU_TYPE">
+                                <ul class="SKU_TYPE" >
                                     <li is_required='0' propid='' sku-type-name="">
                                         <a href="javascript:void(0);" class="delCusSkuType">移除</a>
                                         <input type="text" class="cusSkuTypeInput" style="width: 100px;"/>：
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li>
-                                        <input type="checkbox" class="model_sku_val" propvalid='' value="11"/>
+                                   <!-- <li>
+                                        <input type="checkbox" checked="checked"class="model_sku_val " propvalid='' value="11"/>
                                         <input type="text" class="cusSkuValInput" style="width: 100px;"/>
-                                    </li>
+                                    </li>-->
                                     <button class="cloneSkuVal" style="cursor: pointer;background-color: #2277da;height: 30px;line-height: 30px;text-align: center;color: #fff;font-size: 12px;border: 0px;border-radius: 3px;padding: 0px 20px 0px 20px;">添加属性值</button>
                                 </ul>
                             </div>
@@ -87,10 +87,11 @@
                         </div>
                         <!--单个sku值克隆模板-->
                         <li style="display: none;" id="onlySkuValCloneModel">
-                           <!-- <input type="checkbox" class="model_sku_val" propvalid='' value="" />-->
+                            <input type="checkbox" checked="checked" class="model_sku_val sku_value" propvalid='' value="" />
                             <input type="text" class="cusSkuValInput" style="width: 100px;"/>
                             <a href="javascript:void(0);" class="delCusSkuVal">删除</a>
                         </li>
+
                         <div class="clear"></div>
                         <div id="skuTable"></div>
                     </div>
@@ -100,7 +101,7 @@
             <dl>
                 <dt>&nbsp;</dt>
                 <dd>
-                    <input type="button" id="submit" value="保存" onclick="addTypeValue()" class="button save typevalue" />
+                    <input type="button" id="button" value="保存" onclick="addTypeValue()" class="button save typevalue" />
                 </dd>
             </dl>
 
@@ -349,8 +350,7 @@
 
 
     function addTypeValue(){
-        var skuTypeArr=getAlreadySetSkuVals2();//获取属性值
-        alert(skuTypeArr);
+        var skuTypeArr=getAlreadySetSkuVals3();//获取属性值
         var categoryId=$("#url_lists3").val();
         if(categoryId==""){
             alert("请选择三级分类");
@@ -359,9 +359,13 @@
                 url:"../addTypeValue",
                 type:"post",
                 data:{skuTypeArr:JSON.stringify(skuTypeArr),categoryId:categoryId},
-                dataType:"JSON",
+                dataType:"text",
                 success:function(result){
-                    alert(1);
+                     if(result=="yes"){
+                         alert("新增成功");
+                     }else{
+                         alert("新增失败");
+                     }
                 }
             });
         }

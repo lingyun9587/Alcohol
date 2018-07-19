@@ -36,6 +36,14 @@ public class CommonController {
     public  String udai_order_success(){
         return "udai_order_success";
     }
+
+
+   /* *//**
+     * 评价
+     * @return
+     *//*
+    @GetMapping(value = "udai_order_comment.html")
+    public  String udai_order_comment(){return "udai_order_comment";}*/
     /**
      * 登录
      * @return

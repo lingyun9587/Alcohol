@@ -12,38 +12,38 @@
         values(#{orderId},#{addressId},#{createTime},#{userId},#{goodsCount},#{status},#{money})
     </insert>
 
-    <resultMap id="info" type="com.alcohol.pojo.Order">
+    <resultMap id="info" type="Order">
       <id column="order_id" property="orderId"/>
         <result column="create_time" property="createTime"/>
         <result column="batch" property="batch"/>
         <result column="payment_time" property="paymentTime"/>
-        <association property="orderstatus" javaType="com.alcohol.pojo.Orderstatus">
+        <association property="orderstatus" javaType="Orderstatus">
             <id column="orderStatusId" property="orderStatus_id"/>
             <result column="orderStatuName" property="orderStatus_name"/>
         </association>
-        <collection property="commodities" ofType="com.alcohol.pojo.Commodity">
+        <collection property="commodities" ofType="Commodity">
           <id column="commodity_id" property="commodityId"/>
             <result column="number" property="number"/>
-            <association property="orderstatus" javaType="com.alcohol.pojo.Orderstatus">
+            <association property="orderstatus" javaType="Orderstatus">
                 <id column="orderStatus_id" property="orderStatus_id"/>
                 <result column="orderStatus_name" property="orderStatus_name"/>
             </association>
-            <association property="sku" javaType="com.alcohol.pojo.Sku">
+            <association property="sku" javaType="Sku">
                 <id column="sku_id" property="skuId"></id>
                 <result column="original_price" property="originalPrice"/>
                 <result column="present_price" property="presentPrice"/>
-               <association property="product" javaType="com.alcohol.pojo.Product">
+               <association property="product" javaType="Product">
                    <id column="product_id" property="productId"/>
                    <result column="product_name" property="productName"/>
-                   <collection property="skunameList" ofType="com.alcohol.pojo.skuName">
+                   <collection property="skunameList" ofType="skuName">
                         <id column="skuname_id" property="skunameId"/>
                        <result column="skuname_name" property="skunameeValue"/>
-                       <collection property="skuValueList" ofType="com.alcohol.pojo.SkuValue">
+                       <collection property="skuValueList" ofType="SkuValue">
                            <id column="skuvalue_id" property="skuvalueId"/>
                            <result column="skuvalue_value" property="skuvalueValue"/>
                        </collection>
                    </collection>
-                   <collection property="imageList" ofType="com.alcohol.pojo.Image">
+                   <collection property="imageList" ofType="Image">
                        <id column="image_id" property="imageId"/>
                        <result column="image_path" property="imagePath"/>
                    </collection>
@@ -86,10 +86,10 @@
     <delete id="orderSelldaily">
         UPDATE`tb_order` SET `status`=8 WHERE NOW()>=    DATE_ADD(create_time, INTERVAL 3 DAY) AND `status`=1
     </delete>
-    <select id="listSellDaily" resultType="com.alcohol.pojo.Order">
+    <select id="listSellDaily" resultType="Order">
         SELECT order_id FROM tb_order WHERE NOW()>=    DATE_ADD(create_time, INTERVAL 3 DAY) AND `status`=1
     </select>
-    <resultMap type="com.alcohol.pojo.Order" id="rOrder">
+    <resultMap type="Order" id="rOrder">
         <id property="orderId" column="order_id"/>
         <result property="status" column="status"/>
         <result property="money" column="money"/>
@@ -98,7 +98,7 @@
         <result property="createTime" column="create_time"/>
         <result property="batch" column="batch"/>
         <result property="desc" column="desc"/>
-        <association property="address" javaType="com.alcohol.pojo.Address">
+        <association property="address" javaType="Address">
             <id property="addressId" column="address_id"/>
             <result property="consignee" column="consignee"/>
             <result property="phone" column="phone"/>
@@ -106,12 +106,12 @@
             <result property="comaddress" column="comaddress"/>
         </association>
 
-        <collection property='orderstatus1' ofType="com.alcohol.pojo.Orderstatus">
+        <collection property='orderstatus1' ofType="Orderstatus">
             <id property="orderStatus_id" column="orderStatus_id"/>
             <result property="orderStatus_name" column="orderStatus_name"/>
         </collection>
 
-        <collection property='commodities' ofType="com.alcohol.pojo.Commodity">
+        <collection property='commodities' ofType="Commodity">
             <id property="commodityId" column="commodity_id"/>
             <result property="orderId" column="order_id"/>
             <result property="orderShopId" column="orderShop_id"/>
@@ -119,21 +119,21 @@
             <result property="number" column="number"/>
             <result property="orderstatusId" column="orderstatus_id"/>
 
-            <association property='sk' javaType="com.alcohol.pojo.Sku">
-                <id property="productId" column="product_id"/>
+            <association property='sk' javaType="Sku">
+                <id column="sku_id" property="skuId"/>
+                <result property="productId" column="product_id"/>
                 <result property="skuvalueId" column="skuvalue_id"/>
                 <result property="presentPrice" column="present_price"/>
-                <collection property='products' ofType="com.alcohol.pojo.Product">
+                <collection property='products' ofType="Product">
                     <id property="productId" column="product_id"/>
                     <result property="productName" column="product_name"/>
-
-                    <collection property='images' ofType="com.alcohol.pojo.Image">
+                    <collection property='images' ofType="Image">
                         <id property="imageId" column="image_id"/>
                         <result property="imagePath" column="image_path"/>
                     </collection>
                 </collection>
 
-                <collection property='skuValueList' ofType="com.alcohol.pojo.SkuValue">
+                <collection property='skuValueList' ofType="SkuValue">
                     <id property="skuvalueId" column="skuvalueId"/>
                     <result property="skuvalueValue" column="skuvalue_value"/>
                 </collection>
@@ -176,8 +176,8 @@
         GROUP BY o.`order_id`
     </select>
     <select id="cha" resultMap="rOrder">
-         SELECT o.`order_id`,o.`payment_time`,o.`create_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`,o.desc, adress.`consignee`,adress.`phone`,adress.`code`,adress.`comaddress`,
-	    orderstatus.`orderStatus_id`,orderstatus.orderStatus_name,commodity.`commodity_id`,commodity.`number`,commodity.`orderShop_id`,commodity.`sku_id`,commodity.`orderstatus_id`,sku.`present_price`,
+          SELECT o.`order_id`,o.`payment_time`,o.`create_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`,o.desc, adress.`consignee`,adress.`phone`,adress.`code`,adress.`comaddress`,
+	    orderstatus.`orderStatus_id`,orderstatus.orderStatus_name,commodity.`number`,sku.`present_price`,
          product.`product_name`,skuvalue.`skuvalue_value`,
          image.`image_path`
          FROM tb_order o
@@ -197,7 +197,28 @@
          ON image.`product_id`=product.`product_id`
          WHERE
          o.`order_id`=#{order_id}
+         GROUP BY o.`order_id`
+    </select>
 
+    <select id="getOeder" resultMap="rOrder">
+          SELECT o.`order_id`,o.`payment_time`,o.`create_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`,o.desc, adress.`consignee`,adress.`phone`,adress.`code`,adress.`comaddress`,
+	    orderstatus.`orderStatus_id`,orderstatus.orderStatus_name,commodity.`number`,sku.`present_price`,
+         product.`product_name`,sku.sku_id,sku.`skuvalue_id`,
+         image.`image_path`
+         FROM tb_order o
+         LEFT JOIN tb_address adress
+         ON adress.`address_id`=o.`address_id`
+         LEFT JOIN `tb_orderstatus` orderstatus
+         ON  orderstatus.`orderStatus_id`=o.`status`
+         LEFT JOIN `tb_commodity` commodity
+         ON commodity.`order_id`=o.`order_id`
+         LEFT JOIN tb_sku sku
+         ON sku.`sku_id`=commodity.`sku_id`
+         LEFT JOIN tb_product product
+         ON product.`product_id`=sku.`product_id`
+         LEFT JOIN tb_image image
+         ON image.`product_id`=product.`product_id`
+         WHERE commodity.`commodity_id`=#{commodityId}
     </select>
 
     <update id="status" >
@@ -207,7 +228,7 @@
      UPDATE tb_order SET `status`=10  where `order_id`=#{orderId};
     </update>
 
-    <select id="getLastOrderInfo" resultType="com.alcohol.pojo.Order">
+    <select id="getLastOrderInfo" resultType="Order">
  SELECT
 order_id,address_id,create_time,batch,user_id,goodsCount,`status`
   FROM `tb_order` WHERE user_id=#{userId} order by create_time desc limit 0,1

@@ -5,6 +5,7 @@ import com.alcohol.util.LongJsonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Order {
     private Long orderId;
     private  Long addressId;  //地址id
     private Date createTime;  //创建时间
+    
     private Date paymentTime;  //支付时间
     private  String batch;  //交易流水号
     private  Long userId;  //用户id

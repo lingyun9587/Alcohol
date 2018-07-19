@@ -72,6 +72,7 @@
 			<input type="button" value="保存" class="button save" />
 			<input type="button" value="取消" class="button delete" />
 		</div>
+		<input type="hidden" class="status">
 	</div>
 
 </div>
@@ -178,6 +179,7 @@
                     if(price==undefined){
                         price=0;
                     }
+                    var status=$(".status").val(e.status);
                     var paymentTimes=e.createTime;
                     var d = new Date(paymentTimes);
                     var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
@@ -202,6 +204,7 @@
     //下架
     function sxj() {
         var xia=$("#sel").val();
+        var status=$(".status").val();
         if(xia==17){
             alert("已是下架状态");
             return;
@@ -212,7 +215,7 @@
         if (text == "" || text == 0) {
             alert("请选择要下架的商品");
             return;
-        }else if (text!=17){
+        }else if (status!=18){
             alert("选择的商品中有已上下架的商品");
             return;
         } else{
@@ -242,6 +245,7 @@
     //上架
     function sxjsj() {
         var xia=$("#sel").val();
+        var status=$(".status").val();
         if(xia==18){
             alert("已是上架状态");
             return;
@@ -252,7 +256,7 @@
         if (text == "" || text == 0) {
             alert("请选择要上架的商品");
             return;
-        }else if (text!=18){
+        }else if (status!=17){
             alert("选择的商品中有已上下架的商品");
             return;
         } else{

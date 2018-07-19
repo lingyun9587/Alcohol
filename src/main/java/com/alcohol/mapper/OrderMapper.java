@@ -67,7 +67,7 @@ public interface OrderMapper {
     List<Order>  order(Map<String,Object> map);
     //查看订单详情
     Order cha(Long orderId);
-    //修改退款状态
+    //    //修改退款状态
     int status(Long order_id);
     //修改未发货的状态
     int fa(Long orderid);
@@ -80,4 +80,7 @@ public interface OrderMapper {
     Order getLastOrderInfo(Long userId);
     //查询销售额
     List<Order> yearmoney(int year);
+
+    //根据详情编号查看详情信息
+    Order getOeder(Long commoditiesId);
 }

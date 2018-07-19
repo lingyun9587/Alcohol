@@ -131,7 +131,7 @@ public class ShopCartController {
              response.addCookie(cc);
             return JSON.toJSONString("添加成功");//方法结束cookie添加
          }else{//证明已经登录，操作redis
-             String keymapmap=u.getUserId().toString()+dateKey;
+             String keymapmap=u.getUserId().toString()+dateKey+IDUtil.getBianHao().toString();
              Image im=null;
              //将商品信息和用户选择的数量保存到redis
              //判断是否有这个用户
@@ -224,7 +224,7 @@ public class ShopCartController {
                 }
             }
         }else{
-            String keymapmap=u.getUserId().toString()+dateKey;
+            String keymapmap=u.getUserId().toString()+dateKey+IDUtil.getBianHao().toString();
             //查询redis
             Map<String,String> pp= jedisHashs.hgetAll(u.getUserId().toString());
             //Map<String,Object> mp=new HashMap<String,Object>();
@@ -426,7 +426,7 @@ public class ShopCartController {
         u=useraccount.getUser();
         String dateKey=new Date().toString().replace(":","").replace(" ","");
 
-        String keymapmap=u.getUserId().toString()+dateKey;
+        String keymapmap=u.getUserId().toString()+dateKey+IDUtil.getBianHao().toString();
         //查出redis的现有数据
        Map<String,String> pp= jedisHashs.hgetAll(u.getUserId().toString());
         //保存要提交订单的购物车上牌信息

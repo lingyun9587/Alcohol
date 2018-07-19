@@ -32,4 +32,17 @@ public interface CommentService {
      * @return
      */
     int upListComment(int[] com, @Param("reply_conte") String reply_conte);
+
+    /**
+     * 用户评论商品
+     * @param comment
+     * @return
+     */
+    int insertComment(Comment comment);
+
+    /**
+     * 添加评论图片
+     * @return
+     */
+    int commentImg(String imagePath,String productId);
 }

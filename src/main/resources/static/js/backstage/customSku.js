@@ -85,7 +85,7 @@ $(function(){
 		});
 		
 		if(isHaveSkuVal){
-			layer.alert("该SKU类型已经存在!");
+			alert("该SKU类型已经存在!");
 			$(this).val("");
 		}
 		$("input[type*='checkbox'][class*='']")
