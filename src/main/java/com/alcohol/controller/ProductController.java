@@ -293,8 +293,14 @@ public class ProductController {
      */
     @RequestMapping(value = "backsxj")
     @ResponseBody
-    public String updataStat(@RequestParam(value = "product_id",required = false) int[] noticeId){
-        boolean bu=productService.updateStatus(noticeId);
+    public String updataStat(@RequestParam(value = "product_id",required = false) int[] noticeId,
+                             @RequestParam(value = "status")Integer status){
+        boolean bu=false;
+        if(status ==1){
+             bu=productService.updateStatussj(noticeId);
+        }else {
+            bu=productService.updateStatus(noticeId);
+        }
         String jso=null;
         if (bu){
             jso="{\"ers\":\"yes\",\"mesage\":\"下架成功\"}";

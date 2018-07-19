@@ -260,7 +260,7 @@
         ON tbsku.product_id = tbpr.product_id
         LEFT JOIN (SELECT tb_sku.product_id,SUM(tb_sku.stock) countid FROM tb_sku GROUP BY tb_sku.product_id) sumsku
         ON sumsku.product_id=tbpr.product_id
-        WHERE 1=1
+        WHERE tbpr.status!=0
         <if test="status!=0">
             AND tbpr.status=#{status}
         </if>
@@ -269,7 +269,7 @@
 
     <!--张鹏商品下架-->
     <update id="updateStatus" parameterType="int[]">
-        update tb_product set status =1,down_time=NOW() where product_id in
+        update tb_product set status =17,down_time=NOW() where product_id in
         <foreach collection="array" item="arr" index="no" open="("
                  separator="," close=")">
             #{arr}
@@ -278,7 +278,7 @@
 
     <!--张鹏商品上架-->
     <update id="updateStatussj" parameterType="int[]">
-        update tb_product set status =2,down_time=NOW() where product_id in
+        update tb_product set status =18,down_time=NOW() where product_id in
         <foreach collection="array" item="arr" index="no" open="("
                  separator="," close=")">
             #{arr}
@@ -287,7 +287,7 @@
 
     <!--张鹏商品删除-->
     <update id="deleStatus" parameterType="int[]">
-        update tb_product set status =3,down_time=NOW() where product_id in
+        update tb_product set status =0,down_time=NOW() where product_id in
         <foreach collection="array" item="arr" index="no" open="("
                  separator="," close=")">
             #{arr}
