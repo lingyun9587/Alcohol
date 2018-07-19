@@ -31,8 +31,10 @@ function getAlreadySetSkuVals2() {
             skuTypeArr.push(skuTypeObj);//保存进数组中
         }
     });
+
     return skuTypeArr;
 }
+
 
 function gettype() {
     var b = true;

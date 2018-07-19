@@ -33,6 +33,41 @@ function getAlreadySetSkuVals2(){
     });
     return skuTypeArr;
 }
+function getAlreadySetSkuVals3() {
+    var b = true;
+    var skuTypeArr = [];//存放SKU类型的数组
+    //获取元素类型
+    $(".SKU_TYPE").each(function () {
+        //SKU类型节点
+        var skuTypeNode = $(this).children("li");
+        var skuTypeObj = {};//sku类型对象
+        //SKU属性类型标题
+        skuTypeObj.skuTypeTitle = $(skuTypeNode).attr("sku-type-name");
+        //SKU属性类型主键
+        var propid = $(skuTypeNode).attr("propid");
+        skuTypeObj.skuTypeKey = propid;
+        skuValueArr = [];//存放SKU值得数组
+        //SKU相对应的节点
+        var skuValNode = $(this).next();
+        //获取SKU值
+        var skuValCheckBoxs = $(skuValNode).find("input[type='checkbox'][class*='sku_value']");
+        $(skuValCheckBoxs).each(function () {
+            var skuValObj = {};//SKU值对象
+            skuValObj.skuValueTitle = $(this).val();//SKU值名称
+            skuValObj.skuValueId = $(this).attr("propvalid");//SKU值主键
+            skuValObj.skuPropId = $(this).attr("propid");//SKU类型主键
+            skuValueArr.push(skuValObj);
+
+        });
+        if (skuValueArr && skuValueArr.length > 0) {
+            skuTypeObj.skuValues = skuValueArr;//sku值数组
+            skuTypeObj.skuValueLen = skuValueArr.length;//sku值长度
+            skuTypeArr.push(skuTypeObj);//保存进数组中
+        }
+    });
+
+    return skuTypeArr;
+}
 
 function gettype(){
     var b = true;
@@ -123,13 +158,10 @@ $(function(){
                 arr[i] = value;
             }
         });
-
-
+        var categoryId=$(".selectStyle").val();
 
         var skuTypeArr=getAlreadySetSkuVals2();//获取属性值
         var alreadySetSkuVals1=getAlreadySetSkuVals1();//获取已经设置的SKU值
-        alert("jinlaile");
-        alert(skuTypeArr);
         $.ajax({
             url:"../addTypeValue",
             data:{skuTypeArr:JSON.stringify(skuTypeArr),
@@ -138,6 +170,7 @@ $(function(){
             dataType:"JSON",
             type:"post",
             success:function(result){
+
                 alert(result.mes);
             },error:function(){
                 alert("新增属性失败");
