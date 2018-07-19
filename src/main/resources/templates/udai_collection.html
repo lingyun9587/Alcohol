@@ -14,6 +14,7 @@
     <script src="js/swiper.min.js" charset="UTF-8"></script>
     <script src="js/global.js" charset="UTF-8"></script>
     <script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+    <script src="js/backstage/table.js" charset="UTF-8"></script>
     <title>凡诺网</title>
 </head>
 <body>
@@ -74,10 +75,11 @@
             <dl class="user-center__nav">
                 <dt>订单中心</dt>
                 <a href="udai_order.html">
-                    <dd>我的订单</dd>
+                    <dd class="active">我的订单</dd>
                 </a>
+
                 <a href="udai_collection.html">
-                    <dd class="active">我的收藏</dd>
+                    <dd>我的评论</dd>
                 </a>
                 <a href="udai_refund.html">
                     <dd>退款/退货</dd>
@@ -104,21 +106,21 @@
                     <dd>常见问题</dd>
                 </a>
             </dl>
-            <!--<dl class="user-center__nav">
-                <dt>新手上路</dt>
-                <a href="temp_article/udai_article5.html">
-                    <dd>如何成为代理商</dd>
-                </a>
-                <a href="temp_article/udai_article6.html">
-                    <dd>代销商上架教程</dd>
-                </a>
-                <a href="temp_article/udai_article7.html">
-                    <dd>分销商常见问题</dd>
-                </a>
-                <a href="temp_article/udai_article8.html">
-                    <dd>付款账户</dd>
-                </a>
-            </dl>-->
+            <!-- <dl class="user-center__nav">
+                 <dt>新手上路</dt>
+                 <a href="temp_article/udai_article5.html">
+                     <dd>如何成为代理商</dd>
+                 </a>
+                 <a href="temp_article/udai_article6.html">
+                     <dd>代销商上架教程</dd>
+                 </a>
+                 <a href="temp_article/udai_article7.html">
+                     <dd>分销商常见问题</dd>
+                 </a>
+                 <a href="temp_article/udai_article8.html">
+                     <dd>付款账户</dd>
+                 </a>
+             </dl>-->
             <dl class="user-center__nav">
                 <dt>凡诺网</dt>
                 <a href="temp_article/udai_article10.html">
@@ -134,174 +136,442 @@
         </div>
         <div class="pull-right">
             <div class="user-content__box clearfix bgf">
-                <div class="title">订单中心-我的收藏</div>
-                <div class="collection-list__area clearfix">
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/M-001.jpg" alt="锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款" class="cover">
-                            <div class="name">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
-                            </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/M-002.jpg" alt="霜天月明 原创日常汉服男云纹绣花单大氅传统礼服外套" class="cover">
-                            <div class="name">霜天月明 原创日常汉服男云纹绣花单大氅传统礼服外套</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
-                            </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/M-003.jpg" alt="陇上乐原创传统日常汉服男绣花交领cp情侣非古装春秋" class="cover">
-                            <div class="name">陇上乐原创传统日常汉服男绣花交领cp情侣非古装春秋</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
-                            </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/M-004.jpg" alt="霜天月明 原创传统日常汉服男绣花交领衣裳cp春装单品" class="cover">
-                            <div class="name">霜天月明 原创传统日常汉服男绣花交领衣裳cp春装单品</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
-                            </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/M-005.jpg" alt="琅轩日常汉服男龙纹绣花短褙子气质传统外套春秋非古装" class="cover">
-                            <div class="name">琅轩日常汉服男龙纹绣花短褙子气质传统外套春秋非古装</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
-                            </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
+                <div class="title">订单中心-我的订单</div>
+                <div class="order-list__box bgf">
+                    <div class="order-panel">
+                        <ul class="nav user-nav__title" role="tablist">
 
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/S-001.jpg" alt="锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款" class="cover">
-                            <div class="name">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
+                            <li role="presentation" class="nav-item "><a href="#all" onclick="statu(14)" aria-controls="pay" role="tab"
+                                                                         data-toggle="tab">已评论 <span class="cr"></span></a>
+                            </li>
+                            <li role="presentation" class="nav-item "><a href="#all" onclick="statu(15)" aria-controls="emit" role="tab"
+                                                                         data-toggle="tab">未评论 <span class="cr"></span></a>
+                            </li>
+
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="all">
+                                <table class="table text-center">
+                                    <tr>
+                                        <th width="380">商品信息</th>
+                                        <th width="85">单价</th>
+                                        <th width="85">数量</th>
+                                        <th width="120">实付款</th>
+                                        <th width="120">交易状态</th>
+                                        <th width="120">交易操作</th>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">等待付款</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="udai_shopcart_pay.html" class="but but-primary">立即付款</a>
+                                            <!-- <a href="" class="but but-link">评价</a> -->
+                                            <a href="" class="but c3">取消订单</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">等待收货</a>
+                                            <a href="udai_mail_query.html" class="but cr">查看物流</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="udai_order_receipted.html" class="but but-primary">确认收货</a>
+                                            <!-- <a href="" class="but but-link">评价</a> -->
+                                            <a href="udai_apply_return.html" class="but c3">退款/退货</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">交易成功</a>
+                                            <a href="udai_mail_query.html" class="but cr">查看物流</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="" class="but but-link">评价</a>
+                                            <a href="" class="but c3">取消订单</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">交易成功</a>
+                                            <a href="udai_mail_query.html" class="but cr">查看物流</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="" class="but but-link">评价</a>
+                                            <a href="" class="but c3">取消订单</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">交易成功</a>
+                                            <a href="udai_mail_query.html" class="but cr">查看物流</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="" class="but but-link">评价</a>
+                                            <a href="" class="but c3">取消订单</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="page text-right clearfix" style="margin-top: 40px" id="stylepage">
+                                    <a class="disabled">上一页</a>
+                                    <a class="select">1</a>
+                                    <a href="">2</a>
+                                    <a href="">3</a>
+                                    <a class="" href="">下一页</a>
+                                </div>
                             </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/S-002.jpg" alt="霜天月明 原创日常汉服男云纹绣花单大氅传统礼服外套" class="cover">
-                            <div class="name">霜天月明 原创日常汉服男云纹绣花单大氅传统礼服外套</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
+                            <div role="tabpanel" class="tab-pane fade" id="pay">
+                                <table class="table text-center">
+                                    <tr>
+                                        <th width="380">商品信息</th>
+                                        <th width="85">单价</th>
+                                        <th width="85">数量</th>
+                                        <th width="120">实付款</th>
+                                        <th width="120">交易状态</th>
+                                        <th width="120">交易操作</th>
+                                    </tr>
+                                    <tr class="order-empty">
+                                        <td colspan='6'>
+                                            <div class="empty-msg">最近没有任何订单，家里好像缺了点什么！<br><a href="item_category.html">要不瞧瞧去？</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/S-003.jpg" alt="陇上乐原创传统日常汉服男绣花交领cp情侣非古装春秋" class="cover">
-                            <div class="name">陇上乐原创传统日常汉服男绣花交领cp情侣非古装春秋</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
+                            <div role="tabpanel" class="tab-pane fade" id="emit">
+                                <table class="table text-center">
+                                    <tr>
+                                        <th width="380">商品信息</th>
+                                        <th width="85">单价</th>
+                                        <th width="85">数量</th>
+                                        <th width="120">实付款</th>
+                                        <th width="120">交易状态</th>
+                                        <th width="120">交易操作</th>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">等待发货</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="udai_order_receipted.html" class="but but-primary">确认收货</a>
+                                            <a href="udai_apply_return.html" class="but c3">退款/退货</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">等待发货</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="udai_order_receipted.html" class="but but-primary">确认收货</a>
+                                            <a href="udai_apply_return.html" class="but c3">退款/退货</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">等待发货</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="udai_order_receipted.html" class="but but-primary">确认收货</a>
+                                            <a href="udai_apply_return.html" class="but c3">退款/退货</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="page text-right clearfix" style="margin-top: 40px">
+                                    <a class="disabled">上一页</a>
+                                    <a class="select">1</a>
+                                    <a class="disabled">下一页</a>
+                                </div>
                             </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/S-004.jpg" alt="霜天月明 原创传统日常汉服男绣花交领衣裳cp春装单品" class="cover">
-                            <div class="name">霜天月明 原创传统日常汉服男绣花交领衣裳cp春装单品</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
+                            <div role="tabpanel" class="tab-pane fade" id="take">
+                                <table class="table text-center">
+                                    <tr>
+                                        <th width="380">商品信息</th>
+                                        <th width="85">单价</th>
+                                        <th width="85">数量</th>
+                                        <th width="120">实付款</th>
+                                        <th width="120">交易状态</th>
+                                        <th width="120">交易操作</th>
+                                    </tr>
+                                    <tr class="order-empty">
+                                        <td colspan='6'>
+                                            <div class="empty-msg">最近没有任何订单，家里好像缺了点什么！<br><a href="item_category.html">要不瞧瞧去？</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/S-005.jpg" alt="琅轩日常汉服男龙纹绣花短褙子气质传统外套春秋非古装" class="cover">
-                            <div class="name">琅轩日常汉服男龙纹绣花短褙子气质传统外套春秋非古装</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
+                            <div role="tabpanel" class="tab-pane fade" id="eval">
+                                <table class="table text-center">
+                                    <tr>
+                                        <th width="380">商品信息</th>
+                                        <th width="85">单价</th>
+                                        <th width="85">数量</th>
+                                        <th width="120">实付款</th>
+                                        <th width="120">交易状态</th>
+                                        <th width="120">交易操作</th>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">交易成功</a>
+                                            <a href="udai_mail_query.html" class="but cr">查看物流</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="" class="but but-link">评价</a>
+                                            <a href="" class="but c3">取消订单</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">交易成功</a>
+                                            <a href="udai_mail_query.html" class="but cr">查看物流</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="" class="but but-link">评价</a>
+                                            <a href="" class="but c3">取消订单</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-item">
+                                        <td>
+                                            <label>
+                                                <a href="udai_order_detail.html" class="num">
+                                                    2017-03-30 订单号: 2669901385864042
+                                                </a>
+                                                <div class="card">
+                                                    <div class="img"><img src="images/temp/item-img_1.jpg" alt=""
+                                                                          class="cover"></div>
+                                                    <div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
+                                                    <div class="format">颜色分类：深棕色 尺码：均码</div>
+                                                    <div class="favour">使用优惠券：优惠¥2.00</div>
+                                                </div>
+                                            </label>
+                                        </td>
+                                        <td>￥100</td>
+                                        <td>1</td>
+                                        <td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
+                                        <td class="state">
+                                            <a class="but c6">交易成功</a>
+                                            <a href="udai_mail_query.html" class="but cr">查看物流</a>
+                                            <a href="udai_order_detail.html" class="but c9">订单详情</a>
+                                        </td>
+                                        <td class="order">
+                                            <div class="del"><span class="glyphicon glyphicon-trash"
+                                                                   aria-hidden="true"></span></div>
+                                            <a href="" class="but but-link">评价</a>
+                                            <a href="" class="but c3">取消订单</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="page text-right clearfix" style="margin-top: 40px">
+                                    <a class="disabled">上一页</a>
+                                    <a class="select">1</a>
+                                    <a class="disabled">下一页</a>
+                                </div>
                             </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/M-006.jpg" alt="琅轩日常汉服男龙纹绣花短褙子气质传统外套春秋非古装" class="cover">
-                            <div class="name">琅轩日常汉服男龙纹绣花短褙子气质传统外套春秋非古装</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
-                            </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
-                        </div>
-                    </div>
-                    <div class="item-card">
-                        <a href="item_show.html" class="photo">
-                            <img src="images/temp/S-006.jpg" alt="陇上乐原创传统日常汉服男绣花交领cp情侣非古装春秋" class="cover">
-                            <div class="name">陇上乐原创传统日常汉服男绣花交领cp情侣非古装春秋</div>
-                        </a>
-                        <div class="middle">
-                            <div class="price">
-                                <small>￥</small>
-                                18.0
-                            </div>
-                            <div class="sale"><a href="">取消收藏</a></div>
                         </div>
                     </div>
                 </div>
-                <div class="page text-right clearfix">
-                    <a class="disabled">上一页</a>
-                    <a class="select">1</a>
-                    <a href="">2</a>
-                    <a href="">3</a>
-                    <a class="" href="">下一页</a>
-                    <a class="disabled">1/3页</a>
-                </div>
+
             </div>
         </div>
     </section>
@@ -436,6 +706,228 @@
             ICP备案证书号：闽ICP备16015525号-2&nbsp;&nbsp;&nbsp;&nbsp;福建省宁德市福鼎市南下村小区（锦昌阁）1栋1梯602室&nbsp;&nbsp;&nbsp;&nbsp;Tel:
             18650406668&nbsp;&nbsp;&nbsp;&nbsp;E-mail: 18650406668@qq.com
         </p>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <span id="orderIdInfo" style="display:none;"></span>
+                        你确定要取消该订单吗？
+                    </h4>
+                    <input type="hidden" name=""/>
+                </div>
+                <div class="modal-body">
+                    请选择取消订单的理由
+                    <select>
+                        <option selected="selected">请选择关闭的理由</option>
+                        <option>我不想买了</option>
+                        <option>地址填写错误，重新拍</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="quxiaoOrder">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+
+        <script type="text/javascript">
+            var status1;
+            function pageInfo(pageIndex,status){
+
+                var context = "<tr>\n" +
+                    "                                        <th width=\"380\">商品信息</th>\n" +
+                    "                                        <th width=\"85\">单价</th>\n" +
+                    "                                        <th width=\"85\">数量</th>\n" +
+                    "                                        <th width=\"120\">实付款</th>\n" +
+                    "                                        <th width=\"120\">状态</th>\n" +
+                    "                                        <th width=\"120\">交易操作</th>\n" +
+                    "                                    </tr>";
+                $.ajax({
+                    url:"listCommodityInfo",
+                    type:"get",
+                    data:{
+                        "pageIndex":pageIndex,
+                        "status":status,
+                        "pageSize":5
+                    },
+                    dataType:"json",
+                    success:function(data){
+
+                        var pageNum = data.pageNum;
+                        var pageSize = data.pageSize;
+                        var size = data.size;
+                        if(data.list.length ==0){
+                            context+="   <tr class=\"order-empty\">\n" +
+                                "                                        <td colspan='6'>\n" +
+                                "                                            <div class=\"empty-msg\">最近没有任何订单，家里好像缺了点什么！<br><a href=\"item_category.html\">要不瞧瞧去？</a>\n" +
+                                "                                            </div>\n" +
+                                "                                        </td>\n" +
+                                "                                    </tr>";
+                        }else {
+                            $.each(data.list, function (i, e) {
+                                var paymentTimes=e.order.createTime;
+                                var d = new Date(paymentTimes);
+                                var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+                                context += " <tr class=\"order-item\">\n" +
+                                    "                                        <td>\n" +
+                                    "                                            <label>\n" +
+                                    "                                                <a href=\"udai_order_detail.html\" class=\"num\">\n" +
+                                    "                                                    " + times + " 订单号: " + e.orderId + "\n" +
+                                    "                                                </a>\n" +
+                                    "                                                <div class=\"card\">\n" +
+                                    "                                                    <div class=\"img\"><img src=\"images/temp/item-img_1.jpg\" alt=\"\"\n" +
+                                    "                                                                          class=\"cover\"></div>\n" +
+                                    "                                                    <div class=\"name ep2\">" + e.sku.product.productName + "</div>\n" +
+                                    "                                                    <div class=\"format\">";
+                                $.each(e.sku.product.skuValues, function (i1, e1) {
+                                    context += e1.skuName.skunameeValue + ":"+e1.skuvalueValue+"、";
+
+                                });
+                                context += "</div>\n" +
+                                    "                                                    <div class=\"favour\"></div>\n" +
+                                    "                                                </div>\n" +
+                                    "                                            </label>\n" +
+                                    "                                        </td>\n" +
+                                    "                                        <td>￥" + e.sku.presentPrice + "</td>\n" +
+                                    "                                        <td>" + e.number + "</td>\n" +
+                                    "                                        <td>￥" + (e.sku.presentPrice * e.number) + "<br><span class=\"fz12 c6 text-nowrap\">(含运费: ¥0.00)</span></td>\n" +
+                                    "                                        <td class=\"state\">\n" +
+                                    "                                            <a class=\"but c6\">" + e.orderstatus.orderStatus_name + "</a>\n" +
+                                    "                                        </td>\n" +
+                                    "                                        <td class=\"order\">\n" +
+                                    "                                            <div class=\"del\"></div>\n" ;
+
+
+
+
+
+                                context += "                                        </td>\n" +
+
+                                    "                                    </tr>";
+                            });
+                        }
+
+                        var btn ="";
+                        if(pageIndex== 1 || pageIndex == 0){
+                            btn+=" <a class=\"disabled\">上一页</a>\n" ;
+                        }else{
+                            btn+=" <a onclick='show("+(data.pageNum-1)+")'>上一页</a>\n" ;
+                        }
+
+                        for(var i = 1; i<=data.pages; i++){
+                            if(i == data.pageNum){
+                                btn+=" <a class=\"select\">"+i+"</a>";
+                            }else{
+                                btn+=" <a onclick='show("+i+")'>"+i+"</a>";
+                            }
+                        }
+                        if(data.pages == pageIndex || pageIndex == 0 || pageIndex == 1){
+                            btn+="<a class=\"disabled\" >下一页</a>";
+                        }else{
+                            btn+="<a  onclick='show("+(data.pageNum+1)+")'>下一页</a>";
+                        }
+                        $("table tbody").html(context);
+                        $("#stylepage").html(btn);
+                    },
+                    error:function(){
+                        alert("请求失败！");
+                    }
+                })
+            }
+            $(function () {
+                init();
+                pageInfo(1,14);
+                $("#quxiaoOrder").click(function(){
+                    var id =$("#orderIdInfo").text();
+                    $.ajax({
+                        url:"updateOrderStatus",
+                        type:"post",
+                        data:{
+                            "id":id,
+                            "status":8
+                        },
+                        success:function (data) {
+                            if(data.success){
+                                $("#myModal").modal('hide');  //手动关闭
+                                init();
+                                pageInfo(1,null);
+                            }else{
+                                alert(data.msg);
+                            }
+                        },
+                        error:function () {
+                            alert("请求失败");
+                        }
+                    })
+                })
+            })
+            function init() {
+
+
+
+                var context ="<li role=\"presentation\" class=\"nav-item active\"><a href=\"#all\" onclick=\"statu(null)\" aria-controls=\"all\"\n" +
+                    "            role=\"tab\" data-toggle=\"tab\">所有订单</a>\n" +
+                    "                </li>";
+                /*$.ajax({
+                    url:"listOrderStatusByUserId",
+                    type:"get",
+                    dataType:"json",
+                    success:function(data){
+                        $.each(data,function(i,e){
+                            context+="  <li role=\"presentation\" class=\"nav-item \"><a href=\"#all\" onclick=\"statu("+e.orderStatusId+")\" aria-controls=\"pay\" role=\"tab\"\n" +
+                                "            data-toggle=\"tab\">"+e.orderStatusName+" <span class=\"cr\">"+e.number+"</span></a>\n" +
+                                "            </li>";
+                        })
+                        $(".user-nav__title").html(context);
+                    },
+                    error:function(){
+                        alert("请求失败");
+                    }
+                })*/
+            }
+            function statu(obj) {
+                status1 = obj;
+                pageInfo(1,obj);
+            }
+            function show(pageIndex){
+                pageInfo(pageIndex,status1);
+            }
+            function  del(commodityId,orderId,obj) {
+                var flag = confirm("确定要删除该订单"+orderId+"中的商品吗？");
+                if(flag){
+                    $.ajax({
+                        url:"removeCommodityId",
+                        type:"get",
+                        data:{
+                            "commodityId":commodityId,
+                            "orderId":orderId
+                        },
+                        dataType:"json",
+                        success:function(data){
+                            alert(data.msg);
+                            if(data.success){
+                                init();
+                                pageInfo(1,null);
+                            }
+                        },
+                        error:function () {
+                            alert("请求失败");
+                        }
+                    })
+                }
+
+            }
+        </script>
     </div>
 </div>
 </body>

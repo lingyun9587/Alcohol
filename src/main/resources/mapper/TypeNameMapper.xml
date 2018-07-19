@@ -10,7 +10,7 @@
     <select id="TypeNameissel" resultType="java.lang.Integer">
          SELECT COUNT(1) FROM tb_typename WHERE typeName_name=#{typeNameName} and isdel=0
     </select>
-    <select id="getTypeNamefy" resultType="TypeName">
+    <select id="getTypeNamefy" resultType="com.alcohol.pojo.TypeName">
         SELECT * FROM tb_typename WHERE category_id=#{categoryId} and isdel=0
     </select>
     <select id="list" resultType="java.lang.Integer">

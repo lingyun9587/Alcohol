@@ -25,7 +25,7 @@
           WHERE tb_product.product_id=#{productid}
     </select>
 
-    <select id="selTypeVlue" resultType="Product">
+    <select id="selTypeVlue" resultType="com.alcohol.pojo.Product">
         SELECT typevalue_id FROM tb_product
     </select>
 
@@ -56,7 +56,7 @@
         ORDER BY sales
     </select>
 
-    <resultMap id="Productlist" type="Product">
+    <resultMap id="Productlist" type="com.alcohol.pojo.Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="sales" property="sales"/>
@@ -64,7 +64,7 @@
         <result column="typevalue_id" property="typevalueId"/>
     </resultMap>
 
-    <resultMap id="resultMap01" type="Product">
+    <resultMap id="resultMap01" type="com.alcohol.pojo.Product">
         <id column="product_id" property="productId"/>
         <result column="product_name" property="productName"/>
         <result column="product_desc" property="productDese"/>
@@ -72,19 +72,19 @@
         <result column="sales" property="sales"/>
         <result column="longegral" property="longegral"/>
         <result column="category_three" property="categoryThree"/>
-        <collection property="imageList" ofType="Image">
+        <collection property="imageList" ofType="com.alcohol.pojo.Image">
             <id column="image_id" property="imageId"/>
             <result column="image_path" property="imagePath"/>
         </collection>
-        <collection property="skunameList" ofType="skuName">
+        <collection property="skunameList" ofType="com.alcohol.pojo.skuName">
             <id column="skuname_id" property="skunameId"/>
             <result column="skuname_name" property="skunameeValue"/>
-            <collection property="skuValueList" ofType="SkuValue">
+            <collection property="skuValueList" ofType="com.alcohol.pojo.SkuValue">
                 <id column="skuvalue_id" property="skuvalueId"/>
                 <result column="skuvalue_value" property="skuvalueValue"/>
             </collection>
         </collection>
-        <collection property="skuList" ofType="Sku">
+        <collection property="skuList" ofType="com.alcohol.pojo.Sku">
             <id column="sku_id" property="skuId"/>
             <result column="stock" property="stock"/>
             <result column="original_price" property="originalPrice"/>
@@ -116,7 +116,7 @@
         <result column="stock" property="stock"/>
         <result column="original_price" property="originalPrice"/>
         <result column="present_price" property="presentPrice"/>
-        <collection property="product" ofType="Product">
+        <collection property="product" ofType="com.alcohol.pojo.Product">
             <id column="product_id" property="productId"/>
             <result column="product_name" property="productName"/>
             <result column="product_desc" property="productDese"/>
@@ -124,7 +124,7 @@
             <result column="sales" property="sales"/>
             <result column="longegral" property="longegral"/>
         </collection>
-        <collection property="skuValue" ofType="SkuValue">
+        <collection property="skuValue" ofType="com.alcohol.pojo.SkuValue">
             <id column="skuvalue_id" property="skuvalueId"/>
             <result column="skuvalue_value" property="skuvalueValue"/>
         </collection>
@@ -146,7 +146,7 @@
     </select>
 
     <!--根据名字模糊查询商品  xcf-->
-    <select id="getProductList" resultType="Product">
+    <select id="getProductList" resultType="com.alcohol.pojo.Product">
         SELECT tbpr.product_id,
         tbpr.product_name,
         tbpr.sales,
@@ -187,7 +187,7 @@
         </if>
     </select>
     <!--根据名字模糊查询三级分类   xcf-->
-    <select id="getCategorythree" resultType="Categorythree">
+    <select id="getCategorythree" resultType="com.alcohol.pojo.Categorythree">
         SELECT categorythree_id ,categorythree_name
         FROM tb_categorythree
         WHERE categorythree_name
@@ -195,7 +195,7 @@
     </select>
 
     <!--根据分类属性值的id查询商品    xcf-->
-    <select id="getTypeProductList" resultType="Product">
+    <select id="getTypeProductList" resultType="com.alcohol.pojo.Product">
         SELECT tbpr.product_id,
         tbpr.product_name,
         tbpr.sales,
@@ -242,7 +242,7 @@
     </select>
 
     <!--张鹏商品后台列表-->
-    <select id="listAll" resultType="Product">
+    <select id="listAll" resultType="com.alcohol.pojo.Product">
         SELECT tbpr.product_id,
         tbpr.product_name,
         tbpr.sales,

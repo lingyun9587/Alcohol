@@ -13,13 +13,13 @@
          WHERE tb_categorythree.`categorythree_id`=#{id}
     </select>
 
-    <resultMap id="result01" type="Categorythree">
+    <resultMap id="result01" type="com.alcohol.pojo.Categorythree">
         <id column="categorythree_id" property="categorythreeId"/>
         <result column="categorythree_name" property="categorythreeName"/>
-        <collection property="typeNameList" ofType="TypeName">
+        <collection property="typeNameList" ofType="com.alcohol.pojo.TypeName">
             <id column="typeName_id" property="typeNameId"/>
             <result column="typeName_name" property="typeNameName"/>
-            <collection property="typevalueList" ofType="Typevalue">
+            <collection property="typevalueList" ofType="com.alcohol.pojo.Typevalue">
                 <id column="typeValue_id" property="typeValueId"/>
                 <result column="typeValue_name" property="typeValueName"/>
             </collection>
@@ -27,12 +27,12 @@
     </resultMap>
 
     <!--查询三级分类-->
-    <select id="getCategoryThreeInfo" resultType="Categorythree">
+    <select id="getCategoryThreeInfo" resultType="com.alcohol.pojo.Categorythree">
         SELECT * FROM tb_categorythree WHERE parentId=#{parentId} and isdel=0
     </select>
 
     <!--查询三级分类分页-->
-    <select id="getCategoryThreeInfofy" resultType="Categorythree">
+    <select id="getCategoryThreeInfofy" resultType="com.alcohol.pojo.Categorythree">
         SELECT * FROM tb_categorythree WHERE parentId=#{parentId} and isdel=0
     </select>
 

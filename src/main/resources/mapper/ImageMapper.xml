@@ -12,15 +12,15 @@
 
     <!---->
 
-    <resultMap id="resultMap01" type="Image">
+    <resultMap id="resultMap01" type="com.alcohol.pojo.Image">
         <id column="image_id" property="imageId"/>
         <result column="image_path" property="imagePath"/>
-        <association property="product" javaType="Product">
+        <association property="product" javaType="com.alcohol.pojo.Product">
             <id column="product_id" property="productId"/>
         </association>
     </resultMap>
 
-    <select id="selImageByProductId" resultType="Image">
+    <select id="selImageByProductId" resultType="com.alcohol.pojo.Image">
         SELECT image_id,image_path,product_id,image_type,weight FROM tb_image WHERE product_id=#{productId}
     </select>
 
