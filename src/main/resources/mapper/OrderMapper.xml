@@ -32,17 +32,10 @@
                 <id column="sku_id" property="skuId"></id>
                 <result column="original_price" property="originalPrice"/>
                 <result column="present_price" property="presentPrice"/>
+                <result column="skuvalue_id" property="skuvalueId"/>
                <association property="product" javaType="Product">
                    <id column="product_id" property="productId"/>
                    <result column="product_name" property="productName"/>
-                   <collection property="skunameList" ofType="skuName">
-                        <id column="skuname_id" property="skunameId"/>
-                       <result column="skuname_name" property="skunameeValue"/>
-                       <collection property="skuValueList" ofType="SkuValue">
-                           <id column="skuvalue_id" property="skuvalueId"/>
-                           <result column="skuvalue_value" property="skuvalueValue"/>
-                       </collection>
-                   </collection>
                    <collection property="imageList" ofType="Image">
                        <id column="image_id" property="imageId"/>
                        <result column="image_path" property="imagePath"/>
@@ -56,11 +49,9 @@
     addre.address_id,addre.province,addre.city,addre.area,addre.street,
     statu1.`orderStatus_id` AS orderStatusId,statu1.`orderStatus_name` orderStatuName,
     comm.commodity_id,comm.number,
-      sku.sku_id,sku.`original_price`,sku.`present_price`,
+      sku.sku_id,sku.`original_price`,sku.`present_price`,sku.skuvalue_id,
     statu.orderStatus_id,statu.orderStatus_name,
     pro.product_id,pro.product_name,
-    skuname.skuname_id,skuname.skuname_name,
-    skuvalue.skuvalue_id,skuvalue.`skuvalue_value`,
     img.`image_id`,img.`image_path`
      FROM `tb_order` orde
     LEFT JOIN `tb_address` addre ON orde.`address_id`=addre.address_id
@@ -68,14 +59,9 @@
     LEFT JOIN  `tb_sku` sku ON comm.`sku_id`=sku.`sku_id`
     INNER JOIN `tb_orderstatus` statu ON statu.`orderStatus_id`=comm.`orderstatus_id`
     INNER JOIN `tb_product` pro ON sku.`product_id`=pro.`product_id`
-    INNER JOIN `tb_skuname` skuname ON pro.`product_id`=skuname.`product_id`
-    LEFT JOIN `tb_skuvalue` skuvalue ON skuvalue.`skuname_id`=skuname.`skuname_id`
     LEFT JOIN `tb_image` img ON img.`product_id`=pro.`product_id`
      INNER JOIN `tb_orderstatus` statu1 ON statu1.`orderStatus_id` = orde.`status`
-    WHERE skuvalue.`skuvalue_id` IN (
-     SELECT SUBSTRING_INDEX(skuvalue_id, ':', 1) FROM tb_sku sku2  WHERE sku2.sku_id=comm.sku_id
-     )
-     and orde.order_id=#{orderId}
+    WHERE orde.order_id=#{orderId}
     </select>
 
     <delete id="removeOrderInfo">

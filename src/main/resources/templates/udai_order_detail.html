@@ -409,15 +409,12 @@
                      context +="<div class=\"item\">\n" +
                          "                            <div class=\"tdf3\">\n" +
                          "                                <a href=\"item_show.html\">\n" +
-                         "                                    <div class=\"img\"><img src=\"images/temp/M-003.jpg\" alt=\"\" class=\"cover\"></div>\n" +
+                         "                                    <div class=\"img\"><img src=\""+e.sku.product.imageList[0].imagePath+"\" alt=\"\" class=\"cover\"></div>\n" +
                          "                                    <div class=\"ep2 c6\">"+e.sku.product.productName+"</div>\n" +
                          "                                </a>\n" +
                          "                                <div class=\"attr ep\">" ;
-                          $.each(e.sku.product.skunameList,function(i1,e1){
-                              context +=e1.skunameeValue+":";
-                              $.each(e1.skuValueList,function (i2,e2) {
-                                  context+=e2.skuvalueValue+"/t";
-                              })
+                          $.each(e.sku.product.Skuvalues,function(i1,e1){
+
                           })
                          context+="</div>\n" +
                          "                            </div>\n" +
@@ -434,7 +431,12 @@
                          "                        </div>";
                           money+=e.sku.presentPrice*e.number;
                     });
-                    $("#money").html(money);
+                    if(data.orderstatus.orderStatus_id==7||data.orderstatus.orderStatus_id==9 || data.orderstatus.orderStatus_id==11 ){
+                        $("#money").html(money);
+                    }else{
+                        $("#money").html(0);
+                    }
+
                     $(".order-item__list").html(context);
                 },
                 error:function () {

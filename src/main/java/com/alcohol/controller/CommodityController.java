@@ -61,10 +61,13 @@ public class CommodityController {
             Sku sku = commodity.getSku();
            String typevalueId=sku.getSkuvalueId();
            String [] arr = typevalueId.split(",");
-            for (String str:arr) {
-                SkuValue skuvalue=skuValueService.getSkuById(Integer.parseInt(str));
-                commodity.getSku().getProduct().getSkuValues().add(skuvalue);
-            }
+           if(typevalueId !=null && !"".equals(typevalueId)){
+               for (String str:arr) {
+                   SkuValue skuvalue=skuValueService.getSkuById(Integer.parseInt(str));
+                   commodity.getSku().getProduct().getSkuValues().add(skuvalue);
+               }
+           }
+
         }
         System.out.println("======================="+list.size());
         PageInfo<Commodity>  pageInfo = new PageInfo<>(list);

@@ -124,6 +124,18 @@ public class OrderController{
     @RequestMapping("/getByIdOrderInfo")
     public Object getById(@RequestParam(value = "id",required = false)Long id){
       Order order= orderService.getById(id) ;
+        for (Commodity commodity: order.getCommodities()) {
+            Sku sku = commodity.getSku();
+            String typevalueId=sku.getSkuvalueId();
+            String [] arr = typevalueId.split(",");
+            if(typevalueId !=null && !"".equals(typevalueId)){
+                for (String str:arr) {
+                    SkuValue skuvalue=skuValueService.getSkuById(Integer.parseInt(str));
+                    commodity.getSku().getProduct().getSkuValues().add(skuvalue);
+                }
+            }
+
+        }
       return order;
     }
 

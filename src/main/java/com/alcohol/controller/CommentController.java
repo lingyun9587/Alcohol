@@ -1,32 +1,36 @@
 package com.alcohol.controller;
 
-import com.alcohol.pojo.Comment;
-import com.alcohol.pojo.SkuValue;
-import com.alcohol.service.CommentService;
-import com.alcohol.service.SkuValueService;
+import com.alcohol.dto.OrderExecution;
+import com.alcohol.mapper.UseraccountMapper;
+import com.alcohol.pojo.*;
+import com.alcohol.service.*;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CommentController {
     @Resource
+    private OrderService orderService;
+    @Resource
     private CommentService commentService;
 
     @Resource
+    private  ImageService imageService;
+    @Resource
     private SkuValueService skuValueService;
-
+    @Resource
+    private SkuService skuService;
+    @Resource
+    private UserAccountService userAccountService;
     @RequestMapping(value = "/listComment",produces = "text/html;charset=utf-8")
     @ResponseBody
     public Object listComment(Integer pageNum,Integer pageSize,Integer spareOne,HttpServletRequest request){
@@ -43,17 +47,14 @@ public class CommentController {
         List<Comment> clist = commentService.listComment(map);
         for (int i=0;i<clist.size();i++){
             String skuvalueId=clist.get(i).getSku().getSkuvalueId();
-            if(skuvalueId.length()>0){
-                String[] arr=skuvalueId.split(",");
-                List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
-                SkuValue skuvalue=null;
-                for (int j = 0; j < arr.length; j++) {
-                    skuvalue=skuValueService.getSkuById(Integer.valueOf(arr[j]));
-                    SkuValueList.add(skuvalue);
-                }
-                clist.get(i).getSku().setSkuValueList(SkuValueList);
+            String[] arr=skuvalueId.split(",");
+            List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
+            SkuValue skuvalue=null;
+            for (int j = 0; j < arr.length; j++) {
+              skuvalue=skuValueService.getSkuById(Integer.valueOf(arr[j]));
+              SkuValueList.add(skuvalue);
             }
-
+            clist.get(i).getSku().setSkuValueList(SkuValueList);
         }
         PageInfo<Comment> page=new PageInfo<Comment>(clist);
         return JSON.toJSONString(page);
@@ -125,8 +126,78 @@ public class CommentController {
 
         return JSON.toJSONString(json);
     }
-    @RequestMapping(value = "udai_order_comment.html")
-    public Object udai_order_comment(){
-        return "udai_order_comment.html";
+
+    @GetMapping(value="udai_order_comment.html")
+    public  Object udai_order_comment(HttpServletRequest request, @RequestParam(value = "commodityId",required = false) Long commodityId){
+        if(commodityId!=0){
+            request.getSession().setAttribute("commodityId",commodityId);
+        }
+        return "udai_order_comment";
+    }
+
+
+
+    @RequestMapping(value = "/GetCommentByorder",method = RequestMethod.POST)
+    @ResponseBody
+    public String GetCommentByorder(HttpServletRequest request){
+        Long commodityId=Long.valueOf(request.getSession().getAttribute("commodityId").toString());
+        Order order=orderService.getOeder(commodityId);
+        String skuvalueId=order.getCommodities().get(0).getSk().getSkuvalueId();
+        String[] arr=skuvalueId.split(",");
+        List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
+        SkuValue skuvalue=null;
+        for (int j = 0; j < arr.length; j++) {
+            skuvalue=skuValueService.getSkuById(Integer.valueOf(arr[j]));
+            SkuValueList.add(skuvalue);
+        }
+        order.getCommodities().get(0).getSk().setSkuValueList(SkuValueList);
+        return JSON.toJSONString(order);
+    }
+
+    /**
+     * 用户评论
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "insertComment",method = RequestMethod.POST)
+    public Object insertComment(Comment comment,String imagePath,HttpServletRequest request){
+        Map<String,Object>  map = new HashMap<>();
+        String userName=(String)SecurityUtils.getSubject().getPrincipal();
+        Useraccount useraccount = userAccountService.getUserById(userName);
+
+        Date time = new Date();
+        comment.setCreateTime(time);
+        //获取用户userId
+        comment.setUserId(useraccount.getUser().getUserId());
+        //获取skuId
+        //comment.setSkuId(comment.getSkuId());
+        int result=commentService.insertComment(comment);   //新增评论
+        String json="";
+        if(result>0){
+            map.put("mes","mes");
+            //如果图片路径不为空则添加图片
+            if(imagePath!=null&&imagePath!=""){
+                //获取商品编号
+                Sku sku=skuService.getById(comment.getSkuId());
+               String productId =sku.getProduct().getProductId().toString();
+               Image image = new Image();
+               image.setImagePath(imagePath);
+               image.setImageType("1");
+               image.setProductId(Long.valueOf(productId));
+               image.setWeight(10L);
+                int result1=imageService.addImage(image);    //新增评论图片
+                        //commentService.commentImg(imagePath,productId);
+            }
+            //用户评论成功修改订单状态  没写
+            Order order = new Order();
+            String orderId=request.getParameter("orderId");
+            order.setOrderId(Long.valueOf(orderId));
+            order.setStatus(14);
+            OrderExecution result13 =  orderService.updateOrder(order);
+           // System.out.println(result13.getState());
+        }else{
+            map.put("mes","失败");
+        }
+        return map;
     }
 }

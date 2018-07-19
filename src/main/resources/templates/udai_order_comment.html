@@ -292,7 +292,6 @@
                 alert("请选择评论等级")
                 return;
             }
-			alert(orderId);
 
             $.ajax({
                 url:"/insertComment",
@@ -300,7 +299,6 @@
                 data:{"orderId":orderId,content:commentText,spareOne:radio1,imagePath:img,"skuId":skuId},
                 dataType:"json",
                 success:function (data) {
-                    alert(data);
                     if (data.mes=="mes"){
                         //成功之后再html页面跳转到王磊写的我的评论页面
                         location.href="/udai_collection.html";
@@ -323,7 +321,6 @@
 
 			    var array=result.commodities[0].sk.skuId;
 			    var orderI =result.orderId.toFixed();
-                alert(orderI);
 				var content="<ul><input type='hidden' value='"+array+"' name='skuId'/><input type='hidden' value='"+orderI+"' name='orderId'/>" +
                     "<li style=\"font-size: 18px;font-weight: bold;color: #000\">"+result.commodities[0].sk.products[0].productName+"</li>\n" +
                     "<li>价格 <span>￥"+result.commodities[0].sk.presentPrice+"</span></li>" +

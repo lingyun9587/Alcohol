@@ -165,6 +165,8 @@ function getUrlParam(name) {
 }
 
 $(function(){
+    $(".tab-header .inner .pull-right a").eq(4).hide();
+    $(".pull-left .cr").html("凡诺");
     $.ajax({
 		url:"/getUserInfo",
 		type:"post",
@@ -172,7 +174,7 @@ $(function(){
 			if(data != null && data != ""  ){
 				$(".tab-header .inner .pull-right a").eq(0).html(data.user.membershipName);
                 $(".tab-header .inner .pull-right a").eq(0).attr("href","javascript:void(0)");
-                $(".tab-header .inner .pull-right a").eq(1).hide();
+                $(".tab-header .inner .pull-right a").eq(1).html("<a href='/logout'>退出</a>");
 			}
 		},
 		error:function(){
