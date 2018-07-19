@@ -231,14 +231,16 @@ public class OrderController{
             List<Commodity> commodity = list.get(i).getCommodities();//三个订单详情
             for (int j = 0; j < commodity.size(); j++) {//循环订单详情
                 String skuvalueId = list.get(i).getCommodities().get(j).getSk().getSkuvalueId();//订单详情中的sku的value_id 3,5,6
-                String[] arr = skuvalueId.split(",");
-                SkuValue skuvalue = null;
-                List<SkuValue> SkuValueList = new ArrayList<SkuValue>();
-                for (int x = 0; x < arr.length; x++) {
-                    skuvalue = skuValueService.getSkuById(Integer.valueOf(arr[x]));
-                    SkuValueList.add(skuvalue);
+                if(skuvalueId.length()>0) {
+                    String[] arr = skuvalueId.split(",");
+                    SkuValue skuvalue = null;
+                    List<SkuValue> SkuValueList = new ArrayList<SkuValue>();
+                    for (int x = 0; x < arr.length; x++) {
+                        skuvalue = skuValueService.getSkuById(Integer.valueOf(arr[x]));
+                        SkuValueList.add(skuvalue);
+                    }
+                    list.get(i).getCommodities().get(j).getSk().setSkuValueList(SkuValueList);
                 }
-                list.get(i).getCommodities().get(j).getSk().setSkuValueList(SkuValueList);
             }
         }
         PageInfo<Order> page = new PageInfo<Order>(list);
@@ -255,7 +257,8 @@ public class OrderController{
      */
     @RequestMapping(value="/backstage/cha")
     @ResponseBody
-    public  Object cha(@RequestParam("orderId") Long orderId){
+    public  Object cha(Long orderId ){
+
         Order order=orderService.cha(orderId);
         return JSON.toJSONString(order);
     }

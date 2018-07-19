@@ -28,4 +28,6 @@ public class Comment {
     private Product product;//商品对象
     private User user;//用户对象
 
+    private List<Image> ImageList;
+
 }

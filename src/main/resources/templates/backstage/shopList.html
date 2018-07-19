@@ -30,15 +30,14 @@
 	<div class="serach">
 		<input type="text" class="textStyle" placeholder="请输入搜索内容" style="width: 180px;height: 24px;line-height: 24px;"/>
 		<input type="button" value="搜索" class="button search" onclick="fy(1)"/>
-		<input type="button" value="上架" class="button add" onclick="newz(1)"/>
-		<input type="button" value="下架" class="button xia" onclick="newz(2)"/>
+		<input type="button" value="上架" class="button add" onclick="sxjsj()"/>
+		<input type="button" value="下架" class="button xia" onclick="sxj()"/>
 		<input type="button" value="删除" class="button delete" onclick="dele()"/>
 		<select name="status" id="sel" onchange="fy(1)">
 			<option value="0">请选择</option>
 			<option value="17">已下架</option>
 			<option value="18">已上架</option>
 		</select>
-		<input type="hidden" class="status" />
 	</div>
 	<!--搜索区结束-->
 	<div class="info">
@@ -73,6 +72,7 @@
 			<input type="button" value="保存" class="button save" />
 			<input type="button" value="取消" class="button delete" />
 		</div>
+		<input type="hidden" class="status">
 	</div>
 
 </div>
@@ -82,7 +82,7 @@
 <script type="text/javascript" src="/js/backstage/table.js"></script>
 <script type="text/javascript" src="/js/backstage/tab.js"></script>
 <script type="text/javascript" src="/js/backstage/popup.js"></script>
-<!--<script type="text/javascript" src="/js/backstage/custom.js"></script>-->
+<script type="text/javascript" src="/js/backstage/custom.js"></script>
 <script type="text/javascript" src="/js/backstage/iosOverlay.js"></script>
 <script type="text/javascript">
     $(function() {
@@ -148,11 +148,7 @@
                                 });
                             }
                         },error:function(){
-                            iosOverlay({
-                                text: "新增失败!",
-                                duration: 2e3,
-                                //icon: "img/check.png"
-                            })
+                            alert("新增库存失败");
                         }
                     });
                 }
@@ -183,18 +179,17 @@
                     if(price==undefined){
                         price=0;
                     }
+                    var status=$(".status").val(e.status);
                     var paymentTimes=e.createTime;
                     var d = new Date(paymentTimes);
                     var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                     var paymentTimes1=e.createTime;
                     var d1 = new Date(paymentTimes1);
                     var times1=d1.getFullYear() + '-' + (d1.getMonth() + 1) + '-' + d1.getDate() + ' ' + d1.getHours() + ':' + d1.getMinutes() + ':' + d1.getSeconds();
-                    tr+="<tr><td><input type='checkbox' name='checkItem' class='checknum' value='"+e.productId+"'/><input type='hidden' id='"+e.productId+"' value='"+e.status+"'/></td><td><img src="+e.imagePath+" width='58px' height='58px'>"+e.productName+"</td><td>"+e.countId+"</td><td>"+e.sales+"</td><td>"+e.spare_one+"</td><td>"+times+"</td><td>"+times1+"</td><td>"+price+"</td><td><button onclick='insert("+e.productId+")' class='button xia'>新增库存</button></td></tr>";
-
+                    tr+="<tr><td><input type='checkbox' name='checkItem' class='checknum' value='"+e.productId+"'/></td><td><img src="+e.imagePath+" width='58px' height='58px'>"+e.productName+"</td><td>"+e.countId+"</td><td>"+e.sales+"</td><td>"+e.spare_one+"</td><td>"+times+"</td><td>"+times1+"</td><td>"+price+"</td><td><button onclick='insert("+e.productId+")'>新增库存</button></td></tr>";
                 });
                 $('#dg tbody').html(tr);
                 showPage(pageIndex, data.pages, data.total);
-                $(".textStyle").val('');//清空搜索框
             },
             error: function() {
                 alert("出现异常！");
@@ -206,7 +201,88 @@
             return $(elem).val();
         }).get().join(',');
     }
-
+    //下架
+    function sxj() {
+        var xia=$("#sel").val();
+        var status=$(".status").val();
+        if(xia==17){
+            alert("已是下架状态");
+            return;
+        }
+        text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
+            return $(elem).val();
+        }).get().join(',');
+        if (text == "" || text == 0) {
+            alert("请选择要下架的商品");
+            return;
+        }else if (status!=18){
+            alert("选择的商品中有已上下架的商品");
+            return;
+        } else{
+            $.ajax({
+                url: "/product/backsxj",
+                data: {"product_id": text},
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.ers == "yes") {
+                        fy(1);
+                        iosOverlay({
+                            text: "下架成功",
+                            duration: 2e3,
+                            //icon: "img/check.png"
+                        });
+                    } else {
+                        alert(data.mesage);
+                    }
+                },
+                error: function () {
+                    alert("出错了");
+                }
+            });
+        }
+    }
+    //上架
+    function sxjsj() {
+        var xia=$("#sel").val();
+        var status=$(".status").val();
+        if(xia==18){
+            alert("已是上架状态");
+            return;
+        }
+        text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
+            return $(elem).val();
+        }).get().join(',');
+        if (text == "" || text == 0) {
+            alert("请选择要上架的商品");
+            return;
+        }else if (status!=17){
+            alert("选择的商品中有已上下架的商品");
+            return;
+        } else{
+            $.ajax({
+                url: "/product/backsxjsj",
+                data: {"product_id": text},
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    if (data.ers == "yes") {
+                        fy(1);
+                        iosOverlay({
+                            text: "上架成功!",
+                            duration: 2e3,
+                            //icon: "img/check.png"
+                        });
+                    } else {
+                        alert(data.mesage);
+                    }
+                },
+                error: function () {
+                    alert("出错了");
+                }
+            });
+        }
+    }
     //删除
     function dele() {
         text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
@@ -272,54 +348,7 @@
 
 
     }
-    //上下架
-    function newz(status) {
-        var xia=$("#sel").val();
-        text = $("input:checkbox[name='checkItem']:checked").map(function(index,elem) {
-            return $(elem).val();
-        }).get().join(',');
-        if (text == "" || text == 0) {
-            alert("请选择要上下架的商品");
-            return;
-        }else if (text != ""){
-            var array = text.split(",");
-            for(var i=0;i<array.length;i++){
-                var status1=$("#"+array[i]+"");
-                if(status==1){
-                    if(status1.val() == 18){
-                        alert("选择的商品中有已上架的商品");
-                        return;
-                    }
-				}else{
-                    if(status1.val() == 17){
-                        alert("选择的商品中有已下架的商品");
-                        return;
-                    }
-				}
 
-            }
-            $.ajax({
-                url: "/product/backsxj",
-                data: {"product_id": text,"status":status},
-                type: "post",
-                dataType: "json",
-                success: function (data) {
-                    if (data.ers == "yes") {
-                        fy(1);
-                        iosOverlay({
-                            text: "操作成功",
-                            duration: 2e3,
-                        });
-                    } else {
-                        alert(data.mesage);
-                    }
-                },
-                error: function () {
-                    alert("出错了");
-                }
-            });
-        }
-    }
     function show(pageIndex){
         fy(pageIndex);
     }

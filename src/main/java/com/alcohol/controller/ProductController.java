@@ -262,8 +262,11 @@ public class ProductController {
      */
     @RequestMapping(value = "/getProductByCategorythreeId")
     @ResponseBody
-    public Object getProductByCategorythreeId(Integer pageIndex,Integer pageSize,Integer categorythreeId){
+    public Object getProductByCategorythreeId(Integer pageIndex,Integer pageSize,Integer categorythreeId,HttpServletRequest request){
         PageHelper.startPage(pageIndex,pageSize,true,true);
+        if(request.getSession().getAttribute("categoryId")!=null&&categorythreeId==null){
+            categorythreeId=Integer.valueOf(request.getSession().getAttribute("categoryId").toString());
+        }
         List<Product> list=productService.getProductByCategorythreeId(categorythreeId);
         for (int i=0;i<list.size();i++){
             if(list.get(i).getProductName().length()>10){
@@ -367,7 +370,7 @@ public class ProductController {
         List<Sku> list=skuValueService.getSkuByProduct(id);
         for(int i=0;i<list.size();i++){
             String valueId=list.get(i).getSkuvalueId();
-            if(valueId!=null){
+            if(valueId.length()>0){
                 String[] arr=valueId.split(",");
                 List<SkuValue> SkuValueList=new ArrayList<SkuValue>();
                 SkuValue skuvalue=null;
