@@ -166,17 +166,13 @@ function getUrlParam(name) {
 
 $(function(){
     $.ajax({
-		url:"getUserInfo",
+		url:"/getUserInfo",
 		type:"post",
 		success:function(data){
 			if(data != null && data != ""  ){
-
 				$(".tab-header .inner .pull-right a").eq(0).html(data.user.membershipName);
                 $(".tab-header .inner .pull-right a").eq(0).attr("href","javascript:void(0)");
                 $(".tab-header .inner .pull-right a").eq(1).hide();
-
-
-
 			}
 		},
 		error:function(){
