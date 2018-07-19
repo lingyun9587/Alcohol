@@ -545,39 +545,46 @@ body {overflow-y: scroll}
 	background:         linear-gradient(to right, #f76850, #eb3349);
 }
 .floor-2 .floor-title {
-	background: #fdd4b3;
-	background: -webkit-linear-gradient(to right, #fdd4b3, #dab190);
-	background:    -moz-linear-gradient(to right, #fdd4b3, #dab190);
-	background:      -o-linear-gradient(to right, #fdd4b3, #dab190);
-	background:         linear-gradient(to right, #fdd4b3, #dab190);
+	background: #a1adbb;
+	background: -webkit-linear-gradient(to right, #a1adbb, #7d8a99);
+	background:    -moz-linear-gradient(to right, #a1adbb, #7d8a99);
+	background:      -o-linear-gradient(to right, #a1adbb, #7d8a99);
+	background:         linear-gradient(to right, #a1adbb, #7d8a99);
 }
 .floor-3 .floor-title {
-	background: #6dd5ed;
-	background: -webkit-linear-gradient(to right, #6dd5ed, #29abcc);
-	background:    -moz-linear-gradient(to right, #6dd5ed, #29abcc);
-	background:      -o-linear-gradient(to right, #6dd5ed, #29abcc);
-	background:         linear-gradient(to right, #6dd5ed, #29abcc);
+	background: #531810;
+	background: -webkit-linear-gradient(to right, #531810, #5a241c);
+	background:    -moz-linear-gradient(to right, #531810, #5a241c);
+	background:      -o-linear-gradient(to right, #531810, #5a241c);
+	background:         linear-gradient(to right, #531810, #5a241c);
 }
 .floor-4 .floor-title {
-	background: #ffb7d4;
-	background: -webkit-linear-gradient(to right, #ffb7d4, #f168a1);
-	background:    -moz-linear-gradient(to right, #ffb7d4, #f168a1);
-	background:      -o-linear-gradient(to right, #ffb7d4, #f168a1);
-	background:         linear-gradient(to right, #ffb7d4, #f168a1);
+	background: #d4c6d0;
+	background: -webkit-linear-gradient(to right, #d4c6d0, #a17f98);
+	background:    -moz-linear-gradient(to right, #d4c6d0, #a17f98);
+	background:      -o-linear-gradient(to right, #d4c6d0, #a17f98);
+	background:         linear-gradient(to right, #d4c6d0, #a17f98);
 }
 .floor-5 .floor-title {
-	background: #00cdac;
-	background: -webkit-linear-gradient(to right, #00cdac, #0aaab6);
-	background:    -moz-linear-gradient(to right, #00cdac, #0aaab6);
-	background:      -o-linear-gradient(to right, #00cdac, #0aaab6);
-	background:         linear-gradient(to right, #00cdac, #0aaab6);
+	background: #d7e1ed;
+	background: -webkit-linear-gradient(to right, #d7e1ed, #b7c2cf);
+	background:    -moz-linear-gradient(to right, #d7e1ed, #b7c2cf);
+	background:      -o-linear-gradient(to right, #d7e1ed, #b7c2cf);
+	background:         linear-gradient(to right, #d7e1ed, #b7c2cf);
 }
 .floor-6 .floor-title {
-	background: #ffb2b2;
-	background: -webkit-linear-gradient(to right, #ffb2b2, #ff6666);
-	background:    -moz-linear-gradient(to right, #ffb2b2, #ff6666);
-	background:      -o-linear-gradient(to right, #ffb2b2, #ff6666);
-	background:         linear-gradient(to right, #ffb2b2, #ff6666);
+	background: #ceb6c4;
+	background: -webkit-linear-gradient(to right, #ceb6c4, #bba0af);
+	background:    -moz-linear-gradient(to right, #ceb6c4, #bba0af);
+	background:      -o-linear-gradient(to right, #ceb6c4, #bba0af);
+	background:         linear-gradient(to right, #ceb6c4, #bba0af);
+}
+.floor-7 .floor-title {
+	background: #d19916;
+	background: -webkit-linear-gradient(to right, #d19916, #9f771a);
+	background:    -moz-linear-gradient(to right, #d19916, #9f771a);
+	background:      -o-linear-gradient(to right, #d19916, #9f771a);
+	background:         linear-gradient(to right, #d19916, #9f771a);
 }
 .floor-1 .floor-title::after {background-image: url(data:image/gif;base64,R0lGODlhDwAPAKIHAMRSP+xkTctWQvRnT91dSNRZRf///////yH5BAEAAAcALAAAAAAPAA8AAAM0aLrc/ubAdqQaIwRCigCVZWRb94WixnkgupQsWi3rKYtmey/xPSs2n0gnXAhdkWMoqawkAAA7)}
 .floor-2 .floor-title::after {background-image: url(data:image/gif;base64,R0lGODlhDwAPAKIHAMiojenDpPLLqtCvk/rSsNm2mf///////yH5BAEAAAcALAAAAAAPAA8AAAM0aLrc/ubAdqQiRIgQygCVZWRb94WixnkgupQsWi3rKYtmey/xPSs2n0gnXAhdkWMoqawkAAA7)}

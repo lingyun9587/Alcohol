@@ -1,14 +1,5 @@
 ;(function ($, window, document, undefined) {
-
-
-
-
-
-
-
-
   var Magnifier = function (elem) {
-
     var self = this;
     this.$elem = elem;
     this.$smallBox = this.$elem.find('.small-box');
@@ -48,15 +39,14 @@
     },
 
     inital: function () { // 初始化
+
       var self = this;
-      
       this.$thumbnailBox_next.click(function () {
         if (self.$thumbnailBox_item.length - 5 > self.wrapper_index) {
           self.wrapper_index += 4;
           self.$thumbnailBox_wrapper.animate({marginLeft: -(self.wrapper_index * 60)});
         }
       });
-      
       this.$thumbnailBox_prev.click(function () {
         if (self.wrapper_index > 0) {
           self.wrapper_index -= 4;
@@ -104,13 +94,11 @@
         self.$bigBox.hide();
       });
     },
-
     constructor: Magnifier
   };
 
   $.fn.magnifier = function () {
     var magnifier = new Magnifier(this);
-
     return magnifier.inital();
   };
 
