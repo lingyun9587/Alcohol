@@ -120,13 +120,13 @@
             <result property="orderstatusId" column="orderstatus_id"/>
 
             <association property='sk' javaType="Sku">
-                <id property="productId" column="product_id"/>
+                <id column="sku_id" property="skuId"/>
+                <result property="productId" column="product_id"/>
                 <result property="skuvalueId" column="skuvalue_id"/>
                 <result property="presentPrice" column="present_price"/>
                 <collection property='products' ofType="Product">
                     <id property="productId" column="product_id"/>
                     <result property="productName" column="product_name"/>
-
                     <collection property='images' ofType="Image">
                         <id property="imageId" column="image_id"/>
                         <result property="imagePath" column="image_path"/>
@@ -198,6 +198,27 @@
          WHERE
          o.`order_id`=#{order_id}
          GROUP BY o.`order_id`
+    </select>
+
+    <select id="getOeder" resultMap="rOrder">
+          SELECT o.`order_id`,o.`payment_time`,o.`create_time`,o.goodsCount,o.`batch`,o.`money`,o.`status`,o.desc, adress.`consignee`,adress.`phone`,adress.`code`,adress.`comaddress`,
+	    orderstatus.`orderStatus_id`,orderstatus.orderStatus_name,commodity.`number`,sku.`present_price`,
+         product.`product_name`,sku.sku_id,sku.`skuvalue_id`,
+         image.`image_path`
+         FROM tb_order o
+         LEFT JOIN tb_address adress
+         ON adress.`address_id`=o.`address_id`
+         LEFT JOIN `tb_orderstatus` orderstatus
+         ON  orderstatus.`orderStatus_id`=o.`status`
+         LEFT JOIN `tb_commodity` commodity
+         ON commodity.`order_id`=o.`order_id`
+         LEFT JOIN tb_sku sku
+         ON sku.`sku_id`=commodity.`sku_id`
+         LEFT JOIN tb_product product
+         ON product.`product_id`=sku.`product_id`
+         LEFT JOIN tb_image image
+         ON image.`product_id`=product.`product_id`
+         WHERE commodity.`commodity_id`=#{commodityId}
     </select>
 
     <update id="status" >

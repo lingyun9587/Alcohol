@@ -5,11 +5,13 @@ import com.alcohol.pojo.Comment;
 import com.alcohol.service.CommentService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
     @Resource
@@ -38,5 +40,21 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public int upListComment(int[] com, String reply_conte) {
         return commentMapper.upListComment(com,reply_conte);
+    }
+
+    /**
+     * 用户评论
+     * @param comment
+     * @return
+     */
+    @Override
+    public int insertComment(Comment comment) {
+        return commentMapper.insertComment(comment);
+    }
+
+    @Override
+    public int commentImg(String imagePath,String productId) {
+
+        return commentMapper.commentImg(imagePath,productId);
     }
 }

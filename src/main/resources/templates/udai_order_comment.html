@@ -15,6 +15,46 @@
 	<script src="js/swiper.min.js" charset="UTF-8"></script>
 	<script src="js/global.js" charset="UTF-8"></script>
 	<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+	<script charset="utf-8" src="/kindeditor-4.1.10/kindeditor.js"></script>
+	<script charset="utf-8" src="/kindeditor-4.1.10/lang/zh-CN.js"></script>
+	<script charset="utf-8" src="/kindeditor-4.1.10/plugins/code/prettify.js"></script>
+	<script>
+		KindEditor.ready(function(K) {
+			window.editorProduct=K.create('#editorProduct', {
+				cssPath : '/kindeditor-4.1.10/plugins/code/prettify.css',
+				uploadJson : '/fileUploadComment',
+				/* fileManagerJson : '/fileManager',*/
+				allowFileManager : true,
+				urlType:'domin'
+			});
+
+			//评论的图片
+			$('.image').on("click",".ztphoto",function(){
+                var j=$(".image img").index($(this));
+                var id=$(this).attr("id");
+				editorProduct.loadPlugin('multiimage', function() {
+					editorProduct.plugin.multiImageDialog({
+						clickFn : function(urlList) {
+							var li ="";
+							K.each(urlList, function(i, data) {
+                                if(id==1){
+                                    li+='<img id="0" class="ztphoto" width="80px" height="80px" src="'+data.url+'"/>';
+                                }else{
+                                    $(".image img").eq(j).attr("src",data.url);
+                                }
+							});
+							if(id==1){
+                                $(".image").find("td").eq(1).html(li);
+							}
+							editorProduct.hideDialog();
+						}
+					});
+				});
+			});
+        });
+
+
+	</script>
 	<title>U袋网</title>
 </head>
 <body>
@@ -91,16 +131,16 @@
 			<div class="user-content__box clearfix bgf">
 				<div class="title">订单中心-评价</div>
 				<div class="commentimg">
-
-
+					<img src="" width="358px" height="358px">
 				</div>
 				<div class="commenttext">
 					<ul>
-						<li style="font-size: 18px;font-weight: bold;color: #000">名称</li>
-						<li>价格 <span>￥82.02</span></li>
+						<li style="font-size: 18px;font-weight: bold;color: #000">姓名</li>
+						<li>价格 <span>￥158</span></li>
 						<li>配送 <span>快递：0.0</span></li>
 						<div class="commenttext1">
 							<p style="color: #8d7664;">规格 <span>12瓶</span></p>
+
 							<div class="commenttext2">
 								<p>现在查看的是 您所购买商品的信息</p>
 								<p>于<lable>2018年6月25日</lable>下单购买的此商品</p>
@@ -119,33 +159,35 @@
 									评价
 								</td>
 								<td style="width: 650px">
-									<div class="test_box" contenteditable="true"><br /></div>
+									<div class="test_box" contenteditable="true"></div>
 								</td>
 							</tr>
-							<tr>
+							<tr class="image">
 								<td style="height: 80px;text-align: center;;background-color: #efefef">
 									晒图
 								</td>
 								<td>
-									晒图
+									<img id="1" class="ztphoto" width="80px" height="80px" weight="10" src="/images/backstage/upload.png" alt="商品图片">
 								</td>
 							</tr>
 						</table>
-						<input type="button" value="提交评论" class="btn1" >
 					</div>
 					<div class="comment2">
 						<ul>
 							<li><input type="radio" name="radio" value="1">&nbsp;&nbsp;好评</li>
-							<li><input type="radio" name="radio" value="1">&nbsp;&nbsp;中评</li>
-							<li><input type="radio" name="radio" value="1">&nbsp;&nbsp;差评</li>
+							<li><input type="radio" name="radio" value="2">&nbsp;&nbsp;中评</li>
+							<li><input type="radio" name="radio" value="3">&nbsp;&nbsp;差评</li>
 						</ul>
 
 					</div>
+					<input type="button" value="提交评论" class="btn1" >
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
+<textarea id="editorProduct" name="content" style="display:none;">
+                </textarea>
 <!-- 右侧菜单 -->
 <div class="right-nav">
 	<ul class="r-with-gotop">
@@ -224,3 +266,85 @@
 </div>
 </body>
 </html>
+<script>
+	$(function(){
+        GetCommentByorder();
+        $(".btn1").click(function(){
+            var radio1=null;
+            var commentText=null;
+            var radio = document.getElementsByName("radio");
+            var skuId=$("[name='skuId']").val();
+            var orderId=$("[name='orderId']").val();
+            for (i=0; i<radio.length; i++) {
+                if (radio[i].checked) {
+                    radio1=radio[i].value;
+                }
+            }
+            var img= $(".ztphoto").attr("src");
+            commentText=$(".test_box").html();
+            if(commentText==null||commentText==""){
+                alert("请输入评论内容")
+                return;
+            }
+            if(radio1==null||radio1==""){
+                alert("请选择评论等级")
+                return;
+            }
+			alert(orderId);
+
+            $.ajax({
+                url:"/insertComment",
+                type:"post",
+                data:{"orderId":orderId,content:commentText,spareOne:radio1,imagePath:img,"skuId":skuId},
+                dataType:"json",
+                success:function (data) {
+                    alert(data);
+                    if (data.mes=="mes"){
+                        //成功之后再html页面跳转到王磊写的我的评论页面
+                        location.href="/udai_collection.html";
+                    }else{
+                        //失败留在本页面
+						alert("评论失败！");
+                    }
+                },error:function () {
+                    alert("评论失败");
+                }
+            })
+        })
+	});
+	function GetCommentByorder(){
+	    $.ajax({
+			url:"/GetCommentByorder",
+			dataType:"json",
+			type:"post",
+			success:function(result){
+
+			    var array=result.commodities[0].sk.skuId;
+			    var orderI =result.orderId.toFixed();
+                alert(orderI);
+				var content="<ul><input type='hidden' value='"+array+"' name='skuId'/><input type='hidden' value='"+orderI+"' name='orderId'/>" +
+                    "<li style=\"font-size: 18px;font-weight: bold;color: #000\">"+result.commodities[0].sk.products[0].productName+"</li>\n" +
+                    "<li>价格 <span>￥"+result.commodities[0].sk.presentPrice+"</span></li>" +
+                    "<li>配送 <span>快递：0.0</span></li>" +
+                    "<div class=\"commenttext1\">";
+						$.each(result.commodities[0].sk.SkuValueList,function(i,e){
+							content+="<p style=\"color: #8d7664;\">"+e.skuName.skunameeValue+"<span>"+e.skuvalueValue+"</span></p>";
+						});
+                var paymentTimes=result.paymentTime;
+                var d = new Date(paymentTimes);
+                var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                content+="<div class=\"commenttext2\">" +
+                    "<p>现在查看的是 您所购买商品的信息</p>" +
+                    "<p>于<lable>"+times+"</lable>下单购买的此商品</p>" +
+                    "</div>\n" +
+                    "</div>\n" +
+                    "</ul>";
+                var image=result.commodities[0].sk.products[0].images[0].imagePath;
+                $(".commentimg").find("img").attr("src",image);
+				$(".commenttext").html(content);
+			},error:function(result){
+			    alert("评论读取失败");
+			}
+		});
+	}
+</script>

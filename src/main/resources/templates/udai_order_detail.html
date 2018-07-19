@@ -222,8 +222,8 @@
                     </div>
                     <div class="price-total">
                         <div class="fz12 c9">使用优惠券【满￥20.0减￥2.0】优惠￥2.0元<br>快递运费 ￥0.0</div>
-                        <div class="fz18 c6">实付款：<b class="cr">¥76.0</b></div>
-                        <div class="fz12 c9">（本单可获 <span class="c6">380</span> 积分）</div>
+                        <div class="fz18 c6">实付款：<b class="cr">¥<label id="money">76.0</label></b></div>
+                        <div class="fz12 c9">（本单可获 <span class="c6">0</span> 积分）</div>
                     </div>
                 </div>
             </div>
@@ -380,9 +380,13 @@
                     //订单编号
                     $("#orderIdInfo").text(data.orderId);
                     //订单支付交易号
-                    $("#batch").text(data.batch);
+                    if(data.batch ==null || data.batch==""){
+                        $("#batch").text("");
+                    }else{
+                        $("#batch").text(data.batch);
+                    }
                     //创建时间
-                    var paymentTimes=e.order.createTime;
+                    var paymentTimes=data.createTime;
                     var d = new Date(paymentTimes);
                     var times=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                     var paymentTimes=data.createTime;
@@ -398,6 +402,7 @@
                     //支付时间
                     $(".paymentTime").text(times1);
                     var context = "";
+                    var money;
                     $.each(data.commodities,function(i,e){
 
                      context +="<div class=\"item\">\n" +
@@ -426,7 +431,9 @@
                          "                                <div class=\"ep2\">快递<br>¥0.00</div>\n" +
                          "                            </div>\n" +
                          "                        </div>";
+                          money+=e.sku.presentPrice*e.number;
                     });
+                    $("#money").html(money);
                     $(".order-item__list").html(context);
                 },
                 error:function () {

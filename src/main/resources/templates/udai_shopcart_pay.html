@@ -515,6 +515,8 @@
                                "                            <td>¥0.0</td>\n" +
                                "                            <td>¥"+(e.sku.presentPrice*e.number)+"</td>\n" +
                                "                        </tr>";
+                           money+=e.sku.presentPrice*e.number;
+                           contextShopping+=e.sku.product.productName+":"+e.number+"、";
                        })
                        var paymentTimes=data.createTime;
                        var d = new Date(paymentTimes);

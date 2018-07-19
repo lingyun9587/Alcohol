@@ -58,4 +58,17 @@
             #{commentId}
         </foreach>
     </update>
+    
+    <insert id="insertComment">
+         INSERT INTO `tb_comment`(sku_id,create_time,content,status,user_id,spare_one)
+         VALUE(#{skuId},#{createTime},#{content},1,#{userId},#{spareOne})
+    </insert>
+    
+    <insert id="">
+         INSERT INTO `tb_image`(image_path,product_id,image_type,weight)
+          VALUE(#{imagePath},#{productId},1,100)
+    </insert>
+    <insert id="commentImg">
+
+    </insert>
 </mapper>

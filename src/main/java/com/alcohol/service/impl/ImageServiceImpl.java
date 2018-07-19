@@ -4,10 +4,12 @@ import com.alcohol.mapper.ImageMapper;
 import com.alcohol.pojo.Image;
 import com.alcohol.service.ImageService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 @Service
+@Transactional
 public class ImageServiceImpl  implements ImageService {
     @Resource
     private ImageMapper imageMapper;

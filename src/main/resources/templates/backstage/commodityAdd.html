@@ -16,23 +16,23 @@
 		<script charset="utf-8" src="/kindeditor-4.1.10/plugins/code/prettify.js"></script>
 		<script>
             KindEditor.ready(function(K) {
-                var content="";
-                window.editor=K.create('#editor', {
-                    cssPath : '/kindeditor-4.1.10/plugins/code/prettify.css',
-                    uploadJson : '/fileUpload',
-                   /* fileManagerJson : '/fileManager',*/
-                    allowFileManager : true,
-                    filterMode : false, //HTML特殊代码过滤
-					urlType:'domin',
-					resizeType:0,
-                    allowFlashUpload:true,
-                    /*afterCreate:function(){
-                        alert($("#editor").html());
-					},
-                    afterBlur: function(){
-                        this.sync();
-					},*/
-                    afterUpload : function(url,data,name) { //上传文件后执行的回调函数，必须为3个参数
+                    var content="";
+                    window.editor=K.create('#editor', {
+                        cssPath : '/kindeditor-4.1.10/plugins/code/prettify.css',
+                        uploadJson : '/fileUpload',
+                        /* fileManagerJson : '/fileManager',*/
+                        allowFileManager : true,
+                        filterMode : false, //HTML特殊代码过滤
+                        urlType:'domin',
+                        resizeType:0,
+                        allowFlashUpload:true,
+                        /*afterCreate:function(){
+                            alert($("#editor").html());
+                        },
+                        afterBlur: function(){
+                            this.sync();
+                        },*/
+                        afterUpload : function(url,data,name) { //上传文件后执行的回调函数，必须为3个参数
                             var img = new Image();
                             img.src = url;
                             img.onload = function () { //图片必须加载完成才能获取尺寸
@@ -42,12 +42,12 @@
                                 else {
                                     content+="<img src=\"" + url + "\"/>";
                                 }
-                               /* $("#editor").html(content);
-*/
+                                /* $("#editor").html(content);
+ */
                             }
-                    }
+                        }
 
-                });
+                    });
 
                 window.editorProduct=K.create('#editorProduct', {
                     cssPath : '/kindeditor-4.1.10/plugins/code/prettify.css',

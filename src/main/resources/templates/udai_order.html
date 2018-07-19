@@ -791,7 +791,7 @@
                                 "                                                    " + times + " 订单号: " + e.orderId + "\n" +
                                 "                                                </a>\n" +
                                 "                                                <div class=\"card\">\n" +
-                                "                                                    <div class=\"img\"><img src=\"images/temp/item-img_1.jpg\" alt=\"\"\n" +
+                                "                                                    <div class=\"img\"><img src=\""+e.sku.product.imageList[0].imagePath+"\" alt=\"\"\n" +
                                 "                                                                          class=\"cover\"></div>\n" +
                                 "                                                    <div class=\"name ep2\">" + e.sku.product.productName + "</div>\n" +
                                 "                                                    <div class=\"format\">";
@@ -833,7 +833,7 @@
                             } else if (e.orderstatus.orderStatus_id == 8) {
                                 context +=" <a href='javascript:void(0)' class=\"but but-primary\">"+ "订单已失效";
                             } else if (e.orderstatus.orderStatus_id == 9) {
-                                context += " <a href='udai_order_comment.html?orderId="+e.orderId+"' class=\"but but-link\">"+"评价";
+                                context += " <a href='udai_order_comment.html?commodityId="+e.commodityId+"' class=\"but but-link\">"+"评价";
                             }
 
 

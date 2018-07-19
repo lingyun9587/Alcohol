@@ -57,4 +57,7 @@ public interface OrderService {
     Order getLastOrderInfo(Long userId);
     //查询销售额
     List<Order> yearmoney(int year);
+
+    //根据详情编号查看详情信息
+    Order getOeder(Long commoditiesId);
 }
