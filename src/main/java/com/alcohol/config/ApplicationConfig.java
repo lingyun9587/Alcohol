@@ -13,10 +13,9 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
         registry.addResourceHandler(fileUploadProperteis.getStaticProductPath()).addResourceLocations("file:" + fileUploadProperteis.getUploadProduct() + "/");
         registry.addResourceHandler(fileUploadProperteis.getStaticAccessPath()).addResourceLocations("file:" + fileUploadProperteis.getUploadFolder() + "/");
-      registry.addResourceHandler(fileUploadProperteis.getStaticAccessPath()).addResourceLocations("file:" + fileUploadProperteis.getUploadComment() + "/");
+      registry.addResourceHandler(fileUploadProperteis.getStaticCommentPath()).addResourceLocations("file:" + fileUploadProperteis.getUploadComment() + "/");
 
     }
 }

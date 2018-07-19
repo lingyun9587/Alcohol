@@ -128,13 +128,7 @@
 
 
             </div>
-            <script src="js/jquery.magnifier.js"></script>
-            <script>
-                $(function () {
-                    $('#magnifier').magnifier();
-                });
-            </script>
-            <!--商品图片效果-->
+
             <!--图片结束-->
 
             <!--商品展示开始-->
@@ -517,12 +511,19 @@
 </body>
 </html>
 <script>
+
     $(function() {
         getCommentByProductid(null,1);
         getCommentCountById();
-       getProductById();
         getcategory();
     });
+
+    ({
+        init : function(){
+        getProductById();
+        alert("init");
+        }
+    }).init();
 
 
     //根据商品编号获取商品
@@ -547,6 +548,7 @@
                 /*"<video  src=\""+data.imageList[0].imagePath+"\" poster=\""+data.imageList[0].imagePath+"\" autoplay=\"autoplay\"></video></li>";*/
                 $.each(data.imageList, function (item, temp) {
                     if(item!=0){
+                        imageList +="<li class=\"item\" data-src=\""+temp.imagePath+"\"><img class=\"cover\" src=\""+temp.imagePath+"\" alt=\"商品预览图\"></li>";
                         imageList +="<li class=\"item\" data-src=\""+temp.imagePath+"\"><img class=\"cover\" src=\""+temp.imagePath+"\" alt=\"商品预览图\"></li>";
                     }
                 });
@@ -642,25 +644,7 @@
         });
     }
 
-    //数量加减
-    function addOrSubNum(num){
-        var n=$(".amount-input").val();
-        var stock=$("#stock").html();
-        if(num==1){
-            if(n<stock){
-                n++;
-            }else{
-                alert("不能超过最大库存");
-            }
-        }else{
-            if(n>1){
-                n--;
-            }else{
-                alert("不能再减了");
-            }
-        }
-        $(".amount-input").val(n);
-    }
+
 
     //绑定大分类
     function getcategory(){
@@ -870,6 +854,7 @@
             });
         }
     }
+
     //立即购买
     function buy1(){
         var skuId=$(".skuId").val();
@@ -895,6 +880,7 @@
             });
         }
     }
+
     //看了又看
     function klyk(pageIndex,categorythreeId){
         $.ajax({
@@ -962,6 +948,40 @@
             }
         });
     });
+
+    //立即购买
+    function buy1(){
+        var skuId=$(".skuId").val();
+        var number=$('.amount-input').val();
+        if(skuId==0){
+            $(".Info").show();
+            return;
+        }
+        else{
+            $.ajax({
+                url:"/getUserInfo",
+                dataType:"JSON",
+                type:"post",
+                success:function(result){
+                    if(result == null){
+                        alert("用户未登录");
+                    }else{
+                        location.href="udai_shopcart_pay.html?skuId="+skuId+"&number="+number;
+                    }
+                },error:function(){
+
+                }
+            });
+        }
+    }
 </script>
+
+<script src="js/jquery.magnifier.js"></script>
+<script>
+    $(function () {
+        $('#magnifier').magnifier();
+    });
+</script>
+<!--商品图片效果-->
 
 

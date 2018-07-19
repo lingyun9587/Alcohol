@@ -843,7 +843,7 @@
         $.ajax({
             url:"/product/getTypeProductList",
             dataType:"JSON",
-            data:{"typeValueId":typeValueId,"judge":judge,"pageIndex":pageIndex,"pageSize":1},
+            data:{"typeValueId":typeValueId,"judge":judge,"pageIndex":pageIndex,"pageSize":12},
             type:"post",
             success:function(data){
                 var html = "<div class=\"item-list__area clearfix\">";
