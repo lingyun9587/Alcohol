@@ -70,7 +70,7 @@
            DELETE FROM `tb_commodity` WHERE `commodity_id`=#{commodityId}
     </delete>
 
-    <select id="selectByOrderId" resultType="Integer">
+    <select id="selectByOrderId" resultType="java.lang.Integer">
          SELECT COUNT(1) FROM `tb_commodity` WHERE order_id=#{userId}
     </select>
 

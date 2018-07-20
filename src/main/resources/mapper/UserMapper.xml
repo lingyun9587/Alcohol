@@ -22,12 +22,12 @@
         user_id,membership_name,real_name,nick_name,frozen,create_time,last_time,integral,status)
         value(#{userId},#{membershipName},#{realName},#{nickName},#{frozen},#{createTime},#{lastTime},#{integral},#{status})
     </insert>
-    <select id="existUserName" resultType="Integer">
+    <select id="existUserName" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM tb_useraccount
          WHERE phone =#{username} or email = #{username} or  user_id = (SELECT user_id FROM tb_user WHERE membership_name = #{username})
     </select>
 
-    <select id="userNameSatus" resultType="Integer">
+    <select id="userNameSatus" resultType="java.lang.Integer">
           SELECT `status` FROM tb_user WHERE user_id=#{userId}
     </select>
     <update id="updateInfo">

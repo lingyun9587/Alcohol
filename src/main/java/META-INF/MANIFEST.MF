@@ -1,0 +1,50 @@
+Manifest-Version: 1.0
+Class-Path: spring-boot-2.0.3.RELEASE.jar spring-boot-starter-jdbc-2.0
+ .3.RELEASE.jar json-lib-2.4-jdk15.jar slf4j-api-1.7.25.jar mybatis-3.
+ 4.0.jar spring-core-5.0.7.RELEASE.jar fastjson-1.2.38.jar jackson-ann
+ otations-2.9.0.jar alipay-sdk-java-3.1.0.jar c3p0-0.9.5.2.jar httpcor
+ e-4.4.9.jar logback-core-1.2.3.jar activemq-openwire-legacy-5.15.4.ja
+ r jackson-module-parameter-names-2.9.6.jar commons-pool2-2.5.0.jar sp
+ ring-boot-starter-2.0.3.RELEASE.jar spring-tx-5.0.7.RELEASE.jar shiro
+ -spring-1.4.0.jar xmlpull-1.1.3.1.jar quartz-2.3.0.jar activemq-jms-p
+ ool-5.15.4.jar mybatis-spring-boot-starter-1.1.1.jar xstream-1.4.9.ja
+ r shiro-lang-1.4.0.jar jedis-2.8.1.jar lombok-1.16.22.jar core-3.0.0.
+ jar tomcat-embed-core-8.5.31.jar xml-apis-1.4.01.jar javax.jms-api-2.
+ 0.1.jar jsqlparser-0.9.5.jar tomcat-embed-el-8.5.31.jar commons-io-2.
+ 4.jar jackson-core-2.9.6.jar commons-collections-3.2.jar jstl-1.1.2.j
+ ar shiro-core-1.4.0.jar mybatis-redis-1.0.0-beta2.jar protostuff-core
+ -1.0.1.jar shiro-crypto-hash-1.4.0.jar spring-boot-autoconfigure-2.0.
+ 3.RELEASE.jar geronimo-jms_1.1_spec-1.1.1.jar shiro-cache-1.4.0.jar s
+ hiro-event-1.4.0.jar commons-beanutils-1.8.0.jar javax.annotation-api
+ -1.3.2.jar thumbnailator-0.4.2.jar ehcache-core-2.6.11.jar jackson-da
+ tabind-2.9.6.jar logback-classic-1.2.3.jar spring-expression-5.0.7.RE
+ LEASE.jar javase-3.0.0.jar shiro-config-ogdl-1.4.0.jar snakeyaml-1.19
+ .jar jul-to-slf4j-1.7.25.jar gson-2.8.0.jar activemq-client-5.15.4.ja
+ r shiro-crypto-cipher-1.4.0.jar c3p0-0.9.1.2.jar protostuff-api-1.0.1
+ .jar geronimo-jta_1.0.1B_spec-1.0.1.jar jboss-logging-3.3.2.Final.jar
+  commons-lang-2.5.jar validation-api-2.0.1.Final.jar mchange-commons-
+ java-0.2.11.jar HikariCP-2.7.9.jar commons-logging-1.1.1.jar commons-
+ fileupload-1.3.3.jar classmate-1.3.4.jar activemq-broker-5.15.4.jar s
+ hiro-config-core-1.4.0.jar freemarker-2.3.28.jar jackson-datatype-jdk
+ 8-2.9.6.jar mybatis-spring-boot-autoconfigure-1.1.1.jar protostuff-ru
+ ntime-1.0.1.jar shiro-redis-2.4.2.1-RELEASE.jar shiro-crypto-core-1.4
+ .0.jar spring-aop-5.0.7.RELEASE.jar async-http-client-1.8.13.jar log4
+ j-to-slf4j-2.10.0.jar spring-boot-starter-activemq-2.0.3.RELEASE.jar 
+ shiro-web-1.4.0.jar netty-3.9.2.Final.jar guava-18.0.jar spring-boot-
+ starter-freemarker-2.0.3.RELEASE.jar geronimo-j2ee-management_1.1_spe
+ c-1.0.1.jar tomcat-embed-websocket-8.5.31.jar spring-messaging-5.0.7.
+ RELEASE.jar activemq-pool-5.15.4.jar spring-boot-starter-web-2.0.3.RE
+ LEASE.jar spring-web-5.0.7.RELEASE.jar mysql-connector-java-5.1.46.ja
+ r protostuff-collectionschema-1.0.1.jar commons-lang3-3.4.jar spring-
+ context-support-5.0.7.RELEASE.jar spring-webmvc-5.0.7.RELEASE.jar shi
+ ro-ehcache-1.4.0.jar httpclient-4.3.2.jar spring-jms-5.0.7.RELEASE.ja
+ r pagehelper-4.2.1.jar log4j-api-2.10.0.jar ezmorph-1.0.6.jar commons
+ -codec-1.9.jar spring-boot-starter-logging-2.0.3.RELEASE.jar spring-c
+ ontext-5.0.7.RELEASE.jar spring-jcl-5.0.7.RELEASE.jar snowflake-1.0.0
+ .jar spring-boot-starter-tomcat-2.0.3.RELEASE.jar mybatis-spring-1.3.
+ 0.jar spring-jdbc-5.0.7.RELEASE.jar hawtbuf-1.11.jar jackson-datatype
+ -jsr310-2.9.6.jar hibernate-validator-6.0.10.Final.jar spring-beans-5
+ .0.7.RELEASE.jar spring-boot-devtools-2.0.3.RELEASE.jar spring-boot-s
+ tarter-json-2.0.3.RELEASE.jar xpp3_min-1.1.4c.jar dom4j-1.6.1.jar
+Main-Class: com.alcohol.AlcoholApplication
+
