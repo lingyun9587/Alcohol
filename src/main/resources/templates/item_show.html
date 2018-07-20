@@ -672,6 +672,31 @@
             }
         });
     }
+    //数量加
+    function addOrSubNum(index){
+        var Stock=$("#Stock").text();
+       nums= parseInt(Stock);
+
+        if(index==1){
+            var amount=$(".amount-input").val();
+            number1=parseInt(amount)+1;
+            if(number1>nums){
+                alert("超过最大数量");
+            }else{
+                $(".amount-input").val(number1);
+            }
+        }else if(index==0){
+            var amount=$(".amount-input").val();
+            number1=parseInt(amount);
+            number2=number1-1;
+            if(number2>=1){
+                $(".amount-input").val(number2);
+            }
+
+        }
+
+
+    }
 
     //评论
     function getCommentByProductid(spareOne,pageNum){
