@@ -167,6 +167,14 @@ function getUrlParam(name) {
 $(function(){
     $(".tab-header .inner .pull-right a").eq(4).hide();
     $(".pull-left .cr").html("凡诺");
+    $("U袋").replaceAll("凡诺");
+    $(".nva-list a").eq(1).hide();
+    $(".nva-list a").eq(2).hide();
+    $(".nva-list a").eq(3).hide();
+    $(".nva-list a").eq(4).hide();
+    $(".nva-list a").eq(5).hide();
+    $(".nva-list a").eq(6).hide();
+    $(".pull-right a").eq(2).html("我的凡诺");
     $.ajax({
 		url:"/getUserInfo",
 		type:"post",

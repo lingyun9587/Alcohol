@@ -106,7 +106,7 @@ public class ShopCartController {
                      ShopCart scart=new ShopCart();
                      scart=gson.fromJson(strdecode,scart.getClass());
                      //要添加的商品sku和cookie中已经有的商品sku是否一样
-                     if(scart.getSku().getSkuId()==sc.getSku().getSkuId()){
+                     if(scart.getSku().getSkuId()==sc.getSku().getSkuId() || scart.getSku().getSkuId().equals(sc.getSku().getSkuId())){
                         //进来证明cookie中有这条skuid的商品，修改该skuid商品的数量
                          cookie.setMaxAge(0);//设置存活时间为0，也就是删除
                          cookie.setPath("/");
@@ -152,7 +152,7 @@ public class ShopCartController {
                      int iii=(int)ii;
                      Sku kk=new Sku();
                      kk=gson.fromJson(jss,kk.getClass());
-                     if(kk.getSkuId()==skuId){
+                     if(kk.getSkuId()==skuId || kk.getSkuId().equals(skuId)){
                          int iiii=iii+num;
                          mk.put("num",iiii);
                          pp.put(str,mapper.writeValueAsString(mk));
@@ -287,7 +287,7 @@ public class ShopCartController {
                     ShopCart scart=new ShopCart();
                     scart=gson.fromJson(strdecode,scart.getClass());
                     //要添加的商品sku和cookie中已经有的商品sku是否一样
-                    if(scart.getSku().getSkuId()==skuId){
+                    if(scart.getSku().getSkuId()==skuId || scart.getSku().getSkuId().equals(skuId)){
                         //进来证明cookie中有这条skuid的商品，修改该skuid商品的数量
                         cookie.setMaxAge(0);//设置存活时间为0，也就是删除
                         cookie.setPath("/");
@@ -309,7 +309,7 @@ public class ShopCartController {
                 String jss=JSON.toJSONString(mk.get("sku"));
                 Sku kk=new Sku();
                 kk=gson.fromJson(jss,kk.getClass());
-                if(kk.getSkuId()==skuId){
+                if(kk.getSkuId()==skuId || kk.getSkuId().equals(skuId)){
                     it.remove();
                 }
             }
@@ -357,7 +357,7 @@ public class ShopCartController {
                     ShopCart scart=new ShopCart();
                     scart=gson.fromJson(strdecode,scart.getClass());
                     //要添加的商品sku和cookie中已经有的商品sku是否一样
-                    if(scart.getSku().getSkuId()==skuId){
+                    if(scart.getSku().getSkuId()==skuId || scart.getSku().getSkuId().equals(skuId)){
                         //进来证明cookie中有这条skuid的商品，修改该skuid商品的数量
                         scart.setNum(num);
                         //编码
@@ -391,7 +391,7 @@ public class ShopCartController {
                 int iii=(int)ii;
                 Sku kk=new Sku();
                 kk=gson.fromJson(jss,kk.getClass());
-                if(kk.getSkuId()==skuId){
+                if(kk.getSkuId()==skuId || kk.getSkuId().equals(skuId)){
                     int iiii=num;
                     mk.put("num",iiii);
                     try {
@@ -443,7 +443,7 @@ public class ShopCartController {
                     String jss=JSON.toJSONString(mk.get("sku"));
                     Sku kk=new Sku();
                     kk=gson.fromJson(jss,kk.getClass());
-                    if(kk.getSkuId()==ll){
+                    if(kk.getSkuId()==ll || kk.getSkuId().equals(ll)){
                         mmm.put(key,pp.get(key));
                         it.remove();
                     }

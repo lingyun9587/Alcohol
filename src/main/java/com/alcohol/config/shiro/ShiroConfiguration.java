@@ -66,6 +66,7 @@ public class ShiroConfiguration {
       filterChainDefinitionMap.put("/udai_integral.html", "roles[用户]");  //积分平台
       filterChainDefinitionMap.put("/temp_article/udai_article4.html", "roles[用户]");  //帮助中心
       filterChainDefinitionMap.put("/udai_shopcart_pay.html", "roles[用户]");
+      filterChainDefinitionMap.put("/udai_mail_query.html", "roles[用户]");
 
 
         //filterChainDefinitionMap.put("/udai_paypwd_modify.html", "roles[管理员]");

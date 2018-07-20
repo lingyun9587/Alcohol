@@ -168,12 +168,9 @@ public class AlipayController {
             order1.setMoney(money);    //设置总金额
             orderService.insertInfo(order1);//发送消息队列进行修改库存
             //开始////////////////
-            //开始清空redis中所购买的商品/////////////
             //查出redis的现有数据
             Map<String,String> allRedisByUserID= jedisHashs.hgetAll(useraccount.getUserId().toString());
             Iterator<String> it=allRedisByUserID.keySet().iterator();
-            //结束清空redis中所购买的商品//////////////
-            //结束////////////////////
             while(it.hasNext()){
                 String key=it.next();
                 String obj=allRedisByUserID.get(key);
@@ -189,7 +186,7 @@ public class AlipayController {
                     map111 = gson.fromJson(so,map111.getClass());
                     Sku sku = new Sku(); //获取sku对象
                     sku = gson.fromJson(JSON.toJSONString(map111.get("sku")),sku.getClass());
-                    if(kk.getSkuId()==sku.getSkuId()){
+                    if(kk.getSkuId()==sku.getSkuId() || kk.getSkuId().equals(sku.getSkuId())){
                         it.remove();
                     }else{
                         continue;
